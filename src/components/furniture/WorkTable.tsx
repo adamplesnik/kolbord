@@ -3,7 +3,7 @@ import { addWithSpace } from '../../utils/addWithSpace'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
 
-const WorkTable = ({ rotate = 0, x = 0, y = 0, className }: WorkTableProps) => {
+const WorkTable = ({ tableId, rotate = 0, x = 0, y = 0, className }: WorkTableProps) => {
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
     180: 'rotate-180',
@@ -12,6 +12,7 @@ const WorkTable = ({ rotate = 0, x = 0, y = 0, className }: WorkTableProps) => {
 
   return (
     <div
+      id={'table-' + tableId}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2' +
         addWithSpace(rotationClasses[rotate] || '') +
@@ -26,6 +27,7 @@ const WorkTable = ({ rotate = 0, x = 0, y = 0, className }: WorkTableProps) => {
 }
 
 export type WorkTableProps = {
+  tableId: number
   rotate?: 0 | 90 | 180 | 270
   x?: number
   y?: number
