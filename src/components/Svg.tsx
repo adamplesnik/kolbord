@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../utils/addWithSpace'
 
 const Svg = ({ source, className }: SvgProps) => {
-  return <img className={'p-8' + addWithSpace(className)} src={source} />
+  return <img className={'' + addWithSpace(className)} src={source} />
 }
 
 export type SvgProps = {

@@ -1,1 +1,6 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-chair: #e7e7e7;
+  --color-table: #efefef;
+}
