@@ -1,4 +1,4 @@
-export interface TableRecord {
+export type TableRecord = {
   name: string | number
   rotation: 0 | 90 | 180 | 270
   x: number
@@ -6,4 +6,5 @@ export interface TableRecord {
   group?: string | number | undefined
   available?: boolean | undefined
   booked?: boolean | undefined
+  features?: string[]
 }

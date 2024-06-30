@@ -1,16 +1,18 @@
+import { UserRoundCheck } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Chair from './atomic/Chair'
-import Table from './atomic/Table'
+import { TableRecord } from '../../data/TableRecord'
 
 const WorkTable = ({
-  tableName,
-  tableGroup,
-  rotate = 0,
+  name,
+  group,
+  rotation = 0,
   x = 0,
   y = 0,
   available = true,
   booked = false,
+  features,
   className,
 }: WorkTableProps) => {
   const rotationClasses: Record<number, string> = {
@@ -25,47 +27,64 @@ const WorkTable = ({
     270: 'rotate-90',
   }
 
+  const dimensionClasses: Record<number, string> = {
+    16080: 'h-[78px] w-[158px]',
+  }
+
   return (
     <div
-      id={'table-' + (tableGroup ? tableGroup : '') + tableName}
+      id={'table-' + (group ? group : '') + name}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2' +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-30') +
-        addWithSpace(rotationClasses[rotate] || '') +
+        addWithSpace(rotationClasses[rotation] || '') +
         addWithSpace(className)
       }
       style={{ top: y, left: x }}
     >
       <Chair />
-      <Table />
       <div
         className={
-          'absolute bottom-0 flex flex-col items-center gap-1 p-2' +
-          addWithSpace(contraRotationClasses[rotate] || '')
+          'flex h-[78px] w-[158px] items-center justify-center rounded border border-black transition-colors' +
+          addWithSpace(dimensionClasses[16080] || '') +
+          addWithSpace(
+            booked
+              ? 'border-dashed bg-red-50 group-hover:bg-rose-50'
+              : 'bg-zinc-200 group-hover:bg-slate-200'
+          )
         }
       >
-        <div className="flex items-center gap-1">
-          {tableGroup ? (
-            <span className="rounded border px-1 text-xs opacity-40">{tableGroup}</span>
-          ) : (
-            ''
+        <div
+          className={
+            'flex flex-col items-center justify-center gap-1 p-2' +
+            addWithSpace(contraRotationClasses[rotation] || '')
+          }
+        >
+          <span className="text-xs font-semibold">{name}</span>
+          {features && (
+            <div className="flex gap-0.5">
+              {features.map((f, i) => (
+                <span key={i} className="rounded border px-1 text-xs opacity-40">
+                  {f}
+                </span>
+              ))}
+            </div>
           )}
-          <span className="text-xs font-semibold">{tableName}</span>
+          {booked ? (
+            <span className="text-neutral-800">
+              <UserRoundCheck />
+            </span>
+          ) : (
+            <span className="rounded-full bg-teal-600 py-1 px-2 text-sm text-white">
+              Reserve...
+            </span>
+          )}
         </div>
-        {booked && <span className="text-teal-600">bam</span>}
       </div>
     </div>
   )
 }
 
-export type WorkTableProps = {
-  tableName: number | string
-  tableGroup: number | string | undefined
-  rotate?: 0 | 90 | 180 | 270
-  x?: number
-  y?: number
-  available?: boolean
-  booked?: boolean
-} & HTMLAttributes<HTMLDivElement>
+export type WorkTableProps = TableRecord & HTMLAttributes<HTMLDivElement>
 
 export default WorkTable

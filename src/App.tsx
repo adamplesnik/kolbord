@@ -11,14 +11,15 @@ function App() {
     <div className="relative m-8">
       {tables.map((t, i) => (
         <WorkTable
-          tableName={t.name}
-          tableGroup={t.group}
+          name={t.name}
+          group={t.group}
           available={t.available}
           booked={t.booked}
           key={i}
-          rotate={t.rotation}
+          rotation={t.rotation}
           x={t.x}
           y={t.y}
+          features={t.features}
         />
       ))}
       <Svg className={fit ? 'max-w-fit' : ''} source={plan} />
