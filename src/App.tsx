@@ -11,11 +11,9 @@ function App() {
     <div className="relative m-8">
       {tables.map((t, i) => (
         <WorkTable
+          key={i}
           name={t.name}
           group={t.group}
-          available={t.available}
-          booked={t.booked}
-          key={i}
           rotation={t.rotation}
           x={t.x}
           y={t.y}

@@ -1,9 +1,12 @@
 import { UserRoundCheck } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import { TableRecord } from '../../data/TableRecord'
+import { Bookings } from '../../data/bookings'
 import { Features } from '../../data/features'
 import { addWithSpace } from '../../utils/addWithSpace'
+import { getTableId } from '../../utils/getTableId'
 import Chair from './atomic/Chair'
+import { BookingRecord } from '../../data/BookingRecord'
 
 const WorkTable = ({
   name,
@@ -11,11 +14,16 @@ const WorkTable = ({
   rotation = 0,
   x = 0,
   y = 0,
-  available = true,
-  booked = false,
   features,
   className,
 }: WorkTableProps) => {
+  const tableBooking: BookingRecord[] = Bookings.filter(
+    (booking) => booking.tableId === getTableId(name, group)
+  )
+  const isAvailable = tableBooking[0]?.available != false
+
+  const [isBooked, setIsBooked] = useState(tableBooking.length)
+
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
     180: 'rotate-180',
@@ -34,10 +42,10 @@ const WorkTable = ({
 
   return (
     <div
-      id={'table-' + (group ? group : '') + name}
+      id={getTableId(name, group)}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2' +
-        addWithSpace(available ? 'group cursor-pointer' : 'opacity-30') +
+        addWithSpace(isAvailable ? 'group cursor-pointer' : 'opacity-30') +
         addWithSpace(rotationClasses[rotation] || '') +
         addWithSpace(className)
       }
@@ -46,10 +54,10 @@ const WorkTable = ({
       <Chair />
       <div
         className={
-          'flex h-[78px] w-[158px] items-center justify-center rounded border border-black transition-colors' +
+          'flex items-center justify-center rounded border border-black transition-colors' +
           addWithSpace(dimensionClasses[16080] || '') +
           addWithSpace(
-            booked
+            isBooked
               ? 'border-dashed bg-red-50 group-hover:bg-rose-50'
               : 'bg-zinc-200 group-hover:bg-slate-200'
           )
@@ -83,7 +91,7 @@ const WorkTable = ({
               )}
             </div>
           )}
-          {booked ? (
+          {isBooked ? (
             <span className="text-neutral-800">
               <UserRoundCheck />
             </span>

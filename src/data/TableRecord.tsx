@@ -4,7 +4,5 @@ export type TableRecord = {
   x: number
   y: number
   group?: string | number | undefined
-  available?: boolean | undefined
-  booked?: boolean | undefined
   features?: number[]
 }
