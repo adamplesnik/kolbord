@@ -24,7 +24,7 @@ export const tables: TableRecord[] = [
     x: 158,
     y: 225,
     booked: true,
-    features: ['dock', 'variable height'],
+    features: [0, 2],
   },
   {
     group: 'ORD',
@@ -32,7 +32,7 @@ export const tables: TableRecord[] = [
     rotation: 180,
     x: 318,
     y: 225,
-    features: ['≋', '↑↓'],
+    features: [0, 1],
   },
   {
     group: 'ORD',
@@ -41,5 +41,6 @@ export const tables: TableRecord[] = [
     x: 350,
     y: 548,
     booked: true,
+    features: [0, 3],
   },
 ]

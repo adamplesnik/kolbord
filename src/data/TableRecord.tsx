@@ -6,5 +6,5 @@ export type TableRecord = {
   group?: string | number | undefined
   available?: boolean | undefined
   booked?: boolean | undefined
-  features?: string[]
+  features?: number[]
 }

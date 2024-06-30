@@ -1,8 +1,9 @@
 import { UserRoundCheck } from 'lucide-react'
 import { HTMLAttributes } from 'react'
+import { TableRecord } from '../../data/TableRecord'
+import { Features } from '../../data/features'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Chair from './atomic/Chair'
-import { TableRecord } from '../../data/TableRecord'
 
 const WorkTable = ({
   name,
@@ -63,11 +64,23 @@ const WorkTable = ({
           <span className="text-xs font-semibold">{name}</span>
           {features && (
             <div className="flex gap-0.5">
-              {features.map((f, i) => (
-                <span key={i} className="rounded border px-1 text-xs opacity-40">
-                  {f}
-                </span>
-              ))}
+              {features.map((tableFeature) =>
+                Features.map((f, i) =>
+                  tableFeature == f.id ? (
+                    <>
+                      <f.Icon
+                        size={18}
+                        key={i}
+                        aria-label={f.desc}
+                        className="text-zinc-500"
+                        strokeWidth={1}
+                      />
+                    </>
+                  ) : (
+                    ''
+                  )
+                )
+              )}
             </div>
           )}
           {booked ? (
