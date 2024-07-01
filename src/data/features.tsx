@@ -1,4 +1,4 @@
-import { ArrowUpDown, Dock, Mouse, PcCase } from 'lucide-react'
+import { ArrowUpDown, Dock, Mouse, PcCase, Projector } from 'lucide-react'
 import { FeatureRecord } from './FeatureRecord'
 
 export const Features: FeatureRecord[] = [
@@ -21,5 +21,10 @@ export const Features: FeatureRecord[] = [
     id: 3,
     desc: 'Peripherals',
     Icon: Mouse,
+  },
+  {
+    id: 4,
+    desc: 'Data Projector',
+    Icon: Projector,
   },
 ]
