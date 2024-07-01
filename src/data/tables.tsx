@@ -47,6 +47,6 @@ export const tables: TableRecord[] = [
     rotation: 270,
     x: 5869,
     y: 1,
-    features: [0, 1, 2, 3],
+    features: [0, 1, 3],
   },
 ]
