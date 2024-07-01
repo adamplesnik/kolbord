@@ -23,7 +23,6 @@ export const tables: TableRecord[] = [
     rotation: 180,
     x: 158,
     y: 225,
-    booked: true,
     features: [0, 2],
   },
   {
@@ -40,7 +39,6 @@ export const tables: TableRecord[] = [
     rotation: 90,
     x: 350,
     y: 548,
-    booked: true,
     features: [0, 3],
   },
 ]

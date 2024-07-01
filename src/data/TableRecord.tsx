@@ -4,5 +4,6 @@ export type TableRecord = {
   x: number
   y: number
   group?: string | number | undefined
-  features?: number[]
+  features?: number[] | undefined
+  available?: boolean | undefined
 }

@@ -6,7 +6,6 @@ import { Features } from '../../data/features'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
 import Chair from './atomic/Chair'
-import { BookingRecord } from '../../data/BookingRecord'
 
 const WorkTable = ({
   name,
@@ -14,13 +13,11 @@ const WorkTable = ({
   rotation = 0,
   x = 0,
   y = 0,
+  available = true,
   features,
   className,
 }: WorkTableProps) => {
-  const tableBooking: BookingRecord[] = Bookings.filter(
-    (booking) => booking.tableId === getTableId(name, group)
-  )
-  const isAvailable = tableBooking[0]?.available != false
+  const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
   const [isBooked, setIsBooked] = useState(tableBooking.length)
 
@@ -45,7 +42,7 @@ const WorkTable = ({
       id={getTableId(name, group)}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2' +
-        addWithSpace(isAvailable ? 'group cursor-pointer' : 'opacity-30') +
+        addWithSpace(available ? 'group cursor-pointer' : 'opacity-30') +
         addWithSpace(rotationClasses[rotation] || '') +
         addWithSpace(className)
       }
@@ -91,7 +88,7 @@ const WorkTable = ({
               )}
             </div>
           )}
-          {isBooked ? (
+          {isBooked || !available ? (
             <span className="text-neutral-800">
               <UserRoundCheck />
             </span>

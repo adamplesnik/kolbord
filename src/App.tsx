@@ -17,6 +17,7 @@ function App() {
           rotation={t.rotation}
           x={t.x}
           y={t.y}
+          available={t.available}
           features={t.features}
         />
       ))}
