@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import Sidebar from './components/Sidebar'
+import Sidebar from './partials/Sidebar'
 import Svg from './components/Svg'
 import WorkTable from './components/furniture/WorkTable'
 import { tables } from './data/tables'
 import plan from '/plan.svg'
 import { getTableId } from './utils/getTableId'
+import Button from './components/Button'
 
 function App() {
   const [fit, setFit] = useState(false)
@@ -33,7 +34,7 @@ function App() {
         ))}
         <Svg className={fit ? 'max-w-fit' : ''} source={plan} />
         <div className="fixed bottom-2 left-2">
-          <button onClick={() => setFit(!fit)}>fit?</button>
+          <Button onClick={() => setFit(!fit)}>fit?</Button>
         </div>
       </div>
       <Sidebar
