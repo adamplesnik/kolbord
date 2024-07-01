@@ -21,10 +21,6 @@ const WorkTable = ({
 }: WorkTableProps) => {
   const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
-  const time =
-    tableBooking[0]?.to &&
-    tableBooking[0].to.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-
   const bookedToday =
     tableBooking[0]?.to && new Date().toDateString() === tableBooking[0].to?.toDateString()
 
@@ -65,10 +61,15 @@ const WorkTable = ({
         >
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
-            {bookedToday && (
+            {bookedToday && tableBooking[0].to && (
               <span className="flex items-center gap-0.5">
                 <ArrowRightFromLine className="size-3 opacity-50" />
-                <span className="text-xs">{time}</span>
+                <span className="text-xs">
+                  {tableBooking[0].to.toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
               </span>
             )}
           </div>
