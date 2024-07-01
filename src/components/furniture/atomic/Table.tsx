@@ -5,11 +5,9 @@ const Table = ({ isBooked, children, className }: TableProps) => {
   return (
     <div
       className={
-        'flex items-center justify-center rounded border border-black transition-colors' +
+        'relative flex items-center justify-center rounded border border-black transition-colors' +
         addWithSpace(
-          isBooked
-            ? 'border-dashed bg-red-50 group-hover:bg-rose-50'
-            : 'bg-zinc-200 group-hover:bg-slate-200'
+          isBooked ? 'bg-zinc-50 group-hover:bg-zinc-100' : 'bg-gray-200 group-hover:bg-gray-300'
         ) +
         addWithSpace(className)
       }
