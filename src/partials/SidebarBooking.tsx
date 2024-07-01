@@ -16,7 +16,7 @@ const SidebarBooking = ({ booking }: SidebarBookingProps) => {
             <span className="font-semibold">
               {booking.from.toLocaleString([], { weekday: 'short' })}
             </span>
-            <span className="flex-1">
+            <span className="flex-1 ps-1 opacity-80">
               {booking.from?.toLocaleString([], {
                 year: 'numeric',
                 month: 'short',
