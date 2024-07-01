@@ -19,9 +19,9 @@ export const FurnitureFeatures = ({
       }
     >
       {featureList.map((f, i) => (
-        <span className={withDesc ? 'flex gap-2' : ''}>
+        <span key={i} className={withDesc ? 'flex gap-2' : ''}>
           <Badge className="size-6">
-            <f.Icon key={i} aria-label={f.desc} strokeWidth={1.5} className="size-full" />
+            <f.Icon aria-label={f.desc} strokeWidth={1.5} className="size-full" />
           </Badge>
           {withDesc && <span>{f.desc}</span>}
         </span>
