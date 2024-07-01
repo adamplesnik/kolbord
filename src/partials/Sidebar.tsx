@@ -13,8 +13,6 @@ const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
   const table = tables.filter((t) => getTableId(t.name, t.group) === tableId)[0]
   const bookings = Bookings.filter((t) => t.tableId === tableId)
 
-  console.log(bookings)
-
   return (
     <div className={'pointer-events-none fixed inset-0 z-50 ' + addWithSpace(className)}>
       <div className="pointer-events-auto fixed top-0 right-0 bottom-0 flex min-w-xs flex-col gap-6 bg-white/80 p-4 shadow-2xl backdrop-blur">

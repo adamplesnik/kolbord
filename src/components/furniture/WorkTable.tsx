@@ -1,5 +1,5 @@
-import { ArrowRightFromLine, UserRoundCheck } from 'lucide-react'
-import { HTMLAttributes, useState } from 'react'
+import { ArrowRightFromLine } from 'lucide-react'
+import { HTMLAttributes } from 'react'
 import { TableRecord } from '../../data/TableRecord'
 import { Bookings } from '../../data/bookings'
 import { addWithSpace } from '../../utils/addWithSpace'
@@ -21,12 +21,12 @@ const WorkTable = ({
 }: WorkTableProps) => {
   const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
-  const [isBooked, setIsBooked] = useState(tableBooking.length > 0)
+  const time =
+    tableBooking[0]?.to &&
+    tableBooking[0].to.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
-  const time = tableBooking[0]?.to && [
-    tableBooking[0].to.getHours(),
-    tableBooking[0].to.getMinutes(),
-  ]
+  const bookedToday =
+    tableBooking[0]?.to && new Date().toDateString() === tableBooking[0].to?.toDateString()
 
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
@@ -57,7 +57,7 @@ const WorkTable = ({
       style={{ top: y, left: x }}
     >
       <Chair />
-      <Table isBooked={isBooked} className={dimensionClasses[16080]}>
+      <Table isBooked={bookedToday} className={dimensionClasses[16080]}>
         <div
           className={
             'flex flex-col items-center gap-1' + addWithSpace(contraRotationClasses[rotation] || '')
@@ -65,16 +65,10 @@ const WorkTable = ({
         >
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
-            {isBooked && (
+            {bookedToday && (
               <span className="flex items-center gap-0.5">
-                {time?.length && (
-                  <>
-                    <ArrowRightFromLine className="size-3 opacity-50" />
-                    <span className="text-xs">
-                      {time[0]}:{time[1]}
-                    </span>
-                  </>
-                )}
+                <ArrowRightFromLine className="size-3 opacity-50" />
+                <span className="text-xs">{time}</span>
               </span>
             )}
           </div>
@@ -83,17 +77,6 @@ const WorkTable = ({
               features={features}
               className={rotation === 90 || rotation == 270 ? 'max-w-[78px]' : ''}
             />
-          )}
-        </div>
-        <div className="hidden">
-          {isBooked ? (
-            <UserRoundCheck className="text-neutral-500" strokeWidth={1.5} />
-          ) : available ? (
-            <span className="rounded-full bg-teal-600 py-1 px-2 text-sm text-white">
-              {/* Reserve... */}
-            </span>
-          ) : (
-            ''
           )}
         </div>
       </Table>

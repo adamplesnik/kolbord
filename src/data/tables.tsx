@@ -45,8 +45,8 @@ export const tables: TableRecord[] = [
     group: 'Flex',
     name: 1,
     rotation: 270,
-    x: 5869,
-    y: 1,
+    x: 5870,
+    y: 2,
     features: [0, 1, 3],
   },
 ]
