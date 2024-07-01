@@ -1,24 +1,33 @@
-import { ArrowRight, Clock } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { BookingRecord } from '../data/BookingRecord'
+import { isToday } from '../utils/isToday'
 
 const SidebarBooking = ({ booking }: SidebarBookingProps) => {
+  const bookedToday = isToday(booking.to)
+
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-0.5 text-sm">
-        <span className="font-semibold">
-          {booking.from?.toLocaleString([], { weekday: 'short' })}
-        </span>
-        <span className="flex-1">
-          {booking.from?.toLocaleString([], {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
-        </span>
-        {booking.from?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {bookedToday ? (
+          <span className="flex-1 font-semibold">Today</span>
+        ) : (
+          <>
+            <span className="font-semibold">
+              {booking.from.toLocaleString([], { weekday: 'short' })}
+            </span>
+            <span className="flex-1">
+              {booking.from?.toLocaleString([], {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </span>
+          </>
+        )}
+        {booking.from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         <ArrowRight className="size-4 opacity-50" />
-        {booking.to?.getHours()}:{booking.to?.getMinutes()}
+        {booking.to.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
       <span className="text-xs">{booking.user}</span>
     </div>

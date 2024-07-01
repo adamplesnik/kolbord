@@ -1,5 +1,6 @@
 import { Maximize2, Minimize2 } from 'lucide-react'
 import { useState } from 'react'
+import { useImageSize } from 'react-image-size'
 import Button from './components/Button'
 import Svg from './components/Svg'
 import WorkTable from './components/furniture/WorkTable'
@@ -8,13 +9,10 @@ import MenuBar from './partials/MenuBar'
 import Sidebar from './partials/Sidebar'
 import { getTableId } from './utils/getTableId'
 import plan from '/plan.svg'
-import { useImageSize } from 'react-image-size'
 
 function App() {
   const [fit, setFit] = useState(false)
-  const [openSidebar, setOpenSidebar] = useState(false)
   const [sidebarTableId, setSidebarTableId] = useState('')
-
   const [dimensions] = useImageSize(plan)
 
   let fitRatio = 1
@@ -53,7 +51,6 @@ function App() {
               features={t.features}
               onClick={(e) => {
                 e.preventDefault()
-                setOpenSidebar(true)
                 setSidebarTableId(getTableId(t.name, t.group))
               }}
             />
@@ -62,9 +59,9 @@ function App() {
         <Svg className={'bg-white' + (fit ? '' : ' max-w-fit')} source={plan} />
       </div>
       <Sidebar
-        className={openSidebar ? 'block' : 'hidden'}
+        className={sidebarTableId ? 'block' : 'hidden'}
         tableId={sidebarTableId}
-        closeSidebar={() => setOpenSidebar(false)}
+        closeSidebar={() => setSidebarTableId('')}
       />
     </>
   )

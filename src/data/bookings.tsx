@@ -28,6 +28,18 @@ export const Bookings: BookingRecord[] = [
   {
     tableId: 'Flex_1',
     user: 'Adam Plesnik',
+    from: new Date('2024-07-13T08:30:00'),
+    to: new Date('2024-07-13T17:30:00'),
+  },
+  {
+    tableId: 'Flex_1',
+    user: 'Adam Plesnik',
+    from: new Date('2024-07-16T08:30:00'),
+    to: new Date('2024-07-16T17:30:00'),
+  },
+  {
+    tableId: 'Flex_1',
+    user: 'Adam Plesnik',
     from: new Date('2024-07-12T08:30:00'),
     to: new Date('2024-07-12T17:30:00'),
   },

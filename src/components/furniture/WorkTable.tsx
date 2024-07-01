@@ -7,6 +7,7 @@ import { getTableId } from '../../utils/getTableId'
 import { FurnitureFeatures } from './FurnitureFeatures'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
+import { isToday } from '../../utils/isToday'
 
 const WorkTable = ({
   name,
@@ -21,8 +22,7 @@ const WorkTable = ({
 }: WorkTableProps) => {
   const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
-  const bookedToday =
-    tableBooking[0]?.to && new Date().toDateString() === tableBooking[0].to?.toDateString()
+  const bookedToday = isToday(tableBooking[0]?.to)
 
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
