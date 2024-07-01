@@ -1,11 +1,13 @@
+import { Maximize2, Minimize2 } from 'lucide-react'
 import { useState } from 'react'
-import Sidebar from './partials/Sidebar'
+import Button from './components/Button'
 import Svg from './components/Svg'
 import WorkTable from './components/furniture/WorkTable'
 import { tables } from './data/tables'
-import plan from '/plan.svg'
+import MenuBar from './partials/MenuBar'
+import Sidebar from './partials/Sidebar'
 import { getTableId } from './utils/getTableId'
-import Button from './components/Button'
+import plan from '/plan.svg'
 
 function App() {
   const [fit, setFit] = useState(false)
@@ -14,6 +16,12 @@ function App() {
 
   return (
     <>
+      <MenuBar>
+        <Button onClick={() => setFit(!fit)}>
+          <Maximize2 className={fit ? 'hidden' : 'block'} />
+          <Minimize2 className={!fit ? 'hidden' : 'block'} />
+        </Button>
+      </MenuBar>
       <div className="relative m-8">
         {tables.map((t, i) => (
           <WorkTable
@@ -33,9 +41,6 @@ function App() {
           />
         ))}
         <Svg className={fit ? 'max-w-fit' : ''} source={plan} />
-        <div className="fixed bottom-2 left-2">
-          <Button onClick={() => setFit(!fit)}>fit?</Button>
-        </div>
       </div>
       <Sidebar
         className={openSidebar ? 'block' : 'hidden'}
