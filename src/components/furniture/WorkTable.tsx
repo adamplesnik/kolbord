@@ -6,6 +6,7 @@ import { Features } from '../../data/features'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
 import Chair from './atomic/Chair'
+import Table from './atomic/Table'
 
 const WorkTable = ({
   name,
@@ -19,7 +20,7 @@ const WorkTable = ({
 }: WorkTableProps) => {
   const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
-  const [isBooked, setIsBooked] = useState(tableBooking.length)
+  const [isBooked, setIsBooked] = useState(tableBooking.length > 0)
 
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
@@ -49,15 +50,11 @@ const WorkTable = ({
       style={{ top: y, left: x }}
     >
       <Chair />
-      <div
+      <Table
+        isBooked={isBooked}
         className={
           'flex items-center justify-center rounded border border-black transition-colors' +
-          addWithSpace(dimensionClasses[16080] || '') +
-          addWithSpace(
-            isBooked
-              ? 'border-dashed bg-red-50 group-hover:bg-rose-50'
-              : 'bg-zinc-200 group-hover:bg-slate-200'
-          )
+          addWithSpace(dimensionClasses[16080] || '')
         }
       >
         <div
@@ -98,7 +95,7 @@ const WorkTable = ({
             </span>
           )}
         </div>
-      </div>
+      </Table>
     </div>
   )
 }
