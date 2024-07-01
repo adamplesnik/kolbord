@@ -17,11 +17,11 @@ const WorkTable = ({
   available = true,
   features,
   className,
+  onClick,
 }: WorkTableProps) => {
   const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
   const [isBooked, setIsBooked] = useState(tableBooking.length > 0)
-  console.log(tableBooking[0]?.to?.getHours())
 
   const time = tableBooking[0]?.to && [
     tableBooking[0].to.getHours(),
@@ -46,6 +46,7 @@ const WorkTable = ({
 
   return (
     <div
+      onClick={onClick}
       id={getTableId(name, group)}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2' +
