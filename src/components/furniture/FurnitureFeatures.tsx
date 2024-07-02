@@ -10,7 +10,6 @@ export const FurnitureFeatures = ({
 }: FurnitureFeaturesProps) => {
   const featureArray = features && features.split(',')
   const featureList = Features.filter((f) => featureArray.includes(f.id))
-  console.log(featureList)
 
   return (
     <div

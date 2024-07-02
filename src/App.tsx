@@ -27,6 +27,7 @@ function App() {
         <Button onClick={() => resetTransform()}>
           <RotateCcw />
         </Button>
+        <Button>{tables.length}</Button>
       </MenuBar>
     )
   }

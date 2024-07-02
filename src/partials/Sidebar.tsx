@@ -16,7 +16,7 @@ const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
   return (
     <div
       className={
-        'pointer-events-auto flex h-screen w-xs shrink-0 flex-col overflow-y-scroll bg-white/60 shadow-2xl backdrop-blur' +
+        'flex h-screen w-xs shrink-0 flex-col overflow-y-scroll shadow-2xl' +
         addWithSpace(className)
       }
     >
