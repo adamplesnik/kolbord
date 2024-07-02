@@ -18,7 +18,7 @@ const Table = ({ isBooked, children, className }: TableProps) => {
 }
 
 export type TableProps = {
-  isBooked?: boolean | undefined
+  isBooked?: boolean | undefined | ''
 } & HTMLAttributes<HTMLDivElement>
 
 export default Table

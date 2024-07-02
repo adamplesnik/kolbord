@@ -14,10 +14,10 @@ const SidebarBooking = ({ booking }: SidebarBookingProps) => {
         ) : (
           <>
             <span className="font-semibold">
-              {booking.from.toLocaleString([], { weekday: 'short' })}
+              {new Date(booking.from).toLocaleString([], { weekday: 'short' })}
             </span>
             <span className="flex-1 ps-1 opacity-80">
-              {booking.from?.toLocaleString([], {
+              {new Date(booking.from).toLocaleString([], {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -25,9 +25,9 @@ const SidebarBooking = ({ booking }: SidebarBookingProps) => {
             </span>
           </>
         )}
-        {booking.from.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {new Date(booking.from).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         <ArrowRight className="size-4 opacity-50" />
-        {booking.to.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {new Date(booking.to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
       <span className="text-xs">{booking.user}</span>
     </div>

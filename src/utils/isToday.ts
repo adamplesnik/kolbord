@@ -1,5 +1,5 @@
-export const isToday = (compareWith: Date) => {
+export const isToday = (compareWith: string) => {
   if (compareWith) {
-    return compareWith && new Date().toDateString() === compareWith.toDateString()
+    return compareWith && new Date().toDateString() === new Date(compareWith).toDateString()
   }
 }

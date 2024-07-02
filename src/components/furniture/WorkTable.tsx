@@ -1,7 +1,7 @@
 import { ArrowRightFromLine } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { TableRecord } from '../../data/TableRecord'
-import { Bookings } from '../../data/bookings'
+import bookings from '../../data/bookings.json'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
 import { FurnitureFeatures } from './FurnitureFeatures'
@@ -20,7 +20,7 @@ const WorkTable = ({
   className,
   onClick,
 }: WorkTableProps) => {
-  const tableBooking = Bookings.filter((booking) => booking.tableId === getTableId(name, group))
+  const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
   const bookedToday = isToday(tableBooking[0]?.to)
 
@@ -65,7 +65,7 @@ const WorkTable = ({
               <span className="flex items-center gap-0.5">
                 <ArrowRightFromLine className="size-3 opacity-50" />
                 <span className="text-xs">
-                  {tableBooking[0].to.toLocaleTimeString([], {
+                  {new Date(tableBooking[0].to).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}

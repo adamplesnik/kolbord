@@ -3,15 +3,15 @@ import { HTMLAttributes, MouseEventHandler } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
-import { Bookings } from '../data/bookings'
+import bookingsJson from '../data/bookings.json'
 import tables from '../data/tables.json'
+import { addWithSpace } from '../utils/addWithSpace'
 import { getTableId } from '../utils/getTableId'
 import SidebarBooking from './SidebarBooking'
-import { addWithSpace } from '../utils/addWithSpace'
 
 const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
   const table = tables.filter((t) => getTableId(t.name, t.group) === tableId)[0]
-  const bookings = Bookings.filter((t) => t.tableId === tableId)
+  const bookings = bookingsJson.filter((t) => t.tableId === tableId)
 
   return (
     <div
