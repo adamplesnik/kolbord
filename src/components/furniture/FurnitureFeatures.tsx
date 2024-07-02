@@ -8,7 +8,9 @@ export const FurnitureFeatures = ({
   className,
   withDesc = false,
 }: FurnitureFeaturesProps) => {
-  const featureList = Features.filter((f) => features.includes(f.id))
+  const featureArray = features && features.split(',')
+  const featureList = Features.filter((f) => featureArray.includes(f.id))
+  console.log(featureList)
 
   return (
     <div
@@ -31,6 +33,6 @@ export const FurnitureFeatures = ({
 }
 
 export type FurnitureFeaturesProps = {
-  features: number[]
+  features: string
   withDesc?: boolean
 } & HTMLAttributes<HTMLDivElement>

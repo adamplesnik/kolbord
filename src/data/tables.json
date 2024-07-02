@@ -21,7 +21,7 @@
     "rotation": 180,
     "x": 158,
     "y": 225,
-    "features": [0, 2]
+    "features": "0,2"
   },
   {
     "group": "ORD",
@@ -29,7 +29,7 @@
     "rotation": 180,
     "x": 318,
     "y": 225,
-    "features": [0, 1]
+    "features": "0,1"
   },
   {
     "group": "ORD",
@@ -37,7 +37,7 @@
     "rotation": 0,
     "x": 31,
     "y": 468,
-    "features": [0, 1]
+    "features": "0,1"
   },
   {
     "group": "ORD",
@@ -45,7 +45,7 @@
     "rotation": 0,
     "x": 191,
     "y": 468,
-    "features": [0, 1]
+    "features": "0,1"
   },
   {
     "group": "ORD",
@@ -53,7 +53,7 @@
     "rotation": 90,
     "x": 351,
     "y": 548,
-    "features": [0, 1, 2, 3]
+    "features": "0,1,2,3"
   },
   {
     "group": "ORD",
@@ -61,7 +61,7 @@
     "rotation": 180,
     "x": 31,
     "y": 628,
-    "features": [0, 1]
+    "features": "0,1"
   },
   {
     "group": "ORD",
@@ -69,7 +69,7 @@
     "rotation": 180,
     "x": 191,
     "y": 628,
-    "features": [0, 1]
+    "features": "0,1"
   },
   {
     "group": "Flex",
@@ -77,6 +77,673 @@
     "rotation": 270,
     "x": 5870,
     "y": 2,
-    "features": [0, 1, 3]
+    "features": "0,1,3"
+  },
+
+  {
+    "name": "pariatur",
+    "group": "Flex",
+    "available": true,
+    "x": 1029,
+    "y": 276,
+    "rotation": 90,
+    "features": "3,4"
+  },
+  {
+    "name": "pariatur",
+    "group": "IDM",
+    "available": false,
+    "x": 236,
+    "y": 417,
+    "rotation": 180,
+    "features": "1,0"
+  },
+  {
+    "name": "ipsum",
+    "group": "Ord",
+    "available": true,
+    "x": 2075,
+    "y": 24,
+    "rotation": 180,
+    "features": "0,1"
+  },
+  {
+    "name": "qui",
+    "group": "Ord",
+    "available": true,
+    "x": 998,
+    "y": 81,
+    "rotation": 180,
+    "features": "0,2"
+  },
+  {
+    "name": "qui",
+    "group": "Ord",
+    "available": true,
+    "x": 1286,
+    "y": 39,
+    "rotation": 0,
+    "features": "3,0"
+  },
+  {
+    "name": "laborum",
+    "group": "IDM",
+    "available": true,
+    "x": 731,
+    "y": 980,
+    "rotation": 270,
+    "features": "2,4"
+  },
+  {
+    "name": "culpa",
+    "group": "Flex",
+    "available": true,
+    "x": 6,
+    "y": 799,
+    "rotation": 270,
+    "features": "1,2"
+  },
+  {
+    "name": "mollit",
+    "group": "Flex",
+    "available": true,
+    "x": 2623,
+    "y": 53,
+    "rotation": 0,
+    "features": "0,0"
+  },
+  {
+    "name": "labore",
+    "group": "Ord",
+    "available": false,
+    "x": 2470,
+    "y": 294,
+    "rotation": 270,
+    "features": "1,3"
+  },
+  {
+    "name": "nulla",
+    "group": "Ord",
+    "available": false,
+    "x": 1760,
+    "y": 589,
+    "rotation": 0,
+    "features": "0,3"
+  },
+  {
+    "name": "aliqua",
+    "group": "Flex",
+    "available": false,
+    "x": 829,
+    "y": 23,
+    "rotation": 180,
+    "features": "3,3"
+  },
+  {
+    "name": "id",
+    "group": "Rep",
+    "available": false,
+    "x": 365,
+    "y": 402,
+    "rotation": 0,
+    "features": "1,4"
+  },
+  {
+    "name": "nisi",
+    "group": "IDM",
+    "available": true,
+    "x": 2960,
+    "y": 999,
+    "rotation": 180,
+    "features": "2,2"
+  },
+  {
+    "name": "cillum",
+    "group": "Rep",
+    "available": false,
+    "x": 299,
+    "y": 16,
+    "rotation": 0,
+    "features": "4,1"
+  },
+  {
+    "name": "minim",
+    "group": "IDM",
+    "available": true,
+    "x": 725,
+    "y": 436,
+    "rotation": 270,
+    "features": "2,2"
+  },
+  {
+    "name": "ea",
+    "group": "Ord",
+    "available": false,
+    "x": 2487,
+    "y": 735,
+    "rotation": 0,
+    "features": "1,3"
+  },
+  {
+    "name": "consectetur",
+    "group": "Ord",
+    "available": false,
+    "x": 1351,
+    "y": 726,
+    "rotation": 180,
+    "features": "1,1"
+  },
+  {
+    "name": "magna",
+    "group": "Rep",
+    "available": false,
+    "x": 1245,
+    "y": 691,
+    "rotation": 90,
+    "features": "3,1"
+  },
+  {
+    "name": "excepteur",
+    "group": "IDM",
+    "available": false,
+    "x": 1648,
+    "y": 465,
+    "rotation": 90,
+    "features": "0,4"
+  },
+  {
+    "name": "voluptate",
+    "group": "Rep",
+    "available": true,
+    "x": 2340,
+    "y": 335,
+    "rotation": 90,
+    "features": "2,4"
+  },
+  {
+    "name": "tempor",
+    "group": "Flex",
+    "available": false,
+    "x": 1942,
+    "y": 995,
+    "rotation": 270,
+    "features": "2,4"
+  },
+  {
+    "name": "voluptate",
+    "group": "Rep",
+    "available": false,
+    "x": 1127,
+    "y": 211,
+    "rotation": 90,
+    "features": "3,2"
+  },
+  {
+    "name": "deserunt",
+    "group": "IDM",
+    "available": false,
+    "x": 1013,
+    "y": 100,
+    "rotation": 0,
+    "features": "4,0"
+  },
+  {
+    "name": "qui",
+    "group": "Flex",
+    "available": true,
+    "x": 522,
+    "y": 919,
+    "rotation": 270,
+    "features": "4,4"
+  },
+  {
+    "name": "nulla",
+    "group": "IDM",
+    "available": false,
+    "x": 2694,
+    "y": 439,
+    "rotation": 90,
+    "features": "4,2"
+  },
+  {
+    "name": "nulla",
+    "group": "Ord",
+    "available": false,
+    "x": 371,
+    "y": 228,
+    "rotation": 270,
+    "features": "2,1"
+  },
+  {
+    "name": "esse",
+    "group": "Ord",
+    "available": true,
+    "x": 518,
+    "y": 583,
+    "rotation": 180,
+    "features": "3,3"
+  },
+  {
+    "name": "ad",
+    "group": "Rep",
+    "available": true,
+    "x": 1222,
+    "y": 303,
+    "rotation": 0,
+    "features": "0,0"
+  },
+  {
+    "name": "mollit",
+    "group": "Flex",
+    "available": false,
+    "x": 2942,
+    "y": 298,
+    "rotation": 0,
+    "features": "0,0"
+  },
+  {
+    "name": "proident",
+    "group": "Rep",
+    "available": true,
+    "x": 2945,
+    "y": 629,
+    "rotation": 180,
+    "features": "1,1"
+  },
+  {
+    "name": "minim",
+    "group": "Rep",
+    "available": true,
+    "x": 1529,
+    "y": 962,
+    "rotation": 270,
+    "features": "0,3"
+  },
+  {
+    "name": "consequat",
+    "group": "Rep",
+    "available": true,
+    "x": 2631,
+    "y": 20,
+    "rotation": 180,
+    "features": "0,2"
+  },
+  {
+    "name": "voluptate",
+    "group": "Flex",
+    "available": true,
+    "x": 2725,
+    "y": 835,
+    "rotation": 0,
+    "features": "3,4"
+  },
+  {
+    "name": "ut",
+    "group": "IDM",
+    "available": false,
+    "x": 2894,
+    "y": 563,
+    "rotation": 180,
+    "features": "0,3"
+  },
+  {
+    "name": "consectetur",
+    "group": "Rep",
+    "available": true,
+    "x": 518,
+    "y": 366,
+    "rotation": 90,
+    "features": "0,4"
+  },
+  {
+    "name": "id",
+    "group": "Rep",
+    "available": true,
+    "x": 774,
+    "y": 756,
+    "rotation": 90,
+    "features": "3,4"
+  },
+  {
+    "name": "commodo",
+    "group": "Flex",
+    "available": true,
+    "x": 1539,
+    "y": 870,
+    "rotation": 90,
+    "features": "4,0"
+  },
+  {
+    "name": "irure",
+    "group": "Flex",
+    "available": true,
+    "x": 177,
+    "y": 61,
+    "rotation": 0,
+    "features": "4,2"
+  },
+  {
+    "name": "officia",
+    "group": "IDM",
+    "available": false,
+    "x": 2193,
+    "y": 325,
+    "rotation": 180,
+    "features": "3,4"
+  },
+  {
+    "name": "deserunt",
+    "group": "Rep",
+    "available": true,
+    "x": 2060,
+    "y": 493,
+    "rotation": 180,
+    "features": "3,4"
+  },
+  {
+    "name": "voluptate",
+    "group": "Flex",
+    "available": true,
+    "x": 61,
+    "y": 534,
+    "rotation": 0,
+    "features": "0,3"
+  },
+  {
+    "name": "in",
+    "group": "Rep",
+    "available": true,
+    "x": 2115,
+    "y": 806,
+    "rotation": 270,
+    "features": "2,0"
+  },
+  {
+    "name": "aliqua",
+    "group": "Flex",
+    "available": false,
+    "x": 699,
+    "y": 645,
+    "rotation": 0,
+    "features": "2,0"
+  },
+  {
+    "name": "laborum",
+    "group": "IDM",
+    "available": false,
+    "x": 1392,
+    "y": 16,
+    "rotation": 0,
+    "features": "4,0"
+  },
+  {
+    "name": "adipisicing",
+    "group": "Rep",
+    "available": true,
+    "x": 2521,
+    "y": 446,
+    "rotation": 270,
+    "features": "3,1"
+  },
+  {
+    "name": "aliquip",
+    "group": "IDM",
+    "available": false,
+    "x": 1976,
+    "y": 143,
+    "rotation": 90,
+    "features": "2,0"
+  },
+  {
+    "name": "culpa",
+    "group": "Rep",
+    "available": true,
+    "x": 2309,
+    "y": 83,
+    "rotation": 180,
+    "features": "2,3"
+  },
+  {
+    "name": "in",
+    "group": "Ord",
+    "available": false,
+    "x": 730,
+    "y": 6,
+    "rotation": 180,
+    "features": "0,3"
+  },
+  {
+    "name": "nisi",
+    "group": "Rep",
+    "available": true,
+    "x": 1635,
+    "y": 776,
+    "rotation": 90,
+    "features": "2,4"
+  },
+  {
+    "name": "anim",
+    "group": "IDM",
+    "available": true,
+    "x": 2526,
+    "y": 77,
+    "rotation": 0,
+    "features": "0,4"
+  },
+  {
+    "name": "aute",
+    "group": "Flex",
+    "available": false,
+    "x": 387,
+    "y": 723,
+    "rotation": 270,
+    "features": "4,1"
+  },
+  {
+    "name": "aliquip",
+    "group": "Flex",
+    "available": false,
+    "x": 2515,
+    "y": 408,
+    "rotation": 0,
+    "features": "1,3"
+  },
+  {
+    "name": "consequat",
+    "group": "IDM",
+    "available": true,
+    "x": 1540,
+    "y": 466,
+    "rotation": 0,
+    "features": "1,4"
+  },
+  {
+    "name": "nisi",
+    "group": "Rep",
+    "available": false,
+    "x": 1805,
+    "y": 971,
+    "rotation": 270,
+    "features": "4,0"
+  },
+  {
+    "name": "deserunt",
+    "group": "Flex",
+    "available": false,
+    "x": 2210,
+    "y": 34,
+    "rotation": 0,
+    "features": "3,3"
+  },
+  {
+    "name": "non",
+    "group": "IDM",
+    "available": false,
+    "x": 2377,
+    "y": 423,
+    "rotation": 90,
+    "features": "2,2"
+  },
+  {
+    "name": "pariatur",
+    "group": "Flex",
+    "available": true,
+    "x": 1315,
+    "y": 444,
+    "rotation": 180,
+    "features": "0,0"
+  },
+  {
+    "name": "elit",
+    "group": "Ord",
+    "available": false,
+    "x": 1676,
+    "y": 825,
+    "rotation": 90,
+    "features": "3,0"
+  },
+  {
+    "name": "cillum",
+    "group": "IDM",
+    "available": true,
+    "x": 1845,
+    "y": 373,
+    "rotation": 270,
+    "features": "4,1"
+  },
+  {
+    "name": "ipsum",
+    "group": "Rep",
+    "available": false,
+    "x": 1731,
+    "y": 39,
+    "rotation": 270,
+    "features": "0,2"
+  },
+  {
+    "name": "sit",
+    "group": "IDM",
+    "available": true,
+    "x": 2989,
+    "y": 676,
+    "rotation": 270,
+    "features": "3,0"
+  },
+  {
+    "name": "consectetur",
+    "group": "Ord",
+    "available": true,
+    "x": 1400,
+    "y": 892,
+    "rotation": 180,
+    "features": "4,1"
+  },
+  {
+    "name": "voluptate",
+    "group": "Flex",
+    "available": true,
+    "x": 1586,
+    "y": 715,
+    "rotation": 270,
+    "features": "2,1"
+  },
+  {
+    "name": "est",
+    "group": "Rep",
+    "available": false,
+    "x": 2264,
+    "y": 869,
+    "rotation": 0,
+    "features": "1,4"
+  },
+  {
+    "name": "tempor",
+    "group": "Ord",
+    "available": true,
+    "x": 150,
+    "y": 437,
+    "rotation": 270,
+    "features": "0,1"
+  },
+  {
+    "name": "elit",
+    "group": "Ord",
+    "available": true,
+    "x": 2104,
+    "y": 908,
+    "rotation": 180,
+    "features": "2,1"
+  },
+  {
+    "name": "aliquip",
+    "group": "Ord",
+    "available": true,
+    "x": 351,
+    "y": 914,
+    "rotation": 90,
+    "features": "2,3"
+  },
+  {
+    "name": "duis",
+    "group": "IDM",
+    "available": false,
+    "x": 1662,
+    "y": 925,
+    "rotation": 0,
+    "features": "2,4"
+  },
+  {
+    "name": "velit",
+    "group": "Flex",
+    "available": false,
+    "x": 2166,
+    "y": 164,
+    "rotation": 90,
+    "features": "3,0"
+  },
+  {
+    "name": "esse",
+    "group": "IDM",
+    "available": true,
+    "x": 1127,
+    "y": 579,
+    "rotation": 270,
+    "features": "0,2"
+  },
+  {
+    "name": "in",
+    "group": "IDM",
+    "available": true,
+    "x": 2906,
+    "y": 606,
+    "rotation": 180,
+    "features": "0,3"
+  },
+  {
+    "name": "irure",
+    "group": "Ord",
+    "available": true,
+    "x": 2408,
+    "y": 718,
+    "rotation": 90,
+    "features": "2,4"
+  },
+  {
+    "name": "ut",
+    "group": "Rep",
+    "available": true,
+    "x": 226,
+    "y": 99,
+    "rotation": 90,
+    "features": "2,0"
+  },
+  {
+    "name": "aliquip",
+    "group": "Flex",
+    "available": true,
+    "x": 2476,
+    "y": 899,
+    "rotation": 180,
+    "features": "0,3"
   }
 ]

@@ -3,27 +3,27 @@ import { FeatureRecord } from './FeatureRecord'
 
 export const Features: FeatureRecord[] = [
   {
-    id: 0,
+    id: '0',
     desc: 'Variable height',
     Icon: ArrowUpDown,
   },
   {
-    id: 1,
+    id: '1',
     desc: 'Dock',
     Icon: Dock,
   },
   {
-    id: 2,
+    id: '2',
     desc: 'Workstation',
     Icon: PcCase,
   },
   {
-    id: 3,
+    id: '3',
     desc: 'Peripherals',
     Icon: Mouse,
   },
   {
-    id: 4,
+    id: '4',
     desc: 'Data Projector',
     Icon: Projector,
   },
