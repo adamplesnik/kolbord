@@ -1,0 +1,82 @@
+[
+  {
+    "group": "ORD",
+    "name": "MMA",
+    "rotation": 0,
+    "x": 158,
+    "y": 65,
+    "available": false
+  },
+  {
+    "group": "ORD",
+    "name": "MVA",
+    "rotation": 0,
+    "x": 318,
+    "y": 65,
+    "available": false
+  },
+  {
+    "group": "ORD",
+    "name": 2,
+    "rotation": 180,
+    "x": 158,
+    "y": 225,
+    "features": [0, 2]
+  },
+  {
+    "group": "ORD",
+    "name": 3,
+    "rotation": 180,
+    "x": 318,
+    "y": 225,
+    "features": [0, 1]
+  },
+  {
+    "group": "ORD",
+    "name": 4,
+    "rotation": 0,
+    "x": 31,
+    "y": 468,
+    "features": [0, 1]
+  },
+  {
+    "group": "ORD",
+    "name": 5,
+    "rotation": 0,
+    "x": 191,
+    "y": 468,
+    "features": [0, 1]
+  },
+  {
+    "group": "ORD",
+    "name": 6,
+    "rotation": 90,
+    "x": 351,
+    "y": 548,
+    "features": [0, 1, 2, 3]
+  },
+  {
+    "group": "ORD",
+    "name": 7,
+    "rotation": 180,
+    "x": 31,
+    "y": 628,
+    "features": [0, 1]
+  },
+  {
+    "group": "ORD",
+    "name": 8,
+    "rotation": 180,
+    "x": 191,
+    "y": 628,
+    "features": [0, 1]
+  },
+  {
+    "group": "Flex",
+    "name": 1,
+    "rotation": 270,
+    "x": 5870,
+    "y": 2,
+    "features": [0, 1, 3]
+  }
+]

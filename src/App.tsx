@@ -4,7 +4,7 @@ import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pa
 import Button from './components/Button'
 import Svg from './components/Svg'
 import WorkTable from './components/furniture/WorkTable'
-import { tables } from './data/tables'
+import tables from './data/tables.json'
 import MenuBar from './partials/MenuBar'
 import Sidebar from './partials/Sidebar'
 import { getTableId } from './utils/getTableId'

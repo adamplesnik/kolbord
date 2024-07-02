@@ -1,6 +1,6 @@
 export type TableRecord = {
   name: string | number
-  rotation: 0 | 90 | 180 | 270
+  rotation: number
   x: number
   y: number
   group?: string | number | undefined
