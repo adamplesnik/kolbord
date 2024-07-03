@@ -54,7 +54,7 @@ const WorkTable = ({
       }
       style={{ top: y, left: x }}
     >
-      <Chair />
+      <Chair isBooked={bookedToday} />
       <Table isBooked={bookedToday} className={dimensionClasses[16080]}>
         <div
           className={
