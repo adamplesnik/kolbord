@@ -59,6 +59,7 @@ const PlanView = () => {
                   features={t.features}
                   active={getTableId(t.name, t.group) === sidebarTableId}
                   dimensions={t.dimensions}
+                  rounded={t.rounded}
                   onClick={() => {
                     setSidebarTableId(
                       getTableId(t.name, t.group) === sidebarTableId

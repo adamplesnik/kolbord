@@ -8,4 +8,5 @@ export type TableRecord = {
   available?: boolean | undefined
   active?: boolean | undefined
   dimensions?: string | undefined
+  rounded?: boolean | undefined
 }

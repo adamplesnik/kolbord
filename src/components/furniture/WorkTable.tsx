@@ -20,6 +20,7 @@ const WorkTable = ({
   className,
   active,
   dimensions = '160,80',
+  rounded = false,
   onClick,
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
@@ -56,7 +57,12 @@ const WorkTable = ({
       style={{ top: y, left: x, width: tableWidth, height: tableHeight + 80 }}
     >
       <Chair isBooked={bookedToday} />
-      <Table isBooked={bookedToday} height={tableHeight} width={tableWidth} className={''}>
+      <Table
+        isBooked={bookedToday}
+        height={tableHeight}
+        width={tableWidth}
+        className={rounded ? 'rounded-full' : ''}
+      >
         <div
           className={
             'flex flex-col items-center gap-1' + addWithSpace(contraRotationClasses[rotation] || '')
