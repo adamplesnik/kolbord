@@ -1,4 +1,5 @@
 import { Minus, Plus, RotateCcw } from 'lucide-react'
+import { HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import Svg from '../components/Svg'
@@ -6,10 +7,9 @@ import WorkTable from '../components/furniture/WorkTable'
 import tables from '../data/tables.json'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
+import Sidebar from '../partials/Sidebar'
 import { getTableId } from '../utils/getTableId'
 import plan from '/plan.svg'
-import { HTMLAttributes, useState } from 'react'
-import Sidebar from '../partials/Sidebar'
 
 const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState('')

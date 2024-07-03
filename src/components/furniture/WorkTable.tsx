@@ -46,11 +46,11 @@ const WorkTable = ({
       onClick={onClick}
       id={getTableId(name, group)}
       className={
-        'absolute inline-flex size-[160px] flex-col items-center justify-between p-px pt-2 ring-4 transition-colors' +
+        'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px pt-2 ring-4 transition-colors' +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
         addWithSpace(rotationClasses[rotation] || '') +
         addWithSpace(className) +
-        addWithSpace(active ? 'z-50 rounded bg-slate-200 ring-slate-300' : 'ring-transparent')
+        addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent')
       }
       style={{ top: y, left: x }}
     >
