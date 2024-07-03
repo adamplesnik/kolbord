@@ -3,13 +3,19 @@
     "tableId": "ORD_2",
     "user": "Maria Espinosa",
     "from": "2024-07-03T08:45:00",
-    "to": "2024-07-03T18:40:00"
+    "to": "2024-07-03T23:40:00"
   },
   {
     "tableId": "ORD_2",
     "user": "Ivan Funchal",
     "from": "2024-07-07T09:15:00",
     "to": "2024-07-07T16:30:00"
+  },
+  {
+    "tableId": "ORD_3",
+    "user": "Ivan Funchal",
+    "from": "2024-07-03T22:15:00",
+    "to": "2024-07-03T23:30:00"
   },
   {
     "tableId": "ORD_3",

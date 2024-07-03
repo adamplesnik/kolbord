@@ -1,13 +1,13 @@
-import { ArrowRightFromLine } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { TableRecord } from '../../data/TableRecord'
 import bookings from '../../data/bookings.json'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
+import { isToday } from '../../utils/isToday'
 import { FurnitureFeatures } from './FurnitureFeatures'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
-import { isToday } from '../../utils/isToday'
 
 const WorkTable = ({
   name,
@@ -23,7 +23,8 @@ const WorkTable = ({
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
 
-  const bookedToday = isToday(tableBooking[0]?.to)
+  const now = new Date()
+  const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
 
   const rotationClasses: Record<number, string> = {
     90: 'rotate-90',
@@ -49,8 +50,8 @@ const WorkTable = ({
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px pt-2 ring-4 transition-colors' +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
         addWithSpace(rotationClasses[rotation] || '') +
-        addWithSpace(className) +
-        addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent')
+        addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
+        addWithSpace(className)
       }
       style={{ top: y, left: x }}
     >
@@ -65,7 +66,13 @@ const WorkTable = ({
             <span className={'text-md font-semibold'}>{name}</span>
             {bookedToday && tableBooking[0].to && (
               <span className="flex items-center gap-0.5">
-                <ArrowRightFromLine className="size-3 opacity-50" />
+                <span className="text-xs">
+                  {new Date(tableBooking[0].from).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
+                <ArrowRight className="size-3 opacity-50" />
                 <span className="text-xs">
                   {new Date(tableBooking[0].to).toLocaleTimeString([], {
                     hour: '2-digit',
