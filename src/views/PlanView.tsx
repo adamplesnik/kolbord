@@ -58,6 +58,7 @@ const PlanView = () => {
                   available={t.available}
                   features={t.features}
                   active={getTableId(t.name, t.group) === sidebarTableId}
+                  dimensions={t.dimensions}
                   onClick={() => {
                     setSidebarTableId(
                       getTableId(t.name, t.group) === sidebarTableId

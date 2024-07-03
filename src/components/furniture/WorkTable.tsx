@@ -19,6 +19,7 @@ const WorkTable = ({
   features,
   className,
   active,
+  dimensions = '160,80',
   onClick,
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
@@ -38,9 +39,8 @@ const WorkTable = ({
     270: 'rotate-90',
   }
 
-  const dimensionClasses: Record<number, string> = {
-    16080: 'h-[78px] w-[158px]',
-  }
+  const tableWidth = +dimensions.split(',')[0]
+  const tableHeight = +dimensions.split(',')[1]
 
   return (
     <div
@@ -53,10 +53,10 @@ const WorkTable = ({
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
-      style={{ top: y, left: x }}
+      style={{ top: y, left: x, width: tableWidth, height: tableHeight + 80 }}
     >
       <Chair isBooked={bookedToday} />
-      <Table isBooked={bookedToday} className={dimensionClasses[16080]}>
+      <Table isBooked={bookedToday} height={tableHeight} width={tableWidth} className={''}>
         <div
           className={
             'flex flex-col items-center gap-1' + addWithSpace(contraRotationClasses[rotation] || '')

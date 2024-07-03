@@ -196,5 +196,21 @@
     "y": 413,
     "rotation": 270,
     "features": "1,0"
+  },
+  {
+    "name": "MLE",
+    "available": false,
+    "x": 80,
+    "y": 1060,
+    "rotation": 180,
+    "dimensions": "200,80"
+  },
+  {
+    "name": "LRA",
+    "available": false,
+    "x": 4,
+    "y": 1300,
+    "rotation": 180,
+    "dimensions": "480,80"
   }
 ]

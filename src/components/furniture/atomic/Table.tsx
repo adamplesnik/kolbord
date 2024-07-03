@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../../../utils/addWithSpace'
 
-const Table = ({ isBooked, children, className }: TableProps) => {
+const Table = ({ isBooked, children, className, height, width }: TableProps) => {
   return (
     <div
       className={
@@ -9,6 +9,7 @@ const Table = ({ isBooked, children, className }: TableProps) => {
         addWithSpace(isBooked ? 'border-dashed' : '') +
         addWithSpace(className)
       }
+      style={{ height: height - 2, width: width - 2 }}
     >
       {children}
     </div>
@@ -16,6 +17,8 @@ const Table = ({ isBooked, children, className }: TableProps) => {
 }
 
 export type TableProps = {
+  height: number
+  width: number
   isBooked?: boolean | undefined | ''
 } & HTMLAttributes<HTMLDivElement>
 
