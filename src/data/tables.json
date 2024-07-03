@@ -88,5 +88,113 @@
     "y": 826,
     "rotation": 0,
     "features": "1,0"
+  },
+  {
+    "name": 1,
+    "group": "QA",
+    "available": true,
+    "x": 633,
+    "y": 91,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 2,
+    "group": "QA",
+    "available": true,
+    "x": 633,
+    "y": 252,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 3,
+    "group": "QA",
+    "available": true,
+    "x": 633,
+    "y": 413,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 4,
+    "group": "QA",
+    "available": true,
+    "x": 847,
+    "y": 164,
+    "rotation": 270,
+    "features": "1,0"
+  },
+  {
+    "name": 5,
+    "group": "QA",
+    "available": true,
+    "x": 847,
+    "y": 324,
+    "rotation": 270,
+    "features": "1,0"
+  },
+  {
+    "name": 6,
+    "group": "QA",
+    "available": true,
+    "x": 847,
+    "y": 484,
+    "rotation": 270,
+    "features": "1,0"
+  },
+  {
+    "name": 7,
+    "group": "QA",
+    "available": true,
+    "x": 1007,
+    "y": 164,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 8,
+    "group": "QA",
+    "available": true,
+    "x": 1007,
+    "y": 324,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 9,
+    "group": "QA",
+    "available": true,
+    "x": 1007,
+    "y": 484,
+    "rotation": 90,
+    "features": "1,0"
+  },
+  {
+    "name": 10,
+    "group": "QA",
+    "available": true,
+    "x": 1252,
+    "y": 91,
+    "rotation": 270,
+    "features": "1,0"
+  },
+  {
+    "name": "VGQ",
+    "group": "QA",
+    "available": false,
+    "x": 1252,
+    "y": 252,
+    "rotation": 270,
+    "features": "1,0"
+  },
+  {
+    "name": "LPQ",
+    "group": "QA",
+    "available": false,
+    "x": 1252,
+    "y": 413,
+    "rotation": 270,
+    "features": "1,0"
   }
 ]
