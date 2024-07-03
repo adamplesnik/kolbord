@@ -196,5 +196,29 @@
     "y": 413,
     "rotation": 270,
     "features": "1,0"
+  },
+  {
+    "name": "MLE",
+    "available": false,
+    "x": 80,
+    "y": 1060,
+    "rotation": 180,
+    "dimensions": "200,80"
+  },
+  {
+    "name": "LRA",
+    "available": false,
+    "x": 4,
+    "y": 1300,
+    "rotation": 180,
+    "dimensions": "480,80"
+  },
+  {
+    "name": "Meet 3",
+    "x": 3050,
+    "y": 80,
+    "rotation": 270,
+    "dimensions": "300,300",
+    "rounded": true
   }
 ]

@@ -7,4 +7,6 @@ export type TableRecord = {
   features?: string | undefined
   available?: boolean | undefined
   active?: boolean | undefined
+  dimensions?: string | undefined
+  rounded?: boolean | undefined
 }
