@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { TableRecord } from '../../data/TableRecord'
 import bookings from '../../data/bookings.json'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
@@ -10,17 +9,18 @@ import Chair from './atomic/Chair'
 import Table from './atomic/Table'
 
 const WorkTable = ({
-  name,
+  active,
+  available = true,
+  className,
+  features,
   group,
-  rotation = 0,
+  height,
+  name,
+  rotation,
+  rounded,
+  width,
   x = 0,
   y = 0,
-  available = true,
-  features,
-  className,
-  active,
-  dimensions = '160,80',
-  rounded = false,
   onClick,
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
@@ -28,25 +28,24 @@ const WorkTable = ({
   const now = new Date()
   const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
 
-  const rotationClasses: Record<number, string> = {
-    90: 'rotate-90',
-    180: 'rotate-180',
-    270: '-rotate-90',
+  const rotationClasses: Record<string, string> = {
+    'rotate-90': 'rotate-90',
+    'rotate-180': 'rotate-180',
+    'rotate-270': '-rotate-90',
   }
 
-  const contraRotationClasses: Record<number, string> = {
-    90: '-rotate-90 flex-col',
-    180: '-rotate-180',
-    270: 'rotate-90',
+  const contraRotationClasses: Record<string, string> = {
+    'rotate-90': '-rotate-90 flex-col',
+    'rotate-180': '-rotate-180',
+    'rotate-270': 'rotate-90',
   }
 
-  const tableWidth = +dimensions.split(',')[0]
-  const tableHeight = +dimensions.split(',')[1]
+  const tableWidth = width
+  const tableHeight = height
 
   return (
     <div
       onClick={onClick}
-      id={getTableId(name, group)}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px pt-2 ring-4 transition-colors' +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
@@ -54,7 +53,7 @@ const WorkTable = ({
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
-      style={{ top: y, left: x, width: tableWidth, height: tableHeight + 80 }}
+      style={{ top: y, left: x, width: width, height: height + 80 }}
     >
       <Chair isBooked={bookedToday} />
       <Table
@@ -89,10 +88,13 @@ const WorkTable = ({
             )}
           </div>
           {features && (
-            <FurnitureFeatures
-              features={features}
-              className={rotation === 90 || rotation == 270 ? 'max-w-[78px]' : ''}
-            />
+            // <FurnitureFeatures
+            //   features={features}
+            //   className={
+            //     rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
+            //   }
+            // />
+            <></>
           )}
         </div>
       </Table>
@@ -100,6 +102,18 @@ const WorkTable = ({
   )
 }
 
-export type WorkTableProps = TableRecord & HTMLAttributes<HTMLDivElement>
+export type WorkTableProps = {
+  name: string | number
+  rotation: string
+  x: number
+  y: number
+  group?: string | number | undefined
+  features?: string | undefined
+  available?: boolean | undefined
+  width: number
+  height: number
+  rounded?: boolean | undefined
+  active?: boolean | undefined
+} & HTMLAttributes<HTMLDivElement>
 
 export default WorkTable
