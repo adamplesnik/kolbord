@@ -1,7 +1,9 @@
-import { LucideIcon } from 'lucide-react'
+import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
 export type FeatureRecord = {
-  id: string
-  desc: string
-  Icon: LucideIcon
+  id: number
+  attributes: {
+    description: string
+    lucideIcon: keyof typeof dynamicIconImports
+  }
 }

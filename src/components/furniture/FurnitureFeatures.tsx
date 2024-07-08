@@ -1,15 +1,28 @@
-import { HTMLAttributes } from 'react'
-import { Features } from '../../data/features'
+import { HTMLAttributes, useEffect, useState } from 'react'
+import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../Badge'
+import FurnitureFeatureIcon from './FurnitureFeatureIcon'
 
 export const FurnitureFeatures = ({
   features,
   className,
   withDesc = false,
 }: FurnitureFeaturesProps) => {
-  const featureArray = features && features.split(',')
-  const featureList = Features.filter((f) => featureArray.includes(f.id))
+  const [allFeatures, setAllFeatures] = useState<FeatureRecord[]>([])
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/features`, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_FEATURES_API_ID}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((features) => setAllFeatures(features.data))
+  }, [])
+
+  const furnitureFeatures = features && features.split(',')
+  const featureList = allFeatures.filter((f) => furnitureFeatures.includes(f.id.toFixed()))
 
   return (
     <div
@@ -22,9 +35,15 @@ export const FurnitureFeatures = ({
       {featureList.map((f, i) => (
         <span key={i} className={withDesc ? 'flex items-center gap-2' : ''}>
           <Badge className="size-6">
-            <f.Icon aria-label={f.desc} strokeWidth={1.5} className="size-full" />
+            <FurnitureFeatureIcon
+              name={f.attributes.lucideIcon}
+              aria-label={f.attributes.description}
+              className="size-full"
+              strokeWidth={1.5}
+            />
+            {/* <f.attributes.lucideIcon aria-label={f.attributes.description} className="size-full" /> */}
           </Badge>
-          {withDesc && <span className="text-sm">{f.desc}</span>}
+          {withDesc && <span className="text-sm">{f.attributes.description}</span>}
         </span>
       ))}
     </div>
