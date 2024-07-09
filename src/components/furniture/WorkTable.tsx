@@ -4,7 +4,6 @@ import bookings from '../../data/bookings.json'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
 import { isToday } from '../../utils/isToday'
-import { FurnitureFeatures } from './FurnitureFeatures'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
 
