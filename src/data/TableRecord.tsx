@@ -1,3 +1,5 @@
+import { FeatureRecord } from './FeatureRecord'
+
 export type TableRecord = {
   id: number
   attributes: {
@@ -6,7 +8,7 @@ export type TableRecord = {
     x: number
     y: number
     group?: string | number | undefined
-    features?: string | undefined
+    features?: FeatureRecord[] | undefined
     available?: boolean | undefined
     width: number
     height: number

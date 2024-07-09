@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../Badge'
@@ -9,21 +9,6 @@ export const FurnitureFeatures = ({
   className,
   withDesc = false,
 }: FurnitureFeaturesProps) => {
-  const [allFeatures, setAllFeatures] = useState<FeatureRecord[]>([])
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/features`, {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_FEATURES_API_ID}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((features) => setAllFeatures(features.data))
-  }, [])
-
-  const furnitureFeatures = features && features.split(',')
-  const featureList = allFeatures.filter((f) => furnitureFeatures.includes(f.id.toFixed()))
-
   return (
     <div
       className={
@@ -32,8 +17,8 @@ export const FurnitureFeatures = ({
           : 'flex flex-wrap items-center justify-center gap-1' + addWithSpace(className)
       }
     >
-      {featureList.map((f, i) => (
-        <span key={i} className={withDesc ? 'flex items-center gap-2' : ''}>
+      {features.data?.map((f) => (
+        <span key={f.id} className={withDesc ? 'flex items-center gap-2' : ''}>
           <Badge className="size-6">
             <FurnitureFeatureIcon
               name={f.attributes.lucideIcon}
@@ -41,7 +26,6 @@ export const FurnitureFeatures = ({
               className="size-full"
               strokeWidth={1.5}
             />
-            {/* <f.attributes.lucideIcon aria-label={f.attributes.description} className="size-full" /> */}
           </Badge>
           {withDesc && <span className="text-sm">{f.attributes.description}</span>}
         </span>
@@ -51,6 +35,6 @@ export const FurnitureFeatures = ({
 }
 
 export type FurnitureFeaturesProps = {
-  features: string
+  features: FeatureRecord[]
   withDesc?: boolean
 } & HTMLAttributes<HTMLDivElement>

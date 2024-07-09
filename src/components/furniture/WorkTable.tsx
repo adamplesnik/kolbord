@@ -6,6 +6,8 @@ import { getTableId } from '../../utils/getTableId'
 import { isToday } from '../../utils/isToday'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
+import { FurnitureFeatures } from './FurnitureFeatures'
+import { FeatureRecord } from '../../data/FeatureRecord'
 
 const WorkTable = ({
   active,
@@ -87,13 +89,12 @@ const WorkTable = ({
             )}
           </div>
           {features && (
-            // <FurnitureFeatures
-            //   features={features}
-            //   className={
-            //     rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
-            //   }
-            // />
-            <></>
+            <FurnitureFeatures
+              features={features}
+              className={
+                rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
+              }
+            />
           )}
         </div>
       </Table>
@@ -107,7 +108,7 @@ export type WorkTableProps = {
   x: number
   y: number
   group?: string | number | undefined
-  features?: string | undefined
+  features?: FeatureRecord[] | undefined
   available?: boolean | undefined
   width: number
   height: number
