@@ -2,13 +2,12 @@ import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
-import Svg from '../components/Svg'
 import WorkTable from '../components/furniture/WorkTable'
 import { TableRecord } from '../data/TableRecord'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
+import Plan from '../components/Plan'
 import Sidebar from '../partials/Sidebar'
-import plan from '/plan.svg'
 
 const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState(-1)
@@ -49,7 +48,7 @@ const PlanView = () => {
       <TransformWrapper
         pinch={{ disabled: false }}
         panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
-        initialScale={0.4}
+        initialScale={0.6}
         centerOnInit={true}
         minScale={0.2}
         maxScale={1}
@@ -77,7 +76,7 @@ const PlanView = () => {
                   }}
                 />
               ))}
-              <Svg className={'max-w-fit bg-white'} source={plan} />
+              <Plan id={1} />
             </div>
           </TransformComponent>
         </>
