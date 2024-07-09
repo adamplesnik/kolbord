@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { PlanRecord } from '../data/PlanRecord'
+import Loading from './Loading'
 
 const Plan = ({ id = -1 }) => {
   const [all, setAll] = useState<PlanRecord[]>([])
@@ -30,7 +31,7 @@ const Plan = ({ id = -1 }) => {
 
   return (
     <>
-      <span className={isLoading ? 'block' : 'hidden'}>Loading</span>
+      <Loading loading={isLoading} />
       <img
         src={`data:image/svg+xml;utf8,${encodeURIComponent(all.attributes?.svg)}`}
         className="max-w-fit"
