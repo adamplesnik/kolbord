@@ -3,25 +3,42 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
+import GroupMarker from '../components/GroupMarker'
+import Plan from '../components/Plan'
+import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
 import { TableRecord } from '../data/TableRecord'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-import Plan from '../components/Plan'
 import Sidebar from '../partials/Sidebar'
 
 const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState(-1)
 
   const [tables, setTables] = useState<TableRecord[]>()
+  const [markers, setMarkers] = useState<GroupMarkerRecord[]>()
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate=*`, {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
       },
     })
       .then((response) => response.json())
       .then((data) => setTables(data.data))
+  }, [])
+
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
+      {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => setMarkers(data.data))
   }, [])
 
   const Controls = () => {
@@ -57,6 +74,14 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
+              {markers?.map((m, i) => (
+                <GroupMarker
+                  key={`group${i}`}
+                  groupName={m.attributes.group.data.attributes.name}
+                  x={m.attributes.x}
+                  y={m.attributes.y}
+                />
+              ))}
               {tables?.map((t) => (
                 <WorkTable
                   key={t.id}
