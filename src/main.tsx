@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import PlanView from './views/PlanView.tsx'
+import ApiTest from './data/ApiTest.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <PlanView />,
     errorElement: <PlanView />,
+  },
+  {
+    path: '/api-test',
+    element: <ApiTest />,
   },
 ])
 

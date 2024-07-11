@@ -8,7 +8,7 @@ export type TableRecord = {
     x: number
     y: number
     group?: string | number | undefined
-    features?: FeatureRecord[] | undefined
+    features: FeatureRecord[]
     available?: boolean | undefined
     width: number
     height: number
