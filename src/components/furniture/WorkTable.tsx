@@ -1,27 +1,18 @@
 import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import bookings from '../../data/bookings.json'
+import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { getTableId } from '../../utils/getTableId'
 import { isToday } from '../../utils/isToday'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
 import { FurnitureFeatures } from './FurnitureFeatures'
-import { FeatureRecord } from '../../data/FeatureRecord'
 
 const WorkTable = ({
   active,
-  available = true,
   className,
-  features,
-  group,
-  height,
-  name,
-  rotation,
-  rounded,
-  width,
-  x = 0,
-  y = 0,
+  attributes: { available, features, group, height, name, rotation, rounded, width, x, y },
   onClick,
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
@@ -90,7 +81,7 @@ const WorkTable = ({
           </div>
           {features && (
             <FurnitureFeatures
-              features={features}
+              features={features.data}
               className={
                 rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
               }
@@ -103,17 +94,8 @@ const WorkTable = ({
 }
 
 export type WorkTableProps = {
-  name: string | number
-  rotation: string
-  x: number
-  y: number
-  group?: string | number | undefined
-  features: FeatureRecord[]
-  available?: boolean | undefined
-  width: number
-  height: number
-  rounded?: boolean | undefined
   active?: boolean | undefined
-} & HTMLAttributes<HTMLDivElement>
+} & TableRecord &
+  HTMLAttributes<HTMLDivElement>
 
 export default WorkTable

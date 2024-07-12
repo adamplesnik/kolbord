@@ -12,18 +12,21 @@ import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 
 const PlanView = () => {
-  const [sidebarTableId, setSidebarTableId] = useState(-1)
+  const [sidebarTableId, setSidebarTableId] = useState('')
 
   const [tables, setTables] = useState<TableRecord[]>()
   const [markers, setMarkers] = useState<GroupMarkerRecord[]>()
 
   const fetchTables = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate=*`, {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
-        },
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate[features][fields][0]=uuid&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&fields[8]=uuid&publicationState=live&locale[0]=en`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
+          },
+        }
+      )
       const data = await response.json()
       setTables(data.data)
     } catch (error) {
@@ -98,20 +101,23 @@ const PlanView = () => {
               ))}
               {tables?.map((t) => (
                 <WorkTable
-                  key={t.id}
-                  name={t.attributes.name}
-                  group={t.attributes.group}
-                  rotation={t.attributes.rotation}
-                  x={t.attributes.x}
-                  y={t.attributes.y}
-                  available={t.attributes.available}
-                  features={t.attributes.features}
-                  active={t.id === sidebarTableId}
-                  width={t.attributes.width}
-                  height={t.attributes.height}
-                  rounded={t.attributes.rounded}
+                  key={t.attributes.uuid}
+                  attributes={{
+                    name: t.attributes.name,
+                    group: t.attributes.group,
+                    rotation: t.attributes.rotation,
+                    x: t.attributes.x,
+                    y: t.attributes.y,
+                    available: t.attributes.available,
+                    features: t.attributes.features,
+                    width: t.attributes.width,
+                    height: t.attributes.height,
+                    rounded: t.attributes.rounded,
+                    uuid: t.attributes.uuid,
+                  }}
+                  active={t.attributes.uuid === sidebarTableId}
                   onClick={() => {
-                    setSidebarTableId(t.id === sidebarTableId ? -1 : t.id)
+                    setSidebarTableId(t.attributes.uuid === sidebarTableId ? '' : t.attributes.uuid)
                   }}
                 />
               ))}
@@ -121,9 +127,9 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        className={sidebarTableId > -1 ? 'block' : 'hidden'}
+        className={sidebarTableId != '' ? 'block' : 'hidden'}
         tableId={sidebarTableId}
-        closeSidebar={() => setSidebarTableId(-1)}
+        closeSidebar={() => setSidebarTableId('')}
       />
     </Page>
   )
