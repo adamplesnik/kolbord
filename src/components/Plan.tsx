@@ -3,39 +3,41 @@ import { PlanRecord } from '../data/PlanRecord'
 import Loading from './Loading'
 
 const Plan = ({ id = -1 }) => {
-  const [all, setAll] = useState<PlanRecord[]>([])
+  const [plan, setPlan] = useState<PlanRecord[]>()
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async (id: number) => {
-      setIsLoading(true)
-      try {
-        const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/plans/${id}`, {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
-          },
-        })
-        const data = await response.json()
-        setAll(data.data)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
+  const fetchPlan = async (id: number) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/plans/${id}`, {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
+        },
+      })
+      const data = await response.json()
+      setPlan([data.data])
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  useEffect(() => {
     if (id > -1) {
-      fetchData(id)
+      fetchPlan(id)
     }
-  }, [])
+  }, [id])
 
   return (
     <>
       <Loading loading={isLoading} />
-      <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(all.attributes?.svg)}`}
-        className="max-w-fit"
-      />
+      {plan?.map((m) => (
+        <img
+          key={`plan${m.id}`}
+          src={`data:image/svg+xml;utf8,${encodeURIComponent(m.attributes.svg)}`}
+          className="max-w-fit"
+        />
+      ))}
     </>
   )
 }

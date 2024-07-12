@@ -17,28 +17,42 @@ const PlanView = () => {
   const [tables, setTables] = useState<TableRecord[]>()
   const [markers, setMarkers] = useState<GroupMarkerRecord[]>()
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate=*`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setTables(data.data))
-  }, [])
-
-  useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
-      {
+  const fetchTables = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate=*`, {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
         },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => setMarkers(data.data))
+      })
+      const data = await response.json()
+      setTables(data.data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+    }
+  }
+
+  const fetchGroupMarkers = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
+          },
+        }
+      )
+      const data = await response.json()
+      setMarkers(data.data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+    }
+  }
+
+  useEffect(() => {
+    fetchTables()
+    fetchGroupMarkers()
   }, [])
 
   const Controls = () => {
