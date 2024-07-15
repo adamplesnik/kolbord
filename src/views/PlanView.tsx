@@ -1,62 +1,28 @@
+import { useQuery } from '@tanstack/react-query'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
 import GroupMarker from '../components/GroupMarker'
 import Plan from '../components/Plan'
-import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
-import { TableRecord } from '../data/TableRecord'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
+import { loadMarkers, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState('')
 
-  const [tables, setTables] = useState<TableRecord[]>()
-  const [markers, setMarkers] = useState<GroupMarkerRecord[]>()
+  const { data: tables } = useQuery({
+    queryKey: ['tables'],
+    queryFn: loadTables,
+  })
 
-  const fetchTables = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL}/tables?populate[features][fields][0]=uuid&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&fields[8]=uuid&publicationState=live&locale[0]=en`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
-          },
-        }
-      )
-      const data = await response.json()
-      setTables(data.data)
-    } catch (error) {
-      console.error(error)
-    } finally {
-    }
-  }
-
-  const fetchGroupMarkers = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
-          },
-        }
-      )
-      const data = await response.json()
-      setMarkers(data.data)
-    } catch (error) {
-      console.error(error)
-    } finally {
-    }
-  }
-
-  useEffect(() => {
-    fetchTables()
-    fetchGroupMarkers()
-  }, [])
+  const { data: markers } = useQuery({
+    queryKey: ['markers'],
+    queryFn: loadMarkers,
+  })
 
   const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls()
@@ -72,7 +38,7 @@ const PlanView = () => {
         <Button onClick={() => resetTransform()}>
           <RotateCcw />
         </Button>
-        <Button>{tables?.length}</Button>
+        <Button>{tables?.data.length}</Button>
         {sidebarTableId}
       </MenuBar>
     )
@@ -91,7 +57,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              {markers?.map((m, i) => (
+              {markers?.data.map((m, i) => (
                 <GroupMarker
                   key={`group${i}`}
                   groupName={m.attributes.group.data.attributes.name}
@@ -99,7 +65,7 @@ const PlanView = () => {
                   y={m.attributes.y}
                 />
               ))}
-              {tables?.map((t) => (
+              {tables?.data.map((t) => (
                 <WorkTable
                   key={t.attributes.uuid}
                   attributes={{

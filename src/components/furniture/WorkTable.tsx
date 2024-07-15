@@ -79,7 +79,7 @@ const WorkTable = ({
               </span>
             )}
           </div>
-          {features && (
+          {!features && (
             <FurnitureFeatures
               features={features.data}
               className={
