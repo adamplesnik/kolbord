@@ -4,12 +4,12 @@ import { HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
-import GroupMarker from '../components/GroupMarker'
 import Plan from '../components/Plan'
 import Page from '../pages/Page'
+import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { loadMarkers, loadTables } from '../utils/fetchApi'
+import { loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState('')
@@ -17,11 +17,6 @@ const PlanView = () => {
   const { data: tables } = useQuery({
     queryKey: ['tables'],
     queryFn: loadTables,
-  })
-
-  const { data: markers } = useQuery({
-    queryKey: ['markers'],
-    queryFn: loadMarkers,
   })
 
   const Controls = () => {
@@ -57,14 +52,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              {markers?.data.map((m, i) => (
-                <GroupMarker
-                  key={`group${i}`}
-                  groupName={m.attributes.group.data.attributes.name}
-                  x={m.attributes.x}
-                  y={m.attributes.y}
-                />
-              ))}
+              <GroupMarkers />
               {tables?.data.map((t) => (
                 <WorkTable
                   key={t.attributes.uuid}
