@@ -31,11 +31,11 @@ export const loadPlan = async (id: number): Promise<PlanQueryType> => {
   return response.json()
 }
 
-type MarkerQueryType = {
+type GroupMarkerQueryType = {
   data: GroupMarkerRecord[]
 }
 
-export const loadMarkers = async (): Promise<MarkerQueryType> => {
+export const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
   const response = await fetch(
     `${import.meta.env.VITE_REACT_APP_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
     {
