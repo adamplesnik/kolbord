@@ -1,3 +1,4 @@
+import { FeatureRecord } from '../data/FeatureRecord'
 import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
 import { PlanRecord } from '../data/PlanRecord'
 import { TableRecord } from '../data/TableRecord'
@@ -44,5 +45,18 @@ export const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
       },
     }
   )
+  return response.json()
+}
+
+type FeatureQueryType = {
+  data: FeatureRecord[]
+}
+
+export const loadFeatures = async (): Promise<FeatureQueryType> => {
+  const response = await fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/features`, {
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_REACT_APP_PRIVATE_READ_ONLY_API_ID}`,
+    },
+  })
   return response.json()
 }

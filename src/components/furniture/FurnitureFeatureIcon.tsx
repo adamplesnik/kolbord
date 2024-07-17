@@ -13,7 +13,7 @@ const FurnitureFeatureIcon = ({ name, ...props }: IconProps) => {
 
   return (
     <Suspense fallback={fallback}>
-      <LucideIcon {...props} />
+      <LucideIcon {...props} className="size-3.5" />
     </Suspense>
   )
 }

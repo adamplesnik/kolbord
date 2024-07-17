@@ -79,9 +79,9 @@ const WorkTable = ({
               </span>
             )}
           </div>
-          {!features && (
+          {features && (
             <FurnitureFeatures
-              features={features.data}
+              features={features?.data}
               className={
                 rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
               }

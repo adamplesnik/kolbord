@@ -1,6 +1,8 @@
-import { HTMLAttributes, JSXElementConstructor, Key, ReactElement, ReactNode } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { HTMLAttributes } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
+import { loadFeatures } from '../../utils/fetchApi'
 import Badge from '../Badge'
 import FurnitureFeatureIcon from './FurnitureFeatureIcon'
 
@@ -9,6 +11,11 @@ export const FurnitureFeatures = ({
   className,
   withDesc = false,
 }: FurnitureFeaturesProps) => {
+  const { data } = useQuery({
+    queryKey: ['features'],
+    queryFn: loadFeatures,
+  })
+
   return (
     <div
       className={
@@ -17,34 +24,25 @@ export const FurnitureFeatures = ({
           : 'flex flex-wrap items-center justify-center gap-1' + addWithSpace(className)
       }
     >
-      {features.data.map(
-        (f: {
-          id: Key | null | undefined
-          attributes: {
-            lucideIcon: string
-            description:
-              | string
-              | number
-              | boolean
-              | ReactElement<any, string | JSXElementConstructor<any>>
-              | Iterable<ReactNode>
-              | null
-              | undefined
-          }
-        }) => (
-          <span key={f.id} className={withDesc ? 'flex items-center gap-2' : ''}>
-            <Badge className="size-6">
-              <FurnitureFeatureIcon
-                name={f.attributes.lucideIcon}
-                aria-label={f.attributes.description}
-                className="size-full"
-                strokeWidth={1.5}
-              />
-            </Badge>
-            {withDesc && <span className="text-sm">{f.attributes.description}</span>}
-          </span>
-        )
-      )}
+      {features?.map((f) => (
+        <div key={f.id} className={withDesc ? 'flex items-center gap-2' : ''}>
+          <Badge className="size-6 *:stroke-1">
+            {data?.data.map(
+              (d) =>
+                d.attributes.uuid === f.attributes.uuid && (
+                  <FurnitureFeatureIcon name={d.attributes.lucideIcon} />
+                )
+            )}
+          </Badge>
+          {withDesc && (
+            <span className="text-sm">
+              {data?.data.map(
+                (d) => d.attributes.uuid === f.attributes.uuid && d.attributes.description
+              )}
+            </span>
+          )}
+        </div>
+      ))}
     </div>
   )
 }
