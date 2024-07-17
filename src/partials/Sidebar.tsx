@@ -23,7 +23,9 @@ const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
         <div className="flex flex-col gap-8 p-8">
           <div className="sticky top-3 z-10 flex items-center gap-4">
             <span className="text-3xl font-semibold">{table.attributes.name}</span>
-            {table.attributes.group && <Badge className="text-sm">{table.attributes.group}</Badge>}
+            {table.attributes.group.data && (
+              <Badge className="text-sm">{table.attributes.group.data.attributes.name}</Badge>
+            )}
           </div>
 
           {table.attributes.available === false ? (

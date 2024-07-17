@@ -1,4 +1,5 @@
 import { FeatureRecord } from './FeatureRecord'
+import { GroupRecord } from './GroupRecord'
 
 export type TableRecord = {
   attributes: {
@@ -6,7 +7,9 @@ export type TableRecord = {
     rotation: string
     x: number
     y: number
-    group?: string | number | undefined
+    group: {
+      data: GroupRecord
+    }
     available: boolean
     width: number
     height: number
