@@ -30,7 +30,7 @@ export const FurnitureFeatures = ({
             {data?.data.map(
               (d) =>
                 d.attributes.uuid === f.attributes.uuid && (
-                  <FurnitureFeatureIcon name={d.attributes.lucideIcon} />
+                  <FurnitureFeatureIcon key={d.attributes.uuid} name={d.attributes.lucideIcon} />
                 )
             )}
           </Badge>
