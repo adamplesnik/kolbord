@@ -2,7 +2,6 @@ import { X } from 'lucide-react'
 import { HTMLAttributes, MouseEventHandler } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
-import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
 import bookingsJson from '../data/bookings.json'
 import tables from '../data/tables.json'
 import { addWithSpace } from '../utils/addWithSpace'
@@ -30,9 +29,7 @@ const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
             <span className="text-3xl font-semibold">{table.name}</span>
             {table.group && <Badge className="text-sm">{table.group}</Badge>}
           </div>
-          {table.features && (
-            <FurnitureFeatures features={table.features} className="justify-start" withDesc />
-          )}
+
           {table.available === false ? (
             <span className="flex items-center gap-2">Not available</span>
           ) : (
