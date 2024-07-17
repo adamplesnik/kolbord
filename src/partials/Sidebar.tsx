@@ -2,15 +2,11 @@ import { X } from 'lucide-react'
 import { HTMLAttributes, MouseEventHandler } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
-import bookingsJson from '../data/bookings.json'
-import tables from '../data/tables.json'
+import { TableRecord } from '../data/TableRecord'
 import { addWithSpace } from '../utils/addWithSpace'
-import { getTableId } from '../utils/getTableId'
-import SidebarBooking from './SidebarBooking'
 
-const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
-  const table = tables.filter((t) => getTableId(t.name, t.group) === tableId)[0]
-  const bookings = bookingsJson.filter((t) => t.tableId === tableId)
+const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
+  // const bookings = []
 
   return (
     <div
@@ -26,19 +22,19 @@ const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
       {table ? (
         <div className="flex flex-col gap-8 p-8">
           <div className="sticky top-3 z-10 flex items-center gap-4">
-            <span className="text-3xl font-semibold">{table.name}</span>
-            {table.group && <Badge className="text-sm">{table.group}</Badge>}
+            <span className="text-3xl font-semibold">{table.attributes.name}</span>
+            {table.attributes.group && <Badge className="text-sm">{table.attributes.group}</Badge>}
           </div>
 
-          {table.available === false ? (
+          {table.attributes.available === false ? (
             <span className="flex items-center gap-2">Not available</span>
           ) : (
             <>
-              <div className="flex flex-col gap-8">
+              {/* <div className="flex flex-col gap-8">
                 {bookings.map((b, i) => (
                   <SidebarBooking booking={b} key={i} />
                 ))}
-              </div>
+              </div> */}
               <Button className="sticky bottom-2 w-full" buttonType="primary">
                 Book
               </Button>
@@ -53,7 +49,7 @@ const Sidebar = ({ tableId, className, closeSidebar }: SidebarProps) => {
 }
 
 export type SidebarProps = {
-  tableId: string | number
+  table: TableRecord | undefined
   closeSidebar: MouseEventHandler
 } & HTMLAttributes<HTMLDivElement>
 

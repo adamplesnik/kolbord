@@ -10,9 +10,10 @@ import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { loadTables } from '../utils/fetchApi'
+import { TableRecord } from '../data/TableRecord'
 
 const PlanView = () => {
-  const [sidebarTableId, setSidebarTableId] = useState('')
+  const [sidebarTable, setSidebarTable] = useState<TableRecord>()
 
   const { data: tables } = useQuery({
     queryKey: ['tables'],
@@ -34,7 +35,7 @@ const PlanView = () => {
           <RotateCcw />
         </Button>
         <Button>{tables?.data.length}</Button>
-        {sidebarTableId}
+        {sidebarTable?.attributes.uuid}
       </MenuBar>
     )
   }
@@ -69,9 +70,11 @@ const PlanView = () => {
                     rounded: t.attributes.rounded,
                     uuid: t.attributes.uuid,
                   }}
-                  active={t.attributes.uuid === sidebarTableId}
+                  active={t === sidebarTable}
                   onClick={() => {
-                    setSidebarTableId(t.attributes.uuid === sidebarTableId ? '' : t.attributes.uuid)
+                    setSidebarTable(
+                      t.attributes.uuid === sidebarTable?.attributes.uuid ? undefined : t
+                    )
                   }}
                 />
               ))}
@@ -81,9 +84,9 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        className={sidebarTableId != '' ? 'block' : 'hidden'}
-        tableId={sidebarTableId}
-        closeSidebar={() => setSidebarTableId('')}
+        className={sidebarTable != undefined ? 'block' : 'hidden'}
+        table={sidebarTable}
+        closeSidebar={() => setSidebarTable(undefined)}
       />
     </Page>
   )
