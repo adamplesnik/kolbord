@@ -20,7 +20,7 @@ export const FurnitureFeatures = ({
     <div
       className={
         withDesc
-          ? 'flex flex-col gap-4'
+          ? 'flex flex-col gap-2'
           : 'flex flex-wrap items-center justify-center gap-1' + addWithSpace(className)
       }
     >

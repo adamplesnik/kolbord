@@ -4,6 +4,7 @@ import Badge from '../components/Badge'
 import Button from '../components/Button'
 import { TableRecord } from '../data/TableRecord'
 import { addWithSpace } from '../utils/addWithSpace'
+import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
 
 const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
   // const bookings = []
@@ -27,7 +28,9 @@ const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
               <Badge className="text-sm">{table.attributes.group.data.attributes.name}</Badge>
             )}
           </div>
-
+          {table.attributes.features.data && (
+            <FurnitureFeatures features={table.attributes.features.data} withDesc />
+          )}
           {table.attributes.available === false ? (
             <span className="flex items-center gap-2">Not available</span>
           ) : (
