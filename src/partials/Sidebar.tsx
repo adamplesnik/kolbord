@@ -2,11 +2,12 @@ import { X } from 'lucide-react'
 import { HTMLAttributes, MouseEventHandler } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
+import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
 import { TableRecord } from '../data/TableRecord'
 import { addWithSpace } from '../utils/addWithSpace'
-import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
+import SidebarEdit from './SidebarEdit'
 
-const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
+const Sidebar = ({ table, className, closeSidebar, editMode }: SidebarProps) => {
   // const bookings = []
 
   return (
@@ -45,6 +46,7 @@ const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
               </Button>
             </>
           )}
+          {editMode && <SidebarEdit table={table} />}
         </div>
       ) : (
         'no table selected'
@@ -56,6 +58,7 @@ const Sidebar = ({ table, className, closeSidebar }: SidebarProps) => {
 export type SidebarProps = {
   table: TableRecord | undefined
   closeSidebar: MouseEventHandler
+  editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar

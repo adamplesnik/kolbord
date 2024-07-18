@@ -1,19 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
-import { Minus, Plus, RotateCcw } from 'lucide-react'
+import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
 import Plan from '../components/Plan'
+import { TableRecord } from '../data/TableRecord'
 import Page from '../pages/Page'
 import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { loadTables } from '../utils/fetchApi'
-import { TableRecord } from '../data/TableRecord'
 
 const PlanView = () => {
   const [sidebarTable, setSidebarTable] = useState<TableRecord>()
+  const [editMode, setEditMode] = useState(false)
 
   const { data: tables } = useQuery({
     queryKey: ['tables'],
@@ -33,6 +34,9 @@ const PlanView = () => {
         </Button>
         <Button onClick={() => resetTransform()}>
           <RotateCcw />
+        </Button>
+        <Button onClick={() => setEditMode(!editMode)}>
+          {editMode ? <CheckCheck /> : <Pencil />}
         </Button>
         <Button>{tables?.data.length}</Button>
         {sidebarTable?.attributes.uuid}
@@ -87,6 +91,7 @@ const PlanView = () => {
         className={sidebarTable != undefined ? 'block' : 'hidden'}
         table={sidebarTable}
         closeSidebar={() => setSidebarTable(undefined)}
+        editMode={editMode}
       />
     </Page>
   )
