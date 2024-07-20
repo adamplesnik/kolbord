@@ -1,5 +1,6 @@
 import { X } from 'lucide-react'
-import { HTMLAttributes, MouseEventHandler } from 'react'
+import { HTMLAttributes, MouseEventHandler, useEffect, useState } from 'react'
+import { SubmitHandler } from 'react-hook-form'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
@@ -7,8 +8,17 @@ import { TableRecord } from '../data/TableRecord'
 import { addWithSpace } from '../utils/addWithSpace'
 import SidebarEdit from './SidebarEdit'
 
-const Sidebar = ({ table, className, closeSidebar, editMode }: SidebarProps) => {
-  // const bookings = []
+const Sidebar = ({ table, className, closeSidebar, editMode, onSubmit }: SidebarProps) => {
+  const [tableState, setTableState] = useState(table)
+
+  useEffect(() => {
+    setTableState(table)
+  }, [table])
+
+  // const { data: bookings } = useQuery({
+  //   queryKey: ['bookings'],
+  //   queryFn: () => loadBookingsForTable(tableState?.attributes.uuid),
+  // })
 
   return (
     <div
@@ -46,7 +56,7 @@ const Sidebar = ({ table, className, closeSidebar, editMode }: SidebarProps) => 
               </Button>
             </>
           )}
-          {editMode && <SidebarEdit table={table} />}
+          {editMode && <SidebarEdit table={tableState} onSubmit={onSubmit} />}
         </div>
       ) : (
         'no table selected'
@@ -59,6 +69,7 @@ export type SidebarProps = {
   table: TableRecord | undefined
   closeSidebar: MouseEventHandler
   editMode: boolean
+  onSubmit: SubmitHandler<TableRecord>
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar

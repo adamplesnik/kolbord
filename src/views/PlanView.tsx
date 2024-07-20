@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
-import { HTMLAttributes, useState } from 'react'
+import { FormEvent, HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
@@ -92,6 +92,7 @@ const PlanView = () => {
         table={sidebarTable}
         closeSidebar={() => setSidebarTable(undefined)}
         editMode={editMode}
+        onSubmit={(data) => onSubmit(data)}
       />
     </Page>
   )

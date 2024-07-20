@@ -20,7 +20,7 @@ type SidebarEditRowProps = {
   label: Path<TableRecord>
   register: UseFormRegister<TableRecord>
   required: boolean
-  inputType: 'text' | 'number'
+  inputType: 'text' | 'number' | 'checkbox'
 }
 
 export default SidebarEditRow

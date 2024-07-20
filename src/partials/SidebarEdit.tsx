@@ -1,25 +1,27 @@
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { TableRecord } from '../data/TableRecord'
 import SidebarEditRow from './SidebarEditRow'
-import { SubmitHandler, useForm } from 'react-hook-form'
 
-const SidebarEdit = ({ table }: SidebarEditProps) => {
-  const [isAvailable, setIsAvailable] = useState(table.attributes.available)
+const SidebarEdit = ({ table, onSubmit }: SidebarEditProps) => {
+  const { register, handleSubmit, reset } = useForm<TableRecord>({
+    defaultValues: {
+      attributes: {
+        name: table?.attributes.name,
+        x: table?.attributes.x,
+        y: table?.attributes.y,
+        width: table?.attributes.width,
+        height: table?.attributes.height,
+        rotation: table?.attributes.rotation,
+        available: table?.attributes.available,
+        rounded: table?.attributes.rounded,
+      },
+    },
+  })
 
   useEffect(() => {
     reset(table)
   }, [table])
-
-  const { register, handleSubmit, reset } = useForm<TableRecord>({
-    defaultValues: {
-      attributes: {
-        name: table.attributes.name,
-        x: table.attributes.x,
-        y: table.attributes.y,
-      },
-    },
-  })
-  const onSubmit: SubmitHandler<TableRecord> = (data) => console.log(data)
 
   return (
     <form onChange={handleSubmit(onSubmit)}>
@@ -49,22 +51,28 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           required
           inputType="text"
         />
-
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            onChange={() => setIsAvailable(!isAvailable)}
-            checked={isAvailable}
+        <div className="flex gap-4 *:flex-1">
+          <SidebarEditRow
+            inputType="checkbox"
+            label={'attributes.available'}
+            register={register}
+            required
           />
-          Available
-        </label>
+          <SidebarEditRow
+            inputType="checkbox"
+            label={'attributes.rounded'}
+            register={register}
+            required
+          />
+        </div>
       </div>
     </form>
   )
 }
 
 export type SidebarEditProps = {
-  table: TableRecord
+  table: TableRecord | undefined
+  onSubmit: SubmitHandler<TableRecord>
 } & HTMLAttributes<HTMLDivElement>
 
 export default SidebarEdit
