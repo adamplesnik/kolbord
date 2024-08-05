@@ -4,6 +4,7 @@ import { SubmitHandler } from 'react-hook-form'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
+import { BookingRecord } from '../data/BookingRecord'
 import { TableRecord } from '../data/TableRecord'
 import { addWithSpace } from '../utils/addWithSpace'
 import SidebarEdit from './SidebarEdit'
@@ -67,6 +68,7 @@ const Sidebar = ({ table, className, closeSidebar, editMode, onSubmit }: Sidebar
 
 export type SidebarProps = {
   table: TableRecord | undefined
+  bookings: BookingRecord[] | undefined
   closeSidebar: MouseEventHandler
   editMode: boolean
   onSubmit: SubmitHandler<TableRecord>

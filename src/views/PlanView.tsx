@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
-import { FormEvent, HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
@@ -20,6 +20,28 @@ const PlanView = () => {
     queryKey: ['tables'],
     queryFn: loadTables,
   })
+
+  const [tablesState, setTablesState] = useState(tables)
+
+  useEffect(() => {
+    setTablesState(tables)
+  }, [tables])
+
+  const { data: bookings } = useQuery({
+    queryKey: ['bookings'],
+    queryFn: loadBookings,
+  })
+
+  function change(data: any) {
+    const newTables = tablesState?.data.map((t) => {
+      if (t.attributes.uuid != data.attributes.uuid) {
+        return t
+      } else {
+        return data
+      }
+    })
+    console.log(newTables)
+  }
 
   const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls()
@@ -92,7 +114,7 @@ const PlanView = () => {
         table={sidebarTable}
         closeSidebar={() => setSidebarTable(undefined)}
         editMode={editMode}
-        onSubmit={(data) => onSubmit(data)}
+        onSubmit={(data) => change(data)}
       />
     </Page>
   )
