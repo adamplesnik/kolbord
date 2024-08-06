@@ -17,7 +17,6 @@ const Plan = ({ id = -1 }) => {
           className="max-w-fit"
         />
       )}
-      ))
     </>
   )
 }
