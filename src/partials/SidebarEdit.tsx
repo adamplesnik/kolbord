@@ -146,20 +146,20 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
               />
             )}
           />
+          <Field
+            name="attributes.rotation"
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarEditRow
+                label="Rotation"
+                value={state.value}
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+                required
+                inputType="number"
+              />
+            )}
+          />
         </div>
-        <Field
-          name="attributes.rotation"
-          children={({ state, handleChange, handleBlur }) => (
-            <SidebarEditRow
-              label="Rotation"
-              value={state.value}
-              onChange={(e) => handleChange(e.target.value)}
-              onBlur={handleBlur}
-              required
-              inputType="text"
-            />
-          )}
-        />
         <div className="flex gap-4 *:flex-1">
           <Field
             name="attributes.available"

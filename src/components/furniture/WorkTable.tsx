@@ -11,25 +11,13 @@ import { FurnitureFeatures } from './FurnitureFeatures'
 const WorkTable = ({
   active,
   className,
-  attributes: { available, features, group, height, name, rotation, rounded, width, x, y },
+  attributes: { available, features, height, name, rotation, rounded, width, x, y },
   onClick,
 }: WorkTableProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
 
   const now = new Date()
   const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
-
-  const rotationClasses: Record<string, string> = {
-    'rotate-90': 'rotate-90',
-    'rotate-180': 'rotate-180',
-    'rotate-270': '-rotate-90',
-  }
-
-  const contraRotationClasses: Record<string, string> = {
-    'rotate-90': '-rotate-90 flex-col',
-    'rotate-180': '-rotate-180',
-    'rotate-270': 'rotate-90',
-  }
 
   const tableWidth = width
   const tableHeight = height
@@ -40,11 +28,10 @@ const WorkTable = ({
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px pt-2 ring-4 transition-colors' +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
-        addWithSpace(rotationClasses[rotation] || '') +
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
-      style={{ top: y, left: x, width: width, height: height + 80 }}
+      style={{ top: y, left: x, width: width, height: height + 80, rotate: `${rotation}deg` }}
     >
       <Chair isBooked={bookedToday} />
       <Table
@@ -53,11 +40,7 @@ const WorkTable = ({
         width={tableWidth}
         className={rounded ? 'rounded-full' : ''}
       >
-        <div
-          className={
-            'flex flex-col items-center gap-1' + addWithSpace(contraRotationClasses[rotation] || '')
-          }
-        >
+        <div className="flex flex-col items-center gap-1" style={{ rotate: `${rotation * -1}deg` }}>
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
             {bookedToday && tableBooking[0].to && (
@@ -78,14 +61,7 @@ const WorkTable = ({
               </span>
             )}
           </div>
-          {features && (
-            <FurnitureFeatures
-              features={features?.data}
-              className={
-                rotation === 'rotate-90' || rotation === 'rotate-270' ? 'max-w-[78px]' : ''
-              }
-            />
-          )}
+          {features && <FurnitureFeatures features={features?.data} className="max-w-[78px]" />}
         </div>
       </Table>
     </div>

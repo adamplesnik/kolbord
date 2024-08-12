@@ -5,7 +5,7 @@ export type TableRecord = {
   id: number
   attributes: {
     name: string | number
-    rotation: string
+    rotation: number
     x: number
     y: number
     group: {
