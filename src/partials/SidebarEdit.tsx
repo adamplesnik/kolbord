@@ -11,10 +11,10 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
       method: 'put',
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_FULL_ACCESS}`,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ data: data.attributes }),
     })
-    console.log(JSON.stringify(data))
     return response.json()
   }
 
@@ -55,10 +55,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
   const queryClient = useQueryClient()
 
   const changeOne = (data: TableRecord) => {
-    console.log(queryClient.getQueryData(['table', table.id]))
-    console.log(data.attributes)
-    // updateTable(table.id, data)
-    // queryClient.setQueryData(['tables'], data.attributes.uuid, data)
+    updateTable(table.id, data)
   }
 
   return (
