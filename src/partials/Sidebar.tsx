@@ -15,7 +15,6 @@ const Sidebar = ({ tableId, className, closeSidebar, editMode }: SidebarProps) =
     queryKey: ['table', tableId],
     queryFn: () => loadTable(tableId),
   })
-  console.log('ggg: ' + JSON.stringify(loadedTable))
 
   if (isSuccess) {
     return (
