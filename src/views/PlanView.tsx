@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
@@ -12,8 +12,14 @@ import Sidebar from '../partials/Sidebar'
 import { loadBookings, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
+  const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
+
   const [sidebarTableId, setSidebarTableId] = useState(0)
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(getEditMode)
+
+  useEffect(() => {
+    localStorage.setItem('plannerEditMode', editMode.toString())
+  }, [editMode])
 
   const { data: tables } = useQuery({
     queryKey: ['tables'],
