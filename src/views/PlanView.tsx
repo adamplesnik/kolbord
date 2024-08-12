@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
+import { CheckCheck, Fullscreen, Minus, Pencil, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
@@ -8,8 +8,9 @@ import Plan from '../components/Plan'
 import Page from '../pages/Page'
 import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
-import Sidebar from '../partials/Sidebar'
 import { loadBookings, loadTables } from '../utils/fetchApi'
+import Sidebar from '../components/Sidebar'
+import TableDetail from '../partials/TableDetail'
 
 const PlanView = () => {
   const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
@@ -43,13 +44,12 @@ const PlanView = () => {
           <Minus />
         </Button>
         <Button onClick={() => resetTransform()}>
-          <RotateCcw />
+          <Fullscreen />
         </Button>
         <Button onClick={() => setEditMode(!editMode)}>
           {editMode ? <CheckCheck /> : <Pencil />}
         </Button>
         <Button>{tables?.data.length}</Button>
-        {sidebarTableId}
       </MenuBar>
     )
   }
@@ -95,13 +95,9 @@ const PlanView = () => {
           </TransformComponent>
         </>
       </TransformWrapper>
-      <Sidebar
-        className={sidebarTableId > 0 ? 'block' : 'hidden'}
-        tableId={sidebarTableId}
-        bookings={bookings?.data}
-        closeSidebar={() => setSidebarTableId(0)}
-        editMode={editMode}
-      />
+      <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
+        <TableDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+      </Sidebar>
     </Page>
   )
 }

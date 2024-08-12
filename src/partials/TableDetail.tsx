@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
-import { X } from 'lucide-react'
-import { HTMLAttributes, MouseEventHandler } from 'react'
+import { HTMLAttributes } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
 import { BookingRecord } from '../data/BookingRecord'
-import { addWithSpace } from '../utils/addWithSpace'
 import { loadTable } from '../utils/fetchApi'
 import SidebarEdit from './SidebarEdit'
 
-const Sidebar = ({ tableId, className, closeSidebar, editMode }: SidebarProps) => {
+const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
   const { data: loadedTable, isSuccess } = useQuery({
     enabled: tableId > 0,
     queryKey: ['table', tableId],
@@ -18,17 +16,7 @@ const Sidebar = ({ tableId, className, closeSidebar, editMode }: SidebarProps) =
 
   if (isSuccess) {
     return (
-      <div
-        className={
-          'flex h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l ' +
-          addWithSpace(className)
-        }
-      >
-        <div className="sticky top-0 z-10 bg-gradient-to-b from-white/80 from-60% to-transparent pt-2 px-2 pb-4 text-end">
-          <Button onClick={closeSidebar} className="self-end">
-            <X />
-          </Button>
-        </div>
+      <>
         {loadedTable.data ? (
           <div className="flex flex-col gap-8 p-8">
             <div className="sticky top-3 z-10 flex items-center gap-4">
@@ -61,16 +49,15 @@ const Sidebar = ({ tableId, className, closeSidebar, editMode }: SidebarProps) =
         ) : (
           'no table selected'
         )}
-      </div>
+      </>
     )
   }
 }
 
-export type SidebarProps = {
+export type TableDetailProps = {
   tableId: number
   bookings: BookingRecord[] | undefined
-  closeSidebar: MouseEventHandler
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export default Sidebar
+export default TableDetail
