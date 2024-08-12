@@ -1,19 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
 import { CheckCheck, Minus, Pencil, Plus, RotateCcw } from 'lucide-react'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
 import Plan from '../components/Plan'
-import { TableRecord } from '../data/TableRecord'
 import Page from '../pages/Page'
 import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { loadTables } from '../utils/fetchApi'
+import { loadBookings, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
-  const [sidebarTable, setSidebarTable] = useState<TableRecord>()
+  const [sidebarTableId, setSidebarTableId] = useState(0)
   const [editMode, setEditMode] = useState(false)
 
   const { data: tables } = useQuery({
@@ -21,27 +20,10 @@ const PlanView = () => {
     queryFn: loadTables,
   })
 
-  const [tablesState, setTablesState] = useState(tables)
-
-  useEffect(() => {
-    setTablesState(tables)
-  }, [tables])
-
   const { data: bookings } = useQuery({
     queryKey: ['bookings'],
     queryFn: loadBookings,
   })
-
-  function change(data: any) {
-    const newTables = tablesState?.data.map((t) => {
-      if (t.attributes.uuid != data.attributes.uuid) {
-        return t
-      } else {
-        return data
-      }
-    })
-    console.log(newTables)
-  }
 
   const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls()
@@ -61,7 +43,7 @@ const PlanView = () => {
           {editMode ? <CheckCheck /> : <Pencil />}
         </Button>
         <Button>{tables?.data.length}</Button>
-        {sidebarTable?.attributes.uuid}
+        {sidebarTableId}
       </MenuBar>
     )
   }
@@ -82,7 +64,8 @@ const PlanView = () => {
               <GroupMarkers />
               {tables?.data.map((t) => (
                 <WorkTable
-                  key={t.attributes.uuid}
+                  key={t.id}
+                  id={t.id}
                   attributes={{
                     name: t.attributes.name,
                     group: t.attributes.group,
@@ -94,13 +77,10 @@ const PlanView = () => {
                     width: t.attributes.width,
                     height: t.attributes.height,
                     rounded: t.attributes.rounded,
-                    uuid: t.attributes.uuid,
                   }}
-                  active={t === sidebarTable}
+                  active={t.id === sidebarTableId}
                   onClick={() => {
-                    setSidebarTable(
-                      t.attributes.uuid === sidebarTable?.attributes.uuid ? undefined : t
-                    )
+                    setSidebarTableId(t.id)
                   }}
                 />
               ))}
@@ -110,11 +90,11 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        className={sidebarTable != undefined ? 'block' : 'hidden'}
-        table={sidebarTable}
-        closeSidebar={() => setSidebarTable(undefined)}
+        className={sidebarTableId > 0 ? 'block' : 'hidden'}
+        tableId={sidebarTableId}
+        bookings={bookings?.data}
+        closeSidebar={() => setSidebarTableId(0)}
         editMode={editMode}
-        onSubmit={(data) => change(data)}
       />
     </Page>
   )

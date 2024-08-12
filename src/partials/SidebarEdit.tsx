@@ -2,8 +2,9 @@ import { HTMLAttributes, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { TableRecord } from '../data/TableRecord'
 import SidebarEditRow from './SidebarEditRow'
+import { useQueryClient } from '@tanstack/react-query'
 
-const SidebarEdit = ({ table, onSubmit }: SidebarEditProps) => {
+const SidebarEdit = ({ table }: SidebarEditProps) => {
   const { register, handleSubmit, reset } = useForm<TableRecord>({
     defaultValues: {
       attributes: {
@@ -23,8 +24,16 @@ const SidebarEdit = ({ table, onSubmit }: SidebarEditProps) => {
     reset(table)
   }, [table])
 
+  const queryClient = useQueryClient()
+
+  const changeOne: SubmitHandler<TableRecord> = (data) => {
+    console.log(data)
+    console.log(queryClient.getQueryData(['tables']))
+    // queryClient.setQueryData(['tables'], data.attributes.uuid, data)
+  }
+
   return (
-    <form onChange={handleSubmit(onSubmit)}>
+    <form onChange={handleSubmit(changeOne)}>
       <div className="flex flex-col gap-2">
         <SidebarEditRow label={'attributes.name'} register={register} required inputType="text" />
         <div className="flex gap-2">
@@ -72,7 +81,6 @@ const SidebarEdit = ({ table, onSubmit }: SidebarEditProps) => {
 
 export type SidebarEditProps = {
   table: TableRecord | undefined
-  onSubmit: SubmitHandler<TableRecord>
 } & HTMLAttributes<HTMLDivElement>
 
 export default SidebarEdit

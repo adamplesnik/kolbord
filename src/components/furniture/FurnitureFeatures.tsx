@@ -29,16 +29,12 @@ export const FurnitureFeatures = ({
           <Badge className="size-6 *:stroke-1">
             {data?.data.map(
               (d) =>
-                d.attributes.uuid === f.attributes.uuid && (
-                  <FurnitureFeatureIcon key={d.attributes.uuid} name={d.attributes.lucideIcon} />
-                )
+                d.id === f.id && <FurnitureFeatureIcon key={d.id} name={d.attributes.lucideIcon} />
             )}
           </Badge>
           {withDesc && (
             <span className="text-sm">
-              {data?.data.map(
-                (d) => d.attributes.uuid === f.attributes.uuid && d.attributes.description
-              )}
+              {data?.data.map((d) => d.id === f.id && d.attributes.description)}
             </span>
           )}
         </div>

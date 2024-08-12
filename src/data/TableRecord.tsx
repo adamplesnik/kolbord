@@ -2,6 +2,7 @@ import { FeatureRecord } from './FeatureRecord'
 import { GroupRecord } from './GroupRecord'
 
 export type TableRecord = {
+  id: number
   attributes: {
     name: string | number
     rotation: string
@@ -14,7 +15,6 @@ export type TableRecord = {
     width: number
     height: number
     rounded: boolean
-    uuid: string
     features: {
       data: FeatureRecord[]
     }

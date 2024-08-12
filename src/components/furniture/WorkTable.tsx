@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+import { MouseEventHandler } from 'react'
 import bookings from '../../data/bookings.json'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
@@ -15,7 +15,7 @@ const WorkTable = ({
   attributes: { available, features, group, height, name, rotation, rounded, width, x, y },
   onClick,
 }: WorkTableProps) => {
-  const tableBooking = bookings.filter((booking) => booking.tableId === getTableId(name, group))
+  const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
 
   const now = new Date()
   const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
@@ -95,7 +95,8 @@ const WorkTable = ({
 
 export type WorkTableProps = {
   active?: boolean | undefined
-} & TableRecord &
-  HTMLAttributes<HTMLDivElement>
+  onClick?: MouseEventHandler<HTMLDivElement> | undefined
+  className?: string | undefined
+} & TableRecord
 
 export default WorkTable
