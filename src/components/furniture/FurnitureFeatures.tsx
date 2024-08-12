@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import { loadFeatures } from '../../utils/fetchApi'
 import Badge from '../Badge'
 import FurnitureFeatureIcon from './FurnitureFeatureIcon'
 
@@ -11,6 +10,19 @@ export const FurnitureFeatures = ({
   className,
   withDesc = false,
 }: FurnitureFeaturesProps) => {
+  type FeatureQueryType = {
+    data: FeatureRecord[]
+  }
+
+  const loadFeatures = async (): Promise<FeatureQueryType> => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/features`, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
+      },
+    })
+    return response.json()
+  }
+
   const { data } = useQuery({
     queryKey: ['features'],
     queryFn: loadFeatures,
