@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form'
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
 import { TableRecord } from '../data/TableRecord'
 import SidebarEditRow from './SidebarEditRow'
@@ -20,7 +20,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
 
   const { Field, handleSubmit, state, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
-      changeOne(value)
+      mutate(value)
     },
     defaultValues: {
       id: table?.id,
@@ -54,9 +54,17 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
 
   const queryClient = useQueryClient()
 
-  const changeOne = (data: TableRecord) => {
-    updateTable(table.id, data)
-  }
+  const { mutate } = useMutation({
+    mutationFn: (data: TableRecord) => updateTable(table.id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['tables'],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['table'],
+      })
+    },
+  })
 
   return (
     <form
