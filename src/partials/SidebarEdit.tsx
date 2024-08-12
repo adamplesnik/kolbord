@@ -19,7 +19,9 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
   }
 
   const { Field, handleSubmit, state, reset } = useForm<TableRecord>({
-    onSubmit: () => changeOne,
+    onSubmit: async ({ value }) => {
+      changeOne(value)
+    },
     defaultValues: {
       id: table?.id,
       attributes: {
@@ -55,64 +57,125 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
   const changeOne = (data: TableRecord) => {
     console.log(queryClient.getQueryData(['table', table.id]))
     console.log(data.attributes)
-    updateTable(table.id, data)
+    // updateTable(table.id, data)
     // queryClient.setQueryData(['tables'], data.attributes.uuid, data)
   }
 
   return (
-    <form>
+    <form
+      onChange={(e) => {
+        e.preventDefault()
+        handleSubmit()
+      }}
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleSubmit()
+      }}
+    >
       <div className="flex flex-col gap-2">
         <Field
           name="attributes.name"
-          children={({ state }) => (
-            <SidebarEditRow label="Name" value={state.value} required inputType="text" />
+          children={({ state, handleChange, handleBlur }) => (
+            <SidebarEditRow
+              label="Name"
+              value={state.value}
+              onChange={(e) => handleChange(e.target.value)}
+              onBlur={handleBlur}
+              required
+              inputType="text"
+            />
           )}
         />
         <div className="flex gap-2">
           <Field
             name="attributes.x"
-            children={({ state }) => (
-              <SidebarEditRow label="X" value={state.value} required inputType="number" />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarEditRow
+                label="X"
+                value={state.value}
+                required
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+                inputType="number"
+              />
             )}
           />
           <Field
             name="attributes.y"
-            children={({ state }) => (
-              <SidebarEditRow label="Y" value={state.value} required inputType="number" />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarEditRow
+                label="Y"
+                value={state.value}
+                required
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+                inputType="number"
+              />
             )}
           />
         </div>
         <div className="flex gap-2">
           <Field
             name="attributes.width"
-            children={({ state }) => (
-              <SidebarEditRow label="Width" value={state.value} required inputType="number" />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarEditRow
+                label="Width"
+                value={state.value}
+                required
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+                inputType="number"
+              />
             )}
           />
           <Field
             name="attributes.height"
-            children={({ state }) => (
-              <SidebarEditRow label="Height" value={state.value} required inputType="number" />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarEditRow
+                label="Height"
+                value={state.value}
+                required
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+                inputType="number"
+              />
             )}
           />
         </div>
         <Field
           name="attributes.rotation"
-          children={({ state }) => (
-            <SidebarEditRow label="Rotation" value={state.value} required inputType="text" />
+          children={({ state, handleChange, handleBlur }) => (
+            <SidebarEditRow
+              label="Rotation"
+              value={state.value}
+              onChange={(e) => handleChange(e.target.value)}
+              onBlur={handleBlur}
+              required
+              inputType="text"
+            />
           )}
         />
         <div className="flex gap-4 *:flex-1">
           <Field
             name="attributes.available"
-            children={({ state }) => (
-              <SidebarCheckboxRow label="Available" checked={state.value} required />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarCheckboxRow
+                label="Available"
+                onChange={(e) => handleChange(e.target.checked)}
+                onBlur={handleBlur}
+                checked={state.value}
+              />
             )}
           />
           <Field
             name="attributes.rounded"
-            children={({ state }) => (
-              <SidebarCheckboxRow label="Rounded" checked={state.value} required />
+            children={({ state, handleChange, handleBlur }) => (
+              <SidebarCheckboxRow
+                label="Rounded"
+                onChange={(e) => handleChange(e.target.checked)}
+                onBlur={handleBlur}
+                checked={state.value}
+              />
             )}
           />
         </div>
