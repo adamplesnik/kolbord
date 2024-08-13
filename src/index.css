@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+IS&display=swap');
+
 @import 'tailwindcss';
 
 @theme {
   --color-chair: #e7e7e7;
   --color-table: #efefef;
+  --font-family-logo: 'Playwrite IS', cursive;
 }
