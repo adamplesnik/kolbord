@@ -5,7 +5,7 @@ import Button from '../components/Button'
 import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
 import { BookingRecord } from '../data/BookingRecord'
 import { loadTable } from '../utils/fetchApi'
-import SidebarEdit from './SidebarEdit'
+import SidebarEdit from './TableDetailEdit'
 
 const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
   const { data: loadedTable, isSuccess } = useQuery({

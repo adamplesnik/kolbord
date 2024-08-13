@@ -4,18 +4,20 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
+import GroupMarker from '../components/GroupMarker'
 import Plan from '../components/Plan'
-import Page from '../pages/Page'
-import GroupMarkers from '../partials/GroupMarkers'
-import MenuBar from '../partials/MenuBar'
-import { loadBookings, loadTables } from '../utils/fetchApi'
 import Sidebar from '../components/Sidebar'
+import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
+import Page from '../pages/Page'
+import MenuBar from '../partials/MenuBar'
 import TableDetail from '../partials/TableDetail'
+import { loadBookings, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
 
   useEffect(() => {
@@ -30,6 +32,27 @@ const PlanView = () => {
   const { data: bookings } = useQuery({
     queryKey: ['bookings'],
     queryFn: loadBookings,
+  })
+
+  type GroupMarkerQueryType = {
+    data: GroupMarkerRecord[]
+  }
+
+  const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
+      {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
+        },
+      }
+    )
+    return response.json()
+  }
+
+  const { data: markers } = useQuery({
+    queryKey: ['markers'],
+    queryFn: loadMarkers,
   })
 
   const Controls = () => {
@@ -67,7 +90,15 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              <GroupMarkers />
+              {markers?.data.map((m, i) => (
+                <GroupMarker
+                  key={`group${i}`}
+                  groupName={m.attributes.group.data.attributes.name}
+                  x={m.attributes.x}
+                  y={m.attributes.y}
+                  onClick={() => setSidebarMarkerId(m.id)}
+                />
+              ))}
               {tables?.data.map((t) => (
                 <WorkTable
                   key={t.id}
@@ -97,6 +128,9 @@ const PlanView = () => {
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
         <TableDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+      </Sidebar>
+      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+        mamm
       </Sidebar>
     </Page>
   )

@@ -2,10 +2,10 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
 import { TableRecord } from '../data/TableRecord'
-import SidebarEditRow from './SidebarEditRow'
 import SidebarCheckboxRow from './SidebarCheckboxRow'
+import TableDetailEditRow from './TableDetailEditRow'
 
-const SidebarEdit = ({ table }: SidebarEditProps) => {
+const TableDetailEdit = ({ table }: TableDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
@@ -81,7 +81,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
         <Field
           name="attributes.name"
           children={({ state, handleChange, handleBlur }) => (
-            <SidebarEditRow
+            <TableDetailEditRow
               label="Name"
               value={state.value}
               onChange={(e) => handleChange(e.target.value)}
@@ -95,7 +95,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           <Field
             name="attributes.x"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarEditRow
+              <TableDetailEditRow
                 label="X"
                 value={state.value}
                 required
@@ -108,7 +108,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           <Field
             name="attributes.y"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarEditRow
+              <TableDetailEditRow
                 label="Y"
                 value={state.value}
                 required
@@ -123,7 +123,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           <Field
             name="attributes.width"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarEditRow
+              <TableDetailEditRow
                 label="Width"
                 value={state.value}
                 required
@@ -136,7 +136,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           <Field
             name="attributes.height"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarEditRow
+              <TableDetailEditRow
                 label="Height"
                 value={state.value}
                 required
@@ -149,7 +149,7 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
           <Field
             name="attributes.rotation"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarEditRow
+              <TableDetailEditRow
                 label="Rotation"
                 value={state.value}
                 onChange={(e) => handleChange(e.target.value)}
@@ -190,8 +190,8 @@ const SidebarEdit = ({ table }: SidebarEditProps) => {
   )
 }
 
-export type SidebarEditProps = {
+export type TableDetailEditProps = {
   table: TableRecord
 } & HTMLAttributes<HTMLDivElement>
 
-export default SidebarEdit
+export default TableDetailEdit

@@ -1,13 +1,13 @@
 import { HTMLAttributes } from 'react'
 
-const SidebarEditRow = ({
+const TableDetailEditRow = ({
   label,
   value,
   required,
   inputType,
   onChange,
   onBlur,
-}: SidebarEditRowProps) => {
+}: TableDetailEditRowProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -25,11 +25,11 @@ const SidebarEditRow = ({
   )
 }
 
-type SidebarEditRowProps = {
+type TableDetailEditRowProps = {
   label: string | number
   value: string | number
   required: boolean
   inputType: 'text' | 'number'
 } & HTMLAttributes<HTMLInputElement>
 
-export default SidebarEditRow
+export default TableDetailEditRow
