@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, Minus, Pencil, Plus } from 'lucide-react'
+import { CheckCheck, Fullscreen, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
@@ -60,19 +60,28 @@ const PlanView = () => {
 
     return (
       <MenuBar>
-        <Button onClick={() => zoomIn()}>
-          <Plus />
-        </Button>
-        <Button onClick={() => zoomOut()}>
-          <Minus />
-        </Button>
-        <Button onClick={() => resetTransform()}>
-          <Fullscreen />
-        </Button>
-        <Button onClick={() => setEditMode(!editMode)}>
-          {editMode ? <CheckCheck /> : <Pencil />}
-        </Button>
-        <Button>{tables?.data.length}</Button>
+        <div className="flex p-1">
+          <Button onClick={() => zoomIn()}>
+            <ZoomIn />
+          </Button>
+          <Button onClick={() => zoomOut()}>
+            <ZoomOut />
+          </Button>
+          <Button onClick={() => resetTransform()}>
+            <Fullscreen />
+          </Button>
+        </div>
+        <div className={'flex rounded p-1' + (editMode && ' bg-pink-300')}>
+          <Button onClick={() => setEditMode(!editMode)}>
+            {editMode ? <CheckCheck /> : <Pencil />}
+          </Button>
+          {editMode && (
+            <Button>
+              <Plus />
+            </Button>
+          )}
+        </div>
+        Johnny
       </MenuBar>
     )
   }
