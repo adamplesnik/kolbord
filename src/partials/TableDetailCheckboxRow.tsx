@@ -1,12 +1,12 @@
-import { HTMLAttributes } from 'react'
+import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const SidebarCheckboxRow = ({
+const TableDetailCheckboxRow = ({
   label,
   checked,
   required = false,
   onChange,
   onBlur,
-}: SidebarCheckboxRowProps) => {
+}: TableDetailCheckboxRowProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -24,10 +24,12 @@ const SidebarCheckboxRow = ({
   )
 }
 
-type SidebarCheckboxRowProps = {
+type TableDetailCheckboxRowProps = {
   label: string | number
   checked: boolean | undefined
   required?: boolean | undefined
-} & HTMLAttributes<HTMLInputElement>
+  onChange: ChangeEventHandler<HTMLInputElement> | undefined
+  onBlur: FocusEventHandler<HTMLInputElement> | undefined
+}
 
-export default SidebarCheckboxRow
+export default TableDetailCheckboxRow

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { ChangeEventHandler, FocusEventHandler } from 'react'
 
 const TableDetailEditRow = ({
   label,
@@ -30,6 +30,8 @@ type TableDetailEditRowProps = {
   value: string | number
   required: boolean
   inputType: 'text' | 'number'
-} & HTMLAttributes<HTMLInputElement>
+  onChange: ChangeEventHandler<HTMLInputElement> | undefined
+  onBlur: FocusEventHandler<HTMLInputElement> | undefined
+}
 
 export default TableDetailEditRow

@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
 import { TableRecord } from '../data/TableRecord'
-import SidebarCheckboxRow from './SidebarCheckboxRow'
+import TableDetailCheckboxRow from './TableDetailCheckboxRow'
 import TableDetailEditRow from './TableDetailEditRow'
 
 const TableDetailEdit = ({ table }: TableDetailEditProps) => {
@@ -18,7 +18,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
     return response.json()
   }
 
-  const { Field, handleSubmit, state, reset } = useForm<TableRecord>({
+  const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
@@ -99,7 +99,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
                 label="X"
                 value={state.value}
                 required
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
                 onBlur={handleBlur}
                 inputType="number"
               />
@@ -112,7 +112,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
                 label="Y"
                 value={state.value}
                 required
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
                 onBlur={handleBlur}
                 inputType="number"
               />
@@ -127,7 +127,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
                 label="Width"
                 value={state.value}
                 required
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
                 onBlur={handleBlur}
                 inputType="number"
               />
@@ -140,7 +140,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
                 label="Height"
                 value={state.value}
                 required
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
                 onBlur={handleBlur}
                 inputType="number"
               />
@@ -152,7 +152,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
               <TableDetailEditRow
                 label="Rotation"
                 value={state.value}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={(e) => handleChange(+e.target.value)}
                 onBlur={handleBlur}
                 required
                 inputType="number"
@@ -164,7 +164,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.available"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarCheckboxRow
+              <TableDetailCheckboxRow
                 label="Available"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -175,7 +175,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.rounded"
             children={({ state, handleChange, handleBlur }) => (
-              <SidebarCheckboxRow
+              <TableDetailCheckboxRow
                 label="Rounded"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
