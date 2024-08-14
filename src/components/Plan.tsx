@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { PlanRecord } from '../data/PlanRecord'
 import Loading from './Loading'
+import { getToken } from '../auth/helpers'
 
 const Plan = ({ id = -1 }) => {
   type PlanQueryType = {
@@ -10,7 +11,7 @@ const Plan = ({ id = -1 }) => {
   const loadPlan = async (id: number): Promise<PlanQueryType> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     })
     return response.json()

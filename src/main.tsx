@@ -5,6 +5,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import PlanView from './views/PlanView.tsx'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import AuthProvider from './auth/AuthProvider.tsx'
+import Login from './auth/Login.tsx'
 
 const router = createBrowserRouter([
   {
@@ -12,14 +14,20 @@ const router = createBrowserRouter([
     element: <PlanView />,
     errorElement: <PlanView />,
   },
+  {
+    path: '/login',
+    element: <Login />,
+  },
 ])
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </AuthProvider>
   </React.StrictMode>
 )
