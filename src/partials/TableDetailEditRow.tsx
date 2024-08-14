@@ -15,7 +15,7 @@ const TableDetailEditRow = ({
       </span>
       <input
         required={required}
-        className="w-full rounded border-slate-400 px-1.5 text-sm"
+        className="w-full rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
         type={inputType}
         value={value}
         onBlur={onBlur}

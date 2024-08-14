@@ -31,7 +31,9 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
               <FurnitureFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available === false ? (
-              <span className="flex items-center gap-2">Not available</span>
+              <span className="cursor-not-allowed rounded bg-zinc-300 py-2 px-4 text-zinc-500">
+                Not available
+              </span>
             ) : (
               <>
                 {/* <div className="flex flex-col gap-8">

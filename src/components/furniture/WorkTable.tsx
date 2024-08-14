@@ -31,7 +31,7 @@ const WorkTable = ({
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
-      style={{ top: y, left: x, width: width, height: height + 80, rotate: `${rotation}deg` }}
+      style={{ top: y, left: x, width: width, height: height + 64, rotate: `${rotation}deg` }}
     >
       <Chair isBooked={bookedToday} />
       <Table
