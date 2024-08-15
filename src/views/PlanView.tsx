@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
+import { CheckCheck, Fullscreen, LogOut, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import Button from '../components/Button'
@@ -12,8 +12,11 @@ import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import TableDetail from '../partials/TableDetail'
 import { loadBookings, loadTables } from '../utils/fetchApi'
+import { useAuthContext } from '../auth/AuthContext'
 
 const PlanView = () => {
+  const { user, logout } = useAuthContext()
+
   const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
@@ -81,7 +84,12 @@ const PlanView = () => {
             </Button>
           )}
         </div>
-        Johnny
+        <div>{user?.name + ' ' + user?.surname}</div>
+        {user && (
+          <Button onClick={() => logout()}>
+            <LogOut />
+          </Button>
+        )}
       </MenuBar>
     )
   }

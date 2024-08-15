@@ -60,16 +60,3 @@ export const loadBookingsForTable = async (uuid: string | undefined): Promise<Bo
   )
   return response.json()
 }
-
-// type FeatureQueryType = {
-//   data: FeatureRecord[]
-// }
-
-export const loadUser = async (id: number): Promise<any> => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/users/${id}`, {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
-    },
-  })
-  return response.json()
-}

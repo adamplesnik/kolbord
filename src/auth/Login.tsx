@@ -2,23 +2,18 @@ import { useForm } from '@tanstack/react-form'
 import { setToken } from './helpers'
 
 const Login = () => {
-  // const { setUser } = useAuthContext()
-
   const tryLogin = async (userName: string, userPassword: string): Promise<any> => {
     const values = {
       identifier: userName,
       password: userPassword,
     }
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/auth/local?populate[company][fields][0]=uuid`,
-      {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      }
-    )
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/local?populate=*`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
     const data = await response.json()
 
     if (data?.error) {
