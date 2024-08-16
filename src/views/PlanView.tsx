@@ -43,7 +43,7 @@ const PlanView = () => {
 
   const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&fields[0]=x&fields[1]=y`,
+      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y`,
       {
         headers: {
           Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
@@ -111,6 +111,7 @@ const PlanView = () => {
                 <GroupMarker
                   key={`group${i}`}
                   groupName={m.attributes.group.data.attributes.name}
+                  groupDescription={m.attributes.group.data.attributes.description}
                   x={m.attributes.x}
                   y={m.attributes.y}
                   onClick={() => setSidebarMarkerId(m.id)}

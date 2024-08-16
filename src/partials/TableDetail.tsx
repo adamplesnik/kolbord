@@ -22,7 +22,11 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
             <div className="sticky top-3 z-10 flex items-center gap-4">
               <span className="text-3xl font-semibold">{loadedTable.data.attributes.name}</span>
               {loadedTable.data.attributes.group.data && (
-                <Badge className="text-sm">
+                <Badge
+                  className="text-sm"
+                  dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
+                  dataTooltipId="badge"
+                >
                   {loadedTable.data.attributes.group.data.attributes.name}
                 </Badge>
               )}
