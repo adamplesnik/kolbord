@@ -38,6 +38,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
             id: 0,
             attributes: {
               name: '',
+              description: '',
             },
           },
         },
