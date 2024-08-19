@@ -4,6 +4,6 @@
 >
 > **_borð_** _(Icelandic)_ "desk."
 
-Humble, lean, intuitive and efficient open-source booking application for dynamic offices. It allows users to easily book desks, meeting rooms and parking spaces.
+The smoothest open-source hot desking app.
 
 `WIP`
