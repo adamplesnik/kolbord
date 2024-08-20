@@ -2,17 +2,18 @@ import { useQuery } from '@tanstack/react-query'
 import { CheckCheck, Fullscreen, LogOut, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
+import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
 import GroupMarker from '../components/GroupMarker'
 import Plan from '../components/Plan'
+import PlanSwitcher from '../components/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import TableDetail from '../partials/TableDetail'
 import { loadBookings, loadTables } from '../utils/fetchApi'
-import { useAuthContext } from '../auth/AuthContext'
 
 const PlanView = () => {
   const { user, logout } = useAuthContext()
@@ -22,6 +23,11 @@ const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
+  const [planId, setPlanId] = useState(0)
+
+  const handlePlanIdChange = (id: number) => {
+    setPlanId(id)
+  }
 
   useEffect(() => {
     localStorage.setItem('plannerEditMode', editMode.toString())
@@ -85,6 +91,10 @@ const PlanView = () => {
           )}
         </div>
         <div>{user?.name + ' ' + user?.surname}</div>
+        {user?.companies.map((company) => (
+          <PlanSwitcher companyId={company.uuid} onPlanChange={handlePlanIdChange} />
+        ))}
+        {planId}
         {user && (
           <Button onClick={() => logout()}>
             <LogOut />
@@ -93,6 +103,7 @@ const PlanView = () => {
       </MenuBar>
     )
   }
+
   return (
     <Page>
       <TransformWrapper
@@ -139,7 +150,7 @@ const PlanView = () => {
                   }}
                 />
               ))}
-              <Plan id={1} />
+              {planId > 0 && <Plan id={planId} />}
             </div>
           </TransformComponent>
         </>

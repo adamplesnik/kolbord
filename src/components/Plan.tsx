@@ -3,7 +3,7 @@ import { PlanRecord } from '../data/PlanRecord'
 import Loading from './Loading'
 import { getToken } from '../auth/helpers'
 
-const Plan = ({ id = -1 }) => {
+const Plan = ({ id = 0 }) => {
   type PlanQueryType = {
     data: PlanRecord
   }
@@ -17,14 +17,15 @@ const Plan = ({ id = -1 }) => {
     return response.json()
   }
 
-  const { data: plan } = useQuery({
-    queryKey: ['plan'],
+  const { data: plan, isLoading } = useQuery({
+    queryKey: ['plan', id],
+    enabled: id > 0,
     queryFn: () => loadPlan(id),
   })
 
   return (
     <>
-      <Loading loading={false} />
+      <Loading loading={isLoading} />
       {plan && (
         <img
           src={`data:image/svg+xml;utf8,${encodeURIComponent(plan.data.attributes.svg)}`}
