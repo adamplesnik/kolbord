@@ -3,4 +3,11 @@
 @theme {
   --color-chair: #e7e7e7;
   --color-table: #efefef;
+
+  --background-image-site: linear-gradient(
+    8deg,
+    rgba(255, 255, 255, 0) 2.13%,
+    rgba(209, 225, 220, 0.5) 62.7%,
+    #fbcfe8 127.02%
+  );
 }

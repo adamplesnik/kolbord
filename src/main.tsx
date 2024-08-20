@@ -7,6 +7,7 @@ import PlanView from './views/PlanView.tsx'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import AuthProvider from './auth/AuthProvider.tsx'
 import Login from './auth/Login.tsx'
+import Site from './site/Site.tsx'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
   },
+  { path: '/site', element: <Site /> },
 ])
 const queryClient = new QueryClient()
 
