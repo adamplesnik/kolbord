@@ -4,7 +4,7 @@ import { getToken } from '../auth/helpers'
 import { PlanRecord } from '../data/PlanRecord'
 import Button from './Button'
 
-const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
+const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProps) => {
   type PlansQueryType = {
     data: PlanRecord[]
   }
@@ -30,7 +30,11 @@ const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
     <div className="flex">
       {plans &&
         plans.data.map((plan) => (
-          <Button key={`plan_${plan.id}`} onClick={() => onPlanChange(plan.attributes.uuid)}>
+          <Button
+            key={`plan_${plan.id}`}
+            onClick={() => onPlanChange(plan.attributes.uuid)}
+            active={currentPlan === plan.attributes.uuid}
+          >
             {plan.attributes.name}
           </Button>
         ))}
@@ -41,6 +45,7 @@ const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
 type PlanSwitcherProps = {
   companyId: string
   onPlanChange: (uuid: string) => void
+  currentPlan: string
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

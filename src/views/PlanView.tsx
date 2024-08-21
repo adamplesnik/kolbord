@@ -77,6 +77,7 @@ const PlanView = () => {
         <div>{user?.name + ' ' + user?.surname}</div>
         {user?.companies.map((company) => (
           <PlanSwitcher
+            currentPlan={planUuid}
             companyId={company.uuid}
             key={company.uuid}
             onPlanChange={handlePlanUuidChange}
