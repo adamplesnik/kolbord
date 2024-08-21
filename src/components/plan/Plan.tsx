@@ -32,6 +32,7 @@ const Plan = ({ uuid }: PlanProps) => {
       {plan &&
         plan.data.map((p) => (
           <img
+            key={p.attributes.uuid}
             src={`data:image/svg+xml;utf8,${encodeURIComponent(p.attributes.svg)}`}
             className="max-w-fit"
           />

@@ -34,7 +34,11 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
         <Button>
           {plans &&
             plans.data.map((plan) =>
-              currentPlan === plan.attributes.uuid ? <span>{plan.attributes.name}</span> : ''
+              currentPlan === plan.attributes.uuid ? (
+                <span key={plan.attributes.uuid}>{plan.attributes.name}</span>
+              ) : (
+                ''
+              )
             )}
           <ChevronsUpDown size={18} />
         </Button>
