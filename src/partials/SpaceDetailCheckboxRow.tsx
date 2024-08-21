@@ -1,12 +1,12 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const TableDetailCheckboxRow = ({
+const SpaceDetailCheckboxRow = ({
   label,
   checked,
   required = false,
   onChange,
   onBlur,
-}: TableDetailCheckboxRowProps) => {
+}: SpaceDetailCheckboxRowProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -24,7 +24,7 @@ const TableDetailCheckboxRow = ({
   )
 }
 
-type TableDetailCheckboxRowProps = {
+type SpaceDetailCheckboxRowProps = {
   label: string | number
   checked: boolean | undefined
   required?: boolean | undefined
@@ -32,4 +32,4 @@ type TableDetailCheckboxRowProps = {
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
 }
 
-export default TableDetailCheckboxRow
+export default SpaceDetailCheckboxRow

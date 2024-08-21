@@ -5,9 +5,9 @@ import Button from '../components/Button'
 import { PlaceFeatures } from '../components/places/PlaceFeatures'
 import { BookingRecord } from '../data/BookingRecord'
 import { loadTable } from '../utils/fetchApi'
-import SidebarEdit from './TableDetailEdit'
+import SpaceDetailEdit from './SpaceDetailEdit'
 
-const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
+const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
   const { data: loadedTable, isSuccess } = useQuery({
     enabled: tableId > 0,
     queryKey: ['table', tableId],
@@ -50,7 +50,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
                 </Button>
               </>
             )}
-            {editMode && <SidebarEdit table={loadedTable.data} />}
+            {editMode && <SpaceDetailEdit table={loadedTable.data} />}
           </div>
         ) : (
           'no table selected'
@@ -60,10 +60,10 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
   }
 }
 
-export type TableDetailProps = {
+export type SpaceDetailProps = {
   tableId: number
   bookings: BookingRecord[] | undefined
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export default TableDetail
+export default SpaceDetail

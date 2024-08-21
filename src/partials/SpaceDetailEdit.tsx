@@ -2,10 +2,10 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
 import { TableRecord } from '../data/TableRecord'
-import TableDetailCheckboxRow from './TableDetailCheckboxRow'
-import TableDetailEditRow from './TableDetailEditRow'
+import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
+import SpaceDetailEditRow from './SpaceDetailEditRow'
 
-const TableDetailEdit = ({ table }: TableDetailEditProps) => {
+const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
@@ -33,6 +33,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
         rotation: table?.attributes.rotation,
         available: table?.attributes.available,
         rounded: table?.attributes.rounded,
+        type: table?.attributes.type,
         group: {
           data: {
             id: 0,
@@ -82,7 +83,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
         <Field
           name="attributes.name"
           children={({ state, handleChange, handleBlur }) => (
-            <TableDetailEditRow
+            <SpaceDetailEditRow
               label="Name"
               value={state.value}
               onChange={(e) => handleChange(e.target.value)}
@@ -96,7 +97,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.x"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="X"
                 value={state.value}
                 required
@@ -109,7 +110,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.y"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Y"
                 value={state.value}
                 required
@@ -124,7 +125,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.width"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Width"
                 value={state.value}
                 required
@@ -137,7 +138,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.height"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Height"
                 value={state.value}
                 required
@@ -150,7 +151,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.rotation"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Rotation"
                 value={state.value}
                 onChange={(e) => handleChange(+e.target.value)}
@@ -165,7 +166,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.available"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailCheckboxRow
+              <SpaceDetailCheckboxRow
                 label="Available"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -176,7 +177,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.rounded"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailCheckboxRow
+              <SpaceDetailCheckboxRow
                 label="Rounded"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -191,8 +192,8 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
   )
 }
 
-export type TableDetailEditProps = {
+export type SpaceDetailEditProps = {
   table: TableRecord
 } & HTMLAttributes<HTMLDivElement>
 
-export default TableDetailEdit
+export default SpaceDetailEdit

@@ -11,7 +11,8 @@ import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
-import TableDetail from '../partials/TableDetail'
+
+import SpaceDetail from '../partials/SpaceDetail'
 import { loadBookings, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
@@ -30,6 +31,7 @@ const PlanView = () => {
 
   const handleMarkerClick = (id: number) => {
     setSidebarMarkerId(id)
+    setSidebarTableId(0)
   }
 
   useEffect(() => {
@@ -124,7 +126,7 @@ const PlanView = () => {
                   }}
                   active={t.id === sidebarTableId}
                   onClick={() => {
-                    setSidebarTableId(t.id)
+                    setSidebarTableId(t.id), setSidebarMarkerId(0)
                   }}
                 />
               ))}
@@ -134,7 +136,7 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
-        <TableDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+        <SpaceDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
       </Sidebar>
       <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
