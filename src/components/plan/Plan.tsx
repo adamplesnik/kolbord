@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { PlanRecord } from '../data/PlanRecord'
-import Loading from './Loading'
-import { getToken } from '../auth/helpers'
+import { PlanRecord } from '../../data/PlanRecord'
+import Loading from '../Loading'
+import { getToken } from '../../auth/helpers'
 
 const Plan = ({ uuid }: PlanProps) => {
   type PlanQueryType = {

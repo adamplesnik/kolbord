@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronsUpDown } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { getToken } from '../auth/helpers'
-import { PlanRecord } from '../data/PlanRecord'
-import Button from './Button'
+import { getToken } from '../../auth/helpers'
+import { PlanRecord } from '../../data/PlanRecord'
+import Button from '../Button'
 
 const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProps) => {
   type PlansQueryType = {

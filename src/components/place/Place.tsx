@@ -3,7 +3,7 @@ import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 
 import { PlaceFeatures } from './PlaceFeatures'
-import Rectangle from './Rectangle'
+import PlaceRectangle from './PlaceRectangle'
 
 const Place = ({
   active,
@@ -48,14 +48,14 @@ const Place = ({
         </div>
       )}
       {!isParking && (
-        <Rectangle
+        <PlaceRectangle
           isBooked={bookedToday && available}
           height={40}
           width={40}
           className="rounded-xl"
         />
       )}
-      <Rectangle
+      <PlaceRectangle
         isBooked={bookedToday && available}
         height={height}
         width={width}
@@ -84,7 +84,7 @@ const Place = ({
           </div>
           {features && <PlaceFeatures features={features?.data} className="max-w-[78px]" />}
         </div>
-      </Rectangle>
+      </PlaceRectangle>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../../utils/addWithSpace'
 
-const Rectangle = ({ isBooked, children, className, height, width }: RectangleProps) => {
+const PlaceRectangle = ({ isBooked, children, className, height, width }: PlaceRectangleProps) => {
   return (
     <div
       className={
@@ -20,10 +20,10 @@ const Rectangle = ({ isBooked, children, className, height, width }: RectanglePr
   )
 }
 
-export type RectangleProps = {
+export type PlaceRectangleProps = {
   height: number
   width: number
   isBooked?: boolean | undefined | ''
 } & HTMLAttributes<HTMLDivElement>
 
-export default Rectangle
+export default PlaceRectangle

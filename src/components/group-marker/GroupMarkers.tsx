@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { getToken } from '../auth/helpers'
-import GroupMarker from '../components/GroupMarker'
-import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
+import { getToken } from '../../auth/helpers'
+import { GroupMarkerRecord } from '../../data/GroupMarkerRecord'
+import GroupMarker from './GroupMarker'
 
 const GroupMarkers = ({ planUuid, onMarkerClick }: GroupMarkersProps) => {
   type GroupMarkerQueryType = {
