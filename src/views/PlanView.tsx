@@ -27,6 +27,8 @@ const PlanView = () => {
 
   const handlePlanUuidChange = (uuid: string) => {
     setPlanUuid(uuid)
+    setSidebarMarkerId(0)
+    setSidebarTableId(0)
   }
 
   const handleMarkerClick = (id: number) => {
@@ -83,7 +85,6 @@ const PlanView = () => {
             onPlanChange={handlePlanUuidChange}
           />
         ))}
-        <span className="max-w-20 text-wrap text-xs">{planUuid}</span>
         {user && (
           <Button onClick={() => logout()}>
             <LogOut />

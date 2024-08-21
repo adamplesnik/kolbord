@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../utils/addWithSpace'
-import { Check } from 'lucide-react'
 
 const Button = ({
   children,
@@ -10,8 +9,9 @@ const Button = ({
   active = false,
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary: 'bg-zinc-800 px-4 py-2 text-white hover:bg-zinc-700 active:bg-zinc-900',
-    secondary: 'p-2 hover:bg-zinc-200',
+    primary:
+      'from-pink-500 to-pink-700 bg-gradient-to-br px-4 py-2 text-white hover:from-pink-600 transition-color',
+    secondary: 'p-2 hover:bg-zinc-200/50 hover:border-zinc-200/50',
   }
 
   return (
@@ -19,13 +19,14 @@ const Button = ({
       type="button"
       onClick={onClick}
       className={
-        'inline-flex w-fit cursor-pointer gap-1 rounded' +
-        addWithSpace(active ? 'font-bold' : '') +
+        'inline-flex w-fit cursor-pointer items-center gap-1 rounded border-transparent' +
+        addWithSpace(
+          active ? 'font-bold text-pink-500 hover:bg-pink-100 hover:text-pink-600' : ''
+        ) +
         addWithSpace(styling[buttonType]) +
         addWithSpace(className)
       }
     >
-      {active && <Check />}
       {children}
     </button>
   )
