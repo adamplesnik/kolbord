@@ -25,7 +25,6 @@ const Plan = ({ uuid }: PlanProps) => {
     enabled: uuid != '',
     queryFn: () => loadPlan(uuid),
   })
-  console.log(uuid)
 
   return (
     <>

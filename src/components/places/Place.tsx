@@ -1,12 +1,9 @@
-import { ArrowRight } from 'lucide-react'
 import { MouseEventHandler } from 'react'
-import bookings from '../../data/bookings.json'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import { isToday } from '../../utils/isToday'
-import Chair from './atomic/Chair'
-import Table from './atomic/Table'
+
 import { PlaceFeatures } from './PlaceFeatures'
+import Rectangle from './Rectangle'
 
 const Place = ({
   active,
@@ -14,13 +11,11 @@ const Place = ({
   attributes: { available, features, height, name, rotation, rounded, width, x, y, type },
   onClick,
 }: PlaceProps) => {
-  const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
-
-  const now = new Date()
-  const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
-
-  const tableWidth = width
-  const tableHeight = height
+  // const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
+  // const now = new Date()
+  // const bookedToday = isToday(tableBooking[0]?.to) && now < new Date(tableBooking[0]?.to)
+  const bookedToday = Math.random() < 0.5
+  const bookedWho = Math.random() < 0.5 ? 'VH' : 'OG'
 
   const isParking = type === 'parking'
 
@@ -28,9 +23,9 @@ const Place = ({
     <div
       onClick={onClick}
       className={
-        'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px ring-4 transition-colors' +
+        'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
         addWithSpace(!isParking && 'pt-2') +
-        addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
+        addWithSpace(available ? 'group cursor-pointer' : 'opacity-40') +
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
@@ -42,17 +37,34 @@ const Place = ({
         rotate: `${rotation}deg`,
       }}
     >
-      {!isParking && <Chair isBooked={bookedToday} />}
-      <Table
-        isBooked={bookedToday}
-        height={tableHeight}
-        width={tableWidth}
-        className={rounded ? 'rounded-full' : ''}
+      {bookedToday && available && (
+        <div className="absolute inset-2">
+          <div
+            className="inline-block rounded-full bg-black p-2 text-xl text-white"
+            style={{ rotate: `${rotation * -1}deg` }}
+          >
+            {bookedWho}
+          </div>
+        </div>
+      )}
+      {!isParking && (
+        <Rectangle
+          isBooked={bookedToday && available}
+          height={40}
+          width={40}
+          className="rounded-xl"
+        />
+      )}
+      <Rectangle
+        isBooked={bookedToday && available}
+        height={height}
+        width={width}
+        className={rounded ? 'rounded-full' : 'rounded-xl'}
       >
         <div className="flex flex-col items-center gap-1" style={{ rotate: `${rotation * -1}deg` }}>
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
-            {bookedToday && tableBooking[0].to && (
+            {/* {bookedToday && tableBooking[0].to && (
               <span className="flex items-center gap-0.5">
                 <span className="text-xs">
                   {new Date(tableBooking[0].from).toLocaleTimeString([], {
@@ -68,11 +80,11 @@ const Place = ({
                   })}
                 </span>
               </span>
-            )}
+            )} */}
           </div>
           {features && <PlaceFeatures features={features?.data} className="max-w-[78px]" />}
         </div>
-      </Table>
+      </Rectangle>
     </div>
   )
 }
