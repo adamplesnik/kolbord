@@ -3,37 +3,46 @@ import { PlanRecord } from '../data/PlanRecord'
 import Loading from './Loading'
 import { getToken } from '../auth/helpers'
 
-const Plan = ({ id = 0 }) => {
+const Plan = ({ uuid }: PlanProps) => {
   type PlanQueryType = {
-    data: PlanRecord
+    data: PlanRecord[]
   }
 
-  const loadPlan = async (id: number): Promise<PlanQueryType> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-    })
+  const loadPlan = async (uuid: string): Promise<PlanQueryType> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/plans?filters[uuid][$eq]=${uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    )
     return response.json()
   }
 
   const { data: plan, isLoading } = useQuery({
-    queryKey: ['plan', id],
-    enabled: id > 0,
-    queryFn: () => loadPlan(id),
+    queryKey: ['plan', uuid],
+    enabled: uuid != '',
+    queryFn: () => loadPlan(uuid),
   })
+  console.log(uuid)
 
   return (
     <>
       <Loading loading={isLoading} />
-      {plan && (
-        <img
-          src={`data:image/svg+xml;utf8,${encodeURIComponent(plan.data.attributes.svg)}`}
-          className="max-w-fit"
-        />
-      )}
+      {plan &&
+        plan.data.map((p) => (
+          <img
+            src={`data:image/svg+xml;utf8,${encodeURIComponent(p.attributes.svg)}`}
+            className="max-w-fit"
+          />
+        ))}
     </>
   )
+}
+
+type PlanProps = {
+  uuid: string
 }
 
 export default Plan

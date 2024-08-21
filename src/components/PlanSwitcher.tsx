@@ -11,7 +11,7 @@ const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
 
   const loadPlans = async (apiCompanyId: string): Promise<PlansQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/plans?populate[fields][0]=id&fields[1]=name&filter=[company][uuid][$eq]=${apiCompanyId}`,
+      `${import.meta.env.VITE_API_URL}/plans?fields[0]=uuid&fields[1]=name&filters[company][uuid][$eq]=${apiCompanyId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -30,7 +30,7 @@ const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
     <div className="flex">
       {plans &&
         plans.data.map((plan) => (
-          <Button key={`plan_${plan.id}`} onClick={() => onPlanChange(plan.id)}>
+          <Button key={`plan_${plan.id}`} onClick={() => onPlanChange(plan.attributes.uuid)}>
             {plan.attributes.name}
           </Button>
         ))}
@@ -40,7 +40,7 @@ const PlanSwitcher = ({ companyId, onPlanChange }: PlanSwitcherProps) => {
 
 type PlanSwitcherProps = {
   companyId: string
-  onPlanChange: (id: number) => void
+  onPlanChange: (uuid: string) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

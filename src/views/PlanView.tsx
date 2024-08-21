@@ -22,10 +22,10 @@ const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
-  const [planId, setPlanId] = useState(0)
+  const [planUuid, setPlanUuid] = useState('')
 
-  const handlePlanIdChange = (id: number) => {
-    setPlanId(id)
+  const handlePlanUuidChange = (uuid: string) => {
+    setPlanUuid(uuid)
   }
 
   const handleMarkerClick = (id: number) => {
@@ -37,8 +37,8 @@ const PlanView = () => {
   }, [editMode])
 
   const { data: tables } = useQuery({
-    queryKey: ['tables'],
-    queryFn: loadTables,
+    queryKey: ['tables', planUuid],
+    queryFn: () => loadTables(planUuid),
   })
 
   const { data: bookings } = useQuery({
@@ -77,10 +77,10 @@ const PlanView = () => {
           <PlanSwitcher
             companyId={company.uuid}
             key={company.uuid}
-            onPlanChange={handlePlanIdChange}
+            onPlanChange={handlePlanUuidChange}
           />
         ))}
-        {planId}
+        <span className="max-w-20 text-wrap text-xs">{planUuid}</span>
         {user && (
           <Button onClick={() => logout()}>
             <LogOut />
@@ -104,7 +104,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
+              <GroupMarkers onMarkerClick={handleMarkerClick} planUuid={planUuid} />
               {tables?.data.map((t) => (
                 <WorkTable
                   key={t.id}
@@ -127,7 +127,7 @@ const PlanView = () => {
                   }}
                 />
               ))}
-              {planId > 0 && <Plan id={planId} />}
+              {planUuid != '' && <Plan uuid={planUuid} />}
             </div>
           </TransformComponent>
         </>

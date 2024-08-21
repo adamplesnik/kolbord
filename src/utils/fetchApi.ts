@@ -5,9 +5,9 @@ type TableQueryType = {
   data: TableRecord[]
 }
 
-export const loadTables = async (): Promise<TableQueryType> => {
+export const loadTables = async (planUuid: string): Promise<TableQueryType> => {
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/tables?populate[features][fields][0]=id&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&populate[group][fields][0]=name&publicationState=live&locale[0]=en`,
+    `${import.meta.env.VITE_API_URL}/tables?populate[features][fields][0]=id&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&populate[group][fields][0]=name&publicationState=live&locale[0]=en&filters[plan][uuid][$eq]=${planUuid}`,
     {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
