@@ -8,14 +8,14 @@ export interface IconProps extends Omit<LucideProps, 'ref'> {
   name: keyof typeof dynamicIconImports
 }
 
-const FurnitureFeatureIcon = ({ name, ...props }: IconProps) => {
+const PlaceFeatureIcon = ({ name, ...props }: IconProps) => {
   const LucideIcon = lazy(dynamicIconImports[name])
 
   return (
     <Suspense fallback={fallback}>
-      <LucideIcon {...props} className="size-3.5" />
+      <LucideIcon {...props} className="size-5" />
     </Suspense>
   )
 }
 
-export default FurnitureFeatureIcon
+export default PlaceFeatureIcon

@@ -3,13 +3,9 @@ import { HTMLAttributes } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../Badge'
-import FurnitureFeatureIcon from './FurnitureFeatureIcon'
+import PlaceFeatureIcon from './PlaceFeatureIcon'
 
-export const FurnitureFeatures = ({
-  features,
-  className,
-  withDesc = false,
-}: FurnitureFeaturesProps) => {
+export const PlaceFeatures = ({ features, className, withDesc = false }: PlaceFeaturesProps) => {
   type FeatureQueryType = {
     data: FeatureRecord[]
   }
@@ -38,10 +34,9 @@ export const FurnitureFeatures = ({
     >
       {features?.map((f) => (
         <div key={f.id} className={withDesc ? 'flex items-center gap-2' : ''}>
-          <Badge className="size-6 *:stroke-1">
+          <Badge className="size-8 *:stroke-1.5">
             {data?.data.map(
-              (d) =>
-                d.id === f.id && <FurnitureFeatureIcon key={d.id} name={d.attributes.lucideIcon} />
+              (d) => d.id === f.id && <PlaceFeatureIcon key={d.id} name={d.attributes.lucideIcon} />
             )}
           </Badge>
           {withDesc && (
@@ -55,7 +50,7 @@ export const FurnitureFeatures = ({
   )
 }
 
-export type FurnitureFeaturesProps = {
+export type PlaceFeaturesProps = {
   features: FeatureRecord[]
   withDesc?: boolean
 } & HTMLAttributes<HTMLDivElement>

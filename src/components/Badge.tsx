@@ -5,7 +5,10 @@ import { addWithSpace } from '../utils/addWithSpace'
 const Badge = ({ children, className, dataTooltipContent, dataTooltipId }: BadgeProps) => {
   return (
     <div
-      className={'rounded border border-slate-400 p-1 text-slate-500' + addWithSpace(className)}
+      className={
+        'flex items-center justify-center rounded border border-slate-400 text-slate-500' +
+        addWithSpace(className)
+      }
       data-tooltip-content={dataTooltipContent}
       data-tooltip-id={dataTooltipId}
     >

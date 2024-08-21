@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
-import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
+import { PlaceFeatures } from '../components/places/PlaceFeatures'
 import { BookingRecord } from '../data/BookingRecord'
 import { loadTable } from '../utils/fetchApi'
 import SidebarEdit from './TableDetailEdit'
@@ -23,7 +23,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
               <span className="text-3xl font-semibold">{loadedTable.data.attributes.name}</span>
               {loadedTable.data.attributes.group.data && (
                 <Badge
-                  className="text-sm"
+                  className="p-1 text-sm"
                   dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
                   dataTooltipId="badge"
                 >
@@ -32,7 +32,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
               )}
             </div>
             {loadedTable.data.attributes.features.data && (
-              <FurnitureFeatures features={loadedTable.data.attributes.features.data} withDesc />
+              <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available === false ? (
               <span className="cursor-not-allowed rounded bg-zinc-300 py-2 px-4 text-zinc-500">

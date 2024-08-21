@@ -4,7 +4,7 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
-import WorkTable from '../components/furniture/WorkTable'
+import Place from '../components/places/Place'
 import Plan from '../components/Plan'
 import PlanSwitcher from '../components/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
@@ -106,7 +106,7 @@ const PlanView = () => {
             <div className="relative m-8">
               <GroupMarkers onMarkerClick={handleMarkerClick} planUuid={planUuid} />
               {tables?.data.map((t) => (
-                <WorkTable
+                <Place
                   key={t.id}
                   id={t.id}
                   attributes={{
@@ -120,6 +120,7 @@ const PlanView = () => {
                     width: t.attributes.width,
                     height: t.attributes.height,
                     rounded: t.attributes.rounded,
+                    type: t.attributes.type,
                   }}
                   active={t.id === sidebarTableId}
                   onClick={() => {

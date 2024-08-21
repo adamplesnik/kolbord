@@ -6,14 +6,14 @@ import { addWithSpace } from '../../utils/addWithSpace'
 import { isToday } from '../../utils/isToday'
 import Chair from './atomic/Chair'
 import Table from './atomic/Table'
-import { FurnitureFeatures } from './FurnitureFeatures'
+import { PlaceFeatures } from './PlaceFeatures'
 
-const WorkTable = ({
+const Place = ({
   active,
   className,
-  attributes: { available, features, height, name, rotation, rounded, width, x, y },
+  attributes: { available, features, height, name, rotation, rounded, width, x, y, type },
   onClick,
-}: WorkTableProps) => {
+}: PlaceProps) => {
   const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
 
   const now = new Date()
@@ -22,18 +22,27 @@ const WorkTable = ({
   const tableWidth = width
   const tableHeight = height
 
+  const isParking = type === 'parking'
+
   return (
     <div
       onClick={onClick}
       className={
-        'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px pt-2 ring-4 transition-colors' +
+        'absolute inline-flex size-[160px] flex-col items-center justify-between rounded p-px ring-4 transition-colors' +
+        addWithSpace(!isParking && 'pt-2') +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-20') +
         addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
-      style={{ top: y, left: x, width: width, height: height + 64, rotate: `${rotation}deg` }}
+      style={{
+        top: y,
+        left: x,
+        width: width,
+        height: isParking ? height : height + 64,
+        rotate: `${rotation}deg`,
+      }}
     >
-      <Chair isBooked={bookedToday} />
+      {!isParking && <Chair isBooked={bookedToday} />}
       <Table
         isBooked={bookedToday}
         height={tableHeight}
@@ -61,17 +70,17 @@ const WorkTable = ({
               </span>
             )}
           </div>
-          {features && <FurnitureFeatures features={features?.data} className="max-w-[78px]" />}
+          {features && <PlaceFeatures features={features?.data} className="max-w-[78px]" />}
         </div>
       </Table>
     </div>
   )
 }
 
-export type WorkTableProps = {
+export type PlaceProps = {
   active?: boolean | undefined
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
 } & TableRecord
 
-export default WorkTable
+export default Place

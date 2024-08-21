@@ -15,6 +15,7 @@ export type TableRecord = {
     width: number
     height: number
     rounded: boolean
+    type: string
     features: {
       data: FeatureRecord[]
     }
