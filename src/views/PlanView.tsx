@@ -5,12 +5,11 @@ import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pa
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
 import WorkTable from '../components/furniture/WorkTable'
-import GroupMarker from '../components/GroupMarker'
 import Plan from '../components/Plan'
 import PlanSwitcher from '../components/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
-import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
 import Page from '../pages/Page'
+import GroupMarkers from '../partials/GroupMarkers'
 import MenuBar from '../partials/MenuBar'
 import TableDetail from '../partials/TableDetail'
 import { loadBookings, loadTables } from '../utils/fetchApi'
@@ -29,6 +28,10 @@ const PlanView = () => {
     setPlanId(id)
   }
 
+  const handleMarkerClick = (id: number) => {
+    setSidebarMarkerId(id)
+  }
+
   useEffect(() => {
     localStorage.setItem('plannerEditMode', editMode.toString())
   }, [editMode])
@@ -41,27 +44,6 @@ const PlanView = () => {
   const { data: bookings } = useQuery({
     queryKey: ['bookings'],
     queryFn: loadBookings,
-  })
-
-  type GroupMarkerQueryType = {
-    data: GroupMarkerRecord[]
-  }
-
-  const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y`,
-      {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
-        },
-      }
-    )
-    return response.json()
-  }
-
-  const { data: markers } = useQuery({
-    queryKey: ['markers'],
-    queryFn: loadMarkers,
   })
 
   const Controls = () => {
@@ -92,7 +74,11 @@ const PlanView = () => {
         </div>
         <div>{user?.name + ' ' + user?.surname}</div>
         {user?.companies.map((company) => (
-          <PlanSwitcher companyId={company.uuid} onPlanChange={handlePlanIdChange} />
+          <PlanSwitcher
+            companyId={company.uuid}
+            key={company.uuid}
+            onPlanChange={handlePlanIdChange}
+          />
         ))}
         {planId}
         {user && (
@@ -118,16 +104,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              {markers?.data.map((m, i) => (
-                <GroupMarker
-                  key={`group${i}`}
-                  groupName={m.attributes.group.data.attributes.name}
-                  groupDescription={m.attributes.group.data.attributes.description}
-                  x={m.attributes.x}
-                  y={m.attributes.y}
-                  onClick={() => setSidebarMarkerId(m.id)}
-                />
-              ))}
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               {tables?.data.map((t) => (
                 <WorkTable
                   key={t.id}
@@ -158,7 +135,7 @@ const PlanView = () => {
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
         <TableDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
       </Sidebar>
-      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
       </Sidebar>
     </Page>
