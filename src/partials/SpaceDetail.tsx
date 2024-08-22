@@ -6,13 +6,22 @@ import { PlaceFeatures } from '../components/place/PlaceFeatures'
 import { BookingRecord } from '../data/BookingRecord'
 import { loadTable } from '../utils/fetchApi'
 import SpaceDetailEdit from './SpaceDetailEdit'
+import Loading from '../components/Loading'
 
 const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
-  const { data: loadedTable, isSuccess } = useQuery({
+  const {
+    data: loadedTable,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     enabled: tableId > 0,
     queryKey: ['table', tableId],
     queryFn: () => loadTable(tableId),
   })
+
+  if (isLoading) {
+    return <Loading loading={isLoading} />
+  }
 
   if (isSuccess) {
     return (
