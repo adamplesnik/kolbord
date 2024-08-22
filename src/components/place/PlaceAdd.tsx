@@ -1,9 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { getToken } from '../../auth/helpers'
+import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../Button'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-export const LATEST_PLACE_METADATA = 'kolbord_latestPlaceMetadata'
 
 const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)

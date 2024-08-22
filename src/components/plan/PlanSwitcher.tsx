@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { ChevronsUpDown } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../Button'
+import { LATEST_PLAN_ID } from '../../utils/constants'
 
 const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProps) => {
   type PlansQueryType = {
@@ -27,6 +28,16 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
     queryKey: ['plans'],
     queryFn: () => loadPlans(companyId),
   })
+
+  useEffect(() => {
+    if (currentPlan === 0 && plans) {
+      const latestPlanId = Number(localStorage.getItem(LATEST_PLAN_ID))
+      const validPlans = plans.data.map((p) => p.id)
+      const isValidPlanId = validPlans.includes(latestPlanId)
+      const defaultPlanId = isValidPlanId ? latestPlanId : plans.data[0].id
+      onPlanChange(defaultPlanId)
+    }
+  }, [plans, currentPlan])
 
   return (
     <>

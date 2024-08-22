@@ -4,21 +4,22 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
+import GroupMarkers from '../components/group-marker/GroupMarkers'
 import Place from '../components/place/Place'
+import PlaceAdd from '../components/place/PlaceAdd'
 import Plan from '../components/plan/Plan'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-import GroupMarkers from '../components/group-marker/GroupMarkers'
-import PlaceAdd from '../components/place/PlaceAdd'
 import SpaceDetail from '../partials/SpaceDetail'
+import { EDIT_MODE, LATEST_PLAN_ID } from '../utils/constants'
 import { loadBookings, loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const { user, logout } = useAuthContext()
 
-  const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
+  const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
@@ -29,6 +30,7 @@ const PlanView = () => {
     setPlanId(id)
     setSidebarMarkerId(0)
     setSidebarTableId(0)
+    localStorage.setItem(LATEST_PLAN_ID, id.toString())
   }
 
   const handleMarkerClick = (id: number) => {
@@ -43,7 +45,7 @@ const PlanView = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem('plannerEditMode', editMode.toString())
+    localStorage.setItem(EDIT_MODE, editMode.toString())
   }, [editMode])
 
   const { data: tables } = useQuery({

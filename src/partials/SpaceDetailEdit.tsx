@@ -3,11 +3,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CheckCheck, CloudOff, CloudUpload } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { getToken } from '../auth/helpers'
-import { LATEST_PLACE_METADATA } from '../components/place/PlaceAdd'
 import { TableRecord } from '../data/TableRecord'
+import { addWithSpace } from '../utils/addWithSpace'
+import { LATEST_PLACE_METADATA } from '../utils/constants'
 import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
 import SpaceDetailEditRow from './SpaceDetailEditRow'
-import { addWithSpace } from '../utils/addWithSpace'
 
 const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
