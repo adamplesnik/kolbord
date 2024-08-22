@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, LogOut, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
+import { CheckCheck, Fullscreen, LogOut, Pencil, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
@@ -10,8 +10,8 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-
 import GroupMarkers from '../components/group-marker/GroupMarkers'
+import PlaceAdd from '../components/place/PlaceAdd'
 import SpaceDetail from '../partials/SpaceDetail'
 import { loadBookings, loadTables } from '../utils/fetchApi'
 
@@ -23,10 +23,10 @@ const PlanView = () => {
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
-  const [planUuid, setPlanUuid] = useState('')
+  const [planId, setPlanId] = useState(0)
 
-  const handlePlanUuidChange = (uuid: string) => {
-    setPlanUuid(uuid)
+  const handlePlanIdChange = (id: number) => {
+    setPlanId(id)
     setSidebarMarkerId(0)
     setSidebarTableId(0)
   }
@@ -36,13 +36,19 @@ const PlanView = () => {
     setSidebarTableId(0)
   }
 
+  const handlePlaceAdd = (id: number) => {
+    console.log(id)
+    setSidebarMarkerId(0)
+    setSidebarTableId(id)
+  }
+
   useEffect(() => {
     localStorage.setItem('plannerEditMode', editMode.toString())
   }, [editMode])
 
   const { data: tables } = useQuery({
-    queryKey: ['tables', planUuid],
-    queryFn: () => loadTables(planUuid),
+    queryKey: ['tables', planId],
+    queryFn: () => loadTables(planId),
   })
 
   const { data: bookings } = useQuery({
@@ -70,19 +76,15 @@ const PlanView = () => {
           <Button onClick={() => setEditMode(!editMode)}>
             {editMode ? <CheckCheck /> : <Pencil />}
           </Button>
-          {editMode && (
-            <Button>
-              <Plus />
-            </Button>
-          )}
+          {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
         </div>
         <div>{user?.name + ' ' + user?.surname}</div>
         {user?.companies.map((company) => (
           <PlanSwitcher
-            currentPlan={planUuid}
+            currentPlan={planId}
             companyId={company.uuid}
             key={company.uuid}
-            onPlanChange={handlePlanUuidChange}
+            onPlanChange={handlePlanIdChange}
           />
         ))}
         {user && (
@@ -108,7 +110,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              <GroupMarkers onMarkerClick={handleMarkerClick} planUuid={planUuid} />
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               {tables?.data.map((t) => (
                 <Place
                   key={t.id}
@@ -132,7 +134,7 @@ const PlanView = () => {
                   }}
                 />
               ))}
-              {planUuid != '' && <Plan uuid={planUuid} />}
+              {planId > 0 && <Plan id={planId} />}
             </div>
           </TransformComponent>
         </>

@@ -26,7 +26,7 @@ const Place = ({
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
         addWithSpace(!isParking && 'pt-2') +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-40') +
-        addWithSpace(active ? 'z-50 bg-slate-200 ring-slate-300' : 'ring-transparent') +
+        addWithSpace(active ? 'z-40 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
       }
       style={{

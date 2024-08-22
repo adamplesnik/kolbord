@@ -3,14 +3,14 @@ import { getToken } from '../../auth/helpers'
 import { GroupMarkerRecord } from '../../data/GroupMarkerRecord'
 import GroupMarker from './GroupMarker'
 
-const GroupMarkers = ({ planUuid, onMarkerClick }: GroupMarkersProps) => {
+const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
   type GroupMarkerQueryType = {
     data: GroupMarkerRecord[]
   }
 
-  const loadMarkers = async (apiPlanUuid: string): Promise<GroupMarkerQueryType> => {
+  const loadMarkers = async (apiPlanId: number): Promise<GroupMarkerQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y&filters[group][plan][uuid][$eq]=${apiPlanUuid}`,
+      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y&filters[group][plan][id][$eq]=${apiPlanId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -21,8 +21,8 @@ const GroupMarkers = ({ planUuid, onMarkerClick }: GroupMarkersProps) => {
   }
 
   const { data: markers } = useQuery({
-    queryKey: ['markers', planUuid],
-    queryFn: () => loadMarkers(planUuid),
+    queryKey: ['markers', planId],
+    queryFn: () => loadMarkers(planId),
   })
 
   return (
@@ -42,7 +42,7 @@ const GroupMarkers = ({ planUuid, onMarkerClick }: GroupMarkersProps) => {
 }
 
 type GroupMarkersProps = {
-  planUuid: string
+  planId: number
   onMarkerClick: (id: number) => void
 }
 
