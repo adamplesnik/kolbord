@@ -1,17 +1,20 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CheckCheck, CloudOff, CloudUpload } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
+import { getToken } from '../auth/helpers'
+import { LATEST_PLACE_METADATA } from '../components/place/PlaceAdd'
 import { TableRecord } from '../data/TableRecord'
 import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
 import SpaceDetailEditRow from './SpaceDetailEditRow'
-import { LATEST_PLACE_METADATA } from '../components/place/PlaceAdd'
+import { addWithSpace } from '../utils/addWithSpace'
 
 const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_FULL_ACCESS}`,
+        Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ data: data.attributes }),
@@ -69,13 +72,12 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
 
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
-    onMutate: () => {
-      queryClient.cancelQueries({
-        queryKey: ['tables'],
-      })
-    },
+  const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['tables'] })
+      await queryClient.cancelQueries({ queryKey: ['table'] })
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tables'],
@@ -88,7 +90,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
 
   return (
     <form
-      onChange={(e) => {
+      onBlur={(e) => {
         e.preventDefault()
         handleSubmit()
       }}
@@ -96,7 +98,28 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
         e.preventDefault()
         handleSubmit()
       }}
+      className="relative"
     >
+      <div className="">
+        <CloudUpload
+          className={
+            'absolute top-0 right-0 size-4 text-zinc-500 transition-opacity' +
+            addWithSpace(isPending ? 'opacity-100' : 'opacity-0')
+          }
+        />
+        <CheckCheck
+          className={
+            'absolute top-0 right-0 size-5 text-green-500 transition-opacity' +
+            addWithSpace(isSuccess ? 'opacity-100' : 'opacity-0')
+          }
+        />
+        <CloudOff
+          className={
+            'absolute top-0 right-0 size-4 text-red-500 transition-opacity' +
+            addWithSpace(isError ? 'opacity-100' : 'opacity-0')
+          }
+        />
+      </div>
       <div className="flex flex-col gap-2">
         <Field
           name="attributes.name"
