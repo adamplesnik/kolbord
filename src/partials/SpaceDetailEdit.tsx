@@ -4,6 +4,7 @@ import { HTMLAttributes, useEffect } from 'react'
 import { TableRecord } from '../data/TableRecord'
 import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
 import SpaceDetailEditRow from './SpaceDetailEditRow'
+import { LATEST_PLACE_METADATA } from '../components/place/PlaceAdd'
 
 const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
@@ -21,6 +22,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
+      saveLatestMetadata(value)
     },
     defaultValues: {
       id: table?.id,
@@ -54,9 +56,25 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
     reset()
   }, [table])
 
+  const saveLatestMetadata = (data: TableRecord) => {
+    const metadata = [
+      data.attributes.width,
+      data.attributes.height,
+      data.attributes.x,
+      data.attributes.y,
+      data.attributes.rotation,
+    ]
+    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+  }
+
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
+    onMutate: () => {
+      queryClient.cancelQueries({
+        queryKey: ['tables'],
+      })
+    },
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({

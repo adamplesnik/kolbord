@@ -3,14 +3,24 @@ import { getToken } from '../../auth/helpers'
 import Button from '../Button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+export const LATEST_PLACE_METADATA = 'kolbord_latestPlaceMetadata'
+
 const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
+  const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
+  const placeMetadata = '160, 80, 500, 500, 0'
+
+  const [width, height, x, y, rotation] =
+    latestPlaceMetadata != null ? latestPlaceMetadata.split(',') : placeMetadata.split(',')
+
   const defaultData = {
     data: {
       id: 0,
       name: 'New place',
-      x: 500,
-      y: 500,
-      rotation: 0,
+      width: +width,
+      height: +height,
+      x: +x,
+      y: +y,
+      rotation: +rotation,
       plan: planId,
     },
   }
@@ -59,6 +69,8 @@ type NewTableRecord = {
   data: {
     id: number
     name: string
+    width: number
+    height: number
     x: number
     y: number
     rotation: number
