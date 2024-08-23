@@ -2,17 +2,26 @@ import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
-import { FurnitureFeatures } from '../components/furniture/FurnitureFeatures'
+import { PlaceFeatures } from '../components/place/PlaceFeatures'
 import { BookingRecord } from '../data/BookingRecord'
 import { loadTable } from '../utils/fetchApi'
-import SidebarEdit from './TableDetailEdit'
+import SpaceDetailEdit from './SpaceDetailEdit'
+import Loading from '../components/Loading'
 
-const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
-  const { data: loadedTable, isSuccess } = useQuery({
+const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
+  const {
+    data: loadedTable,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     enabled: tableId > 0,
     queryKey: ['table', tableId],
     queryFn: () => loadTable(tableId),
   })
+
+  if (isLoading) {
+    return <Loading loading={isLoading} />
+  }
 
   if (isSuccess) {
     return (
@@ -23,7 +32,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
               <span className="text-3xl font-semibold">{loadedTable.data.attributes.name}</span>
               {loadedTable.data.attributes.group.data && (
                 <Badge
-                  className="text-sm"
+                  className="p-1 text-sm"
                   dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
                   dataTooltipId="badge"
                 >
@@ -32,7 +41,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
               )}
             </div>
             {loadedTable.data.attributes.features.data && (
-              <FurnitureFeatures features={loadedTable.data.attributes.features.data} withDesc />
+              <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available === false ? (
               <span className="cursor-not-allowed rounded bg-zinc-300 py-2 px-4 text-zinc-500">
@@ -50,7 +59,7 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
                 </Button>
               </>
             )}
-            {editMode && <SidebarEdit table={loadedTable.data} />}
+            {editMode && <SpaceDetailEdit table={loadedTable.data} />}
           </div>
         ) : (
           'no table selected'
@@ -60,10 +69,10 @@ const TableDetail = ({ tableId, editMode }: TableDetailProps) => {
   }
 }
 
-export type TableDetailProps = {
+export type SpaceDetailProps = {
   tableId: number
   bookings: BookingRecord[] | undefined
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export default TableDetail
+export default SpaceDetail

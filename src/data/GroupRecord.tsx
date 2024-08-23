@@ -3,5 +3,7 @@ export type GroupRecord = {
   attributes: {
     name: string
     description: string
+    x: number
+    y: number
   }
 }

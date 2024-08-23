@@ -10,4 +10,11 @@
     rgba(209, 225, 220, 0.5) 62.7%,
     #fbcfe8 127.02%
   );
+
+  --background-image-sidebar: linear-gradient(
+    -30deg,
+    rgb(255 255 255 / 0) 0%,
+    rgb(209 225 220 / 0.5) 70%,
+    #fbcfe8 110%
+  );
 }

@@ -1,61 +1,61 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, LogOut, Pencil, Plus, ZoomIn, ZoomOut } from 'lucide-react'
+import { CheckCheck, Fullscreen, LogOut, Pencil, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
+import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
-import WorkTable from '../components/furniture/WorkTable'
-import GroupMarker from '../components/GroupMarker'
-import Plan from '../components/Plan'
+import GroupMarkers from '../components/group-marker/GroupMarkers'
+import Place from '../components/place/Place'
+import PlaceAdd from '../components/place/PlaceAdd'
+import Plan from '../components/plan/Plan'
+import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
-import { GroupMarkerRecord } from '../data/GroupMarkerRecord'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-import TableDetail from '../partials/TableDetail'
+import SpaceDetail from '../partials/SpaceDetail'
+import { EDIT_MODE, LATEST_PLAN_ID } from '../utils/constants'
 import { loadBookings, loadTables } from '../utils/fetchApi'
-import { useAuthContext } from '../auth/AuthContext'
 
 const PlanView = () => {
   const { user, logout } = useAuthContext()
 
-  const getEditMode = () => localStorage.getItem('plannerEditMode') === 'true'
+  const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
+  const [planId, setPlanId] = useState(0)
+
+  const handlePlanIdChange = (id: number) => {
+    setPlanId(id)
+    setSidebarMarkerId(0)
+    setSidebarTableId(0)
+    localStorage.setItem(LATEST_PLAN_ID, id.toString())
+  }
+
+  const handleMarkerClick = (id: number) => {
+    setSidebarMarkerId(id)
+    setSidebarTableId(0)
+  }
+
+  const handlePlaceAdd = (id: number) => {
+    console.log(id)
+    setSidebarMarkerId(0)
+    setSidebarTableId(id)
+  }
 
   useEffect(() => {
-    localStorage.setItem('plannerEditMode', editMode.toString())
+    localStorage.setItem(EDIT_MODE, editMode.toString())
   }, [editMode])
 
   const { data: tables } = useQuery({
-    queryKey: ['tables'],
-    queryFn: loadTables,
+    queryKey: ['tables', planId],
+    queryFn: () => loadTables(planId),
   })
 
   const { data: bookings } = useQuery({
     queryKey: ['bookings'],
     queryFn: loadBookings,
-  })
-
-  type GroupMarkerQueryType = {
-    data: GroupMarkerRecord[]
-  }
-
-  const loadMarkers = async (): Promise<GroupMarkerQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y`,
-      {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
-        },
-      }
-    )
-    return response.json()
-  }
-
-  const { data: markers } = useQuery({
-    queryKey: ['markers'],
-    queryFn: loadMarkers,
   })
 
   const Controls = () => {
@@ -78,13 +78,17 @@ const PlanView = () => {
           <Button onClick={() => setEditMode(!editMode)}>
             {editMode ? <CheckCheck /> : <Pencil />}
           </Button>
-          {editMode && (
-            <Button>
-              <Plus />
-            </Button>
-          )}
+          {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
         </div>
         <div>{user?.name + ' ' + user?.surname}</div>
+        {user?.companies.map((company) => (
+          <PlanSwitcher
+            currentPlan={planId}
+            companyId={company.uuid}
+            key={company.uuid}
+            onPlanChange={handlePlanIdChange}
+          />
+        ))}
         {user && (
           <Button onClick={() => logout()}>
             <LogOut />
@@ -93,6 +97,7 @@ const PlanView = () => {
       </MenuBar>
     )
   }
+
   return (
     <Page>
       <TransformWrapper
@@ -107,18 +112,9 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              {markers?.data.map((m, i) => (
-                <GroupMarker
-                  key={`group${i}`}
-                  groupName={m.attributes.group.data.attributes.name}
-                  groupDescription={m.attributes.group.data.attributes.description}
-                  x={m.attributes.x}
-                  y={m.attributes.y}
-                  onClick={() => setSidebarMarkerId(m.id)}
-                />
-              ))}
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
               {tables?.data.map((t) => (
-                <WorkTable
+                <Place
                   key={t.id}
                   id={t.id}
                   attributes={{
@@ -132,22 +128,23 @@ const PlanView = () => {
                     width: t.attributes.width,
                     height: t.attributes.height,
                     rounded: t.attributes.rounded,
+                    type: t.attributes.type,
                   }}
                   active={t.id === sidebarTableId}
                   onClick={() => {
-                    setSidebarTableId(t.id)
+                    setSidebarTableId(t.id), setSidebarMarkerId(0)
                   }}
                 />
               ))}
-              <Plan id={1} />
+              {planId > 0 && <Plan id={planId} />}
             </div>
           </TransformComponent>
         </>
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
-        <TableDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+        <SpaceDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
       </Sidebar>
-      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
       </Sidebar>
     </Page>

@@ -1,13 +1,13 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const TableDetailEditRow = ({
+const SpaceDetailEditRow = ({
   label,
   value,
   required,
   inputType,
   onChange,
   onBlur,
-}: TableDetailEditRowProps) => {
+}: SpaceDetailEditRowProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -25,7 +25,7 @@ const TableDetailEditRow = ({
   )
 }
 
-type TableDetailEditRowProps = {
+type SpaceDetailEditRowProps = {
   label: string | number
   value: string | number
   required: boolean
@@ -34,4 +34,4 @@ type TableDetailEditRowProps = {
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
 }
 
-export default TableDetailEditRow
+export default SpaceDetailEditRow

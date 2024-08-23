@@ -1,5 +1,6 @@
 import { FeatureRecord } from './FeatureRecord'
 import { GroupRecord } from './GroupRecord'
+import { PlanRecord } from './PlanRecord'
 
 export type TableRecord = {
   id: number
@@ -11,10 +12,14 @@ export type TableRecord = {
     group: {
       data: GroupRecord
     }
+    plan?: {
+      data: PlanRecord
+    }
     available: boolean
     width: number
     height: number
     rounded: boolean
+    type: string
     features: {
       data: FeatureRecord[]
     }

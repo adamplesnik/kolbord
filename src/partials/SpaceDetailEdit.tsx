@@ -1,16 +1,20 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CheckCheck, CloudOff, CloudUpload } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
+import { getToken } from '../auth/helpers'
 import { TableRecord } from '../data/TableRecord'
-import TableDetailCheckboxRow from './TableDetailCheckboxRow'
-import TableDetailEditRow from './TableDetailEditRow'
+import { addWithSpace } from '../utils/addWithSpace'
+import { LATEST_PLACE_METADATA } from '../utils/constants'
+import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
+import SpaceDetailEditRow from './SpaceDetailEditRow'
 
-const TableDetailEdit = ({ table }: TableDetailEditProps) => {
+const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_FULL_ACCESS}`,
+        Authorization: `Bearer ${getToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ data: data.attributes }),
@@ -21,6 +25,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
   const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
+      saveLatestMetadata(value)
     },
     defaultValues: {
       id: table?.id,
@@ -33,12 +38,15 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
         rotation: table?.attributes.rotation,
         available: table?.attributes.available,
         rounded: table?.attributes.rounded,
+        type: table?.attributes.type,
         group: {
           data: {
             id: 0,
             attributes: {
               name: '',
               description: '',
+              x: 0,
+              y: 0,
             },
           },
         },
@@ -53,10 +61,25 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
     reset()
   }, [table])
 
+  const saveLatestMetadata = (data: TableRecord) => {
+    const metadata = [
+      data.attributes.width,
+      data.attributes.height,
+      data.attributes.x,
+      data.attributes.y,
+      data.attributes.rotation,
+    ]
+    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+  }
+
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['tables'] })
+      await queryClient.cancelQueries({ queryKey: ['table'] })
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tables'],
@@ -69,7 +92,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
 
   return (
     <form
-      onChange={(e) => {
+      onBlur={(e) => {
         e.preventDefault()
         handleSubmit()
       }}
@@ -77,12 +100,33 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
         e.preventDefault()
         handleSubmit()
       }}
+      className="relative"
     >
+      <div className="">
+        <CloudUpload
+          className={
+            'absolute top-0 right-0 size-4 text-zinc-500 transition-opacity' +
+            addWithSpace(isPending ? 'opacity-100' : 'opacity-0')
+          }
+        />
+        <CheckCheck
+          className={
+            'absolute top-0 right-0 size-5 text-green-500 transition-opacity' +
+            addWithSpace(isSuccess ? 'opacity-100' : 'opacity-0')
+          }
+        />
+        <CloudOff
+          className={
+            'absolute top-0 right-0 size-4 text-red-500 transition-opacity' +
+            addWithSpace(isError ? 'opacity-100' : 'opacity-0')
+          }
+        />
+      </div>
       <div className="flex flex-col gap-2">
         <Field
           name="attributes.name"
           children={({ state, handleChange, handleBlur }) => (
-            <TableDetailEditRow
+            <SpaceDetailEditRow
               label="Name"
               value={state.value}
               onChange={(e) => handleChange(e.target.value)}
@@ -96,7 +140,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.x"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="X"
                 value={state.value}
                 required
@@ -109,7 +153,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.y"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Y"
                 value={state.value}
                 required
@@ -124,7 +168,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.width"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Width"
                 value={state.value}
                 required
@@ -137,7 +181,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.height"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Height"
                 value={state.value}
                 required
@@ -150,7 +194,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.rotation"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailEditRow
+              <SpaceDetailEditRow
                 label="Rotation"
                 value={state.value}
                 onChange={(e) => handleChange(+e.target.value)}
@@ -165,7 +209,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.available"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailCheckboxRow
+              <SpaceDetailCheckboxRow
                 label="Available"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -176,7 +220,7 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
           <Field
             name="attributes.rounded"
             children={({ state, handleChange, handleBlur }) => (
-              <TableDetailCheckboxRow
+              <SpaceDetailCheckboxRow
                 label="Rounded"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -191,8 +235,8 @@ const TableDetailEdit = ({ table }: TableDetailEditProps) => {
   )
 }
 
-export type TableDetailEditProps = {
+export type SpaceDetailEditProps = {
   table: TableRecord
 } & HTMLAttributes<HTMLDivElement>
 
-export default TableDetailEdit
+export default SpaceDetailEdit
