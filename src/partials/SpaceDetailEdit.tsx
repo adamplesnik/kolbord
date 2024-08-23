@@ -45,6 +45,8 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
             attributes: {
               name: '',
               description: '',
+              x: 0,
+              y: 0,
             },
           },
         },

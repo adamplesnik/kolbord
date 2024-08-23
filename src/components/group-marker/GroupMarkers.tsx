@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import { getToken } from '../../auth/helpers'
-import { GroupMarkerRecord } from '../../data/GroupMarkerRecord'
+import { GroupRecord } from '../../data/GroupRecord'
 import GroupMarker from './GroupMarker'
 
-const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
-  type GroupMarkerQueryType = {
-    data: GroupMarkerRecord[]
+const GroupMarkers = ({ planId, onMarkerClick, editMode }: GroupMarkersProps) => {
+  type GroupQueryType = {
+    data: GroupRecord[]
   }
 
-  const loadMarkers = async (apiPlanId: number): Promise<GroupMarkerQueryType> => {
+  const loadMarkers = async (apiPlanId: number): Promise<GroupQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/group-markers?populate[group][fields][0]=name&populate[group][fields][1]=description&fields[0]=x&fields[1]=y&filters[group][plan][id][$eq]=${apiPlanId}`,
+      `${import.meta.env.VITE_API_URL}/groups?fields[0]=name&fields[1]=description&fields[2]=x&fields[3]=y&filters[plan][id][$eq]=${apiPlanId}&filters[showMarker][$eq]=true`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -20,30 +20,36 @@ const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
     return response.json()
   }
 
-  const { data: markers } = useQuery({
+  const { data: markers, isSuccess } = useQuery({
     queryKey: ['markers', planId],
     queryFn: () => loadMarkers(planId),
   })
 
-  return (
-    <div>
-      {markers?.data.map((m, i) => (
-        <GroupMarker
-          key={`group${i}`}
-          groupName={m.attributes.group.data.attributes.name}
-          groupDescription={m.attributes.group.data.attributes.description}
-          x={m.attributes.x}
-          y={m.attributes.y}
-          onClick={() => onMarkerClick(m.id)}
-        />
-      ))}
-    </div>
-  )
+  console.log(markers?.data)
+
+  if (isSuccess) {
+    return (
+      <div>
+        {markers?.data.map((m, i) => (
+          <GroupMarker
+            className={editMode ? 'cursor-pointer hover:border-pink-400' : ''}
+            key={`group${i}`}
+            groupName={m.attributes.name}
+            groupDescription={m.attributes.description}
+            x={m.attributes.x}
+            y={m.attributes.y}
+            onClick={() => editMode && onMarkerClick(m.id)}
+          />
+        ))}
+      </div>
+    )
+  }
 }
 
 type GroupMarkersProps = {
   planId: number
   onMarkerClick: (id: number) => void
+  editMode: boolean
 }
 
 export default GroupMarkers

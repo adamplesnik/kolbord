@@ -112,7 +112,7 @@ const PlanView = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
               {tables?.data.map((t) => (
                 <Place
                   key={t.id}
