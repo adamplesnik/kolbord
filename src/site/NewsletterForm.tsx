@@ -35,9 +35,16 @@ const NewsletterForm = () => {
       <h2 className="text-2xl font-semibold leading-snug md:text-3xl">
         Sign up for our newsletter!
       </h2>
-      <p className="text-sm text-slate-700">
+      <p className="text-sm text-slate-600">
         Be the first to know when we launch our public beta, discover new features, and learn how to
-        become the <Em>smoothest hot-desking</Em> pro.
+        become the{' '}
+        <Em
+          tooltipContent={<span>No on-boarding, no demo period, no credit card.</span>}
+          tooltipId="newletterTooltip"
+        >
+          smoothest hot-desking
+        </Em>{' '}
+        pro.
       </p>
       <div dangerouslySetInnerHTML={html}></div>
     </div>

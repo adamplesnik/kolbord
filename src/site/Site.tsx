@@ -17,7 +17,18 @@ const Site = () => {
           hot desking app.
         </h1>
         <h2 className="mx-auto max-w-xl text-center text-xl font-semibold leading-snug md:text-2xl">
-          Open-source, <Em>free to use</Em> for booking anything from tables to parking spaces.
+          Open-source,{' '}
+          <Em
+            tooltipId="freeTooltip"
+            tooltipContent={
+              <span className="text-sm">
+                Free forever with no limitations; paid membership option is also available.
+              </span>
+            }
+          >
+            free to use
+          </Em>{' '}
+          for booking anything from tables to parking spaces.
         </h2>
         <NewsletterForm />
       </div>
