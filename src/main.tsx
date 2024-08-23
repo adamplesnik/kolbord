@@ -12,14 +12,14 @@ import Site from './site/Site.tsx'
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <PlanView />,
-    errorElement: <PlanView />,
+    element: <Site />,
+    errorElement: <Site />,
   },
   {
     path: '/login',
     element: <Login />,
   },
-  { path: '/site', element: <Site /> },
+  { path: '/plan', element: <PlanView /> },
 ])
 const queryClient = new QueryClient()
 
