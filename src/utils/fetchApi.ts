@@ -33,31 +33,3 @@ export const loadTable = async (id: number): Promise<TableSingleQueryType> => {
   )
   return response.json()
 }
-
-type BookingQueryType = {
-  data: BookingRecord[]
-}
-
-export const loadBookings = async (): Promise<BookingQueryType> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/bookings?populate[table][fields][0]=uuid&populate[users_permissions_user][fields][0]=email&fields[0]=from&fields[1]=to`,
-    {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
-      },
-    }
-  )
-  return response.json()
-}
-
-export const loadBookingsForTable = async (uuid: string | undefined): Promise<BookingQueryType> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/bookings?populate[table][fields][0]=uuid&populate[users_permissions_user][fields][0]=email&fields[0]=from&fields[1]=to&filters[table][uuid]=${uuid}`,
-    {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_PRIVATE_READ_ONLY_API_ID}`,
-      },
-    }
-  )
-  return response.json()
-}

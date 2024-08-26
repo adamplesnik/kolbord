@@ -5,6 +5,7 @@ const PlaceBooking = ({ tableId, slots }: PlaceBookingProps) => {
   const dates = [...Array(7)]
     .map((_, index) => {
       let date = new Date()
+      date.setHours(0, 0, 0, 0)
       date.setDate(date.getDate() + index)
       return date
     })

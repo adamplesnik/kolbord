@@ -58,8 +58,8 @@ type PlaceBookingSlotProps = {
   bookedBy?: string
   dateFrom: Date
   dateTo: Date
-  isBooked: boolean
-  isBookedByMe: boolean
+  isBooked?: boolean | undefined
+  isBookedByMe?: boolean | undefined
 }
 
 export default PlaceBookingSlot
