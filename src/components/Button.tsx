@@ -10,8 +10,8 @@ const Button = ({
 }: ButtonProps) => {
   const styling: Record<string, string> = {
     primary:
-      'from-pink-500 to-pink-700 bg-gradient-to-br px-4 py-2 text-white hover:from-pink-600 transition-color',
-    secondary: 'p-2 hover:bg-zinc-200/50 hover:border-zinc-200/50',
+      'bg-slate-800 px-4 py-2 text-white transition-color hover:bg-slate-950 active:bg-black',
+    secondary: 'p-2 hover:bg-slate-200/50',
   }
 
   return (
@@ -19,10 +19,8 @@ const Button = ({
       type="button"
       onClick={onClick}
       className={
-        'inline-flex w-fit cursor-pointer items-center gap-1 rounded border-transparent' +
-        addWithSpace(
-          active ? 'font-bold text-pink-500 hover:bg-pink-100 hover:text-pink-600' : ''
-        ) +
+        'inline-flex w-fit cursor-pointer items-center gap-1 rounded' +
+        addWithSpace(active ? 'font-bold' : '') +
         addWithSpace(styling[buttonType]) +
         addWithSpace(className)
       }

@@ -9,7 +9,7 @@ const PlaceRectangle = ({ isBooked, children, className, height, width }: PlaceR
         addWithSpace(
           isBooked
             ? 'border-2 border-dashed border-red-400 bg-pink-50 group-hover:bg-pink-100'
-            : 'border-black bg-zinc-100 group-hover:bg-zinc-200'
+            : 'border-black bg-neutral-100 group-hover:bg-neutral-200'
         ) +
         addWithSpace(className)
       }

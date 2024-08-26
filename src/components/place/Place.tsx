@@ -25,8 +25,12 @@ const Place = ({
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
         addWithSpace(hasChairs && 'pt-2') +
-        addWithSpace(available ? 'group cursor-pointer' : 'opacity-40') +
-        addWithSpace(active ? 'z-40 bg-slate-200 ring-slate-300' : 'ring-transparent') +
+        addWithSpace(available ? 'group cursor-pointer hover:ring-slate-300' : 'opacity-40') +
+        addWithSpace(
+          active
+            ? 'z-40 bg-slate-700 ring-slate-700 ring-offset-4 hover:ring-slate-800'
+            : 'ring-transparent'
+        ) +
         addWithSpace(className)
       }
       style={{
@@ -40,7 +44,7 @@ const Place = ({
       {bookedToday && available && (
         <div className="absolute inset-2">
           <div
-            className="inline-block rounded-full bg-black p-2 text-xl text-white"
+            className="inline-block rounded-full bg-slate-800 p-2 text-xl text-white"
             style={{ rotate: `${rotation * -1}deg` }}
           >
             {bookedWho}

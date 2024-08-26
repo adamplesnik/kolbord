@@ -7,7 +7,7 @@ const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) =>
   return (
     <div
       className={
-        'bg-sidebar flex h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-200/70 shadow-2xl' +
+        'bg-sidebar flex h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-slate-200/70 shadow-2xl' +
         addWithSpace(className) +
         addWithSpace(isOpen ? 'block' : 'hidden')
       }

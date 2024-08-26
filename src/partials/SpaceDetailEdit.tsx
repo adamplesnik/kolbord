@@ -105,7 +105,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
       <div className="">
         <CloudUpload
           className={
-            'absolute top-0 right-0 size-4 text-zinc-500 transition-opacity' +
+            'absolute top-0 right-0 size-4 text-slate-500 transition-opacity' +
             addWithSpace(isPending ? 'opacity-100' : 'opacity-0')
           }
         />

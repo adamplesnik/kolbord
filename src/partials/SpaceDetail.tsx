@@ -44,7 +44,7 @@ const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
               <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available === false ? (
-              <span className="cursor-not-allowed rounded bg-zinc-300 py-2 px-4 text-zinc-500">
+              <span className="cursor-not-allowed rounded bg-slate-300 py-2 px-4 text-slate-500">
                 Not available
               </span>
             ) : (

@@ -4,7 +4,7 @@ import NewsletterForm from './NewsletterForm'
 
 const Site = () => {
   return (
-    <div className="bg-site min-h-screen bg-zinc-100">
+    <div className="bg-site min-h-screen bg-slate-100">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-16 pt-16 px-12 pb-12">
         <div className="flex items-center justify-center">
           <Logo className="h-7" />
