@@ -1,6 +1,7 @@
 import { ArrowRight, Trash2 } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
+import { HTMLAttributes } from 'react'
 
 const PlaceBookingSlot = ({
   bookedBy,
@@ -8,6 +9,7 @@ const PlaceBookingSlot = ({
   dateTo,
   isBooked,
   isBookedByMe,
+  onClick,
 }: PlaceBookingSlotProps) => {
   const humanDate = (date: Date) => {
     return date.toLocaleString([], { hour: '2-digit', minute: '2-digit' })
@@ -18,6 +20,7 @@ const PlaceBookingSlot = ({
   return (
     <>
       <div
+        onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
           'group relative flex flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
@@ -60,6 +63,6 @@ type PlaceBookingSlotProps = {
   dateTo: Date
   isBooked?: boolean | undefined
   isBookedByMe?: boolean | undefined
-}
+} & HTMLAttributes<HTMLDivElement>
 
 export default PlaceBookingSlot

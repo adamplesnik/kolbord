@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
 import { getSlots } from './generateSlots'
@@ -34,6 +34,29 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
     queryFn: () => loadBookingsForTable(tableId),
   })
 
+  const createBooking = async (data: BookingRecord): Promise<BookingRecord> => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
+      method: 'post',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    return response.json()
+  }
+
+  const queryClient = useQueryClient()
+
+  const { mutate: addBooking } = useMutation({
+    mutationFn: (data: any) => createBooking(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['tableBooking', tableId, date],
+      })
+    },
+  })
+
   return (
     <div className="flex flex-col gap-2">
       <div className="text-xs">
@@ -51,23 +74,40 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
       <div className="flex flex-wrap gap-1">
         {getSlots(date, slots).map((slot, i) => {
           const { from, to } = slot.slot
+          let bookedBy = ''
+          let isBookedByMe = false
 
-          const isBooked = loadedTableBooking?.data.some(
+          const isBooked = loadedTableBooking?.data.find(
             (booking) =>
               new Date(booking.attributes.from) <= from && new Date(booking.attributes.to) >= to
           )
 
-          const isBookedByMe = loadedTableBooking?.data.some(
-            (booking) =>
-              booking.attributes.users_permissions_user.data.attributes.email === user?.email
-          )
+          if (isBooked) {
+            const { email, name, surname } =
+              isBooked.attributes.users_permissions_user.data.attributes
+            isBookedByMe = email === user?.email
+            bookedBy = `${name} ${surname}`
+          }
+
+          const data = {
+            data: {
+              from: from,
+              to: to,
+              users_permissions_user: user?.id,
+              table: tableId,
+            },
+          }
 
           return (
             <PlaceBookingSlot
               key={i}
-              dateFrom={slot.slot.from}
-              dateTo={slot.slot.to}
-              isBooked={isBooked}
+              dateFrom={from}
+              dateTo={to}
+              isBooked={isBooked != undefined}
+              onClick={() => {
+                isBooked == undefined ? addBooking(data) : null
+              }}
+              bookedBy={bookedBy}
               isBookedByMe={isBookedByMe}
             />
           )

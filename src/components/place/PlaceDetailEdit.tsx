@@ -39,6 +39,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
         available: table?.attributes.available,
         rounded: table?.attributes.rounded,
         chairs: table?.attributes.chairs,
+        slots: table?.attributes.slots,
         group: {
           data: {
             id: 0,

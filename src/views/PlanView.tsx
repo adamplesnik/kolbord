@@ -5,16 +5,16 @@ import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pa
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
-import PlaceDetail from '../components/place/PlaceDetail'
 import Place from '../components/place/Place'
 import PlaceAdd from '../components/place/PlaceAdd'
+import PlaceDetail from '../components/place/PlaceDetail'
 import Plan from '../components/plan/Plan'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import { EDIT_MODE, LATEST_PLAN_ID } from '../utils/constants'
-import { loadBookings, loadTables } from '../utils/fetchApi'
+import { loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const { user, logout } = useAuthContext()
@@ -50,11 +50,6 @@ const PlanView = () => {
   const { data: tables } = useQuery({
     queryKey: ['tables', planId],
     queryFn: () => loadTables(planId),
-  })
-
-  const { data: bookings } = useQuery({
-    queryKey: ['bookings'],
-    queryFn: loadBookings,
   })
 
   const Controls = () => {
@@ -142,7 +137,7 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
-        <PlaceDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+        <PlaceDetail tableId={sidebarTableId} editMode={editMode} />
       </Sidebar>
       <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm

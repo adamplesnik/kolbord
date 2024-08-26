@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
-import { BookingRecord } from '../../data/BookingRecord'
 import { loadTable } from '../../utils/fetchApi'
 import Badge from '../Badge'
 import Loading from '../Loading'
@@ -62,7 +61,6 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
 
 export type PlaceDetailProps = {
   tableId: number
-  bookings: BookingRecord[] | undefined
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
