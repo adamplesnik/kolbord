@@ -48,7 +48,7 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
                 Not available
               </span>
             ) : (
-              <PlaceBooking tableId={tableId} />
+              <PlaceBooking tableId={tableId} slots={loadedTable.data.attributes.slots} />
             )}
             {editMode && <PlaceDetailEdit table={loadedTable.data} />}
           </div>

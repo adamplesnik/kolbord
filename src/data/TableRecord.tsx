@@ -20,6 +20,7 @@ export type TableRecord = {
     height: number
     rounded: boolean
     chairs: number
+    slots: string
     features: {
       data: FeatureRecord[]
     }

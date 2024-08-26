@@ -1,72 +1,43 @@
 import PlaceBookingSlot from './PlaceBookingSlot'
 
 const PlaceBookingDay = ({ date, slots }: PlaceBookingDayProps) => {
+  const generateSlots = (startHours: number, endHours: number, stepHours: number) => {
+    const slots = []
+    let currentTime = new Date(date)
+    currentTime.setHours(startHours, 0, 0, 0)
+
+    while (currentTime.getHours() + currentTime.getMinutes() / 60 < endHours) {
+      const startSlot = new Date(currentTime)
+      currentTime.setMinutes(currentTime.getMinutes() + stepHours * 60)
+      const endSlot = new Date(currentTime)
+      endSlot.setMilliseconds(999)
+
+      slots.push({
+        slot: {
+          from: startSlot,
+          to: endSlot,
+        },
+      })
+    }
+
+    return slots
+  }
+
   const getSlots = () => {
-    if (slots === 'whole day') {
-      return [
-        {
-          slot: {
-            from: new Date(date.setHours(0, 0, 0, 0)),
-            to: new Date(date.setHours(23, 59, 59, 999)),
-          },
-        },
-      ]
-    }
-    if (slots === 'half-day') {
-      return [
-        {
-          slot: {
-            from: new Date(date.setHours(0, 0, 0, 0)),
-            to: new Date(date.setHours(11, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(12, 0, 0, 0)),
-            to: new Date(date.setHours(23, 59, 59, 999)),
-          },
-        },
-      ]
-    }
-    if (slots === '2 hours') {
-      return [
-        {
-          slot: {
-            from: new Date(date.setHours(6, 0, 0, 0)),
-            to: new Date(date.setHours(7, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(8, 0, 0, 0)),
-            to: new Date(date.setHours(9, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(10, 0, 0, 0)),
-            to: new Date(date.setHours(11, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(12, 0, 0, 0)),
-            to: new Date(date.setHours(13, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(14, 0, 0, 0)),
-            to: new Date(date.setHours(15, 59, 59, 999)),
-          },
-        },
-        {
-          slot: {
-            from: new Date(date.setHours(16, 0, 0, 0)),
-            to: new Date(date.setHours(17, 59, 59, 999)),
-          },
-        },
-      ]
+    switch (slots) {
+      case 'whole day':
+        return generateSlots(0, 24, 24)
+      case 'half-day':
+        return generateSlots(0, 24, 12)
+      case 'hours 2':
+        return generateSlots(6, 18, 2)
+      case 'hour 1':
+        return generateSlots(6, 18, 1)
+      case 'minutes 30':
+        return generateSlots(6, 18, 0.5)
+
+      default:
+        return []
     }
   }
 
@@ -85,7 +56,7 @@ const PlaceBookingDay = ({ date, slots }: PlaceBookingDayProps) => {
         </span>
       </div>
       <div className="flex flex-wrap gap-2">
-        {getSlots()?.map((slot, i) => (
+        {getSlots().map((slot, i) => (
           <PlaceBookingSlot key={i} dateFrom={slot.slot.from} dateTo={slot.slot.to} />
         ))}
       </div>
@@ -95,7 +66,7 @@ const PlaceBookingDay = ({ date, slots }: PlaceBookingDayProps) => {
 
 type PlaceBookingDayProps = {
   date: Date
-  slots: 'whole day' | 'half-day' | '2 hours' | '1 hour' | '30 minutes'
+  slots: 'whole day' | 'half-day' | 'hours 2' | 'hour 1' | 'minutes 30' | string
 }
 
 export default PlaceBookingDay
