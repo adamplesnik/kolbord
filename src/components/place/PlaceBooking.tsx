@@ -1,41 +1,28 @@
-import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { BookingRecord } from '../../data/BookingRecord'
-import { isToday } from '../../utils/isToday'
+import PlaceBookingDay from './PlaceBookingDay'
 
-const PlaceBooking = ({ booking }: PlaceBookingProps) => {
-  const bookedToday = isToday(booking.to)
+const PlaceBooking = ({ tableId }: PlaceBookingProps) => {
+  // const bookedToday = isToday(booking.to)
+
+  const dates = [...Array(7)]
+    .map((_, index) => {
+      let date = new Date()
+      date.setDate(date.getDate() + index)
+      return date
+    })
+    .filter((date) => date.getDay() !== 0 && date.getDay() !== 6)
 
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center gap-0.5 text-sm">
-        {bookedToday ? (
-          <span className="flex-1 font-semibold">Today</span>
-        ) : (
-          <>
-            <span className="font-semibold">
-              {new Date(booking.from).toLocaleString([], { weekday: 'short' })}
-            </span>
-            <span className="flex-1 ps-1 opacity-80">
-              {new Date(booking.from).toLocaleString([], {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
-            </span>
-          </>
-        )}
-        {new Date(booking.from).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-        <ArrowRight className="size-4 opacity-50" />
-        {new Date(booking.to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-      </div>
-      <span className="text-xs">{booking.user}</span>
+    <div className="flex flex-col gap-6">
+      {dates.map((date, i) => {
+        return <PlaceBookingDay key={`slot${date}${i}`} date={date} slots={'2 hours'} />
+      })}
     </div>
   )
 }
 
 export type PlaceBookingProps = {
-  booking: BookingRecord
+  tableId: number
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceBooking

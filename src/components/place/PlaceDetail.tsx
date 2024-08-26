@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
-import Badge from '../Badge'
-import Button from '../Button'
-import { PlaceFeatures } from './PlaceFeatures'
 import { BookingRecord } from '../../data/BookingRecord'
 import { loadTable } from '../../utils/fetchApi'
+import Badge from '../Badge'
 import Loading from '../Loading'
+import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
+import { PlaceFeatures } from './PlaceFeatures'
 
 const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
   const {
@@ -48,16 +48,7 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
                 Not available
               </span>
             ) : (
-              <>
-                {/* <div className="flex flex-col gap-8">
-                {bookings.map((b, i) => (
-                  <PlaceBooking booking={b} key={i} />
-                ))}
-              </div> */}
-                <Button className="sticky bottom-2 w-full" buttonType="primary">
-                  Book
-                </Button>
-              </>
+              <PlaceBooking tableId={tableId} />
             )}
             {editMode && <PlaceDetailEdit table={loadedTable.data} />}
           </div>
