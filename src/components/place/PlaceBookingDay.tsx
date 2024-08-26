@@ -16,9 +16,15 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
           })}
         </span>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1">
         {getSlots(date, slots).map((slot, i) => (
-          <PlaceBookingSlot key={i} dateFrom={slot.slot.from} dateTo={slot.slot.to} />
+          <PlaceBookingSlot
+            key={i}
+            dateFrom={slot.slot.from}
+            dateTo={slot.slot.to}
+            isBooked={Math.random() > 0.5}
+            isBookedByMe={true}
+          />
         ))}
       </div>
     </div>
