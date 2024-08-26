@@ -25,8 +25,6 @@ const GroupMarkers = ({ planId, onMarkerClick, editMode }: GroupMarkersProps) =>
     queryFn: () => loadMarkers(planId),
   })
 
-  console.log(markers?.data)
-
   if (isSuccess) {
     return (
       <div>

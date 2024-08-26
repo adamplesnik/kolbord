@@ -39,7 +39,6 @@ const PlanView = () => {
   }
 
   const handlePlaceAdd = (id: number) => {
-    console.log(id)
     setSidebarMarkerId(0)
     setSidebarTableId(id)
   }
@@ -129,6 +128,7 @@ const PlanView = () => {
                     height: t.attributes.height,
                     rounded: t.attributes.rounded,
                     chairs: t.attributes.chairs,
+                    slots: t.attributes.slots,
                   }}
                   active={t.id === sidebarTableId}
                   onClick={() => {

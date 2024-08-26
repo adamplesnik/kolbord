@@ -13,7 +13,6 @@ const PlaceBooking = ({ tableId, slots }: PlaceBookingProps) => {
   return (
     <div className="flex flex-col gap-6">
       {dates.map((date, i) => {
-        console.log(slots)
         return <PlaceBookingDay key={`slot${date}${i}`} date={date} slots={slots} />
       })}
     </div>

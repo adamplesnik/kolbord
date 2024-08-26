@@ -19,7 +19,6 @@ const Login = () => {
     if (data?.error) {
       throw data?.error
     } else {
-      console.log(data)
       setToken(data.jwt)
     }
   }
