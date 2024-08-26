@@ -63,7 +63,7 @@ const PlanView = () => {
 
     return (
       <MenuBar>
-        <div className="flex p-1">
+        <div className="flex">
           <Button onClick={() => zoomIn()}>
             <ZoomIn />
           </Button>
@@ -74,7 +74,7 @@ const PlanView = () => {
             <Fullscreen />
           </Button>
         </div>
-        <div className={'flex rounded p-1' + (editMode && ' bg-pink-300')}>
+        <div className={'flex rounded p-px' + (editMode && ' bg-pink-300')}>
           <Button onClick={() => setEditMode(!editMode)}>
             {editMode ? <CheckCheck /> : <Pencil />}
           </Button>

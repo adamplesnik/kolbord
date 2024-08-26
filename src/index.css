@@ -1,20 +1,20 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-chair: #e7e7e7;
-  --color-table: #efefef;
+  --color-brand-primary: #d1186a;
+  --color-background-primary: #fbcfe8;
 
   --background-image-site: linear-gradient(
     8deg,
     rgba(255, 255, 255, 0) 2.13%,
     rgba(209, 225, 220, 0.5) 62.7%,
-    #fbcfe8 127.02%
+    var(--color-background-primary) 127.02%
   );
 
   --background-image-sidebar: linear-gradient(
     -30deg,
     rgb(255 255 255 / 0) 0%,
     rgb(209 225 220 / 0.5) 70%,
-    #fbcfe8 110%
+    var(--color-background-primary) 110%
   );
 }
