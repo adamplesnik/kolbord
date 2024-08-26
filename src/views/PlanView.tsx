@@ -5,6 +5,7 @@ import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pa
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
+import PlaceDetail from '../components/place/PlaceDetail'
 import Place from '../components/place/Place'
 import PlaceAdd from '../components/place/PlaceAdd'
 import Plan from '../components/plan/Plan'
@@ -12,7 +13,6 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-import SpaceDetail from '../partials/SpaceDetail'
 import { EDIT_MODE, LATEST_PLAN_ID } from '../utils/constants'
 import { loadBookings, loadTables } from '../utils/fetchApi'
 
@@ -142,7 +142,7 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
-        <SpaceDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
+        <PlaceDetail tableId={sidebarTableId} bookings={bookings?.data} editMode={editMode} />
       </Sidebar>
       <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm

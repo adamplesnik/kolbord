@@ -2,14 +2,14 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CheckCheck, CloudOff, CloudUpload } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
-import { getToken } from '../auth/helpers'
-import { TableRecord } from '../data/TableRecord'
-import { addWithSpace } from '../utils/addWithSpace'
-import { LATEST_PLACE_METADATA } from '../utils/constants'
-import SpaceDetailCheckboxRow from './SpaceDetailCheckboxRow'
-import SpaceDetailEditRow from './SpaceDetailEditRow'
+import { getToken } from '../../auth/helpers'
+import { TableRecord } from '../../data/TableRecord'
+import { addWithSpace } from '../../utils/addWithSpace'
+import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import PlaceDetailCheckboxRow from './PlaceDetailCheckboxRow'
+import PlaceDetailEditRow from './PlaceDetailEditRow'
 
-const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
+const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
@@ -126,7 +126,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
         <Field
           name="attributes.name"
           children={({ state, handleChange, handleBlur }) => (
-            <SpaceDetailEditRow
+            <PlaceDetailEditRow
               label="Name"
               value={state.value}
               onChange={(e) => handleChange(e.target.value)}
@@ -140,7 +140,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.x"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="X"
                 value={state.value}
                 required
@@ -153,7 +153,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.y"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="Y"
                 value={state.value}
                 required
@@ -166,7 +166,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.chairs"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="Chairs"
                 value={state.value}
                 required
@@ -181,7 +181,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.width"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="Width"
                 value={state.value}
                 required
@@ -194,7 +194,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.height"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="Height"
                 value={state.value}
                 required
@@ -207,7 +207,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.rotation"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailEditRow
+              <PlaceDetailEditRow
                 label="Rotation"
                 value={state.value}
                 onChange={(e) => handleChange(+e.target.value)}
@@ -222,7 +222,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.available"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailCheckboxRow
+              <PlaceDetailCheckboxRow
                 label="Available"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -233,7 +233,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           <Field
             name="attributes.rounded"
             children={({ state, handleChange, handleBlur }) => (
-              <SpaceDetailCheckboxRow
+              <PlaceDetailCheckboxRow
                 label="Rounded"
                 onChange={(e) => handleChange(e.target.checked)}
                 onBlur={handleBlur}
@@ -247,8 +247,8 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
   )
 }
 
-export type SpaceDetailEditProps = {
+export type PlaceDetailEditProps = {
   table: TableRecord
 } & HTMLAttributes<HTMLDivElement>
 
-export default SpaceDetailEdit
+export default PlaceDetailEdit

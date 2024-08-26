@@ -1,9 +1,9 @@
 import { ArrowRight } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { BookingRecord } from '../data/BookingRecord'
-import { isToday } from '../utils/isToday'
+import { BookingRecord } from '../../data/BookingRecord'
+import { isToday } from '../../utils/isToday'
 
-const SidebarBooking = ({ booking }: SidebarBookingProps) => {
+const PlaceBooking = ({ booking }: PlaceBookingProps) => {
   const bookedToday = isToday(booking.to)
 
   return (
@@ -34,8 +34,8 @@ const SidebarBooking = ({ booking }: SidebarBookingProps) => {
   )
 }
 
-export type SidebarBookingProps = {
+export type PlaceBookingProps = {
   booking: BookingRecord
 } & HTMLAttributes<HTMLDivElement>
 
-export default SidebarBooking
+export default PlaceBooking

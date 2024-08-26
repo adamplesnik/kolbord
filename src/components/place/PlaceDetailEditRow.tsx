@@ -1,12 +1,13 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const SpaceDetailCheckboxRow = ({
+const PlaceDetailEditRow = ({
   label,
-  checked,
-  required = false,
+  value,
+  required,
+  inputType,
   onChange,
   onBlur,
-}: SpaceDetailCheckboxRowProps) => {
+}: PlaceDetailEditRowProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -14,9 +15,9 @@ const SpaceDetailCheckboxRow = ({
       </span>
       <input
         required={required}
-        className="w-full rounded border-slate-400 px-1.5 text-sm"
-        type="checkbox"
-        checked={checked}
+        className="w-full rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+        type={inputType}
+        value={value}
         onBlur={onBlur}
         onChange={onChange}
       />
@@ -24,12 +25,13 @@ const SpaceDetailCheckboxRow = ({
   )
 }
 
-type SpaceDetailCheckboxRowProps = {
+type PlaceDetailEditRowProps = {
   label: string | number
-  checked: boolean | undefined
-  required?: boolean | undefined
+  value: string | number
+  required: boolean
+  inputType: 'text' | 'number'
   onChange: ChangeEventHandler<HTMLInputElement> | undefined
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
 }
 
-export default SpaceDetailCheckboxRow
+export default PlaceDetailEditRow

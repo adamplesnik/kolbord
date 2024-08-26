@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
-import Badge from '../components/Badge'
-import Button from '../components/Button'
-import { PlaceFeatures } from '../components/place/PlaceFeatures'
-import { BookingRecord } from '../data/BookingRecord'
-import { loadTable } from '../utils/fetchApi'
-import SpaceDetailEdit from './SpaceDetailEdit'
-import Loading from '../components/Loading'
+import Badge from '../Badge'
+import Button from '../Button'
+import { PlaceFeatures } from './PlaceFeatures'
+import { BookingRecord } from '../../data/BookingRecord'
+import { loadTable } from '../../utils/fetchApi'
+import Loading from '../Loading'
+import PlaceDetailEdit from './PlaceDetailEdit'
 
-const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
+const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
   const {
     data: loadedTable,
     isSuccess,
@@ -51,7 +51,7 @@ const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
               <>
                 {/* <div className="flex flex-col gap-8">
                 {bookings.map((b, i) => (
-                  <SidebarBooking booking={b} key={i} />
+                  <PlaceBooking booking={b} key={i} />
                 ))}
               </div> */}
                 <Button className="sticky bottom-2 w-full" buttonType="primary">
@@ -59,7 +59,7 @@ const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
                 </Button>
               </>
             )}
-            {editMode && <SpaceDetailEdit table={loadedTable.data} />}
+            {editMode && <PlaceDetailEdit table={loadedTable.data} />}
           </div>
         ) : (
           'no table selected'
@@ -69,10 +69,10 @@ const SpaceDetail = ({ tableId, editMode }: SpaceDetailProps) => {
   }
 }
 
-export type SpaceDetailProps = {
+export type PlaceDetailProps = {
   tableId: number
   bookings: BookingRecord[] | undefined
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export default SpaceDetail
+export default PlaceDetail
