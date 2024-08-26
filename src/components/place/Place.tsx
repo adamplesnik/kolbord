@@ -8,7 +8,7 @@ import PlaceRectangle from './PlaceRectangle'
 const Place = ({
   active,
   className,
-  attributes: { available, features, height, name, rotation, rounded, width, x, y, type },
+  attributes: { available, features, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
 }: PlaceProps) => {
   // const tableBooking = bookings.filter((booking) => booking.tableId === 'adas')
@@ -17,14 +17,14 @@ const Place = ({
   const bookedToday = Math.random() < 0.5
   const bookedWho = Math.random() < 0.5 ? 'VH' : 'OG'
 
-  const isParking = type === 'parking'
+  const hasChairs = chairs > 0 && chairs
 
   return (
     <div
       onClick={onClick}
       className={
         'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
-        addWithSpace(!isParking && 'pt-2') +
+        addWithSpace(hasChairs && 'pt-2') +
         addWithSpace(available ? 'group cursor-pointer' : 'opacity-40') +
         addWithSpace(active ? 'z-40 bg-slate-200 ring-slate-300' : 'ring-transparent') +
         addWithSpace(className)
@@ -33,7 +33,7 @@ const Place = ({
         top: y,
         left: x,
         width: width,
-        height: isParking ? height : height + 64,
+        height: hasChairs ? height + 64 : height,
         rotate: `${rotation}deg`,
       }}
     >
@@ -47,7 +47,7 @@ const Place = ({
           </div>
         </div>
       )}
-      {!isParking && (
+      {hasChairs && (
         <PlaceRectangle
           isBooked={bookedToday && available}
           height={40}

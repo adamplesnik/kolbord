@@ -128,7 +128,7 @@ const PlanView = () => {
                     width: t.attributes.width,
                     height: t.attributes.height,
                     rounded: t.attributes.rounded,
-                    type: t.attributes.type,
+                    chairs: t.attributes.chairs,
                   }}
                   active={t.id === sidebarTableId}
                   onClick={() => {

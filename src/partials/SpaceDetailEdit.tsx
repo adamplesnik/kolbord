@@ -38,7 +38,7 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
         rotation: table?.attributes.rotation,
         available: table?.attributes.available,
         rounded: table?.attributes.rounded,
-        type: table?.attributes.type,
+        chairs: table?.attributes.chairs,
         group: {
           data: {
             id: 0,
@@ -163,6 +163,19 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
               />
             )}
           />
+          <Field
+            name="attributes.chairs"
+            children={({ state, handleChange, handleBlur }) => (
+              <SpaceDetailEditRow
+                label="Chairs"
+                value={state.value}
+                required
+                onChange={(e) => handleChange(+e.target.value)}
+                onBlur={handleBlur}
+                inputType="number"
+              />
+            )}
+          />
         </div>
         <div className="flex gap-2">
           <Field
@@ -230,7 +243,6 @@ const SpaceDetailEdit = ({ table }: SpaceDetailEditProps) => {
           />
         </div>
       </div>
-      <input type="submit" value={'sub'} />
     </form>
   )
 }
