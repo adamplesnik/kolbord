@@ -89,16 +89,19 @@ const PlanView = () => {
         </div>
         <UserMenu />
         <div className="flex rounded border border-slate-300/40 bg-gray-200/70">
-          <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
-          {user &&
-            user.companies.map((company) => (
-              <PlanSwitcher
-                currentPlan={planId}
-                companyId={company.uuid}
-                key={company.uuid}
-                onPlanChange={handlePlanIdChange}
-              />
-            ))}
+          {user && (
+            <>
+              <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
+              {user.companies.map((company) => (
+                <PlanSwitcher
+                  currentPlan={planId}
+                  companyId={company.uuid}
+                  key={company.uuid}
+                  onPlanChange={handlePlanIdChange}
+                />
+              ))}
+            </>
+          )}
         </div>
       </MenuBar>
     )
@@ -119,30 +122,31 @@ const PlanView = () => {
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
-              {tables?.data.map((t) => (
-                <Place
-                  key={t.id}
-                  id={t.id}
-                  attributes={{
-                    name: t.attributes.name,
-                    group: t.attributes.group,
-                    rotation: t.attributes.rotation,
-                    x: t.attributes.x,
-                    y: t.attributes.y,
-                    available: t.attributes.available,
-                    features: t.attributes.features,
-                    width: t.attributes.width,
-                    height: t.attributes.height,
-                    rounded: t.attributes.rounded,
-                    chairs: t.attributes.chairs,
-                    slots: t.attributes.slots,
-                  }}
-                  active={t.id === sidebarTableId}
-                  onClick={() => {
-                    setSidebarTableId(t.id), setSidebarMarkerId(0)
-                  }}
-                />
-              ))}
+              {tables?.data &&
+                tables.data.map((t) => (
+                  <Place
+                    key={t.id}
+                    id={t.id}
+                    attributes={{
+                      name: t.attributes.name,
+                      group: t.attributes.group,
+                      rotation: t.attributes.rotation,
+                      x: t.attributes.x,
+                      y: t.attributes.y,
+                      available: t.attributes.available,
+                      features: t.attributes.features,
+                      width: t.attributes.width,
+                      height: t.attributes.height,
+                      rounded: t.attributes.rounded,
+                      chairs: t.attributes.chairs,
+                      slots: t.attributes.slots,
+                    }}
+                    active={t.id === sidebarTableId}
+                    onClick={() => {
+                      setSidebarTableId(t.id), setSidebarMarkerId(0)
+                    }}
+                  />
+                ))}
               {planId > 0 && <Plan id={planId} />}
             </div>
           </TransformComponent>
