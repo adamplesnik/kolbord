@@ -59,7 +59,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
   })
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-3">
       <Heading size={4}>
         <span className="font-semibold text-slate-900">
           {date.toLocaleString([], { weekday: 'long' })}

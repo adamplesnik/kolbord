@@ -27,7 +27,7 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-8 p-8">
+          <div className="flex flex-col gap-10 p-8">
             <div className="sticky top-3 z-10 flex items-center gap-4">
               <Heading size={3}>{loadedTable.data.attributes.name}</Heading>
               {loadedTable.data.attributes.group.data && (
