@@ -40,7 +40,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
                 </Badge>
               )}
             </div>
-            {loadedTable.data.attributes.features.data && (
+            {loadedTable.data.attributes.features.data && !editMode && (
               <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available && !editMode && (
@@ -50,7 +50,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
                 workingDate={workingDate}
               />
             )}
-            {!loadedTable.data.attributes.available && (
+            {!loadedTable.data.attributes.available && !editMode && (
               <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
             )}
             {editMode && <PlaceDetailEdit table={loadedTable.data} />}

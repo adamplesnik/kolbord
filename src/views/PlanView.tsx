@@ -125,14 +125,22 @@ const PlanView = () => {
           </TransformComponent>
         </>
       </TransformWrapper>
-      <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
+      <Sidebar
+        isOpen={sidebarTableId > 0}
+        closeSidebar={() => setSidebarTableId(0)}
+        editMode={editMode}
+      >
         <PlaceDetail
           tableId={sidebarTableId}
           editMode={editMode}
           workingDate={workingDate?.toString()}
         />
       </Sidebar>
-      <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar
+        isOpen={editMode && sidebarMarkerId > 0}
+        closeSidebar={() => setSidebarMarkerId(0)}
+        editMode={editMode}
+      >
         mamm
       </Sidebar>
     </Page>

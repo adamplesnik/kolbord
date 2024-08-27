@@ -6,7 +6,6 @@ import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
-import Heading from '../basic/Heading'
 import PlaceDetailCheckboxRow from './PlaceDetailCheckboxRow'
 import PlaceDetailEditRow from './PlaceDetailEditRow'
 
@@ -94,9 +93,6 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
 
   return (
     <div>
-      <Heading size={3} className="pb-3">
-        Edit
-      </Heading>
       <form
         onBlur={(e) => {
           e.preventDefault()

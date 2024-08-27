@@ -3,7 +3,7 @@ import { addWithSpace } from '../utils/addWithSpace'
 import Button from './Button'
 import { HTMLAttributes, MouseEventHandler } from 'react'
 
-const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) => {
+const Sidebar = ({ children, isOpen, closeSidebar, className, editMode }: SidebarProps) => {
   return (
     <div
       className={
@@ -12,7 +12,12 @@ const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) =>
         addWithSpace(isOpen ? 'block' : 'hidden')
       }
     >
-      <div className="sticky top-0 z-10 bg-transparent pt-2 px-2 pb-4 text-end backdrop-blur-sm">
+      <div className="sticky top-0 z-10 flex items-center justify-end bg-transparent pt-2 px-2 pb-4 backdrop-blur-sm">
+        {editMode && (
+          <span className="rounded border border-red-600 bg-red-100 p-2 text-xs font-semibold">
+            Edit mode
+          </span>
+        )}
         <Button onClick={closeSidebar} className="self-end">
           <X />
         </Button>
@@ -25,6 +30,7 @@ const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) =>
 type SidebarProps = {
   isOpen: boolean
   closeSidebar: MouseEventHandler
+  editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar
