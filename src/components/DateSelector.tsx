@@ -16,7 +16,7 @@ const DateSelector = ({ onChange, workingDate }: DateSelectorProps) => {
         </Button>
       </div>
       <Tooltip id="calendarTooltip" openOnClick clickable>
-        <Calendar onChange={() => onChange} />
+        <Calendar onChange={(value) => onChange(value)} value={workingDate} />
       </Tooltip>
     </>
   )
