@@ -29,7 +29,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
     return response.json()
   }
 
-  const { data: loadedTableBooking, isLoading } = useQuery({
+  const { data: loadedTableBooking } = useQuery({
     enabled: tableId > 0,
     queryKey: ['tableBooking', tableId, date],
     queryFn: () => loadBookingsForTable(tableId),
