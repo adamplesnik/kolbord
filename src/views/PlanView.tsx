@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
-import { Fullscreen, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import Button from '../components/Button'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
 import Place from '../components/place/Place'
 import PlaceDetail from '../components/place/PlaceDetail'
 import Plan from '../components/plan/Plan'
+import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEdit from '../components/plan/PlanEdit'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
@@ -74,11 +73,11 @@ const PlanView = () => {
 
     return (
       <MenuBar>
-        <div className="flex">
-          <Button onClick={() => zoomIn()} Icon={ZoomIn}></Button>
-          <Button onClick={() => zoomOut()} Icon={ZoomOut}></Button>
-          <Button onClick={() => resetTransform()} Icon={Fullscreen}></Button>
-        </div>
+        <PlanControls
+          zoomIn={() => zoomIn()}
+          zoomOut={() => zoomOut()}
+          resetTransform={() => resetTransform()}
+        />
         <PlanEdit
           planId={planId}
           handlePlaceAdd={handlePlaceAdd}
