@@ -19,7 +19,7 @@ const Button = ({
       type="button"
       onClick={onClick}
       className={
-        'inline-flex w-fit cursor-pointer items-center gap-1 rounded' +
+        'inline-flex w-fit cursor-pointer items-center gap-2 rounded' +
         addWithSpace(active ? 'font-bold' : '') +
         addWithSpace(styling[buttonType]) +
         addWithSpace(className)
