@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../utils/addWithSpace'
+import { LucideIcon } from 'lucide-react'
 
 const Button = ({
   children,
@@ -7,11 +8,14 @@ const Button = ({
   className,
   buttonType = 'secondary',
   active = false,
+  Icon = undefined,
+  IconRight = undefined,
+  iconClassName = undefined,
 }: ButtonProps) => {
   const styling: Record<string, string> = {
     primary:
       'bg-slate-800 px-4 py-2 text-white transition-color hover:bg-slate-950 active:bg-black',
-    secondary: 'p-2 hover:bg-slate-200/50',
+    secondary: 'p-2 hover:bg-slate-300/50',
   }
 
   return (
@@ -25,7 +29,9 @@ const Button = ({
         addWithSpace(className)
       }
     >
+      {Icon && <Icon strokeWidth={2} className={'size-5' + addWithSpace(iconClassName)} />}
       {children}
+      {IconRight && <IconRight className={'size-5' + addWithSpace(iconClassName)} />}
     </button>
   )
 }
@@ -33,6 +39,9 @@ const Button = ({
 export type ButtonProps = {
   buttonType?: 'primary' | 'secondary'
   active?: boolean | undefined
+  Icon?: LucideIcon | undefined
+  IconRight?: LucideIcon | undefined
+  iconClassName?: string | undefined
 } & HTMLAttributes<HTMLButtonElement>
 
 export default Button

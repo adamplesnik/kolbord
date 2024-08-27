@@ -42,7 +42,7 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
   return (
     <>
       <div data-tooltip-id="plansTooltip">
-        <Button>
+        <Button IconRight={ChevronsUpDown}>
           {plans &&
             plans.data.map((plan) =>
               currentPlan === plan.id ? (
@@ -51,7 +51,6 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
                 ''
               )
             )}
-          <ChevronsUpDown size={18} />
         </Button>
       </div>
       <Tooltip id="plansTooltip" openOnClick clickable>
@@ -63,10 +62,9 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
                 key={`plan_${plan.id}`}
                 onClick={() => onPlanChange(plan.id)}
                 active={currentPlan === plan.id}
+                Icon={Check}
+                iconClassName={currentPlan === plan.id ? 'opacity-100' : 'opacity-35'}
               >
-                <Check
-                  className={'size-4 ' + (currentPlan === plan.id ? 'opacity-100' : 'opacity-35')}
-                />
                 {plan.attributes.name}
               </Button>
             ))}

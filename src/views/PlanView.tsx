@@ -71,24 +71,19 @@ const PlanView = () => {
     return (
       <MenuBar>
         <div className="flex">
-          <Button onClick={() => zoomIn()}>
-            <ZoomIn />
-          </Button>
-          <Button onClick={() => zoomOut()}>
-            <ZoomOut />
-          </Button>
-          <Button onClick={() => resetTransform()}>
-            <Fullscreen />
-          </Button>
+          <Button onClick={() => zoomIn()} Icon={ZoomIn}></Button>
+          <Button onClick={() => zoomOut()} Icon={ZoomOut}></Button>
+          <Button onClick={() => resetTransform()} Icon={Fullscreen}></Button>
         </div>
-        <div className={'flex rounded p-px' + (editMode && ' bg-pink-300')}>
-          <Button onClick={() => setEditMode(!editMode)}>
-            {editMode ? <CheckCheck /> : <Pencil />}
-          </Button>
+        <div className={'flex rounded p-0.5' + (editMode && ' bg-pink-300')}>
+          <Button
+            onClick={() => setEditMode(!editMode)}
+            Icon={editMode ? CheckCheck : Pencil}
+          ></Button>
           {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
         </div>
         <UserMenu />
-        <div className="flex rounded border border-slate-300/40 bg-gray-200/70">
+        <div className="flex rounded bg-gray-200/70 p-0.5">
           {user && (
             <>
               <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />

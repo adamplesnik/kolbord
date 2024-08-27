@@ -53,9 +53,8 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
       onClick={() => {
         mutate(defaultData)
       }}
-    >
-      <Plus />
-    </Button>
+      Icon={Plus}
+    ></Button>
   )
 }
 
