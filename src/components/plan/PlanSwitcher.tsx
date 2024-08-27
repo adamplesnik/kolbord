@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { getToken } from '../../auth/helpers'
@@ -64,6 +64,9 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
                 onClick={() => onPlanChange(plan.id)}
                 active={currentPlan === plan.id}
               >
+                <Check
+                  className={'size-4 ' + (currentPlan === plan.id ? 'opacity-100' : 'opacity-35')}
+                />
                 {plan.attributes.name}
               </Button>
             ))}
