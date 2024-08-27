@@ -1,10 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
-import Place from '../components/place/Place'
 import PlaceDetail from '../components/place/PlaceDetail'
+import Places from '../components/place/Places'
 import Plan from '../components/plan/Plan'
 import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
@@ -15,7 +14,6 @@ import UserMenu from '../components/user/UserMenu'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
-import { loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const { user } = useAuthContext()
@@ -50,7 +48,7 @@ const PlanView = () => {
     setSidebarTableId(0)
   }
 
-  const handlePlaceAdd = (id: number) => {
+  const handlePlaceClick = (id: number) => {
     setSidebarMarkerId(0)
     setSidebarTableId(id)
   }
@@ -62,11 +60,6 @@ const PlanView = () => {
   useEffect(() => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
-
-  const { data: tables } = useQuery({
-    queryKey: ['tables', planId],
-    queryFn: () => loadTables(planId),
-  })
 
   const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls()
@@ -80,7 +73,7 @@ const PlanView = () => {
         />
         <PlanEdit
           planId={planId}
-          handlePlaceAdd={handlePlaceAdd}
+          handlePlaceAdd={handlePlaceClick}
           handleEditModeChange={handleEditModeChange}
           editMode={editMode}
         />
@@ -122,31 +115,11 @@ const PlanView = () => {
           <TransformComponent wrapperClass="!h-screen">
             <div className="relative m-8">
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
-              {tables?.data &&
-                tables.data.map((t) => (
-                  <Place
-                    key={t.id}
-                    id={t.id}
-                    attributes={{
-                      name: t.attributes.name,
-                      group: t.attributes.group,
-                      rotation: t.attributes.rotation,
-                      x: t.attributes.x,
-                      y: t.attributes.y,
-                      available: t.attributes.available,
-                      features: t.attributes.features,
-                      width: t.attributes.width,
-                      height: t.attributes.height,
-                      rounded: t.attributes.rounded,
-                      chairs: t.attributes.chairs,
-                      slots: t.attributes.slots,
-                    }}
-                    active={t.id === sidebarTableId}
-                    onClick={() => {
-                      setSidebarTableId(t.id), setSidebarMarkerId(0)
-                    }}
-                  />
-                ))}
+              <Places
+                sidebarTableId={sidebarTableId}
+                handlePlaceClick={handlePlaceClick}
+                planId={planId}
+              />
               {planId > 0 && <Plan id={planId} />}
             </div>
           </TransformComponent>
