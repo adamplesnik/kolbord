@@ -1,12 +1,12 @@
 import { CalendarDays } from 'lucide-react'
 import Calendar from 'react-calendar'
 import { Tooltip } from 'react-tooltip'
-import Button from './Button'
+import Button from '../Button'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
-const DateSelector = ({ onChange, workingDate }: DateSelectorProps) => {
+const PlanDateSelector = ({ onChange, workingDate }: PlanDateSelectorProps) => {
   const isDirty =
     workingDate && new Date(workingDate?.toString()).toDateString() != new Date().toDateString()
 
@@ -25,9 +25,9 @@ const DateSelector = ({ onChange, workingDate }: DateSelectorProps) => {
   )
 }
 
-type DateSelectorProps = {
+type PlanDateSelectorProps = {
   workingDate: Value
   onChange: (value: Value) => void
 }
 
-export default DateSelector
+export default PlanDateSelector

@@ -21,7 +21,9 @@ const UserMenu = () => {
       <Tooltip id="userTooltip" clickable openOnClick>
         <div className="flex flex-col *:w-full">
           <Button Icon={ListChecks}>My bookings</Button>
-          <Button onClick={() => logout()} Icon={LogOut}></Button>
+          <Button onClick={() => logout()} Icon={LogOut}>
+            Log out
+          </Button>
         </div>
       </Tooltip>
     </>

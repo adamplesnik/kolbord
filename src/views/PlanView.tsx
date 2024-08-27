@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, Pencil, ZoomIn, ZoomOut } from 'lucide-react'
+import { Fullscreen, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
-import DateSelector from '../components/DateSelector'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
 import Place from '../components/place/Place'
-import PlaceAdd from '../components/place/PlaceAdd'
 import PlaceDetail from '../components/place/PlaceDetail'
 import Plan from '../components/plan/Plan'
+import PlanDateSelector from '../components/plan/PlanDateSelector'
+import PlanEdit from '../components/plan/PlanEdit'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import UserMenu from '../components/user/UserMenu'
@@ -34,6 +34,10 @@ const PlanView = () => {
   const [workingDate, setWorkingDate] = useState<Value>(
     getWorkingDate ? new Date(getWorkingDate.toString()) : new Date()
   )
+
+  const handleEditModeChange = () => {
+    setEditMode(!editMode)
+  }
 
   const handlePlanIdChange = (id: number) => {
     setPlanId(id)
@@ -75,18 +79,20 @@ const PlanView = () => {
           <Button onClick={() => zoomOut()} Icon={ZoomOut}></Button>
           <Button onClick={() => resetTransform()} Icon={Fullscreen}></Button>
         </div>
-        <div className={'flex rounded p-0.5' + (editMode && ' bg-pink-300')}>
-          <Button
-            onClick={() => setEditMode(!editMode)}
-            Icon={editMode ? CheckCheck : Pencil}
-          ></Button>
-          {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
-        </div>
+        <PlanEdit
+          planId={planId}
+          handlePlaceAdd={handlePlaceAdd}
+          handleEditModeChange={handleEditModeChange}
+          editMode={editMode}
+        />
         <UserMenu />
-        <div className="flex rounded bg-gray-200/70 p-0.5">
+        <div className="flex rounded bg-slate-200/70 p-0.5">
           {user && (
             <>
-              <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
+              <PlanDateSelector
+                onChange={(value) => setWorkingDate(value)}
+                workingDate={workingDate}
+              />
               {user.companies.map((company) => (
                 <PlanSwitcher
                   currentPlan={planId}
