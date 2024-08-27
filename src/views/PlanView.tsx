@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { CheckCheck, Fullscreen, LogOut, Pencil, ZoomIn, ZoomOut } from 'lucide-react'
+import { CheckCheck, Fullscreen, Pencil, ZoomIn, ZoomOut } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
@@ -12,13 +12,14 @@ import PlaceDetail from '../components/place/PlaceDetail'
 import Plan from '../components/plan/Plan'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
+import UserMenu from '../components/user/UserMenu'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
 import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 import { loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
-  const { user, logout } = useAuthContext()
+  const { user } = useAuthContext()
 
   const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
   const getWorkingDate = localStorage.getItem(WORKING_DATE)
@@ -86,22 +87,19 @@ const PlanView = () => {
           </Button>
           {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
         </div>
-        <div>{user?.name + ' ' + user?.surname}</div>
-        <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
-
-        {user?.companies.map((company) => (
-          <PlanSwitcher
-            currentPlan={planId}
-            companyId={company.uuid}
-            key={company.uuid}
-            onPlanChange={handlePlanIdChange}
-          />
-        ))}
-        {user && (
-          <Button onClick={() => logout()}>
-            <LogOut />
-          </Button>
-        )}
+        <UserMenu />
+        <div className="flex rounded border border-slate-300/40 bg-gray-200/70">
+          <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
+          {user &&
+            user.companies.map((company) => (
+              <PlanSwitcher
+                currentPlan={planId}
+                companyId={company.uuid}
+                key={company.uuid}
+                onPlanChange={handlePlanIdChange}
+              />
+            ))}
+        </div>
       </MenuBar>
     )
   }
