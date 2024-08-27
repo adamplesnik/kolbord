@@ -8,7 +8,7 @@ import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
 import { PlaceFeatures } from './PlaceFeatures'
 
-const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
+const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
   const {
     data: loadedTable,
     isSuccess,
@@ -44,7 +44,11 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
               <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
             {loadedTable.data.attributes.available && !editMode && (
-              <PlaceBooking tableId={tableId} slots={loadedTable.data.attributes.slots} />
+              <PlaceBooking
+                tableId={tableId}
+                slots={loadedTable.data.attributes.slots}
+                workingDate={workingDate}
+              />
             )}
             {!loadedTable.data.attributes.available && (
               <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
@@ -62,6 +66,7 @@ const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
 export type PlaceDetailProps = {
   tableId: number
   editMode: boolean
+  workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetail

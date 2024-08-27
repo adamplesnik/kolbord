@@ -1,19 +1,21 @@
 import { HTMLAttributes } from 'react'
 import PlaceBookingDay from './PlaceBookingDay'
 
-const PlaceBooking = ({ tableId, slots }: PlaceBookingProps) => {
-  const dates = [...Array(7)]
+const PlaceBooking = ({ tableId, slots, workingDate }: PlaceBookingProps) => {
+  const noWeekends = [...Array(7)]
     .map((_, index) => {
       let date = new Date()
-      date.setHours(0, 0, 0, 0)
+      if (workingDate) {
+        date = new Date(workingDate)
+      }
       date.setDate(date.getDate() + index)
       return date
     })
     .filter((date) => date.getDay() !== 0 && date.getDay() !== 6)
 
   return (
-    <div className="flex flex-col gap-6">
-      {dates.map((date, i) => {
+    <div className="flex flex-col gap-8">
+      {noWeekends.map((date, i) => {
         return (
           <PlaceBookingDay key={`slot${date}${i}`} date={date} slots={slots} tableId={tableId} />
         )
@@ -25,6 +27,7 @@ const PlaceBooking = ({ tableId, slots }: PlaceBookingProps) => {
 export type PlaceBookingProps = {
   tableId: number
   slots: string
+  workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceBooking

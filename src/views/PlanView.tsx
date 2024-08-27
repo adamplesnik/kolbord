@@ -14,13 +14,14 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import Sidebar from '../components/Sidebar'
 import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
-import { EDIT_MODE, LATEST_PLAN_ID } from '../utils/constants'
+import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 import { loadTables } from '../utils/fetchApi'
 
 const PlanView = () => {
   const { user, logout } = useAuthContext()
 
   const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
+  const getWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
@@ -29,7 +30,9 @@ const PlanView = () => {
 
   type ValuePiece = Date | null
   type Value = ValuePiece | [ValuePiece, ValuePiece]
-  const [workingDate, setWorkingDate] = useState<Value>(new Date())
+  const [workingDate, setWorkingDate] = useState<Value>(
+    getWorkingDate ? new Date(getWorkingDate.toString()) : new Date()
+  )
 
   const handlePlanIdChange = (id: number) => {
     setPlanId(id)
@@ -51,6 +54,10 @@ const PlanView = () => {
   useEffect(() => {
     localStorage.setItem(EDIT_MODE, editMode.toString())
   }, [editMode])
+
+  useEffect(() => {
+    workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
+  }, [workingDate])
 
   const { data: tables } = useQuery({
     queryKey: ['tables', planId],
@@ -144,7 +151,11 @@ const PlanView = () => {
         </>
       </TransformWrapper>
       <Sidebar isOpen={sidebarTableId > 0} closeSidebar={() => setSidebarTableId(0)}>
-        <PlaceDetail tableId={sidebarTableId} editMode={editMode} />
+        <PlaceDetail
+          tableId={sidebarTableId}
+          editMode={editMode}
+          workingDate={workingDate?.toString()}
+        />
       </Sidebar>
       <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
