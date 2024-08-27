@@ -4,6 +4,7 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/Button'
+import DateSelector from '../components/DateSelector'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
 import Place from '../components/place/Place'
 import PlaceAdd from '../components/place/PlaceAdd'
@@ -25,6 +26,10 @@ const PlanView = () => {
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
   const [planId, setPlanId] = useState(0)
+
+  type ValuePiece = Date | null
+  type Value = ValuePiece | [ValuePiece, ValuePiece]
+  const [workingDate, setWorkingDate] = useState<Value>(new Date())
 
   const handlePlanIdChange = (id: number) => {
     setPlanId(id)
@@ -75,6 +80,8 @@ const PlanView = () => {
           {editMode && <PlaceAdd planId={planId} handlePlaceAdd={handlePlaceAdd} />}
         </div>
         <div>{user?.name + ' ' + user?.surname}</div>
+        <DateSelector onChange={(value) => setWorkingDate(value)} workingDate={workingDate} />
+
         {user?.companies.map((company) => (
           <PlanSwitcher
             currentPlan={planId}
