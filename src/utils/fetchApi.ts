@@ -1,5 +1,4 @@
 import { getToken } from '../auth/helpers'
-import { BookingRecord } from '../data/BookingRecord'
 import { TableRecord } from '../data/TableRecord'
 
 type TableQueryType = {

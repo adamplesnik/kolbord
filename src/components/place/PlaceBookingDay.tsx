@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
+import Heading from '../basic/Heading'
 import { getSlots } from './generateSlots'
 import PlaceBookingSlot from './PlaceBookingSlot'
-import { useAuthContext } from '../../auth/AuthContext'
 
 type BookingQueryType = {
   data: BookingRecord[]
@@ -59,7 +60,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="text-xs">
+      <Heading size={4}>
         <span className="font-semibold text-slate-900">
           {date.toLocaleString([], { weekday: 'long' })}
         </span>
@@ -70,7 +71,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
             day: 'numeric',
           })}
         </span>
-      </div>
+      </Heading>
       <div className="flex flex-wrap gap-1">
         {getSlots(date, slots).map((slot, i) => {
           const { from, to } = slot.slot
