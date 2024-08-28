@@ -11,12 +11,13 @@ export type User = {
   updatedAt: string
   name: string
   surname: string
+  role: {
+    id: number
+  }
   companies: [
     {
       id: number
       name: string
-      createdAt: string
-      updatedAt: string
       uuid: string
     },
   ]
