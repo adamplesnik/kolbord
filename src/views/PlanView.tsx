@@ -19,18 +19,20 @@ const PlanView = () => {
   const { user } = useAuthContext()
 
   const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
-  const getWorkingDate = localStorage.getItem(WORKING_DATE)
+  const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
   const [planId, setPlanId] = useState(0)
+  const [workingDate, setWorkingDate] = useState<Value>(
+    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
+      ? new Date(getLocalWorkingDate.toString())
+      : new Date()
+  )
 
   type ValuePiece = Date | null
   type Value = ValuePiece | [ValuePiece, ValuePiece]
-  const [workingDate, setWorkingDate] = useState<Value>(
-    getWorkingDate ? new Date(getWorkingDate.toString()) : new Date()
-  )
 
   const handleEditModeChange = () => {
     setEditMode(!editMode)
