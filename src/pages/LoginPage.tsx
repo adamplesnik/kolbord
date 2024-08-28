@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
-import { setToken } from './helpers'
+import { setToken } from '../auth/helpers'
 
-const Login = () => {
+const LoginPage = () => {
   const tryLogin = async (userName: string, userPassword: string): Promise<any> => {
     const values = {
       identifier: userName,
@@ -72,4 +72,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage

@@ -5,10 +5,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import AuthProvider from './auth/AuthProvider.tsx'
-import Login from './auth/Login.tsx'
 import './index.css'
+import LoginPage from './pages/LoginPage.tsx'
+import PlanPage from './pages/PlanPage.tsx'
 import Site from './site/Site.tsx'
-import PlanView from './views/PlanView.tsx'
 
 const router = createBrowserRouter([
   {
@@ -18,9 +18,9 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <LoginPage />,
   },
-  { path: '/plan', element: <PlanView /> },
+  { path: '/plan', element: <PlanPage /> },
 ])
 const queryClient = new QueryClient()
 

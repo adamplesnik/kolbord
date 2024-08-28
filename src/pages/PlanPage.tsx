@@ -9,13 +9,13 @@ import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEdit from '../components/plan/PlanEdit'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
-import Sidebar from '../components/Sidebar'
 import UserMenu from '../components/user/UserMenu'
-import Page from '../pages/Page'
 import MenuBar from '../partials/MenuBar'
+import Page from '../partials/Page'
+import Sidebar from '../partials/Sidebar'
 import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
-const PlanView = () => {
+const PlanPage = () => {
   const { user } = useAuthContext()
 
   const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
@@ -149,6 +149,6 @@ const PlanView = () => {
   )
 }
 
-export type PlanViewProps = {} & HTMLAttributes<HTMLDivElement>
+export type PlanPageProps = {} & HTMLAttributes<HTMLDivElement>
 
-export default PlanView
+export default PlanPage
