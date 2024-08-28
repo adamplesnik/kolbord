@@ -8,13 +8,13 @@ import brand from './resources/brand-1-low.jpg'
 const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className="bg-site flex w-full items-stretch justify-center p-4 md:min-h-screen">
-      <div className="mx-auto flex w-full max-w-7xl md:gap-6">
+      <div className="mx-auto flex w-full max-w-5xl md:gap-6">
         <div
           className="hidden flex-1 rounded-xl bg-cover bg-center bg-no-repeat md:block"
           style={{ backgroundImage: `url(${brand})` }}
         ></div>
-        <div className="flex-1 p-4 sm:p-8">
-          <div className="mx-auto flex w-full max-w-sm flex-col gap-8">
+        <div className="min-w-0 flex-1 shrink-0 p-4 sm:p-8 md:flex-initial">
+          <div className="mx-auto flex w-full max-w-sm flex-col gap-8 md:m-0">
             <Link to="/" target="_blank">
               <Logo className="mb-8 h-6" />
             </Link>
