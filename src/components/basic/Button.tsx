@@ -6,12 +6,14 @@ const Button = ({
   children,
   onClick,
   asBlock = false,
+  disabled,
   className,
   buttonType = 'secondary',
   active = false,
   Icon = undefined,
   IconRight = undefined,
   iconClassName = undefined,
+  type = 'button',
 }: ButtonProps) => {
   const styling: Record<string, string> = {
     primary:
@@ -22,7 +24,8 @@ const Button = ({
 
   return (
     <button
-      type="button"
+      disabled={disabled}
+      type={type}
       onClick={onClick}
       className={
         'cursor-pointer items-center gap-2 rounded' +
@@ -43,9 +46,11 @@ export type ButtonProps = {
   active?: boolean | undefined
   asBlock?: boolean | undefined
   buttonType?: 'primary' | 'secondary' | 'tertiary'
+  type?: 'button' | 'submit'
   Icon?: LucideIcon | undefined
   IconRight?: LucideIcon | undefined
   iconClassName?: string | undefined
+  disabled?: boolean | undefined
 } & HTMLAttributes<HTMLButtonElement>
 
 export default Button

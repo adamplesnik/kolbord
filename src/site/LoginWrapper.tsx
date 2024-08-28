@@ -22,7 +22,7 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
             <div className="mt-8 border-t border-t-slate-300 pt-4">
               <P small>
                 <strong>The smoothest hot desking app.</strong> Open-source, free to use for booking
-                anything from tables to parking spaces
+                anything from tables to parking spaces.
               </P>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Link to={'/'} target="_blank">

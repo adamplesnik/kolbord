@@ -56,7 +56,7 @@ type InputWithLabelProps = {
   label?: string | number
   value: string | number
   required: boolean
-  inputType: 'text' | 'number' | 'password'
+  inputType: 'text' | 'number' | 'password' | 'email'
   onChange: ChangeEventHandler<HTMLInputElement> | undefined
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
   loose?: boolean
