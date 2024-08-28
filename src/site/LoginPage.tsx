@@ -83,8 +83,8 @@ const LoginPage = () => {
               <InputWithLabel
                 loose
                 required
-                label="E-mail and password"
-                placeholder="E-mail"
+                label="Email and password"
+                placeholder="Email"
                 inputType="email"
                 value={state.value}
                 onChange={(e) => handleChange(e.target.value)}

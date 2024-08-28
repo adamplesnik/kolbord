@@ -7,7 +7,7 @@ const NewsletterForm = () => {
   <form action="https://adamplesnik.us14.list-manage.com/subscribe/post?u=510fca16846713406e33dbfde&amp;id=2cca3c97ec&amp;f_id=003695e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
     <div id="mc_embed_signup_scroll" class="w-full">
       <div class="flex flex-col w-full gap-4 items-center md:flex-row">
-        <div class="mc-field-group flex gap-4 items-center"><label for="mce-EMAIL" class="shrink-0 w-32 md:w-auto">E-mail address</label><input type="email" name="EMAIL" class="w-full rounded border-slate-400 bg-slate-50 p-2 hover:border-slate-600" id="mce-EMAIL" required value=""></div>
+        <div class="mc-field-group flex gap-4 items-center"><label for="mce-EMAIL" class="shrink-0 w-32 md:w-auto">Email address</label><input type="email" name="EMAIL" class="w-full rounded border-slate-400 bg-slate-50 p-2 hover:border-slate-600" id="mce-EMAIL" required value=""></div>
         <div class="mc-field-group flex gap-4 items-center"><label for="mce-FNAME" class="shrink-0 w-32 md:w-auto">First name</label><input type="text" name="FNAME" class="w-full rounded border-slate-400 bg-slate-50 p-2 hover:border-slate-600" id="mce-FNAME" required value=""></div>
         <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="from-pink-500 to-pink-700 bg-gradient-to-br px-4 py-2 text-white hover:from-pink-600 transition-color inline-flex w-fit cursor-pointer items-center gap-1 rounded" value="Subscribe">
       </div>
