@@ -62,7 +62,7 @@ const LoginPage = () => {
       <Heading size={2} className="text-center">
         Login
       </Heading>
-      <P className="text-center">Login into your Kolbord account.</P>
+      <P className="text-center">Log in to your Kolbord account.</P>
       {error && (
         <div className="flex items-center gap-2 rounded border border-red-400 bg-red-50 py-2 px-3 text-red-700">
           <KeyRoundIcon className="size-6" strokeWidth={1.5} />
@@ -112,7 +112,7 @@ const LoginPage = () => {
         />
         <div className="flex flex-col gap-4 pt-2">
           <Button type="submit" buttonType="primary" asBlock>
-            Login
+            Log in
           </Button>
           <div className="flex flex-col gap-2">
             <Link to="/password">
