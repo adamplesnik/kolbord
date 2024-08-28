@@ -1,52 +1,75 @@
-import Em from '../components/basic/Em'
+import { useForm } from '@tanstack/react-form'
+import A from '../components/basic/A'
+import Button from '../components/basic/Button'
+import Heading from '../components/basic/Heading'
+import InputWithLabel from '../components/basic/InputWithLabel'
+import P from '../components/basic/P'
 
 const NewsletterForm = () => {
-  const html = {
-    __html: `
-<div id="mc_embed_signup">
-  <form action="https://adamplesnik.us14.list-manage.com/subscribe/post?u=510fca16846713406e33dbfde&amp;id=2cca3c97ec&amp;f_id=003695e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_self" novalidate="">
-    <div id="mc_embed_signup_scroll" class="w-full">
-      <div class="flex flex-col w-full gap-4 items-center md:flex-row">
-        <div class="mc-field-group flex gap-4 items-center"><label for="mce-EMAIL" class="shrink-0 w-32 md:w-auto">Email address</label><input type="email" name="EMAIL" class="w-full rounded border-slate-400 bg-slate-50 p-2 hover:border-slate-600" id="mce-EMAIL" required value=""></div>
-        <div class="mc-field-group flex gap-4 items-center"><label for="mce-FNAME" class="shrink-0 w-32 md:w-auto">First name</label><input type="text" name="FNAME" class="w-full rounded border-slate-400 bg-slate-50 p-2 hover:border-slate-600" id="mce-FNAME" required value=""></div>
-        <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="from-pink-500 to-pink-700 bg-gradient-to-br px-4 py-2 text-white hover:from-pink-600 transition-color inline-flex w-fit cursor-pointer items-center gap-1 rounded" value="Subscribe">
-      </div>
-    <div id="mce-responses" class="clear foot">
-      <div class="response" id="mce-error-response" style="display: none;"></div>
-      <div class="response" id="mce-success-response" style="display: none;"></div>
-    </div>
-    <div aria-hidden="true" style="position: absolute; left: -5000px;">
-      /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */
-      <input type="text" name="b_510fca16846713406e33dbfde_2cca3c97ec" tabindex="-1" value="">
-    </div>
-    <a href="http://eepurl.com/iXjkd2" title="Mailchimp - email marketing made easy and fun" target="_blank" class="mt-4 flex pt-4 border-t border-t-slate-300 justify-center items-center gap-2 text-slate-500 text-xs">
-    Powered by
-      <span class="inline-block">
-        <img src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" class="w-24 flex refferal_badge">
-      </span>
-    </a>
-  </form>
-</div>
-`,
-  }
+  const { Field, handleSubmit } = useForm({
+    // onSubmit: async ({ value }) => {
+    //   await subscribeToNewsletter(value.name, value.email)
+    // },
+    defaultValues: {
+      email: '',
+      name: '',
+    },
+  })
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col justify-center gap-6 rounded-xl bg-white p-4 md:p-6">
-      <h2 className="text-2xl font-semibold leading-snug md:text-3xl">
-        Sign up for our newsletter!
-      </h2>
-      <p className="text-sm text-slate-600">
-        Be the first to know when we launch our public beta, discover new features, and learn how to
-        become the{' '}
-        <Em
-          tooltipContent={<span>No on-boarding, no demo period, no credit card.</span>}
-          tooltipId="newletterTooltip"
-        >
-          smoothest hot-desking
-        </Em>{' '}
-        pro.
-      </p>
-      <div dangerouslySetInnerHTML={html}></div>
+    <div className="bg-sidebar mx-auto flex w-full max-w-lg flex-col justify-center gap-2 rounded-xl border border-2 border-pink-400/10 p-4 md:p-6">
+      <Heading size={3}>Sign up for our newsletter!</Heading>
+      <P className="pt-4">
+        Be the first to know when we launch our public beta, discover new features, and learn that
+        in Kolbord, you can book almost anything.
+      </P>
+      <form
+        className="mx-auto flex w-full flex-col gap-2"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}
+      >
+        <div className="flex w-full flex-col gap-4 sm:flex-row sm:*:flex-1">
+          <Field
+            name="email"
+            children={({ state, handleBlur, handleChange }) => (
+              <InputWithLabel
+                loose
+                required
+                label="Your email"
+                placeholder="Your email"
+                inputType="email"
+                value={state.value}
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+              />
+            )}
+          />
+          <Field
+            name="name"
+            children={({ state, handleBlur, handleChange }) => (
+              <InputWithLabel
+                loose
+                required
+                label="Your first name"
+                inputType="text"
+                placeholder="Your first name"
+                value={state.value}
+                onChange={(e) => handleChange(e.target.value)}
+                onBlur={handleBlur}
+              />
+            )}
+          />
+        </div>
+        <Button type="submit" buttonType="primary" asBlock className="mt-1">
+          Subscribe
+        </Button>
+        <span className="pt-2 text-xs text-slate-600">
+          We keep your data safe. For more details, please see our{' '}
+          <A to="/terms">Terms and conditions</A>.
+        </span>
+      </form>
     </div>
   )
 }
