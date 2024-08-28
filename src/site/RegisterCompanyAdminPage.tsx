@@ -29,7 +29,7 @@ const RegisterCompanyAdminPage = () => {
       <div>
         <P>
           Register as a company admin by providing your details along with your company name. You'll
-          receive a confirmation email containing an activation A.
+          receive a confirmation email containing an activation link.
         </P>
         <P>
           For more information, explore{' '}
