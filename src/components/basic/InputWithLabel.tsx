@@ -1,13 +1,13 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const PlaceDetailEditRow = ({
+const InputWithLabel = ({
   label,
   value,
   required,
   inputType,
   onChange,
   onBlur,
-}: PlaceDetailEditRowProps) => {
+}: InputWithLabelProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -25,7 +25,7 @@ const PlaceDetailEditRow = ({
   )
 }
 
-type PlaceDetailEditRowProps = {
+type InputWithLabelProps = {
   label: string | number
   value: string | number
   required: boolean
@@ -34,4 +34,4 @@ type PlaceDetailEditRowProps = {
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
 }
 
-export default PlaceDetailEditRow
+export default InputWithLabel

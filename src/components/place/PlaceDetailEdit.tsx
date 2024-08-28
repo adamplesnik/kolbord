@@ -7,7 +7,7 @@ import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import PlaceDetailCheckboxRow from './PlaceDetailCheckboxRow'
-import PlaceDetailEditRow from './PlaceDetailEditRow'
+import InputWithLabel from '../basic/InputWithLabel'
 
 const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
@@ -128,7 +128,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
           <Field
             name="attributes.name"
             children={({ state, handleChange, handleBlur }) => (
-              <PlaceDetailEditRow
+              <InputWithLabel
                 label="Name"
                 value={state.value}
                 onChange={(e) => handleChange(e.target.value)}
@@ -142,7 +142,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.x"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="X"
                   value={state.value}
                   required
@@ -155,7 +155,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.y"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="Y"
                   value={state.value}
                   required
@@ -168,7 +168,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.chairs"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="Chairs"
                   value={state.value}
                   required
@@ -206,7 +206,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.width"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="Width"
                   value={state.value}
                   required
@@ -219,7 +219,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.height"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="Height"
                   value={state.value}
                   required
@@ -232,7 +232,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.rotation"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailEditRow
+                <InputWithLabel
                   label="Rotation"
                   value={state.value}
                   onChange={(e) => handleChange(+e.target.value)}
