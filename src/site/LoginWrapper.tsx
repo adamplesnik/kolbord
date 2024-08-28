@@ -1,9 +1,9 @@
 import { HTMLAttributes } from 'react'
-import Logo from '../components/Logo'
-import brand from './resources/brand-1-low.jpg'
 import { Link } from 'react-router-dom'
 import Button from '../components/basic/Button'
 import P from '../components/basic/P'
+import Logo from '../components/Logo'
+import brand from './resources/brand-1-low.jpg'
 
 const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   return (
@@ -15,7 +15,9 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
         ></div>
         <div className="flex-1 p-4 sm:p-8">
           <div className="mx-auto flex w-full max-w-sm flex-col gap-8">
-            <Logo className="mb-8 h-6" />
+            <Link to="/" target="_blank">
+              <Logo className="mb-8 h-6" />
+            </Link>
             {children}
             <div className="mt-8 border-t border-t-slate-300 pt-4">
               <P small>
@@ -23,12 +25,12 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
                 anything from tables to parking spaces
               </P>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <Link to={'/'}>
+                <Link to={'/'} target="_blank">
                   <Button buttonType="tertiary" className="text-sm">
                     Learn more about Kolbord
                   </Button>
                 </Link>
-                <Link to={'/'}>
+                <Link to={'/'} target="_blank">
                   <Button buttonType="tertiary" className="text-sm">
                     Data protection
                   </Button>
