@@ -16,7 +16,7 @@ const InputWithLabel = ({
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <label className={'flex flex-col' + addWithSpace(loose ? 'gap-2' : 'gap-1')}>
+    <label className={'flex flex-col' + addWithSpace(loose ? 'gap-1' : 'gap-1')}>
       {label && (
         <span
           className={
