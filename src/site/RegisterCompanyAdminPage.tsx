@@ -1,16 +1,16 @@
 import { useForm } from '@tanstack/react-form'
+import Button from '../components/basic/Button'
 import Heading from '../components/basic/Heading'
 import P from '../components/basic/P'
 import LoginWrapper from './LoginWrapper'
-import Button from '../components/basic/Button'
-import { Link } from 'react-router-dom'
-import InputWithLabel from '../components/basic/InputWithLabel'
+
+import A from '../components/basic/A'
 import CheckboxWithLabel from '../components/basic/CheckboxWithLabel'
-import Em from '../components/basic/Em'
+import InputWithLabel from '../components/basic/InputWithLabel'
 
 const RegisterCompanyAdminPage = () => {
   const { Field, handleSubmit } = useForm({
-    onSubmit: async ({ value }) => {
+    onSubmit: async () => {
       // await tryRegister(value.userName, value.userPassword)
     },
     defaultValues: {
@@ -28,11 +28,15 @@ const RegisterCompanyAdminPage = () => {
       <Heading size={2}>Register new company</Heading>
       <div>
         <P>
-          Register as a <Em>company admin</Em> by providing your details along with your company
-          name. You'll receive a confirmation email containing an activation link.
+          Register as a company admin by providing your details along with your company name. You'll
+          receive a confirmation email containing an activation A.
         </P>
         <P>
-          For more information, explore <Link to="/faq">how Kolbord works.</Link>
+          For more information, explore{' '}
+          <A to="/faq" target="_blank">
+            how Kolbord works
+          </A>
+          .
         </P>
       </div>
       <form
@@ -131,9 +135,9 @@ const RegisterCompanyAdminPage = () => {
               label={
                 <>
                   Check that you agree with our{' '}
-                  <Link to="terms" target="_blank">
+                  <A to="terms" target="_blank">
                     Terms and conditions
-                  </Link>
+                  </A>
                 </>
               }
               checked={state.value}
@@ -142,23 +146,15 @@ const RegisterCompanyAdminPage = () => {
             />
           )}
         />
-        <div className="flex flex-col gap-4 pt-2">
-          <Button type="submit" buttonType="primary" asBlock>
-            Register
-          </Button>
-          <div className="flex flex-col gap-2">
-            <Link to="/login">
-              <Button buttonType="tertiary" className="text-sm">
-                Already registered? Log in.
-              </Button>
-            </Link>
-            <Link to="/resend">
-              <Button buttonType="tertiary" className="text-sm">
-                You did not receive the confirmation email?
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <Button type="submit" buttonType="primary" asBlock className="mt-2">
+          Register
+        </Button>
+        <A to="/login" className="mt-4 text-sm">
+          <Button buttonType="tertiary">Already registered? Log in</Button>
+        </A>
+        <A to="/resend" className="text-sm">
+          You did not receive the confirmation email?
+        </A>
       </form>
     </LoginWrapper>
   )
