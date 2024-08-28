@@ -5,6 +5,7 @@ import { LucideIcon } from 'lucide-react'
 const Button = ({
   children,
   onClick,
+  asBlock = false,
   className,
   buttonType = 'secondary',
   active = false,
@@ -24,10 +25,11 @@ const Button = ({
       type="button"
       onClick={onClick}
       className={
-        'inline-flex w-fit cursor-pointer items-center gap-2 rounded' +
+        'cursor-pointer items-center gap-2 rounded' +
         addWithSpace(active ? 'font-bold' : '') +
         addWithSpace(styling[buttonType]) +
-        addWithSpace(className)
+        addWithSpace(className) +
+        addWithSpace(asBlock ? 'flex justify-center' : 'inline-flex w-fit')
       }
     >
       {Icon && <Icon strokeWidth={2} className={'size-5' + addWithSpace(iconClassName)} />}
@@ -38,8 +40,9 @@ const Button = ({
 }
 
 export type ButtonProps = {
-  buttonType?: 'primary' | 'secondary' | 'tertiary'
   active?: boolean | undefined
+  asBlock?: boolean | undefined
+  buttonType?: 'primary' | 'secondary' | 'tertiary'
   Icon?: LucideIcon | undefined
   IconRight?: LucideIcon | undefined
   iconClassName?: string | undefined
