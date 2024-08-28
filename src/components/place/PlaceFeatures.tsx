@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import Badge from '../Badge'
+import Badge from '../basic/Badge'
 import PlaceFeatureIcon from './PlaceFeatureIcon'
 
 export const PlaceFeatures = ({ features, className, withDesc = false }: PlaceFeaturesProps) => {

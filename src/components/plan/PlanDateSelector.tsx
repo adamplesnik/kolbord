@@ -1,7 +1,7 @@
 import { CalendarDays } from 'lucide-react'
 import Calendar from 'react-calendar'
 import { Tooltip } from 'react-tooltip'
-import Button from '../Button'
+import Button from '../basic/Button'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]

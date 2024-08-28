@@ -1,7 +1,7 @@
 import { ListChecks, LogIn, LogOut } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
-import Button from '../Button'
+import Button from '../basic/Button'
 import { Link } from 'react-router-dom'
 
 const UserMenu = () => {

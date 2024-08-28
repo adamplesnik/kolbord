@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
-import { loadTable } from '../../utils/fetchApi'
 import Badge from '../basic/Badge'
-import Heading from '../basic/Heading'
-import Loading from '../basic/Loading'
-import PlaceBooking from './PlaceBooking'
+import Button from '../basic/Button'
+import { PlaceFeatures } from '../place/PlaceFeatures'
+import { BookingRecord } from '../../data/BookingRecord'
+import { loadTable } from '../../utils/fetchApi'
 import PlaceDetailEdit from './PlaceDetailEdit'
-import { PlaceFeatures } from './PlaceFeatures'
+import Loading from '../basic/Loading'
 
-const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
+const PlaceDetail = ({ tableId, editMode }: PlaceDetailProps) => {
   const {
     data: loadedTable,
     isSuccess,
@@ -27,9 +27,9 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-10 p-8">
+          <div className="flex flex-col gap-8 p-8">
             <div className="sticky top-3 z-10 flex items-center gap-4">
-              <Heading size={3}>{loadedTable.data.attributes.name}</Heading>
+              <span className="text-3xl font-semibold">{loadedTable.data.attributes.name}</span>
               {loadedTable.data.attributes.group.data && (
                 <Badge
                   className="p-1 text-sm"
@@ -40,18 +40,24 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
                 </Badge>
               )}
             </div>
-            {loadedTable.data.attributes.features.data && !editMode && (
+            {loadedTable.data.attributes.features.data && (
               <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
             )}
-            {loadedTable.data.attributes.available && !editMode && (
-              <PlaceBooking
-                tableId={tableId}
-                slots={loadedTable.data.attributes.slots}
-                workingDate={workingDate}
-              />
-            )}
-            {!loadedTable.data.attributes.available && !editMode && (
-              <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
+            {loadedTable.data.attributes.available === false ? (
+              <span className="cursor-not-allowed rounded bg-slate-300 py-2 px-4 text-slate-500">
+                Not available
+              </span>
+            ) : (
+              <>
+                {/* <div className="flex flex-col gap-8">
+                {bookings.map((b, i) => (
+                  <SidebarBooking booking={b} key={i} />
+                ))}
+              </div> */}
+                <Button className="sticky bottom-2 w-full" buttonType="primary">
+                  Book
+                </Button>
+              </>
             )}
             {editMode && <PlaceDetailEdit table={loadedTable.data} />}
           </div>
@@ -65,8 +71,8 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
 
 export type PlaceDetailProps = {
   tableId: number
+  bookings: BookingRecord[] | undefined
   editMode: boolean
-  workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetail

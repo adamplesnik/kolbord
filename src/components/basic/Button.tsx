@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../utils/addWithSpace'
+import { addWithSpace } from '../../utils/addWithSpace'
 import { LucideIcon } from 'lucide-react'
 
 const Button = ({

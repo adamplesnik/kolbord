@@ -4,7 +4,7 @@ import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
-import Button from '../Button'
+import Button from '../basic/Button'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 
 const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProps) => {

@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { addWithSpace } from '../utils/addWithSpace'
+import { addWithSpace } from '../../utils/addWithSpace'
 
 const Badge = ({ children, className, dataTooltipContent, dataTooltipId }: BadgeProps) => {
   return (

@@ -1,5 +1,5 @@
 import { Fullscreen, ZoomIn, ZoomOut } from 'lucide-react'
-import Button from '../Button'
+import Button from '../basic/Button'
 
 const PlanControls = ({ zoomIn, zoomOut, resetTransform }: PlanControlsProps) => {
   return (

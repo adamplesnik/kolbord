@@ -1,7 +1,7 @@
 import { CheckCheck, Pencil } from 'lucide-react'
 import { useAuthContext } from '../../auth/AuthContext'
 import { addWithSpace } from '../../utils/addWithSpace'
-import Button from '../Button'
+import Button from '../basic/Button'
 import PlaceAdd from '../place/PlaceAdd'
 
 const PlanEdit = ({ editMode, planId, handlePlaceAdd, handleEditModeChange }: PlanEditProps) => {
