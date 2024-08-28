@@ -6,7 +6,7 @@ import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
-import PlaceDetailCheckboxRow from './PlaceDetailCheckboxRow'
+import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import InputWithLabel from '../basic/InputWithLabel'
 
 const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
@@ -247,7 +247,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.available"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailCheckboxRow
+                <CheckboxWithLabel
                   label="Available"
                   onChange={(e) => handleChange(e.target.checked)}
                   onBlur={handleBlur}
@@ -258,7 +258,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
             <Field
               name="attributes.rounded"
               children={({ state, handleChange, handleBlur }) => (
-                <PlaceDetailCheckboxRow
+                <CheckboxWithLabel
                   label="Rounded"
                   onChange={(e) => handleChange(e.target.checked)}
                   onBlur={handleBlur}

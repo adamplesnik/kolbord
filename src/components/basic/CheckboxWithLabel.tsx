@@ -1,12 +1,12 @@
 import { ChangeEventHandler, FocusEventHandler } from 'react'
 
-const PlaceDetailCheckboxRow = ({
+const CheckboxWithLabel = ({
   label,
   checked,
   required = false,
   onChange,
   onBlur,
-}: PlaceDetailCheckboxRowProps) => {
+}: CheckboxWithLabelProps) => {
   return (
     <label className="flex flex-col gap-1">
       <span className={'w-12 shrink-0 text-xs ' + (required ? 'font-bold' : 'font-normal')}>
@@ -24,7 +24,7 @@ const PlaceDetailCheckboxRow = ({
   )
 }
 
-type PlaceDetailCheckboxRowProps = {
+type CheckboxWithLabelProps = {
   label: string | number
   checked: boolean | undefined
   required?: boolean | undefined
@@ -32,4 +32,4 @@ type PlaceDetailCheckboxRowProps = {
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
 }
 
-export default PlaceDetailCheckboxRow
+export default CheckboxWithLabel
