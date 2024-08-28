@@ -2,7 +2,7 @@ import { ListChecks, LogIn, LogOut } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
 import Button from '../basic/Button'
-import { Link } from 'react-router-dom'
+import { Link, redirect } from 'react-router-dom'
 
 const UserMenu = () => {
   const { user, logout } = useAuthContext()
@@ -21,7 +21,13 @@ const UserMenu = () => {
       <Tooltip id="userTooltip" clickable openOnClick>
         <div className="flex flex-col *:w-full">
           <Button Icon={ListChecks}>My bookings</Button>
-          <Button onClick={() => logout()} Icon={LogOut}>
+          <Button
+            onClick={() => {
+              logout()
+              redirect('/login')
+            }}
+            Icon={LogOut}
+          >
             Log out
           </Button>
         </div>

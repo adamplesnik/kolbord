@@ -1,4 +1,5 @@
 import { HTMLAttributes, useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
@@ -100,6 +101,10 @@ const PlanPage = () => {
         </div>
       </MenuBar>
     )
+  }
+
+  if (!user) {
+    return <Navigate to="/login" />
   }
 
   return (

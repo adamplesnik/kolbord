@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
 import { removeToken, setToken } from '../auth/helpers'
@@ -12,8 +12,6 @@ import LoginWrapper from './LoginWrapper'
 
 const LoginPage = () => {
   const { user } = useAuthContext()
-  const [isUser, setIsUser] = useState(user != undefined)
-
   const [error, setError] = useState<string | undefined>(undefined)
 
   const tryLogin = async (userName: string, userPassword: string): Promise<any> => {
@@ -33,12 +31,11 @@ const LoginPage = () => {
     const data = await response.json()
 
     if (data?.error) {
-      removeToken()
       setError(data?.error.message)
+      removeToken()
     } else {
       setError(undefined)
       setToken(data.jwt)
-      setIsUser(true)
     }
   }
 
@@ -52,11 +49,7 @@ const LoginPage = () => {
     },
   })
 
-  useEffect(() => {
-    setIsUser(user != undefined)
-  })
-
-  if (isUser) {
+  if (user) {
     return <Navigate to="/plan" />
   }
 
@@ -73,7 +66,7 @@ const LoginPage = () => {
         </div>
       )}
       <form
-        className="mx-auto flex w-full max-w-sm flex-col gap-4"
+        className="mx-auto flex w-full max-w-sm flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault()
           handleSubmit()
@@ -113,7 +106,7 @@ const LoginPage = () => {
             />
           )}
         />
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pt-2">
           <Button type="submit" buttonType="primary" asBlock>
             Login
           </Button>
