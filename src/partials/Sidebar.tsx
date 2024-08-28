@@ -1,7 +1,7 @@
 import { X } from 'lucide-react'
-import { addWithSpace } from '../utils/addWithSpace'
-import Button from './basic/Button'
 import { HTMLAttributes, MouseEventHandler } from 'react'
+import { addWithSpace } from '../utils/addWithSpace'
+import Button from '../components/basic/Button'
 
 const Sidebar = ({ children, isOpen, closeSidebar, className, editMode }: SidebarProps) => {
   return (
