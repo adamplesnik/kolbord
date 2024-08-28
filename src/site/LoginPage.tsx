@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
 import { removeToken, setToken } from '../auth/helpers'
 import Button from '../components/basic/Button'
@@ -20,28 +20,32 @@ const LoginPage = () => {
       password: userPassword,
     }
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/local?populate=*`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    })
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/local?populate=*`, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
 
-    const data = await response.json()
+      const data = await response.json()
 
-    if (data?.error) {
-      setError(data?.error.message)
-      removeToken()
-    } else {
-      setError(undefined)
-      setToken(data.jwt)
+      if (response.ok) {
+        setError(undefined)
+        setToken(data.jwt)
+      } else {
+        setError(data?.error.message || 'Login error.')
+        removeToken()
+      }
+    } catch {
+      setError('An unexpected error occurred.')
     }
   }
 
   const { Field, handleSubmit } = useForm({
     onSubmit: async ({ value }) => {
-      tryLogin(value.userName, value.userPassword)
+      await tryLogin(value.userName, value.userPassword)
     },
     defaultValues: {
       userName: '',
@@ -110,9 +114,18 @@ const LoginPage = () => {
           <Button type="submit" buttonType="primary" asBlock>
             Login
           </Button>
-          <Button buttonType="tertiary" className="text-sm">
-            Did you forgot your password?
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Link to="/password">
+              <Button buttonType="tertiary" className="text-sm">
+                Did you forgot your password?
+              </Button>
+            </Link>
+            <Link to="/register">
+              <Button buttonType="tertiary" className="text-sm">
+                Register new company
+              </Button>
+            </Link>
+          </div>
         </div>
       </form>
     </LoginWrapper>
