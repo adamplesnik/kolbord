@@ -11,6 +11,7 @@ const InputWithLabel = ({
   onChange,
   onBlur,
   loose = false,
+  placeholder,
 }: InputWithLabelProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -36,6 +37,7 @@ const InputWithLabel = ({
           }
           type={showPassword ? 'text' : inputType}
           value={value}
+          placeholder={placeholder}
           onBlur={onBlur}
           onChange={onChange}
         />
@@ -58,6 +60,7 @@ type InputWithLabelProps = {
   onChange: ChangeEventHandler<HTMLInputElement> | undefined
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
   loose?: boolean
+  placeholder?: string | undefined
 }
 
 export default InputWithLabel
