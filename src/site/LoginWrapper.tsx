@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
-import Button from '../components/basic/Button'
+import A from '../components/basic/A'
 import P from '../components/basic/P'
 import Logo from '../components/Logo'
 import brand from './resources/brand-1-low.jpg'
@@ -24,17 +24,13 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
                 <strong>The smoothest hot desking app.</strong> Open-source, free to use for booking
                 anything from tables to parking spaces.
               </P>
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <Link to={'/'} target="_blank">
-                  <Button buttonType="tertiary" className="text-sm">
-                    Learn more about Kolbord
-                  </Button>
-                </Link>
-                <Link to={'/'} target="_blank">
-                  <Button buttonType="tertiary" className="text-sm">
-                    Data protection
-                  </Button>
-                </Link>
+              <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+                <A to={'/'} target="_blank">
+                  Learn more about Kolbord
+                </A>
+                <A to={'/'} target="_blank">
+                  Data protection
+                </A>
               </div>
             </div>
           </div>
