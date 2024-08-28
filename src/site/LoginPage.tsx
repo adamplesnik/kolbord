@@ -1,8 +1,9 @@
 import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
-import { useState } from 'react'
-import { redirect } from 'react-router-dom'
-import { setToken } from '../auth/helpers'
+import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useAuthContext } from '../auth/AuthContext'
+import { removeToken, setToken } from '../auth/helpers'
 import Button from '../components/basic/Button'
 import Heading from '../components/basic/Heading'
 import InputWithLabel from '../components/basic/InputWithLabel'
@@ -10,6 +11,9 @@ import P from '../components/basic/P'
 import LoginWrapper from './LoginWrapper'
 
 const LoginPage = () => {
+  const { user } = useAuthContext()
+  const [isUser, setIsUser] = useState(user != undefined)
+
   const [error, setError] = useState<string | undefined>(undefined)
 
   const tryLogin = async (userName: string, userPassword: string): Promise<any> => {
@@ -17,6 +21,7 @@ const LoginPage = () => {
       identifier: userName,
       password: userPassword,
     }
+
     const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/local?populate=*`, {
       method: 'post',
       headers: {
@@ -24,14 +29,16 @@ const LoginPage = () => {
       },
       body: JSON.stringify(values),
     })
+
     const data = await response.json()
 
     if (data?.error) {
+      removeToken()
       setError(data?.error.message)
     } else {
       setError(undefined)
       setToken(data.jwt)
-      redirect('/plan')
+      setIsUser(true)
     }
   }
 
@@ -44,6 +51,14 @@ const LoginPage = () => {
       userPassword: '',
     },
   })
+
+  useEffect(() => {
+    setIsUser(user != undefined)
+  })
+
+  if (isUser) {
+    return <Navigate to="/plan" />
+  }
 
   return (
     <LoginWrapper>
