@@ -16,6 +16,7 @@ const Button = ({
     primary:
       'bg-slate-800 px-4 py-2 text-white transition-color hover:bg-slate-950 active:bg-black',
     secondary: 'p-2 hover:bg-slate-300/50',
+    tertiary: 'text-cyan-600 hover:text-cyan-800',
   }
 
   return (
@@ -37,7 +38,7 @@ const Button = ({
 }
 
 export type ButtonProps = {
-  buttonType?: 'primary' | 'secondary'
+  buttonType?: 'primary' | 'secondary' | 'tertiary'
   active?: boolean | undefined
   Icon?: LucideIcon | undefined
   IconRight?: LucideIcon | undefined
