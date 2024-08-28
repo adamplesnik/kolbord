@@ -1,9 +1,10 @@
 import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
 import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
 import { removeToken, setToken } from '../auth/helpers'
+import A from '../components/basic/A'
 import Button from '../components/basic/Button'
 import Heading from '../components/basic/Heading'
 import InputWithLabel from '../components/basic/InputWithLabel'
@@ -59,10 +60,8 @@ const LoginPage = () => {
 
   return (
     <LoginWrapper>
-      <Heading size={2} className="text-center">
-        Login
-      </Heading>
-      <P className="text-center">Log in to your Kolbord account.</P>
+      <Heading size={2}>Login</Heading>
+      <P>Log in to your Kolbord account.</P>
       {error && (
         <div className="flex items-center gap-2 rounded border border-red-400 bg-red-50 py-2 px-3 text-red-700">
           <KeyRoundIcon className="size-6" strokeWidth={1.5} />
@@ -110,23 +109,15 @@ const LoginPage = () => {
             />
           )}
         />
-        <div className="flex flex-col gap-4 pt-2">
-          <Button type="submit" buttonType="primary" asBlock>
-            Log in
-          </Button>
-          <div className="flex flex-col gap-2">
-            <Link to="/password">
-              <Button buttonType="tertiary" className="text-sm">
-                Did you forgot your password?
-              </Button>
-            </Link>
-            <Link to="/register">
-              <Button buttonType="tertiary" className="text-sm">
-                Register new company
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <Button type="submit" buttonType="primary" asBlock className="mt-2">
+          Log in
+        </Button>
+        <A to="/password" className="mt-4 text-sm">
+          Did you forgot your password?
+        </A>
+        <A to="/register" className="text-sm">
+          Register new company
+        </A>
       </form>
     </LoginWrapper>
   )
