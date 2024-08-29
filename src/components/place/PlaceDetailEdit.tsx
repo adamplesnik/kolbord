@@ -9,7 +9,7 @@ import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import InputWithLabel from '../basic/InputWithLabel'
 
-const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
+const PlaceDetailEdit = ({ table, planId }: PlaceDetailEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
@@ -78,15 +78,15 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['tables'] })
-      await queryClient.cancelQueries({ queryKey: ['table'] })
+      await queryClient.cancelQueries({ queryKey: ['places'] })
+      await queryClient.cancelQueries({ queryKey: ['place'] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tables'],
+        queryKey: ['places', planId],
       })
       queryClient.invalidateQueries({
-        queryKey: ['table'],
+        queryKey: ['place', table.id],
       })
     },
   })
@@ -275,6 +275,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
 
 export type PlaceDetailEditProps = {
   table: TableRecord
+  planId: number
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetailEdit

@@ -144,6 +144,7 @@ const PlanPage = () => {
           tableId={sidebarTableId}
           editMode={editMode}
           workingDate={workingDate?.toString()}
+          planId={planId}
         />
       </Sidebar>
       <Sidebar

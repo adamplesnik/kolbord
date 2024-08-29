@@ -8,14 +8,14 @@ import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
 import { PlaceFeatures } from './PlaceFeatures'
 
-const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
+const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProps) => {
   const {
     data: loadedTable,
     isSuccess,
     isLoading,
   } = useQuery({
     enabled: tableId > 0,
-    queryKey: ['table', tableId],
+    queryKey: ['place', tableId],
     queryFn: () => loadTable(tableId),
   })
 
@@ -53,7 +53,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate }: PlaceDetailProps) => {
             {!loadedTable.data.attributes.available && !editMode && (
               <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
             )}
-            {editMode && <PlaceDetailEdit table={loadedTable.data} />}
+            {editMode && <PlaceDetailEdit table={loadedTable.data} planId={planId} />}
           </div>
         ) : (
           'no table selected'
@@ -67,6 +67,7 @@ export type PlaceDetailProps = {
   tableId: number
   editMode: boolean
   workingDate: string | undefined
+  planId: number
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetail

@@ -21,6 +21,7 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
       y: +y,
       rotation: +rotation,
       plan: planId,
+      slots: 'halfday',
     },
   }
 
@@ -42,7 +43,7 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
     mutationFn: (data: NewTableRecord) => createTable(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['tables'],
+        queryKey: ['places', planId],
       })
       handlePlaceAdd(data.data.id)
     },
