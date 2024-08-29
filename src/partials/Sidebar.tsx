@@ -1,9 +1,19 @@
 import { X } from 'lucide-react'
 import { HTMLAttributes, MouseEventHandler } from 'react'
-import { addWithSpace } from '../utils/addWithSpace'
 import Button from '../components/basic/Button'
+import PlanEdit from '../components/plan/PlanEdit'
+import { addWithSpace } from '../utils/addWithSpace'
 
-const Sidebar = ({ children, isOpen, closeSidebar, className, editMode }: SidebarProps) => {
+const Sidebar = ({
+  children,
+  isOpen,
+  closeSidebar,
+  className,
+  editMode,
+  handleEditMode,
+  handlePlaceAdd,
+  planId,
+}: SidebarProps) => {
   return (
     <div
       className={
@@ -13,11 +23,12 @@ const Sidebar = ({ children, isOpen, closeSidebar, className, editMode }: Sideba
       }
     >
       <div className="sticky top-0 z-10 flex items-center justify-end bg-transparent pt-2 px-2 pb-4 backdrop-blur-sm">
-        {editMode && (
-          <span className="rounded border border-red-600 bg-red-100 p-2 text-xs font-semibold">
-            Edit mode
-          </span>
-        )}
+        <PlanEdit
+          planId={planId}
+          editMode={editMode}
+          handleEditModeChange={handleEditMode}
+          handlePlaceAdd={handlePlaceAdd}
+        />
         <Button onClick={closeSidebar} className="self-end">
           <X />
         </Button>
@@ -31,6 +42,9 @@ type SidebarProps = {
   isOpen: boolean
   closeSidebar: MouseEventHandler
   editMode: boolean
+  handleEditMode: () => void
+  handlePlaceAdd: (id: number) => void
+  planId: number
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar

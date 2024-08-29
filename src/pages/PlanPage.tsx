@@ -135,7 +135,10 @@ const PlanPage = () => {
       <Sidebar
         isOpen={sidebarTableId > 0}
         closeSidebar={() => setSidebarTableId(0)}
+        handleEditMode={() => setEditMode(!editMode)}
+        handlePlaceAdd={handlePlaceClick}
         editMode={editMode}
+        planId={planId}
       >
         <PlaceDetail
           tableId={sidebarTableId}
@@ -146,7 +149,10 @@ const PlanPage = () => {
       <Sidebar
         isOpen={editMode && sidebarMarkerId > 0}
         closeSidebar={() => setSidebarMarkerId(0)}
+        handleEditMode={() => setEditMode(!editMode)}
+        handlePlaceAdd={handlePlaceClick}
         editMode={editMode}
+        planId={planId}
       >
         mamm
       </Sidebar>
