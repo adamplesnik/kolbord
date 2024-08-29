@@ -21,16 +21,17 @@ const generateSlots = (date: Date, startHours: number, endHours: number, stepHou
 
 export const getSlots = (date: Date, slots: string) => {
   switch (slots) {
-    case 'whole day':
+    case 'wholeday':
       return generateSlots(date, 6, 18, 12)
-    case 'half-day':
+    case 'halfday':
+      return generateSlots(date, 6, 18, 6)
+    case 'hours2':
+      return generateSlots(date, 6, 18, 2)
+    case 'hour1':
+      return generateSlots(date, 6, 18, 1)
+    case 'minutes30':
+      return generateSlots(date, 6, 18, 0.5)
     default:
       return generateSlots(date, 6, 18, 6)
-    case 'hours 2':
-      return generateSlots(date, 6, 18, 2)
-    case 'hour 1':
-      return generateSlots(date, 6, 18, 1)
-    case 'minutes 30':
-      return generateSlots(date, 6, 18, 0.5)
   }
 }

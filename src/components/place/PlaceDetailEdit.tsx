@@ -184,7 +184,7 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
               name="attributes.slots"
               children={({ state, handleChange, handleBlur }) => (
                 <label className="flex flex-col gap-1">
-                  <span className={'w-12 shrink-0 text-xs font-bold'}>Slots</span>
+                  <span className={'text-sm font-bold'}>Slots</span>
                   <select
                     required
                     className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
@@ -192,11 +192,11 @@ const PlaceDetailEdit = ({ table }: PlaceDetailEditProps) => {
                     onBlur={handleBlur}
                     onChange={(e) => handleChange(e.target.value)}
                   >
-                    <option value="whole day">Whole day</option>
-                    <option value="half-day">Half-day</option>
-                    <option value="hours 2">2 hours</option>
-                    <option value="hours 1">1 hour</option>
-                    <option value="minutes 30">30 minutes</option>
+                    <option value="wholeday">Whole day</option>
+                    <option value="halfday">Half-day</option>
+                    <option value="hours2">2 hours</option>
+                    <option value="hours1">1 hour</option>
+                    <option value="minutes30">30 minutes</option>
                   </select>
                 </label>
               )}
