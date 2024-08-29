@@ -27,7 +27,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProp
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-10 p-8">
+          <div className="flex flex-col gap-6 p-8">
             <div className="sticky top-3 z-10 flex items-center gap-4">
               <Heading size={3}>{loadedTable.data.attributes.name}</Heading>
               {loadedTable.data.attributes.group.data && (
@@ -41,7 +41,11 @@ const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProp
               )}
             </div>
             {loadedTable.data.attributes.features.data && !editMode && (
-              <PlaceFeatures features={loadedTable.data.attributes.features.data} withDesc />
+              <PlaceFeatures
+                className="pb-2"
+                features={loadedTable.data.attributes.features.data}
+                withDesc
+              />
             )}
             {loadedTable.data.attributes.available && !editMode && (
               <PlaceBooking
