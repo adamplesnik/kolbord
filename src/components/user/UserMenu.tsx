@@ -14,7 +14,7 @@ const UserMenu = () => {
           <Button>{user?.name + ' ' + user?.surname}</Button>
         </div>
       ) : (
-        <Link to="/login">
+        <Link to="/">
           <Button IconRight={LogIn}>Log in</Button>
         </Link>
       )}
@@ -24,7 +24,7 @@ const UserMenu = () => {
           <Button
             onClick={() => {
               logout()
-              redirect('/login')
+              redirect('/')
             }}
             Icon={LogOut}
           >

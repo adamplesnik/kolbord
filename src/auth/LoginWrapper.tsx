@@ -15,7 +15,7 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
         ></div>
         <div className="min-w-0 flex-1 shrink-0 p-4 sm:p-8 md:flex-initial">
           <div className="mx-auto flex w-full max-w-sm flex-col gap-8 md:m-0">
-            <Link to="/">
+            <Link to="https://kolbord.com">
               <Logo className="mb-8 h-6" />
             </Link>
             {children}
@@ -25,8 +25,10 @@ const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
                 anything from tables to parking spaces.
               </P>
               <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-                <A to={'/faq'}>Learn more about Kolbord</A>
-                <A to={'/terms'} target="_blank">
+                <A to={'https://kolbord.com/faq'} target="_blank">
+                  Learn more about Kolbord
+                </A>
+                <A to={'https://kolbord.com/terms'} target="_blank">
                   Data protection
                 </A>
               </div>
