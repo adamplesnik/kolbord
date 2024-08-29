@@ -11,6 +11,7 @@ const Place = ({
   attributes: { available, features, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
   bookedToday = false,
+  editMode,
 }: PlaceProps) => {
   const bookedWho = 'ff'
 
@@ -24,10 +25,11 @@ const Place = ({
         addWithSpace(hasChairs && 'pt-2') +
         addWithSpace(available ? 'group cursor-pointer hover:ring-slate-300' : 'opacity-40') +
         addWithSpace(
-          active
+          active && !editMode
             ? 'z-40 bg-slate-700 ring-slate-700 ring-offset-4 hover:ring-slate-800'
             : 'ring-transparent'
         ) +
+        addWithSpace(editMode && active ? 'bg-red-600 ring-transparent' : '') +
         addWithSpace(className)
       }
       style={{
@@ -78,6 +80,7 @@ export type PlaceProps = {
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
   bookedToday?: boolean
+  editMode: boolean
 } & TableRecord
 
 export default Place

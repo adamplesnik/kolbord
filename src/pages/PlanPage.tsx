@@ -123,6 +123,7 @@ const PlanPage = () => {
             <div className="relative m-8">
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
               <Places
+                editMode={editMode}
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
