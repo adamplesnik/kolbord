@@ -8,17 +8,12 @@ import LoginPage from './auth/LoginPage.tsx'
 import RegisterCompanyAdminPage from './auth/RegisterCompanyAdminPage.tsx'
 import './index.css'
 import PlanPage from './pages/PlanPage.tsx'
-import Site from './site/Site.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Site />,
-    errorElement: <Site />,
-  },
-  {
-    path: '/login',
     element: <LoginPage />,
+    errorElement: <LoginPage />,
   },
   {
     path: '/register',
