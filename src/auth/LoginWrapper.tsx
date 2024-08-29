@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import A from '../components/basic/A'
 import P from '../components/basic/P'
 import Logo from '../components/Logo'
-import brand from './resources/brand-1-low.jpg'
+import brand from '../resources/brand-1-low.jpg'
 
 const LoginWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   return (

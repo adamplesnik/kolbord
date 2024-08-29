@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form'
 import Button from '../components/basic/Button'
 import Heading from '../components/basic/Heading'
 import P from '../components/basic/P'
-import LoginWrapper from './LoginWrapper'
+import LoginWrapper from '../auth/LoginWrapper'
 
 import A from '../components/basic/A'
 import CheckboxWithLabel from '../components/basic/CheckboxWithLabel'

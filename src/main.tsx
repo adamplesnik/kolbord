@@ -4,10 +4,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import AuthProvider from './auth/AuthProvider.tsx'
+import LoginPage from './auth/LoginPage.tsx'
+import RegisterCompanyAdminPage from './auth/RegisterCompanyAdminPage.tsx'
 import './index.css'
 import PlanPage from './pages/PlanPage.tsx'
-import LoginPage from './site/LoginPage.tsx'
-import RegisterCompanyAdminPage from './site/RegisterCompanyAdminPage.tsx'
 import Site from './site/Site.tsx'
 
 const router = createBrowserRouter([
