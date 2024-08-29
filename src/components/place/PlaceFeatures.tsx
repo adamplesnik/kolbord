@@ -1,9 +1,9 @@
 import { HTMLAttributes } from 'react'
+import { Tooltip } from 'react-tooltip'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../basic/Badge'
 import PlaceFeatureIcon from './PlaceFeatureIcon'
-import { Tooltip } from 'react-tooltip'
 
 export const PlaceFeatures = ({ features, className, withDesc = false }: PlaceFeaturesProps) => {
   return (
@@ -15,7 +15,7 @@ export const PlaceFeatures = ({ features, className, withDesc = false }: PlaceFe
       }
     >
       {features?.map((feature) => (
-        <div key={feature.id} className="flex items-center gap-2">
+        <div key={feature.id}>
           <div data-tooltip-id={`feature${feature.id}`}>
             <Badge className="size-8 *:stroke-1.5">
               <PlaceFeatureIcon name={feature.attributes.lucideIcon} />
@@ -24,7 +24,7 @@ export const PlaceFeatures = ({ features, className, withDesc = false }: PlaceFe
           {withDesc && (
             <Tooltip
               id={`feature${feature.id}`}
-              className="text-sm"
+              className="z-20 text-sm"
               content={feature.attributes.description}
             />
           )}

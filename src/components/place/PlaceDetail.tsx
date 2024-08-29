@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes } from 'react'
+import { addWithSpace } from '../../utils/addWithSpace'
 import { loadTable } from '../../utils/fetchApi'
 import Badge from '../basic/Badge'
 import Heading from '../basic/Heading'
@@ -27,8 +28,13 @@ const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProp
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-6 p-8">
-            <div className="sticky top-3 z-10 flex items-center gap-4">
+          <div className="flex flex-col gap-6 p-8 pt-0">
+            <div
+              className={
+                'sticky top-3 z-10 flex items-center gap-4' +
+                addWithSpace(editMode ? 'max-w-40' : 'max-w-52')
+              }
+            >
               <Heading size={3}>{loadedTable.data.attributes.name}</Heading>
               {loadedTable.data.attributes.group.data && (
                 <Badge
