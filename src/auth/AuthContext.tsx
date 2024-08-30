@@ -9,8 +9,8 @@ export type User = {
   blocked: boolean
   createdAt: string
   updatedAt: string
-  name: string
-  surname: string
+  firstName: string
+  lastName: string
   role: {
     id: number
   }

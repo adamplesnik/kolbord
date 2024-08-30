@@ -11,7 +11,7 @@ const UserMenu = () => {
     <>
       {user ? (
         <div data-tooltip-id="userTooltip">
-          <Button>{user?.name + ' ' + user?.surname}</Button>
+          <Button>{user?.firstName + ' ' + user?.lastName}</Button>
         </div>
       ) : (
         <Link to="/">

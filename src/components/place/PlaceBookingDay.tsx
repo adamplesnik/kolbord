@@ -84,10 +84,10 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
           )
 
           if (isBooked) {
-            const { email, name, surname } =
+            const { email, firstName, lastName } =
               isBooked.attributes.users_permissions_user.data.attributes
             isBookedByMe = email === user?.email
-            bookedBy = `${name} ${surname}`
+            bookedBy = `${firstName} ${lastName}`
           }
 
           const data = {

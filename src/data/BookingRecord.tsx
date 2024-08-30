@@ -6,8 +6,8 @@ export type BookingRecord = {
         id: number
         attributes: {
           email: string
-          name: string
-          surname: string
+          firstName: string
+          lastName: string
         }
       }
     }
