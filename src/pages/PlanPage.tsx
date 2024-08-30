@@ -88,14 +88,12 @@ const PlanPage = () => {
                 onChange={(value) => setWorkingDate(value)}
                 workingDate={workingDate}
               />
-              {user.companies.map((company) => (
-                <PlanSwitcher
-                  currentPlan={planId}
-                  companyId={company.uuid}
-                  key={company.uuid}
-                  onPlanChange={handlePlanIdChange}
-                />
-              ))}
+              <PlanSwitcher
+                currentPlan={planId}
+                companyId={user.company.uuid}
+                key={user.company.uuid}
+                onPlanChange={handlePlanIdChange}
+              />
             </>
           )}
         </div>

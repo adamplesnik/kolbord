@@ -14,13 +14,11 @@ export type User = {
   role: {
     id: number
   }
-  companies: [
-    {
-      id: number
-      name: string
-      uuid: string
-    },
-  ]
+  company: {
+    id: number
+    name: string
+    uuid: string
+  }
 }
 
 interface ProviderProps {
