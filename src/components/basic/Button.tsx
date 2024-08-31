@@ -35,9 +35,17 @@ const Button = ({
         addWithSpace(asBlock ? 'flex justify-center' : 'inline-flex w-fit')
       }
     >
-      {Icon && <Icon strokeWidth={2} className={'size-5' + addWithSpace(iconClassName)} />}
+      {Icon && (
+        <Icon
+          strokeWidth={2}
+          className={'size-5' + addWithSpace(iconClassName)}
+          aria-hidden={true}
+        />
+      )}
       {children}
-      {IconRight && <IconRight className={'size-5' + addWithSpace(iconClassName)} />}
+      {IconRight && (
+        <IconRight className={'size-5' + addWithSpace(iconClassName)} aria-hidden={true} />
+      )}
     </button>
   )
 }

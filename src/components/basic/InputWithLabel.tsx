@@ -12,6 +12,7 @@ const InputWithLabel = ({
   onBlur,
   loose = false,
   placeholder,
+  hasError = false,
 }: InputWithLabelProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -32,8 +33,13 @@ const InputWithLabel = ({
         <input
           required={required}
           className={
-            'w-full rounded border-slate-400 bg-slate-50 hover:border-slate-600' +
-            addWithSpace(loose ? 'py-1.5 px-3' : 'py-1 px-2 text-sm')
+            'w-full rounded' +
+            addWithSpace(loose ? 'py-1.5 px-3' : 'py-1 px-2 text-sm') +
+            addWithSpace(
+              hasError
+                ? 'border-red-600 bg-red-50'
+                : 'border-slate-400 bg-slate-50 hover:border-slate-600'
+            )
           }
           type={showPassword ? 'text' : inputType}
           value={value}
@@ -45,6 +51,7 @@ const InputWithLabel = ({
           <Button
             onClick={() => setShowPassword(!showPassword)}
             Icon={showPassword ? EyeOff : Eye}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
           />
         )}
       </span>
@@ -61,6 +68,7 @@ type InputWithLabelProps = {
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
   loose?: boolean
   placeholder?: string | undefined
+  hasError?: boolean | undefined
 }
 
 export default InputWithLabel
