@@ -14,6 +14,7 @@ const Button = ({
   IconRight = undefined,
   iconClassName = undefined,
   type = 'button',
+  ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
     primary:
@@ -34,6 +35,7 @@ const Button = ({
         addWithSpace(className) +
         addWithSpace(asBlock ? 'flex justify-center' : 'inline-flex w-fit')
       }
+      {...props}
     >
       {Icon && (
         <Icon
