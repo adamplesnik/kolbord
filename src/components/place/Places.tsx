@@ -30,7 +30,7 @@ const Places = ({ planId, sidebarTableId, handlePlaceClick, editMode }: PlacesPr
       {places?.data &&
         places.data.map((t) => (
           <Place
-            key={t.id}
+            key={`place_${t.id}`}
             id={t.id}
             attributes={{
               name: t.attributes.name,

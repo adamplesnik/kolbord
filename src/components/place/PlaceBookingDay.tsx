@@ -101,7 +101,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
 
           return (
             <PlaceBookingSlot
-              key={i}
+              key={`${from.toISOString}_${to.toISOString}_${i}`}
               dateFrom={from}
               dateTo={to}
               isBooked={isBooked != undefined}
