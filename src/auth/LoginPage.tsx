@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from './AuthContext'
 import { removeToken, setToken } from './helpers'
@@ -54,7 +54,11 @@ const LoginPage = () => {
     },
   })
 
-  if (user) {
+  useEffect(() => {
+    setError(user?.error?.message)
+  }, [user?.error])
+
+  if (user && !user.error) {
     return <Navigate to="/plan" />
   }
 

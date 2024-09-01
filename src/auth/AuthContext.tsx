@@ -19,6 +19,9 @@ export type User = {
     name: string
     uuid: string
   }
+  error?: {
+    message: string
+  }
 }
 
 interface ProviderProps {

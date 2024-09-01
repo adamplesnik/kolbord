@@ -82,7 +82,7 @@ const PlanPage = () => {
         />
         <UserMenu />
         <div className="flex rounded bg-slate-200/70 p-0.5">
-          {user && (
+          {user && !user.error && (
             <>
               <PlanDateSelector
                 onChange={(value) => setWorkingDate(value)}
@@ -101,8 +101,8 @@ const PlanPage = () => {
     )
   }
 
-  if (!user) {
-    return <Navigate to="/login" />
+  if (!user || user.error) {
+    return <Navigate to="/" />
   }
 
   return (
