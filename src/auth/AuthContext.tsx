@@ -11,6 +11,7 @@ export type User = {
   updatedAt: string
   firstName: string
   lastName: string
+  onboardingCompanyName?: string | undefined
   role: {
     id: number
   }
