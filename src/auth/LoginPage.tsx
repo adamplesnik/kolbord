@@ -2,13 +2,12 @@ import { useForm } from '@tanstack/react-form'
 import { KeyRoundIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuthContext } from './AuthContext'
-import { removeToken, setToken } from './helpers'
 import A from '../components/basic/A'
 import Button from '../components/basic/Button'
-import Heading from '../components/basic/Heading'
 import InputWithLabel from '../components/basic/InputWithLabel'
 import P from '../components/basic/P'
+import { useAuthContext } from './AuthContext'
+import { removeToken, setToken } from './helpers'
 import LoginWrapper from './LoginWrapper'
 
 const LoginPage = () => {
@@ -41,6 +40,7 @@ const LoginPage = () => {
       }
     } catch {
       setError('An unexpected error occurred.')
+      removeToken()
     }
   }
 
@@ -63,8 +63,7 @@ const LoginPage = () => {
   }
 
   return (
-    <LoginWrapper>
-      <Heading size={2}>Login</Heading>
+    <LoginWrapper title="Login">
       <P>Log in to your Kolbord account.</P>
       {error && (
         <div className="flex items-center gap-2 rounded border border-red-400 bg-red-50 py-2 px-3 text-red-700">
@@ -73,7 +72,7 @@ const LoginPage = () => {
         </div>
       )}
       <form
-        className="mx-auto flex w-full max-w-sm flex-col gap-2"
+        className="flex w-full max-w-sm flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault()
           handleSubmit()

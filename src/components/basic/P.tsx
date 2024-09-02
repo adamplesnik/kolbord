@@ -5,9 +5,7 @@ const P = ({ children, small = false, className }: PProps) => {
   return (
     <p
       className={
-        'pb-6' +
-        addWithSpace(small ? 'text-sm text-slate-600' : 'leading-relaxed') +
-        addWithSpace(className)
+        (small ? 'pb-4 text-sm text-slate-600' : 'pb-6 leading-relaxed') + addWithSpace(className)
       }
     >
       {children}
