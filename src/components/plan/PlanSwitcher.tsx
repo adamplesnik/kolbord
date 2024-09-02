@@ -1,21 +1,44 @@
-import { useQuery } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Plus } from 'lucide-react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Check, ChevronsUpDown, Edit, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
-import Button from '../basic/Button'
 import { LATEST_PLAN_ID } from '../../utils/constants'
+import Button from '../basic/Button'
 import Ping from '../basic/Ping'
 
-const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, editMode }: PlanSwitcherProps) => {
+const PlanSwitcher = ({
+  companyId,
+  onPlanChange,
+  currentPlan,
+  editMode,
+  onPlanEdit,
+}: PlanSwitcherProps) => {
+  type NewPlanType = {
+    data: PlanRecord
+  }
+  const addPlan = async (apiCompanyId: number): Promise<NewPlanType> => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
+      method: 'post',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: { name: 'New plan', svg: '<svg></svg>', company: apiCompanyId },
+      }),
+    })
+    return response.json()
+  }
+
   type PlansQueryType = {
     data: PlanRecord[]
   }
 
-  const loadPlans = async (apiCompanyId: string): Promise<PlansQueryType> => {
+  const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=uuid&fields[2]=name&filters[company][uuid][$eq]=${apiCompanyId}`,
+      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=uuid&fields[2]=name&filters[company][id][$eq]=${apiCompanyId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -28,6 +51,15 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, editMode }: PlanSw
   const { data: plans } = useQuery({
     queryKey: ['plans'],
     queryFn: () => loadPlans(companyId),
+  })
+
+  const queryClient = useQueryClient()
+  const { mutate } = useMutation({
+    mutationFn: () => addPlan(companyId),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ['plans'] })
+      onPlanEdit(result.data.id)
+    },
   })
 
   useEffect(() => {
@@ -66,18 +98,25 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, editMode }: PlanSw
           {plans &&
             plans.data &&
             plans.data.map((plan) => (
-              <Button
-                className="w-full justify-center"
-                key={`plan_${plan.id}`}
-                onClick={() => onPlanChange(plan.id)}
-                active={currentPlan === plan.id}
-                Icon={Check}
-                iconClassName={currentPlan === plan.id ? 'opacity-100' : 'opacity-35'}
-              >
-                {plan.attributes.name}
-              </Button>
+              <div className="flex gap-1">
+                <Button
+                  className="w-full"
+                  key={`plan_${plan.id}`}
+                  onClick={() => onPlanChange(plan.id)}
+                  active={currentPlan === plan.id}
+                  Icon={Check}
+                  iconClassName={currentPlan === plan.id ? 'opacity-100' : 'opacity-35'}
+                >
+                  {plan.attributes.name}
+                </Button>
+                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
+              </div>
             ))}
-          {editMode && <Button Icon={Plus}>Create new plan...</Button>}
+          {editMode && (
+            <Button Icon={Plus} onClick={() => mutate()}>
+              Create new plan...
+            </Button>
+          )}
         </div>
       </Tooltip>
     </>
@@ -85,10 +124,11 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, editMode }: PlanSw
 }
 
 type PlanSwitcherProps = {
-  companyId: string
+  companyId: number
   onPlanChange: (id: number) => void
   currentPlan: number
   editMode: boolean
+  onPlanEdit: (id: number) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

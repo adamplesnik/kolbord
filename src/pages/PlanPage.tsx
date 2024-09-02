@@ -25,6 +25,7 @@ const PlanPage = () => {
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
+  const [sidebarPlanId, setSidebarPlanId] = useState(0)
   const [editMode, setEditMode] = useState(getEditMode)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
@@ -49,12 +50,18 @@ const PlanPage = () => {
 
   const handleMarkerClick = (id: number) => {
     setSidebarMarkerId(id)
+    setSidebarPlanId(0)
     setSidebarTableId(0)
   }
 
   const handlePlaceClick = (id: number) => {
     setSidebarMarkerId(0)
+    setSidebarPlanId(0)
     setSidebarTableId(id)
+  }
+
+  const onPlanEdit = (id: number) => {
+    setSidebarPlanId(id)
   }
 
   useEffect(() => {
@@ -91,9 +98,10 @@ const PlanPage = () => {
                 workingDate={workingDate}
               />
               <PlanSwitcher
+                onPlanEdit={onPlanEdit}
                 editMode={editMode}
                 currentPlan={planId}
-                companyId={user.company.uuid}
+                companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
               />
             </>
@@ -123,7 +131,7 @@ const PlanPage = () => {
       >
         <>
           <Controls />
-          <TransformComponent wrapperClass="!h-screen">
+          <TransformComponent wrapperClass="!h-screen !w-full">
             <div className="relative m-8">
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
               <Places
@@ -138,8 +146,11 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0}
-        closeSidebar={() => setSidebarTableId(0)}
+        isOpen={sidebarTableId > 0 || sidebarPlanId > 0}
+        closeSidebar={() => {
+          setSidebarTableId(0)
+          setSidebarPlanId(0)
+        }}
         handleEditMode={() => setEditMode(!editMode)}
         handlePlaceAdd={handlePlaceClick}
         editMode={editMode}
