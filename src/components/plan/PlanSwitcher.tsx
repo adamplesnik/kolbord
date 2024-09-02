@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import { LATEST_PLAN_ID } from '../../utils/constants'
+import Ping from '../basic/Ping'
 
-const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProps) => {
+const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, editMode }: PlanSwitcherProps) => {
   type PlansQueryType = {
     data: PlanRecord[]
   }
@@ -30,7 +31,7 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
   })
 
   useEffect(() => {
-    if (currentPlan === 0 && plans) {
+    if (currentPlan === 0 && plans && plans.data.length > 0) {
       const latestPlanId = Number(localStorage.getItem(LATEST_PLAN_ID))
       const validPlans = plans.data.map((p) => p.id)
       const isValidPlanId = validPlans.includes(latestPlanId)
@@ -43,7 +44,14 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
     <>
       <div data-tooltip-id="plansTooltip">
         <Button IconRight={ChevronsUpDown}>
+          {plans && plans.data.length === 0 && editMode && (
+            <div className="flex items-center gap-2 text-pink-600">
+              Create new plan
+              <Ping className="-mr-[1.6rem]" />
+            </div>
+          )}
           {plans &&
+            plans.data &&
             plans.data.map((plan) =>
               currentPlan === plan.id ? (
                 <span key={plan.attributes.uuid}>{plan.attributes.name}</span>
@@ -56,6 +64,7 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
       <Tooltip id="plansTooltip" openOnClick clickable>
         <div className="flex flex-col gap-1">
           {plans &&
+            plans.data &&
             plans.data.map((plan) => (
               <Button
                 className="w-full justify-center"
@@ -68,6 +77,7 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan }: PlanSwitcherProp
                 {plan.attributes.name}
               </Button>
             ))}
+          {editMode && <Button Icon={Plus}>Create new plan...</Button>}
         </div>
       </Tooltip>
     </>
@@ -78,6 +88,7 @@ type PlanSwitcherProps = {
   companyId: string
   onPlanChange: (id: number) => void
   currentPlan: number
+  editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

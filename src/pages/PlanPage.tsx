@@ -15,6 +15,7 @@ import MenuBar from '../partials/MenuBar'
 import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import Ping from '../components/basic/Ping'
 
 const PlanPage = () => {
   const { user } = useAuthContext()
@@ -74,6 +75,7 @@ const PlanPage = () => {
           zoomOut={() => zoomOut()}
           resetTransform={() => resetTransform()}
         />
+        {planId === 0 && !editMode && <Ping className="-mr-[2.1rem]" />}
         <PlanEdit
           planId={planId}
           handlePlaceAdd={handlePlaceClick}
@@ -89,9 +91,9 @@ const PlanPage = () => {
                 workingDate={workingDate}
               />
               <PlanSwitcher
+                editMode={editMode}
                 currentPlan={planId}
                 companyId={user.company.uuid}
-                key={user.company.uuid}
                 onPlanChange={handlePlanIdChange}
               />
             </>
@@ -103,6 +105,10 @@ const PlanPage = () => {
 
   if (!user || user.error) {
     return <Navigate to="/" />
+  }
+
+  if (user && user.onboardingCompanyName) {
+    return <Navigate to="/onboarding" />
   }
 
   return (
