@@ -212,8 +212,8 @@ const RegisterCompanyAdminPage = () => {
               <Button type="submit" buttonType="primary" asBlock className="mt-2">
                 Register
               </Button>
-              <A to="/login" className="mt-4 text-sm">
-                <Button buttonType="tertiary">Already registered? Log in</Button>
+              <A to="/" className="mt-4 text-sm">
+                Already registered? Log in.
               </A>
               <A to="/resend" className="text-sm">
                 You did not receive the confirmation email?
