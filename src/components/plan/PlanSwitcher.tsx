@@ -38,7 +38,7 @@ const PlanSwitcher = ({
 
   const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=uuid&fields[2]=name&filters[company][id][$eq]=${apiCompanyId}`,
+      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&fields[2]=svg&filters[company][id][$eq]=${apiCompanyId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -58,7 +58,7 @@ const PlanSwitcher = ({
     mutationFn: () => addPlan(companyId),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['plans'] })
-      onPlanEdit(result.data.id)
+      onPlanEdit(result.data)
     },
   })
 
@@ -86,7 +86,7 @@ const PlanSwitcher = ({
             plans.data &&
             plans.data.map((plan) =>
               currentPlan === plan.id ? (
-                <span key={plan.attributes.uuid}>{plan.attributes.name}</span>
+                <span key={`plan_in_switcher_${plan.id}`}>{plan.attributes.name}</span>
               ) : (
                 ''
               )
@@ -98,10 +98,9 @@ const PlanSwitcher = ({
           {plans &&
             plans.data &&
             plans.data.map((plan) => (
-              <div className="flex gap-1">
+              <div className="flex gap-1" key={`plan_${plan.id}`}>
                 <Button
                   className="w-full"
-                  key={`plan_${plan.id}`}
                   onClick={() => onPlanChange(plan.id)}
                   active={currentPlan === plan.id}
                   Icon={Check}
@@ -109,7 +108,7 @@ const PlanSwitcher = ({
                 >
                   {plan.attributes.name}
                 </Button>
-                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
+                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan)} />}
               </div>
             ))}
           {editMode && (
@@ -128,7 +127,7 @@ type PlanSwitcherProps = {
   onPlanChange: (id: number) => void
   currentPlan: number
   editMode: boolean
-  onPlanEdit: (id: number) => void
+  onPlanEdit: (plan: PlanRecord) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

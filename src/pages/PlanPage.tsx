@@ -16,6 +16,8 @@ import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 import Ping from '../components/basic/Ping'
+import PlanEditor from '../components/plan/PlanEditor'
+import { PlanRecord } from '../data/PlanRecord'
 
 const PlanPage = () => {
   const { user } = useAuthContext()
@@ -25,7 +27,7 @@ const PlanPage = () => {
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
-  const [sidebarPlanId, setSidebarPlanId] = useState(0)
+  const [sidebarPlan, setSidebarPlan] = useState<PlanRecord | undefined>(undefined)
   const [editMode, setEditMode] = useState(getEditMode)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
@@ -50,18 +52,18 @@ const PlanPage = () => {
 
   const handleMarkerClick = (id: number) => {
     setSidebarMarkerId(id)
-    setSidebarPlanId(0)
+    setSidebarPlan(undefined)
     setSidebarTableId(0)
   }
 
   const handlePlaceClick = (id: number) => {
     setSidebarMarkerId(0)
-    setSidebarPlanId(0)
+    setSidebarPlan(undefined)
     setSidebarTableId(id)
   }
 
-  const onPlanEdit = (id: number) => {
-    setSidebarPlanId(id)
+  const onPlanEdit = (plan: PlanRecord) => {
+    setSidebarPlan(plan)
   }
 
   useEffect(() => {
@@ -146,22 +148,25 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0 || sidebarPlanId > 0}
+        isOpen={sidebarTableId > 0 || sidebarPlan != undefined}
         closeSidebar={() => {
           setSidebarTableId(0)
-          setSidebarPlanId(0)
+          setSidebarPlan(undefined)
         }}
         handleEditMode={() => setEditMode(!editMode)}
         handlePlaceAdd={handlePlaceClick}
         editMode={editMode}
         planId={planId}
       >
-        <PlaceDetail
-          tableId={sidebarTableId}
-          editMode={editMode}
-          workingDate={workingDate?.toString()}
-          planId={planId}
-        />
+        {sidebarTableId > 0 && (
+          <PlaceDetail
+            tableId={sidebarTableId}
+            editMode={editMode}
+            workingDate={workingDate?.toString()}
+            planId={planId}
+          />
+        )}
+        {sidebarPlan && <PlanEditor plan={sidebarPlan} />}
       </Sidebar>
       <Sidebar
         isOpen={editMode && sidebarMarkerId > 0}
