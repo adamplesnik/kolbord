@@ -29,11 +29,14 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
       updatePlan(plan.id, data.attributes.name, data.attributes.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['plans'] })
-      await queryClient.cancelQueries({ queryKey: ['plan'] })
+      await queryClient.cancelQueries({ queryKey: ['plan', plan.id] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['plans'],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['plan', plan.id],
       })
     },
   })
