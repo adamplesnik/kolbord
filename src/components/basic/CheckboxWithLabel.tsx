@@ -8,8 +8,7 @@ const CheckboxWithLabel = ({
   onBlur,
 }: CheckboxWithLabelProps) => {
   return (
-    <label className="flex items-center gap-2">
-      <span className={'order-last shrink-0 text-sm font-medium'}>{label}</span>
+    <label className="flex items-baseline gap-2">
       <input
         required={required}
         type="checkbox"
@@ -17,6 +16,7 @@ const CheckboxWithLabel = ({
         onBlur={onBlur}
         onChange={onChange}
       />
+      <span className={'text-wrap text-sm font-medium'}>{label}</span>
     </label>
   )
 }
