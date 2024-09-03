@@ -14,17 +14,16 @@ import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
-import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
 const PlanPage = () => {
   const { user } = useAuthContext()
+  const userCanEdit = user?.role && user?.role.id === 3
 
-  const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
-  const [editMode, setEditMode] = useState(getEditMode)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
@@ -59,10 +58,6 @@ const PlanPage = () => {
   }
 
   useEffect(() => {
-    localStorage.setItem(EDIT_MODE, editMode.toString())
-  }, [editMode])
-
-  useEffect(() => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
 
@@ -86,7 +81,6 @@ const PlanPage = () => {
               />
               <PlanSwitcher
                 onPlanEdit={onPlanEdit}
-                editMode={editMode}
                 currentPlan={planId}
                 companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
@@ -120,9 +114,8 @@ const PlanPage = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen !w-full">
             <div className="relative m-8">
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               <Places
-                editMode={editMode}
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
@@ -133,7 +126,7 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0 || (planId > 0 && editMode)}
+        isOpen={sidebarTableId > 0}
         closeSidebar={() => {
           setSidebarTableId(0)
         }}
@@ -141,14 +134,13 @@ const PlanPage = () => {
         {sidebarTableId > 0 && (
           <PlaceDetail
             tableId={sidebarTableId}
-            editMode={editMode}
             workingDate={workingDate?.toString()}
             planId={planId}
           />
         )}
-        {editMode && <PlanEditor planId={planId} />}
+        {userCanEdit && <PlanEditor planId={planId} />}
       </Sidebar>
-      <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
       </Sidebar>
     </Page>

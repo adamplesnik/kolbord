@@ -3,7 +3,8 @@ import { getToken } from '../../auth/helpers'
 import { GroupRecord } from '../../data/GroupRecord'
 import GroupMarker from './GroupMarker'
 
-const GroupMarkers = ({ planId, onMarkerClick, editMode }: GroupMarkersProps) => {
+const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
+  const editMode = false
   type GroupQueryType = {
     data: GroupRecord[]
   }
@@ -48,7 +49,6 @@ const GroupMarkers = ({ planId, onMarkerClick, editMode }: GroupMarkersProps) =>
 type GroupMarkersProps = {
   planId: number
   onMarkerClick: (id: number) => void
-  editMode: boolean
 }
 
 export default GroupMarkers

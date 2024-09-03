@@ -2,19 +2,17 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, Edit, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import Ping from '../basic/Ping'
 
-const PlanSwitcher = ({
-  companyId,
-  onPlanChange,
-  currentPlan,
-  editMode,
-  onPlanEdit,
-}: PlanSwitcherProps) => {
+const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: PlanSwitcherProps) => {
+  const { user } = useAuthContext()
+  const userCanEdit = user?.role && user?.role.id === 3
+
   type NewPlanType = {
     data: PlanRecord
   }
@@ -76,7 +74,7 @@ const PlanSwitcher = ({
     <>
       <div data-tooltip-id="plansTooltip">
         <Button IconRight={ChevronsUpDown}>
-          {plans && plans.data.length === 0 && editMode && (
+          {plans && plans.data.length === 0 && (
             <div className="flex items-center gap-2 text-pink-600">
               Create new plan
               <Ping className="-mr-[1.6rem]" />
@@ -108,10 +106,11 @@ const PlanSwitcher = ({
                 >
                   {plan.attributes.name}
                 </Button>
-                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
+                {userCanEdit && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
               </div>
             ))}
-          {editMode && (
+
+          {userCanEdit && (
             <Button Icon={Plus} onClick={() => mutate()}>
               Create new plan...
             </Button>
@@ -126,7 +125,6 @@ type PlanSwitcherProps = {
   companyId: number
   onPlanChange: (id: number | undefined) => void
   currentPlan: number
-  editMode: boolean
   onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
