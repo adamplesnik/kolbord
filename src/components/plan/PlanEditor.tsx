@@ -41,7 +41,7 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
     },
   })
 
-  const { Field, handleSubmit, reset } = useForm<PlanRecord>({
+  const { Field, handleSubmit } = useForm<PlanRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
