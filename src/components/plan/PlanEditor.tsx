@@ -12,8 +12,7 @@ import { usePlanQuery } from './loadPlan'
 import PlanDelete from './PlanDelete'
 
 const PlanEditor = ({ planId }: PlanEditorProps) => {
-  const { user } = useAuthContext()
-  const userCanEdit = user?.role && user?.role.id === 3
+  const { user, userCanEdit } = useAuthContext()
   const [afterDelete, setAfterDelete] = useState(false)
 
   const updatePlan = async (
@@ -119,7 +118,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
         planId={planId}
         planName={plan?.data.attributes.name}
         planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
-        userCompanyUuid={user.company.uuid}
+        userCompanyUuid={user?.company.uuid}
         handleDelete={() => setAfterDelete(true)}
       />
     </>

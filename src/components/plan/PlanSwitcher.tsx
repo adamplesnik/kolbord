@@ -11,8 +11,7 @@ import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
 
 const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: PlanSwitcherProps) => {
-  const { user } = useAuthContext()
-  const userCanEdit = user?.role && user?.role.id === 3
+  const { userCanEdit } = useAuthContext()
 
   type NewPlanType = {
     data: PlanRecord

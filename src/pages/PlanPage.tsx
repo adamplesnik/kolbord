@@ -17,8 +17,7 @@ import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
 const PlanPage = () => {
-  const { user } = useAuthContext()
-  const userCanEdit = user?.role && user?.role.id === 3
+  const { user, userCanEdit } = useAuthContext()
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 

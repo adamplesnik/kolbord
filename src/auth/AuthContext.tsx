@@ -27,6 +27,7 @@ export type User = {
 
 interface ProviderProps {
   user: User | undefined
+  userCanEdit: boolean | undefined
   token: string | null
   logout(): void
 }
@@ -34,6 +35,7 @@ interface ProviderProps {
 export const AuthContext = createContext<ProviderProps>({
   user: undefined,
   token: '',
+  userCanEdit: false,
   logout: () => {},
 })
 
