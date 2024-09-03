@@ -61,7 +61,7 @@ const PlanPage = () => {
   }
 
   const onPlanEdit = (planId: number | undefined) => {
-    // setSidebarPlan(planId)
+    planId && setPlanId(planId)
   }
 
   useEffect(() => {

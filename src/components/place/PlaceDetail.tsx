@@ -28,7 +28,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProp
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-6 p-8 pt-0">
+          <div className="flex flex-col gap-6">
             <div
               className={
                 'sticky top-3 z-10 flex items-center gap-4' +
@@ -66,7 +66,7 @@ const PlaceDetail = ({ tableId, editMode, workingDate, planId }: PlaceDetailProp
             {editMode && <PlaceDetailEdit table={loadedTable.data} planId={planId} />}
           </div>
         ) : (
-          'no table selected'
+          'No table selected.'
         )}
       </>
     )

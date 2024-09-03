@@ -17,12 +17,12 @@ const Sidebar = ({
   return (
     <div
       className={
-        'bg-sidebar flex h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-slate-200/70 shadow-2xl' +
+        'bg-sidebar flex h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-slate-200/70 p-8 shadow-2xl' +
         addWithSpace(className) +
         addWithSpace(isOpen ? 'block' : 'hidden')
       }
     >
-      <div className="sticky top-0 z-10 flex items-center justify-end bg-transparent pt-2 px-2 pb-4 backdrop-blur-sm">
+      <div className="sticky -top-8 z-10 flex items-center justify-end bg-transparent pt-2 px-2 pb-4 backdrop-blur-sm">
         <PlanEdit
           planId={planId}
           editMode={editMode}

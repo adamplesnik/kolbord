@@ -5,6 +5,8 @@ import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import InputWithLabel from '../basic/InputWithLabel'
 import { usePlanQuery } from './loadPlan'
+import FetchStatus from '../basic/FetchStatus'
+import Heading from '../basic/Heading'
 
 const PlanEditor = ({ planId }: PlanEditorProps) => {
   const updatePlan = async (
@@ -27,7 +29,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
 
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending, isError, isSuccess } = useMutation({
     mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['plans'] })
@@ -57,13 +59,16 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
   })
 
   return (
-    <div>
+    <>
+      <Heading size={3}>{plan?.data.attributes.name}</Heading>
       <form
+        className="flex flex-col gap-6"
         onSubmit={(e) => {
           e.preventDefault()
           handleSubmit()
         }}
       >
+        <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
         <Field
           name="attributes.name"
           children={({ state, handleChange, handleBlur }) => (
@@ -80,20 +85,23 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
         <Field
           name="attributes.svg"
           children={({ state, handleChange, handleBlur }) => (
-            <>
+            <div className="flex flex-col gap-1">
+              <span className="block text-xs font-bold">SVG</span>
               <textarea
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
                 required
-                className="border-slate-400 bg-slate-50 hover:border-slate-600"
+                className="h-64 rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
                 value={state.value}
               />
-            </>
+            </div>
           )}
         />
-        <Button type="submit">ss</Button>
+        <Button type="submit" buttonType="primary">
+          Update plan
+        </Button>
       </form>
-    </div>
+    </>
   )
 }
 

@@ -38,7 +38,7 @@ const PlanSwitcher = ({
 
   const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&fields[2]=svg&filters[company][id][$eq]=${apiCompanyId}`,
+      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&filters[company][id][$eq]=${apiCompanyId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
