@@ -58,7 +58,7 @@ const PlanSwitcher = ({
     mutationFn: () => addPlan(companyId),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['plans'] })
-      onPlanEdit(result.data)
+      onPlanEdit(result.data.id)
     },
   })
 
@@ -108,7 +108,7 @@ const PlanSwitcher = ({
                 >
                   {plan.attributes.name}
                 </Button>
-                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan)} />}
+                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
               </div>
             ))}
           {editMode && (
@@ -124,10 +124,10 @@ const PlanSwitcher = ({
 
 type PlanSwitcherProps = {
   companyId: number
-  onPlanChange: (id: number) => void
+  onPlanChange: (id: number | undefined) => void
   currentPlan: number
   editMode: boolean
-  onPlanEdit: (plan: PlanRecord) => void
+  onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

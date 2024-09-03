@@ -4,12 +4,13 @@ import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import InputWithLabel from '../basic/InputWithLabel'
+import { usePlanQuery } from './loadPlan'
 
-const PlanEditor = ({ plan }: PlanEditorProps) => {
+const PlanEditor = ({ planId }: PlanEditorProps) => {
   const updatePlan = async (
     id: number,
-    name: string,
-    svg: string | undefined
+    name?: string,
+    svg?: string | undefined
   ): Promise<PlanRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
       method: 'put',
@@ -22,21 +23,22 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
     return response.json()
   }
 
+  const { data: plan } = usePlanQuery(planId)
+
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
-    mutationFn: (data: PlanRecord) =>
-      updatePlan(plan.id, data.attributes.name, data.attributes.svg),
+    mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['plans'] })
-      await queryClient.cancelQueries({ queryKey: ['plan', plan.id] })
+      await queryClient.cancelQueries({ queryKey: ['plan', planId] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['plans'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['plan', plan.id],
+        queryKey: ['plan', planId],
       })
     },
   })
@@ -46,10 +48,10 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
       mutate(value)
     },
     defaultValues: {
-      id: plan.id,
+      id: plan?.data.id,
       attributes: {
-        name: plan.attributes.name,
-        svg: plan.attributes.svg,
+        name: plan?.data.attributes.name,
+        svg: plan?.data.attributes.svg,
       },
     },
   })
@@ -67,7 +69,7 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
           children={({ state, handleChange, handleBlur }) => (
             <InputWithLabel
               label="Name"
-              value={state.value}
+              value={state.value ?? ''}
               onChange={(e) => handleChange(e.target.value)}
               onBlur={handleBlur}
               required
@@ -84,9 +86,8 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
                 onBlur={handleBlur}
                 required
                 className="border-slate-400 bg-slate-50 hover:border-slate-600"
-              >
-                {state.value}
-              </textarea>
+                value={state.value}
+              />
             </>
           )}
         />
@@ -97,7 +98,7 @@ const PlanEditor = ({ plan }: PlanEditorProps) => {
 }
 
 type PlanEditorProps = {
-  plan: PlanRecord
+  planId: number
 }
 
 export default PlanEditor

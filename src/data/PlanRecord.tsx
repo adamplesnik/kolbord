@@ -1,7 +1,7 @@
 export type PlanRecord = {
-  id: number
+  id?: number
   attributes: {
-    name: string
-    svg: string
+    name?: string
+    svg?: string
   }
 }
