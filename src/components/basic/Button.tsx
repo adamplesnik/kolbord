@@ -29,7 +29,10 @@ const Button = ({
       type={type}
       onClick={onClick}
       className={
-        'cursor-pointer items-center gap-2 rounded transition-colors' +
+        'items-center gap-2 rounded transition-colors' +
+        addWithSpace(
+          disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer'
+        ) +
         addWithSpace(active ? 'font-bold' : '') +
         addWithSpace(styling[buttonType]) +
         addWithSpace(className) +
