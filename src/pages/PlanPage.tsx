@@ -23,6 +23,7 @@ const PlanPage = () => {
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
+  const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
@@ -54,6 +55,7 @@ const PlanPage = () => {
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
+    setSidebarPlanEdit(true)
   }
 
   useEffect(() => {
@@ -125,9 +127,10 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0}
+        isOpen={sidebarTableId > 0 || sidebarPlanEdit}
         closeSidebar={() => {
           setSidebarTableId(0)
+          setSidebarPlanEdit(false)
         }}
       >
         {sidebarTableId > 0 && (
