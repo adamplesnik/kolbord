@@ -3,5 +3,12 @@ export type PlanRecord = {
   attributes: {
     name?: string
     svg?: string
+    company?: {
+      data: {
+        attributes: {
+          uuid: string
+        }
+      }
+    }
   }
 }

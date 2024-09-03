@@ -1,14 +1,21 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
-import InputWithLabel from '../basic/InputWithLabel'
-import { usePlanQuery } from './loadPlan'
 import FetchStatus from '../basic/FetchStatus'
 import Heading from '../basic/Heading'
+import InputWithLabel from '../basic/InputWithLabel'
+import { usePlanQuery } from './loadPlan'
+import PlanDelete from './PlanDelete'
 
 const PlanEditor = ({ planId }: PlanEditorProps) => {
+  const { user } = useAuthContext()
+  const userCanEdit = user?.role && user?.role.id === 3
+  const [afterDelete, setAfterDelete] = useState(false)
+
   const updatePlan = async (
     id: number,
     name?: string,
@@ -28,7 +35,6 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
   const { data: plan } = usePlanQuery(planId)
 
   const queryClient = useQueryClient()
-
   const { mutate, isPending, isError, isSuccess } = useMutation({
     mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
     onMutate: async () => {
@@ -45,7 +51,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
     },
   })
 
-  const { Field, handleSubmit } = useForm<PlanRecord>({
+  const { Field, handleSubmit, reset } = useForm<PlanRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
@@ -57,6 +63,14 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
       },
     },
   })
+
+  useEffect(() => {
+    reset()
+  }, [planId])
+
+  if (!userCanEdit || afterDelete) {
+    return ''
+  }
 
   return (
     <>
@@ -91,16 +105,23 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
                 required
-                className="h-64 rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                className="h-64 rounded border-slate-400 bg-slate-50 py-1 px-2 font-mono text-sm hover:border-slate-600"
                 value={state.value}
               />
             </div>
           )}
         />
-        <Button type="submit" buttonType="primary">
+        <Button type="submit" asBlock buttonType="primary">
           Update plan
         </Button>
       </form>
+      <PlanDelete
+        planId={planId}
+        planName={plan?.data.attributes.name}
+        planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
+        userCompanyUuid={user.company.uuid}
+        handleDelete={() => setAfterDelete(true)}
+      />
     </>
   )
 }

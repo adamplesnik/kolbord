@@ -7,11 +7,14 @@ type PlanQueryType = {
 }
 
 const loadPlan = async (id: number): Promise<PlanQueryType> => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  })
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/plans/${id}?populate[company][fields][0]=uuid&fields[0]=name&fields[1]=svg`,
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
   return response.json()
 }
 
