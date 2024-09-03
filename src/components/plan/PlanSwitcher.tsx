@@ -9,8 +9,15 @@ import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
+import PlaceAdd from '../place/PlaceAdd'
 
-const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: PlanSwitcherProps) => {
+const PlanSwitcher = ({
+  companyId,
+  onPlanChange,
+  currentPlan,
+  onPlanEdit,
+  handlePlaceAdd,
+}: PlanSwitcherProps) => {
   const { userCanEdit } = useAuthContext()
 
   type NewPlanType = {
@@ -111,9 +118,13 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: Plan
             ))}
 
           {userCanEdit && (
-            <Button Icon={Plus} onClick={() => mutate()} className="flex-1">
-              Create new plan...
-            </Button>
+            <>
+              <div className="my-2 h-px w-full bg-red-200"></div>
+              <Button Icon={Plus} onClick={() => mutate()} className="w-full">
+                New plan
+              </Button>
+              <PlaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />
+            </>
           )}
         </div>
       </Tooltip>
@@ -126,6 +137,7 @@ type PlanSwitcherProps = {
   onPlanChange: (id: number | undefined) => void
   currentPlan: number
   onPlanEdit: (planId: number | undefined) => void
+  handlePlaceAdd: (id: number) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

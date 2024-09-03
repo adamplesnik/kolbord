@@ -85,6 +85,7 @@ const PlanPage = () => {
                 currentPlan={planId}
                 companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
+                handlePlaceAdd={handlePlaceClick}
               />
             </>
           )}
