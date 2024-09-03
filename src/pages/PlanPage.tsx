@@ -2,14 +2,12 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import Ping from '../components/basic/Ping'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
 import PlaceDetail from '../components/place/PlaceDetail'
 import Places from '../components/place/Places'
 import Plan from '../components/plan/Plan'
 import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
-import PlanEdit from '../components/plan/PlanEdit'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
@@ -36,10 +34,6 @@ const PlanPage = () => {
 
   type ValuePiece = Date | null
   type Value = ValuePiece | [ValuePiece, ValuePiece]
-
-  const handleEditModeChange = () => {
-    setEditMode(!editMode)
-  }
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
@@ -81,13 +75,6 @@ const PlanPage = () => {
           zoomIn={() => zoomIn()}
           zoomOut={() => zoomOut()}
           resetTransform={() => resetTransform()}
-        />
-        {planId === 0 && !editMode && <Ping className="-mr-[2.1rem]" />}
-        <PlanEdit
-          planId={planId}
-          handlePlaceAdd={handlePlaceClick}
-          handleEditModeChange={handleEditModeChange}
-          editMode={editMode}
         />
         <UserMenu />
         <div className="flex rounded bg-slate-200/70 p-0.5">
@@ -150,10 +137,6 @@ const PlanPage = () => {
         closeSidebar={() => {
           setSidebarTableId(0)
         }}
-        handleEditMode={() => setEditMode(!editMode)}
-        handlePlaceAdd={handlePlaceClick}
-        editMode={editMode}
-        planId={planId}
       >
         {sidebarTableId > 0 && (
           <PlaceDetail
@@ -165,14 +148,7 @@ const PlanPage = () => {
         )}
         {editMode && <PlanEditor planId={planId} />}
       </Sidebar>
-      <Sidebar
-        isOpen={editMode && sidebarMarkerId > 0}
-        closeSidebar={() => setSidebarMarkerId(0)}
-        handleEditMode={() => setEditMode(!editMode)}
-        handlePlaceAdd={handlePlaceClick}
-        editMode={editMode}
-        planId={planId}
-      >
+      <Sidebar isOpen={editMode && sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
       </Sidebar>
     </Page>
