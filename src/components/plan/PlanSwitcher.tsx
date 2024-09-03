@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Edit, Plus } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
@@ -7,6 +7,7 @@ import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
+import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
 
 const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: PlanSwitcherProps) => {
@@ -98,7 +99,7 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: Plan
             plans.data.map((plan) => (
               <div className="flex gap-1" key={`plan_${plan.id}`}>
                 <Button
-                  className="w-full"
+                  className="flex-1"
                   onClick={() => onPlanChange(plan.id)}
                   active={currentPlan === plan.id}
                   Icon={Check}
@@ -106,12 +107,12 @@ const PlanSwitcher = ({ companyId, onPlanChange, currentPlan, onPlanEdit }: Plan
                 >
                   {plan.attributes.name}
                 </Button>
-                {userCanEdit && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
+                {userCanEdit && <EditButton onClick={() => onPlanEdit(plan.id)} />}
               </div>
             ))}
 
           {userCanEdit && (
-            <Button Icon={Plus} onClick={() => mutate()}>
+            <Button Icon={Plus} onClick={() => mutate()} className="flex-1">
               Create new plan...
             </Button>
           )}

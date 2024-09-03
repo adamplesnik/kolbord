@@ -3,13 +3,12 @@ import { HTMLAttributes, useState } from 'react'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { loadTable } from '../../utils/fetchApi'
 import Badge from '../basic/Badge'
+import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading'
 import Loading from '../basic/Loading'
 import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
 import { PlaceFeatures } from './PlaceFeatures'
-import Button from '../basic/Button'
-import { Edit } from 'lucide-react'
 
 const PlaceDetail = ({ tableId, workingDate, planId }: PlaceDetailProps) => {
   const [editMode, setEditMode] = useState(false)
@@ -32,7 +31,7 @@ const PlaceDetail = ({ tableId, workingDate, planId }: PlaceDetailProps) => {
       <>
         {loadedTable.data ? (
           <div className="flex flex-col gap-6">
-            <Button Icon={Edit} onClick={() => setEditMode(!editMode)} />
+            <EditButton onClick={() => setEditMode(!editMode)} />
             <div
               className={
                 'sticky top-3 z-10 flex items-center gap-4' +
