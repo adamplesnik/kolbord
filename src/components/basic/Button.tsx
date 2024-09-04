@@ -17,10 +17,9 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary:
-      'bg-slate-800 px-4 py-2 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
-    secondary: 'p-2 hover:bg-slate-300/50 active:bg-slate-300',
-    tertiary: 'text-cyan-600 hover:text-cyan-800',
+    primary: 'bg-slate-800 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
+    secondary: 'hover:bg-slate-300/50 active:bg-slate-300',
+    danger: 'bg-red-600 text-white hover:bg-red-500 active:bg-red-800',
   }
 
   return (
@@ -29,7 +28,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       className={
-        'items-center gap-2 rounded transition-colors' +
+        'h-8 items-center gap-2 rounded p-2 transition-colors' +
         addWithSpace(
           disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer'
         ) +
@@ -58,7 +57,7 @@ const Button = ({
 export type ButtonProps = {
   active?: boolean | undefined
   asBlock?: boolean | undefined
-  buttonType?: 'primary' | 'secondary' | 'tertiary'
+  buttonType?: 'primary' | 'secondary' | 'danger'
   type?: 'button' | 'submit'
   Icon?: LucideIcon | undefined
   IconRight?: LucideIcon | undefined

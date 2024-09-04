@@ -50,14 +50,15 @@ const PlanDelete = ({
 
   return (
     <div className="mt-8 flex flex-col gap-2 rounded border border-red-200 p-2 text-sm">
-      <Button className="border border-red-400" onClick={() => setDeleteStep(1)}>
-        Delete the plan...
-      </Button>
-
+      {deleteStep === 0 && (
+        <Button className="text-red-600" onClick={() => setDeleteStep(1)}>
+          Delete...
+        </Button>
+      )}
       {deleteStep > 0 && (
         <>
           <div className="text-sm">
-            <P className="pt-2 font-bold text-red-600">This action cannot be undone!</P>
+            <P className="font-bold text-red-600">This action cannot be undone!</P>
             <P>All places and bookings related to this plan will be deleted as well.</P>
             <P>Write down the plan name to confirm the deletion.</P>
           </div>
@@ -67,13 +68,16 @@ const PlanDelete = ({
             className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
             onChange={(e) => setDeleteStep(e.target.value === planName ? 2 : 1)}
           ></input>
-          <Button
-            disabled={deleteStep < 2 && canDelete}
-            className="bg-red-500 text-white"
-            onClick={() => mutate()}
-          >
-            Delete the plan
-          </Button>
+          <div className="flex justify-between">
+            <Button
+              disabled={deleteStep < 2 && canDelete}
+              buttonType="danger"
+              onClick={() => mutate()}
+            >
+              Delete the plan
+            </Button>
+            <Button onClick={() => setDeleteStep(0)}>Cancel</Button>
+          </div>
         </>
       )}
     </div>

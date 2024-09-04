@@ -15,6 +15,7 @@ import MenuBar from '../partials/MenuBar'
 import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { addWithSpace } from '../utils/addWithSpace'
 
 const PlanPage = () => {
   const { user, userCanEdit } = useAuthContext()
@@ -22,14 +23,20 @@ const PlanPage = () => {
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
       ? new Date(getLocalWorkingDate.toString())
       : new Date()
   )
+
+  useEffect(() => {
+    setSidebarTitle(sidebarTitle)
+  }, [sidebarTitle])
 
   useEffect(() => {
     setPlanId(planId)
@@ -61,6 +68,8 @@ const PlanPage = () => {
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
     setSidebarPlanEdit(true)
+    setSidebarTableId(0)
+    setEditMode(true)
   }
 
   useEffect(() => {
@@ -90,7 +99,10 @@ const PlanPage = () => {
                 currentPlan={planId}
                 companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
-                handlePlaceAdd={handlePlaceClick}
+                handlePlaceAdd={(id) => {
+                  handlePlaceClick(id)
+                  setEditMode(true)
+                }}
               />
             </>
           )}
@@ -119,8 +131,13 @@ const PlanPage = () => {
       >
         <>
           <Controls />
-          <TransformComponent wrapperClass="!h-screen !w-full">
-            <div className="relative m-8">
+          <TransformComponent wrapperClass="!h-screen !w-full bg-gradient-to-tr from-zinc-300 to-zinc-100 !p-2">
+            <div
+              className={
+                'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
+                addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
+              }
+            >
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               <Places
                 sidebarTableId={sidebarTableId}
@@ -133,22 +150,29 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0 || sidebarPlanEdit}
+        editMode={editMode}
+        handleEditMode={() => setEditMode(!editMode)}
+        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode)}
+        sidebarTitle={sidebarTitle}
         closeSidebar={() => {
           setSidebarTableId(0)
           setSidebarPlanEdit(false)
+          setEditMode(false)
         }}
       >
         {sidebarTableId > 0 && (
           <PlaceDetail
+            editMode={editMode}
+            sendTitle={(title) => setSidebarTitle(title)}
             tableId={sidebarTableId}
             workingDate={workingDate?.toString()}
             planId={planId}
             handleDelete={() => setSidebarTableId(0)}
           />
         )}
-        {userCanEdit && sidebarPlanEdit && (
+        {userCanEdit && sidebarPlanEdit && editMode && (
           <PlanEditor
+            sendTitle={(title) => setSidebarTitle(title)}
             planId={planId}
             handleDelete={() => {
               setSidebarPlanEdit(false)
@@ -157,7 +181,13 @@ const PlanPage = () => {
           />
         )}
       </Sidebar>
-      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar
+        editMode={editMode}
+        handleEditMode={() => setEditMode(!editMode)}
+        isOpen={sidebarMarkerId > 0}
+        closeSidebar={() => setSidebarMarkerId(0)}
+        sidebarTitle={sidebarTitle}
+      >
         mamm
       </Sidebar>
     </Page>

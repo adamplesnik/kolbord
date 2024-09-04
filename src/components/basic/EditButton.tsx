@@ -1,23 +1,28 @@
-import { Check, Edit2 } from 'lucide-react'
-import { useState } from 'react'
+import { Check, PencilLine } from 'lucide-react'
+import { useAuthContext } from '../../auth/AuthContext'
 import Button from './Button'
 
-const EditButton = ({ onClick }: EditButtonProps) => {
-  const [editMode, setEditMode] = useState(false)
+const EditButton = ({ onClick, className, editMode }: EditButtonProps) => {
+  const { userCanEdit } = useAuthContext()
+
+  if (!userCanEdit) {
+    return ''
+  }
 
   return (
     <Button
-      Icon={editMode ? Check : Edit2}
-      onClick={() => {
-        onClick()
-        setEditMode(!editMode)
-      }}
+      className={className}
+      buttonType="primary"
+      Icon={editMode ? Check : PencilLine}
+      onClick={onClick}
     />
   )
 }
 
 type EditButtonProps = {
   onClick: () => void
+  editMode: boolean
+  className?: string | undefined
 }
 
 export default EditButton

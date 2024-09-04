@@ -16,7 +16,7 @@ const Heading = ({ size = 1, children, className }: HeadingProps) => {
     )
   } else if (size === 3) {
     return (
-      <h3 className={'text-2xl font-semibold leading-snug md:text-3xl' + addWithSpace(className)}>
+      <h3 className={'text-xl font-bold leading-snug md:text-2xl' + addWithSpace(className)}>
         {children}
       </h3>
     )
