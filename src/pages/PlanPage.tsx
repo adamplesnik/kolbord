@@ -51,6 +51,7 @@ const PlanPage = () => {
   const handlePlaceClick = (id: number) => {
     setSidebarMarkerId(0)
     setSidebarTableId(id)
+    setSidebarPlanEdit(false)
   }
 
   const onPlanEdit = (planId: number | undefined) => {
@@ -141,7 +142,7 @@ const PlanPage = () => {
             planId={planId}
           />
         )}
-        {userCanEdit && <PlanEditor planId={planId} />}
+        {userCanEdit && sidebarPlanEdit && <PlanEditor planId={planId} />}
       </Sidebar>
       <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
