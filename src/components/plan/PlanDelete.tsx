@@ -25,25 +25,6 @@ const PlanDelete = ({
           'Content-Type': 'application/json',
         },
       })
-
-      await fetch(`${import.meta.env.VITE_API_URL}/tables?filters[plan][id][$eq]=${planId}`, {
-        method: 'delete',
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-          'Content-Type': 'application/json',
-        },
-      })
-
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/bookings?filters[table][plan][id][$eq]=${planId}`,
-        {
-          method: 'delete',
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
     } catch {
     } finally {
       handleDelete()

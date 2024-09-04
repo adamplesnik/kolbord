@@ -55,7 +55,10 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
         mutate(defaultData)
       }}
       Icon={Plus}
-    ></Button>
+      className="w-full"
+    >
+      New place
+    </Button>
   )
 }
 

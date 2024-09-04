@@ -1,24 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Edit, Plus } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
+import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
+import PlaceAdd from '../place/PlaceAdd'
 
 const PlanSwitcher = ({
   companyId,
   onPlanChange,
   currentPlan,
-  editMode,
   onPlanEdit,
+  handlePlaceAdd,
 }: PlanSwitcherProps) => {
+  const { userCanEdit } = useAuthContext()
+
   type NewPlanType = {
     data: PlanRecord
   }
-  const addPlan = async (apiCompanyId: number): Promise<NewPlanType> => {
+  const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undefined> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
       method: 'post',
       headers: {
@@ -29,7 +34,9 @@ const PlanSwitcher = ({
         data: { name: 'New plan', svg: '<svg></svg>', company: apiCompanyId },
       }),
     })
-    return response.json()
+    if (response.ok) {
+      return response.json()
+    }
   }
 
   type PlansQueryType = {
@@ -58,7 +65,7 @@ const PlanSwitcher = ({
     mutationFn: () => addPlan(companyId),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['plans'] })
-      onPlanEdit(result.data.id)
+      onPlanEdit(result?.data.id)
     },
   })
 
@@ -76,7 +83,7 @@ const PlanSwitcher = ({
     <>
       <div data-tooltip-id="plansTooltip">
         <Button IconRight={ChevronsUpDown}>
-          {plans && plans.data.length === 0 && editMode && (
+          {plans && plans.data.length === 0 && (
             <div className="flex items-center gap-2 text-pink-600">
               Create new plan
               <Ping className="-mr-[1.6rem]" />
@@ -100,7 +107,7 @@ const PlanSwitcher = ({
             plans.data.map((plan) => (
               <div className="flex gap-1" key={`plan_${plan.id}`}>
                 <Button
-                  className="w-full"
+                  className="flex-1"
                   onClick={() => onPlanChange(plan.id)}
                   active={currentPlan === plan.id}
                   Icon={Check}
@@ -108,13 +115,20 @@ const PlanSwitcher = ({
                 >
                   {plan.attributes.name}
                 </Button>
-                {editMode && <Button Icon={Edit} onClick={() => onPlanEdit(plan.id)} />}
+                {userCanEdit && <EditButton onClick={() => onPlanEdit(plan.id)} />}
               </div>
             ))}
-          {editMode && (
-            <Button Icon={Plus} onClick={() => mutate()}>
-              Create new plan...
-            </Button>
+
+          {userCanEdit && (
+            <>
+              {plans && plans.data.length > 0 && (
+                <div className="my-2 h-px w-full bg-slate-200"></div>
+              )}
+              <Button Icon={Plus} onClick={() => mutate()} className="w-full">
+                New plan
+              </Button>
+              {currentPlan > 0 && <PlaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
+            </>
           )}
         </div>
       </Tooltip>
@@ -126,8 +140,8 @@ type PlanSwitcherProps = {
   companyId: number
   onPlanChange: (id: number | undefined) => void
   currentPlan: number
-  editMode: boolean
   onPlanEdit: (planId: number | undefined) => void
+  handlePlaceAdd: (id: number) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

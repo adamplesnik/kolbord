@@ -34,7 +34,14 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [authToken])
 
   return (
-    <AuthContext.Provider value={{ user: userData, token: authToken, logout: () => logout() }}>
+    <AuthContext.Provider
+      value={{
+        user: userData,
+        userCanEdit: userData?.role && userData?.role.id === 3,
+        token: authToken,
+        logout: () => logout(),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

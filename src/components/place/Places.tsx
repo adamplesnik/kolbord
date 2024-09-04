@@ -7,7 +7,7 @@ type TableQueryType = {
   data: TableRecord[]
 }
 
-const Places = ({ planId, sidebarTableId, handlePlaceClick, editMode }: PlacesProps) => {
+const Places = ({ planId, sidebarTableId, handlePlaceClick }: PlacesProps) => {
   const loadPlaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/tables?populate[features][fields][0]=description&populate[features][fields][1]=lucideIcon&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&fields[8]=chairs&populate[group][fields][0]=name&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
@@ -50,7 +50,6 @@ const Places = ({ planId, sidebarTableId, handlePlaceClick, editMode }: PlacesPr
             onClick={() => {
               handlePlaceClick(t.id)
             }}
-            editMode={editMode}
           />
         ))}
     </>
@@ -61,7 +60,6 @@ type PlacesProps = {
   planId: number
   sidebarTableId: number
   handlePlaceClick: (id: number) => void
-  editMode: boolean
 }
 
 export default Places

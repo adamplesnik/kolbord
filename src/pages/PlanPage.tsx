@@ -2,31 +2,28 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import Ping from '../components/basic/Ping'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
 import PlaceDetail from '../components/place/PlaceDetail'
 import Places from '../components/place/Places'
 import Plan from '../components/plan/Plan'
 import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
-import PlanEdit from '../components/plan/PlanEdit'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
-import { EDIT_MODE, LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
 const PlanPage = () => {
-  const { user } = useAuthContext()
+  const { user, userCanEdit } = useAuthContext()
 
-  const getEditMode = () => localStorage.getItem(EDIT_MODE) === 'true'
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
-  const [editMode, setEditMode] = useState(getEditMode)
+  const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
@@ -34,12 +31,12 @@ const PlanPage = () => {
       : new Date()
   )
 
+  useEffect(() => {
+    setPlanId(planId)
+  }, [planId])
+
   type ValuePiece = Date | null
   type Value = ValuePiece | [ValuePiece, ValuePiece]
-
-  const handleEditModeChange = () => {
-    setEditMode(!editMode)
-  }
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
@@ -58,15 +55,13 @@ const PlanPage = () => {
   const handlePlaceClick = (id: number) => {
     setSidebarMarkerId(0)
     setSidebarTableId(id)
+    setSidebarPlanEdit(false)
   }
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
+    setSidebarPlanEdit(true)
   }
-
-  useEffect(() => {
-    localStorage.setItem(EDIT_MODE, editMode.toString())
-  }, [editMode])
 
   useEffect(() => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
@@ -82,13 +77,6 @@ const PlanPage = () => {
           zoomOut={() => zoomOut()}
           resetTransform={() => resetTransform()}
         />
-        {planId === 0 && !editMode && <Ping className="-mr-[2.1rem]" />}
-        <PlanEdit
-          planId={planId}
-          handlePlaceAdd={handlePlaceClick}
-          handleEditModeChange={handleEditModeChange}
-          editMode={editMode}
-        />
         <UserMenu />
         <div className="flex rounded bg-slate-200/70 p-0.5">
           {user && !user.error && (
@@ -99,10 +87,10 @@ const PlanPage = () => {
               />
               <PlanSwitcher
                 onPlanEdit={onPlanEdit}
-                editMode={editMode}
                 currentPlan={planId}
                 companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
+                handlePlaceAdd={handlePlaceClick}
               />
             </>
           )}
@@ -133,46 +121,43 @@ const PlanPage = () => {
           <Controls />
           <TransformComponent wrapperClass="!h-screen !w-full">
             <div className="relative m-8">
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} editMode={editMode} />
+              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               <Places
-                editMode={editMode}
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
               />
-              {planId > 0 && <Plan id={planId} />}
+              {planId > 0 && <Plan planId={planId} />}
             </div>
           </TransformComponent>
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0 || (planId > 0 && editMode)}
+        isOpen={sidebarTableId > 0 || sidebarPlanEdit}
         closeSidebar={() => {
           setSidebarTableId(0)
+          setSidebarPlanEdit(false)
         }}
-        handleEditMode={() => setEditMode(!editMode)}
-        handlePlaceAdd={handlePlaceClick}
-        editMode={editMode}
-        planId={planId}
       >
         {sidebarTableId > 0 && (
           <PlaceDetail
             tableId={sidebarTableId}
-            editMode={editMode}
             workingDate={workingDate?.toString()}
             planId={planId}
+            handleDelete={() => setSidebarTableId(0)}
           />
         )}
-        {editMode && <PlanEditor planId={planId} />}
+        {userCanEdit && sidebarPlanEdit && (
+          <PlanEditor
+            planId={planId}
+            handleDelete={() => {
+              setSidebarPlanEdit(false)
+              setPlanId(0)
+            }}
+          />
+        )}
       </Sidebar>
-      <Sidebar
-        isOpen={editMode && sidebarMarkerId > 0}
-        closeSidebar={() => setSidebarMarkerId(0)}
-        handleEditMode={() => setEditMode(!editMode)}
-        handlePlaceAdd={handlePlaceClick}
-        editMode={editMode}
-        planId={planId}
-      >
+      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
       </Sidebar>
     </Page>
