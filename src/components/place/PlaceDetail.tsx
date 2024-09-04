@@ -10,7 +10,7 @@ import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
 import { PlaceFeatures } from './PlaceFeatures'
 
-const PlaceDetail = ({ tableId, workingDate, planId }: PlaceDetailProps) => {
+const PlaceDetail = ({ tableId, workingDate, planId, handleDelete }: PlaceDetailProps) => {
   const [editMode, setEditMode] = useState(false)
   const {
     data: loadedTable,
@@ -66,7 +66,13 @@ const PlaceDetail = ({ tableId, workingDate, planId }: PlaceDetailProps) => {
             {!loadedTable.data.attributes.available && !editMode && (
               <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
             )}
-            {editMode && <PlaceDetailEdit table={loadedTable.data} planId={planId} />}
+            {editMode && (
+              <PlaceDetailEdit
+                table={loadedTable.data}
+                planId={planId}
+                handleDelete={handleDelete}
+              />
+            )}
           </div>
         ) : (
           'No table selected.'
@@ -80,6 +86,7 @@ export type PlaceDetailProps = {
   tableId: number
   workingDate: string | undefined
   planId: number
+  handleDelete: () => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetail

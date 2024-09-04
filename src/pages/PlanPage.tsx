@@ -140,6 +140,7 @@ const PlanPage = () => {
             tableId={sidebarTableId}
             workingDate={workingDate?.toString()}
             planId={planId}
+            handleDelete={() => setSidebarTableId(0)}
           />
         )}
         {userCanEdit && sidebarPlanEdit && <PlanEditor planId={planId} />}
