@@ -15,6 +15,7 @@ import MenuBar from '../partials/MenuBar'
 import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { addWithSpace } from '../utils/addWithSpace'
 
 const PlanPage = () => {
   const { user, userCanEdit } = useAuthContext()
@@ -125,8 +126,13 @@ const PlanPage = () => {
       >
         <>
           <Controls />
-          <TransformComponent wrapperClass="!h-screen !w-full">
-            <div className="relative m-8">
+          <TransformComponent wrapperClass="!h-screen !w-full bg-gradient-to-tr from-zinc-300 to-zinc-100 !p-2">
+            <div
+              className={
+                'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
+                addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
+              }
+            >
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
               <Places
                 sidebarTableId={sidebarTableId}
