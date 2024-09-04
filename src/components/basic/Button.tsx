@@ -17,7 +17,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary: 'bg-slate-800 px-4 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
+    primary: 'bg-slate-800 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
     secondary: 'hover:bg-slate-300/50 active:bg-slate-300',
     danger: 'bg-red-600 text-white hover:bg-red-500 active:bg-red-800',
   }
@@ -28,7 +28,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       className={
-        'items-center gap-2 rounded p-2 transition-colors' +
+        'h-8 items-center gap-2 rounded p-2 transition-colors' +
         addWithSpace(
           disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer'
         ) +
