@@ -13,7 +13,7 @@ const Sidebar = ({ children, isOpen, closeSidebar, className, sidebarTitle }: Si
         addWithSpace(isOpen ? 'block' : 'hidden')
       }
     >
-      <div className="sticky top-0 z-10 -mx-8 flex items-center justify-between bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
+      <div className="sticky top-0 z-20 -mx-8 flex items-center justify-between bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
         {sidebarTitle && <Heading size={3}>{sidebarTitle}</Heading>}
         <Button onClick={closeSidebar} className="self-end">
           <X />

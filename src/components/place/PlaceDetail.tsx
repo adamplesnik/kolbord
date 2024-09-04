@@ -39,25 +39,23 @@ const PlaceDetail = ({
     return (
       <>
         {loadedTable.data ? (
-          <div className="flex flex-col gap-6">
-            <EditButton onClick={() => setEditMode(!editMode)} />
-            {loadedTable.data.attributes.group.data && (
-              <Badge
-                className="p-1 text-sm"
-                dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
-                dataTooltipId="badge"
-              >
-                {loadedTable.data.attributes.group.data.attributes.name}
-              </Badge>
-            )}
-
-            {loadedTable.data.attributes.features.data && !editMode && (
-              <PlaceFeatures
-                className="pb-2"
-                features={loadedTable.data.attributes.features.data}
-                withDesc
-              />
-            )}
+          <div className="flex flex-col gap-8">
+            <div className="flex gap-2">
+              {loadedTable.data.attributes.group.data && !editMode && (
+                <Badge
+                  className="text-sm"
+                  dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
+                  dataTooltipId="badge"
+                >
+                  {loadedTable.data.attributes.group.data.attributes.name}
+                </Badge>
+              )}
+              {loadedTable.data.attributes.features.data && !editMode && (
+                <PlaceFeatures features={loadedTable.data.attributes.features.data} />
+              )}
+              <div className="flex-1"></div>
+              <EditButton onClick={() => setEditMode(!editMode)} className="justify-self-end" />
+            </div>
             {loadedTable.data.attributes.available && !editMode && (
               <PlaceBooking
                 tableId={tableId}

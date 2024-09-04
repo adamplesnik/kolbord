@@ -1,14 +1,12 @@
 import { MouseEventHandler } from 'react'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-
-import { PlaceFeatures } from './PlaceFeatures'
 import PlaceRectangle from './PlaceRectangle'
 
 const Place = ({
   active,
   className,
-  attributes: { available, features, height, name, rotation, rounded, width, x, y, chairs },
+  attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
   bookedToday = false,
 }: PlaceProps) => {
@@ -66,7 +64,6 @@ const Place = ({
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
           </div>
-          {features && <PlaceFeatures features={features?.data} className="max-w-[78px]" />}
         </div>
       </PlaceRectangle>
     </div>
