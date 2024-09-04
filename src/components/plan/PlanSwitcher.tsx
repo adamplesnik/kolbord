@@ -119,7 +119,7 @@ const PlanSwitcher = ({
 
           {userCanEdit && (
             <>
-              <div className="my-2 h-px w-full bg-red-200"></div>
+              <div className="my-2 h-px w-full bg-slate-200"></div>
               <Button Icon={Plus} onClick={() => mutate()} className="w-full">
                 New plan
               </Button>
