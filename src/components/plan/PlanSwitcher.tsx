@@ -23,7 +23,7 @@ const PlanSwitcher = ({
   type NewPlanType = {
     data: PlanRecord
   }
-  const addPlan = async (apiCompanyId: number): Promise<NewPlanType> => {
+  const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undefined> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
       method: 'post',
       headers: {
@@ -34,7 +34,9 @@ const PlanSwitcher = ({
         data: { name: 'New plan', svg: '<svg></svg>', company: apiCompanyId },
       }),
     })
-    return response.json()
+    if (response.ok) {
+      return response.json()
+    }
   }
 
   type PlansQueryType = {
@@ -63,7 +65,7 @@ const PlanSwitcher = ({
     mutationFn: () => addPlan(companyId),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['plans'] })
-      onPlanEdit(result.data.id)
+      onPlanEdit(result?.data.id)
     },
   })
 
@@ -119,11 +121,13 @@ const PlanSwitcher = ({
 
           {userCanEdit && (
             <>
-              <div className="my-2 h-px w-full bg-slate-200"></div>
+              {plans && plans.data.length > 0 && (
+                <div className="my-2 h-px w-full bg-slate-200"></div>
+              )}
               <Button Icon={Plus} onClick={() => mutate()} className="w-full">
                 New plan
               </Button>
-              <PlaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />
+              {currentPlan > 0 && <PlaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
             </>
           )}
         </div>

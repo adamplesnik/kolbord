@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
@@ -11,9 +11,8 @@ import InputWithLabel from '../basic/InputWithLabel'
 import { usePlanQuery } from './loadPlan'
 import PlanDelete from './PlanDelete'
 
-const PlanEditor = ({ planId }: PlanEditorProps) => {
+const PlanEditor = ({ planId, handleDelete }: PlanEditorProps) => {
   const { user, userCanEdit } = useAuthContext()
-  const [afterDelete, setAfterDelete] = useState(false)
 
   const updatePlan = async (
     id: number,
@@ -67,7 +66,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
     reset()
   }, [planId])
 
-  if (!userCanEdit || afterDelete) {
+  if (!userCanEdit) {
     return ''
   }
 
@@ -119,7 +118,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
         planName={plan?.data.attributes.name}
         planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
         userCompanyUuid={user?.company.uuid}
-        handleDelete={() => setAfterDelete(true)}
+        handleDelete={handleDelete}
       />
     </>
   )
@@ -127,6 +126,7 @@ const PlanEditor = ({ planId }: PlanEditorProps) => {
 
 type PlanEditorProps = {
   planId: number
+  handleDelete: () => void
 }
 
 export default PlanEditor

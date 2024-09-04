@@ -31,6 +31,10 @@ const PlanPage = () => {
       : new Date()
   )
 
+  useEffect(() => {
+    setPlanId(planId)
+  }, [planId])
+
   type ValuePiece = Date | null
   type Value = ValuePiece | [ValuePiece, ValuePiece]
 
@@ -123,7 +127,7 @@ const PlanPage = () => {
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
               />
-              {planId > 0 && <Plan id={planId} />}
+              {planId > 0 && <Plan planId={planId} />}
             </div>
           </TransformComponent>
         </>
@@ -143,7 +147,15 @@ const PlanPage = () => {
             handleDelete={() => setSidebarTableId(0)}
           />
         )}
-        {userCanEdit && sidebarPlanEdit && <PlanEditor planId={planId} />}
+        {userCanEdit && sidebarPlanEdit && (
+          <PlanEditor
+            planId={planId}
+            handleDelete={() => {
+              setSidebarPlanEdit(false)
+              setPlanId(0)
+            }}
+          />
+        )}
       </Sidebar>
       <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
         mamm
