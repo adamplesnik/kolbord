@@ -6,6 +6,7 @@ import PlaceRectangle from './PlaceRectangle'
 const Place = ({
   active,
   className,
+  id,
   attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
   bookedToday = false,
@@ -60,6 +61,7 @@ const Place = ({
         width={width}
         className={rounded ? 'rounded-full' : 'rounded-xl'}
       >
+        {id}
         <div className="flex flex-col items-center gap-1" style={{ rotate: `${rotation * -1}deg` }}>
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>

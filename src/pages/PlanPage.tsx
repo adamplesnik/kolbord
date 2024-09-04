@@ -143,6 +143,7 @@ const PlanPage = () => {
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
+                workingDate={workingDate}
               />
               {planId > 0 && <Plan planId={planId} />}
             </div>
