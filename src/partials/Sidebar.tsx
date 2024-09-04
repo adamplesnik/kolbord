@@ -1,9 +1,10 @@
 import { X } from 'lucide-react'
-import { HTMLAttributes, MouseEventHandler } from 'react'
+import { HTMLAttributes, MouseEventHandler, Suspense } from 'react'
 import Button from '../components/basic/Button'
 import { addWithSpace } from '../utils/addWithSpace'
+import Heading from '../components/basic/Heading'
 
-const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) => {
+const Sidebar = ({ children, isOpen, closeSidebar, className, sidebarTitle }: SidebarProps) => {
   return (
     <div
       className={
@@ -12,7 +13,8 @@ const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) =>
         addWithSpace(isOpen ? 'block' : 'hidden')
       }
     >
-      <div className="sticky top-0 flex items-center justify-end bg-transparent pt-4 pb-8 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 -mx-8 flex items-center justify-between bg-transparent py-4 px-8 backdrop-blur-sm">
+        {sidebarTitle && <Heading size={3}>{sidebarTitle}</Heading>}
         <Button onClick={closeSidebar} className="self-end">
           <X />
         </Button>
@@ -25,6 +27,7 @@ const Sidebar = ({ children, isOpen, closeSidebar, className }: SidebarProps) =>
 type SidebarProps = {
   isOpen: boolean
   closeSidebar: MouseEventHandler
+  sidebarTitle: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar

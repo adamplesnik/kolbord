@@ -22,6 +22,7 @@ const PlanPage = () => {
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [planId, setPlanId] = useState(0)
@@ -30,6 +31,10 @@ const PlanPage = () => {
       ? new Date(getLocalWorkingDate.toString())
       : new Date()
   )
+
+  useEffect(() => {
+    setSidebarTitle(sidebarTitle)
+  }, [sidebarTitle])
 
   useEffect(() => {
     setPlanId(planId)
@@ -61,6 +66,7 @@ const PlanPage = () => {
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
     setSidebarPlanEdit(true)
+    setSidebarTableId(0)
   }
 
   useEffect(() => {
@@ -134,6 +140,7 @@ const PlanPage = () => {
       </TransformWrapper>
       <Sidebar
         isOpen={sidebarTableId > 0 || sidebarPlanEdit}
+        sidebarTitle={sidebarTitle}
         closeSidebar={() => {
           setSidebarTableId(0)
           setSidebarPlanEdit(false)
@@ -141,6 +148,7 @@ const PlanPage = () => {
       >
         {sidebarTableId > 0 && (
           <PlaceDetail
+            sendTitle={(title) => setSidebarTitle(title)}
             tableId={sidebarTableId}
             workingDate={workingDate?.toString()}
             planId={planId}
@@ -149,6 +157,7 @@ const PlanPage = () => {
         )}
         {userCanEdit && sidebarPlanEdit && (
           <PlanEditor
+            sendTitle={(title) => setSidebarTitle(title)}
             planId={planId}
             handleDelete={() => {
               setSidebarPlanEdit(false)
@@ -157,7 +166,11 @@ const PlanPage = () => {
           />
         )}
       </Sidebar>
-      <Sidebar isOpen={sidebarMarkerId > 0} closeSidebar={() => setSidebarMarkerId(0)}>
+      <Sidebar
+        isOpen={sidebarMarkerId > 0}
+        closeSidebar={() => setSidebarMarkerId(0)}
+        sidebarTitle={sidebarTitle}
+      >
         mamm
       </Sidebar>
     </Page>

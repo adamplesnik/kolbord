@@ -6,12 +6,11 @@ import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
-import Heading from '../basic/Heading'
 import InputWithLabel from '../basic/InputWithLabel'
 import { usePlanQuery } from './loadPlan'
 import PlanDelete from './PlanDelete'
 
-const PlanEditor = ({ planId, handleDelete }: PlanEditorProps) => {
+const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
   const { user, userCanEdit } = useAuthContext()
 
   const updatePlan = async (
@@ -66,13 +65,16 @@ const PlanEditor = ({ planId, handleDelete }: PlanEditorProps) => {
     reset()
   }, [planId])
 
+  useEffect(() => {
+    sendTitle(plan?.data.attributes.name)
+  }, [plan?.data.attributes.name])
+
   if (!userCanEdit) {
     return ''
   }
 
   return (
     <>
-      <Heading size={3}>{plan?.data.attributes.name}</Heading>
       <form
         className="flex flex-col gap-6"
         onSubmit={(e) => {
@@ -127,6 +129,7 @@ const PlanEditor = ({ planId, handleDelete }: PlanEditorProps) => {
 type PlanEditorProps = {
   planId: number
   handleDelete: () => void
+  sendTitle: (title: string | undefined) => void
 }
 
 export default PlanEditor

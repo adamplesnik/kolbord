@@ -5,7 +5,7 @@ import { PlanRecord } from './PlanRecord'
 export type TableRecord = {
   id: number
   attributes: {
-    name: string | number
+    name: string
     rotation: number
     x: number
     y: number
