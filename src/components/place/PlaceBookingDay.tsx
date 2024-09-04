@@ -13,6 +13,19 @@ type BookingQueryType = {
 const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
   const { user } = useAuthContext()
 
+  const humanDay = (date: Date) => {
+    const todayString = new Date().toDateString()
+    const tomorrowString = new Date(+new Date() + 86400000).toDateString()
+
+    if (todayString === date.toDateString()) {
+      return 'Today'
+    } else if (tomorrowString === date.toDateString()) {
+      return 'Tomorrow'
+    } else {
+      return date.toLocaleString([], { weekday: 'long' })
+    }
+  }
+
   let midnight = new Date()
   midnight.setHours(23, 59, 59, 999)
   midnight.setDate(date.getDate())
@@ -61,9 +74,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
   return (
     <div className="flex flex-col gap-3">
       <Heading size={4}>
-        <span className="font-semibold text-slate-900">
-          {date.toLocaleString([], { weekday: 'long' })}
-        </span>
+        <span className="font-semibold text-slate-900">{humanDay(date)}</span>
         <span className="flex-1 ps-1 text-slate-600">
           {date.toLocaleString([], {
             year: 'numeric',
