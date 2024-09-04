@@ -115,7 +115,7 @@ const PlanSwitcher = ({
                 >
                   {plan.attributes.name}
                 </Button>
-                {userCanEdit && <EditButton onClick={() => onPlanEdit(plan.id)} />}
+                <EditButton onClick={() => onPlanEdit(plan.id)} editMode={false} />
               </div>
             ))}
 
