@@ -36,7 +36,7 @@ const PlaceDelete = ({ id, handleDelete }: PlaceDeleteProps) => {
   })
 
   return (
-    <div className="mt-8 flex flex-col gap-2 rounded border border-red-200 p-2 text-sm">
+    <div className="mt-2 flex flex-col gap-2 rounded border border-red-200 p-2 text-sm">
       {deleteStep === 0 && (
         <Button className="text-red-600" onClick={() => setDeleteStep(1)}>
           Delete...
@@ -45,7 +45,7 @@ const PlaceDelete = ({ id, handleDelete }: PlaceDeleteProps) => {
       {deleteStep > 0 && (
         <>
           <div className="text-sm">
-            <P className="pt-2 font-bold text-red-600">This action cannot be undone!</P>
+            <P className="font-bold text-red-600">This action cannot be undone!</P>
             <P>All bookings related to this place will be deleted as well.</P>
           </div>
           <div className="flex justify-between">

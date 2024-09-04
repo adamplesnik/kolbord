@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useEffect } from 'react'
 import { loadTable } from '../../utils/fetchApi'
 import Badge from '../basic/Badge'
-import EditButton from '../basic/EditButton'
 import Loading from '../basic/Loading'
 import PlaceBooking from './PlaceBooking'
 import PlaceDetailEdit from './PlaceDetailEdit'
@@ -14,9 +13,8 @@ const PlaceDetail = ({
   planId,
   handleDelete,
   sendTitle,
+  editMode,
 }: PlaceDetailProps) => {
-  const [editMode, setEditMode] = useState(false)
-
   const {
     data: loadedTable,
     isSuccess,
@@ -54,7 +52,6 @@ const PlaceDetail = ({
                 <PlaceFeatures features={loadedTable.data.attributes.features.data} />
               )}
               <div className="flex-1"></div>
-              <EditButton onClick={() => setEditMode(!editMode)} className="justify-self-end" />
             </div>
             {loadedTable.data.attributes.available && !editMode && (
               <PlaceBooking
@@ -88,6 +85,7 @@ export type PlaceDetailProps = {
   planId: number
   handleDelete: () => void
   sendTitle: (title: string | undefined) => void
+  editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlaceDetail

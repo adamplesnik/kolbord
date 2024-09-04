@@ -58,7 +58,7 @@ const PlanDelete = ({
       {deleteStep > 0 && (
         <>
           <div className="text-sm">
-            <P className="pt-2 font-bold text-red-600">This action cannot be undone!</P>
+            <P className="font-bold text-red-600">This action cannot be undone!</P>
             <P>All places and bookings related to this plan will be deleted as well.</P>
             <P>Write down the plan name to confirm the deletion.</P>
           </div>

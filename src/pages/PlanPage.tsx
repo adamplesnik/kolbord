@@ -26,6 +26,7 @@ const PlanPage = () => {
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
+  const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
@@ -68,6 +69,7 @@ const PlanPage = () => {
     planId && setPlanId(planId)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
+    setEditMode(true)
   }
 
   useEffect(() => {
@@ -97,7 +99,10 @@ const PlanPage = () => {
                 currentPlan={planId}
                 companyId={user.company.id}
                 onPlanChange={handlePlanIdChange}
-                handlePlaceAdd={handlePlaceClick}
+                handlePlaceAdd={(id) => {
+                  handlePlaceClick(id)
+                  setEditMode(true)
+                }}
               />
             </>
           )}
@@ -145,15 +150,19 @@ const PlanPage = () => {
         </>
       </TransformWrapper>
       <Sidebar
-        isOpen={sidebarTableId > 0 || sidebarPlanEdit}
+        editMode={editMode}
+        handleEditMode={() => setEditMode(!editMode)}
+        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode)}
         sidebarTitle={sidebarTitle}
         closeSidebar={() => {
           setSidebarTableId(0)
           setSidebarPlanEdit(false)
+          setEditMode(false)
         }}
       >
         {sidebarTableId > 0 && (
           <PlaceDetail
+            editMode={editMode}
             sendTitle={(title) => setSidebarTitle(title)}
             tableId={sidebarTableId}
             workingDate={workingDate?.toString()}
@@ -161,7 +170,7 @@ const PlanPage = () => {
             handleDelete={() => setSidebarTableId(0)}
           />
         )}
-        {userCanEdit && sidebarPlanEdit && (
+        {userCanEdit && sidebarPlanEdit && editMode && (
           <PlanEditor
             sendTitle={(title) => setSidebarTitle(title)}
             planId={planId}
@@ -173,6 +182,8 @@ const PlanPage = () => {
         )}
       </Sidebar>
       <Sidebar
+        editMode={editMode}
+        handleEditMode={() => setEditMode(!editMode)}
         isOpen={sidebarMarkerId > 0}
         closeSidebar={() => setSidebarMarkerId(0)}
         sidebarTitle={sidebarTitle}
