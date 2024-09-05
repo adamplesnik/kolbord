@@ -56,6 +56,10 @@ const Places = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: Place
           const bookedToday = bookings?.data.find(
             (booking) => booking.attributes.table.data.id === t.id
           )
+          const allToday = bookings?.data.filter(
+            (booking) => booking.attributes.table.data.id === t.id
+          )
+
           return (
             <Place
               key={`place_${t.id}`}
@@ -76,6 +80,7 @@ const Places = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: Place
               }}
               active={t.id === sidebarTableId}
               bookedToday={bookedToday != undefined}
+              bookings={allToday}
               bookedByWho={
                 bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
                 ' ' +
