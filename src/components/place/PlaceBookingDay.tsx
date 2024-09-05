@@ -115,6 +115,8 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
           let bookedBy = ''
           let isBookedByMe = false
 
+          console.log(loadedTableBooking)
+
           const isBooked = loadedTableBooking?.data.find(
             (booking) =>
               new Date(booking.attributes.from) <= from && new Date(booking.attributes.to) >= to
@@ -143,7 +145,14 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
               dateTo={to}
               isBooked={isBooked != undefined}
               onClick={() => {
-                isBooked && isBookedByMe ? removeBooking(isBooked.id) : addBooking(data)
+                if (isBooked && isBookedByMe) {
+                  removeBooking(isBooked.id)
+                } else if (!isBooked) {
+                  addBooking(data)
+                } else {
+                  console.log('ee')
+                  null
+                }
               }}
               bookedBy={bookedBy}
               isBookedByMe={isBookedByMe}

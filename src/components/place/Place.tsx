@@ -89,9 +89,11 @@ const Place = ({
         <Tooltip id={tooltipId}>
           {bookings?.map((b: any, i: number) => (
             <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
-              {humanDate(b.attributes.from)}
-              <ArrowRight />
-              {humanDate(b.attributes.to)}
+              <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
+                {humanDate(b.attributes.from)}
+                <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
+                {humanDate(b.attributes.to)}
+              </div>
               <span className="font-semibold">
                 {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
                 {b.attributes.users_permissions_user.data.attributes.lastName}
