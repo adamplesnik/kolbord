@@ -1,20 +1,15 @@
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import GroupMarkers from '../components/group-marker/GroupMarkers'
 import PlaceDetail from '../components/place/PlaceDetail'
-import Places from '../components/place/Places'
-import Plan from '../components/plan/Plan'
-import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
+import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
-import { addWithSpace } from '../utils/addWithSpace'
 
 const MainPage = () => {
   const { user, userCanEdit } = useAuthContext()
@@ -72,15 +67,8 @@ const MainPage = () => {
   }, [workingDate])
 
   const Controls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls()
-
     return (
-      <MenuBar>
-        <PlanControls
-          zoomIn={() => zoomIn()}
-          zoomOut={() => zoomOut()}
-          resetTransform={() => resetTransform()}
-        />
+      <MenuBar position="bottom" logo>
         <UserMenu />
         <div className="flex rounded bg-slate-200/70 p-0.5">
           {user && !user.error && (
@@ -116,35 +104,14 @@ const MainPage = () => {
 
   return (
     <>
-      <TransformWrapper
-        pinch={{ disabled: false }}
-        panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
-        initialScale={0.6}
-        centerOnInit={true}
-        minScale={0.2}
-        maxScale={1}
-      >
-        <>
-          <Controls />
-          <TransformComponent wrapperClass="!h-screen !w-full bg-gradient-to-tr from-zinc-300 to-zinc-100 !p-2">
-            <div
-              className={
-                'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
-                addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
-              }
-            >
-              <GroupMarkers planId={planId} />
-              <Places
-                sidebarTableId={sidebarTableId}
-                handlePlaceClick={handlePlaceClick}
-                planId={planId}
-                workingDate={workingDate}
-              />
-              {planId > 0 && <Plan planId={planId} />}
-            </div>
-          </TransformComponent>
-        </>
-      </TransformWrapper>
+      <PlanTransformWrapper
+        handlePlaceClick={handlePlaceClick}
+        planId={planId}
+        sidebarPlanEdit={sidebarPlanEdit}
+        sidebarTableId={sidebarTableId}
+        workingDate={workingDate}
+      />
+      <Controls />
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
