@@ -6,13 +6,19 @@ import PlaceRectangle from './PlaceRectangle'
 const Place = ({
   active,
   className,
-  id,
   attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
   bookedToday = false,
   bookedByWho,
 }: PlaceProps) => {
   const hasChairs = chairs > 0 && chairs
+
+  const initials = (name: string | undefined) => {
+    if (name) {
+      const names = name.split(' ')
+      return names.map((n) => Array.from(n)[0])
+    }
+  }
 
   return (
     <div
@@ -42,7 +48,7 @@ const Place = ({
             className="inline-block rounded-full bg-slate-800 p-2 text-xl text-white"
             style={{ rotate: `${rotation * -1}deg` }}
           >
-            {bookedByWho}
+            {initials(bookedByWho)}
           </div>
         </div>
       )}
@@ -60,7 +66,6 @@ const Place = ({
         width={width}
         className={rounded ? 'rounded-full' : 'rounded-xl'}
       >
-        {id}
         <div className="flex flex-col items-center gap-1" style={{ rotate: `${rotation * -1}deg` }}>
           <div className="flex items-center gap-2">
             <span className={'text-md font-semibold'}>{name}</span>
