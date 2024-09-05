@@ -68,6 +68,32 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
       queryClient.invalidateQueries({
         queryKey: ['tableBooking', tableId, date],
       })
+      queryClient.invalidateQueries({
+        queryKey: ['bookings'],
+      })
+    },
+  })
+
+  const deleteBooking = async (id: number): Promise<BookingRecord> => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings/${id}`, {
+      method: 'delete',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    return response.json()
+  }
+
+  const { mutate: removeBooking } = useMutation({
+    mutationFn: (id: number) => deleteBooking(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['tableBooking', tableId, date],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['bookings'],
+      })
     },
   })
 
@@ -75,7 +101,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
     <div className="flex flex-col gap-3">
       <Heading size={4}>
         <span className="font-semibold text-slate-900">{humanDay(date)}</span>
-        <span className="flex-1 ps-1 text-slate-600">
+        <span className="flex-1 ps-1 text-sm text-slate-600">
           {date.toLocaleString([], {
             year: 'numeric',
             month: 'short',
@@ -117,7 +143,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
               dateTo={to}
               isBooked={isBooked != undefined}
               onClick={() => {
-                isBooked == undefined ? addBooking(data) : null
+                isBooked && isBookedByMe ? removeBooking(isBooked.id) : addBooking(data)
               }}
               bookedBy={bookedBy}
               isBookedByMe={isBookedByMe}
