@@ -16,7 +16,7 @@ import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 import { addWithSpace } from '../utils/addWithSpace'
 
-const PlanPage = () => {
+const MainPage = () => {
   const { user, userCanEdit } = useAuthContext()
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
@@ -181,6 +181,6 @@ const PlanPage = () => {
   )
 }
 
-export type PlanPageProps = {} & HTMLAttributes<HTMLDivElement>
+export type MainPageProps = {} & HTMLAttributes<HTMLDivElement>
 
-export default PlanPage
+export default MainPage
