@@ -10,9 +10,8 @@ const Place = ({
   attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
   onClick,
   bookedToday = false,
+  bookedByWho,
 }: PlaceProps) => {
-  const bookedWho = 'ff'
-
   const hasChairs = chairs > 0 && chairs
 
   return (
@@ -43,7 +42,7 @@ const Place = ({
             className="inline-block rounded-full bg-slate-800 p-2 text-xl text-white"
             style={{ rotate: `${rotation * -1}deg` }}
           >
-            {bookedWho}
+            {bookedByWho}
           </div>
         </div>
       )}
@@ -77,6 +76,7 @@ export type PlaceProps = {
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
   bookedToday?: boolean
+  bookedByWho?: string | undefined
 } & TableRecord
 
 export default Place

@@ -49,39 +49,44 @@ const Places = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: Place
     queryFn: () => loadBookingsForPlan(planId, workingDate),
   })
 
-  console.log(bookings?.data)
-
   return (
     <>
       {places?.data &&
-        places.data.map((t) => (
-          <Place
-            key={`place_${t.id}`}
-            id={t.id}
-            attributes={{
-              name: t.attributes.name,
-              group: t.attributes.group,
-              rotation: t.attributes.rotation,
-              x: t.attributes.x,
-              y: t.attributes.y,
-              available: t.attributes.available,
-              features: t.attributes.features,
-              width: t.attributes.width,
-              height: t.attributes.height,
-              rounded: t.attributes.rounded,
-              chairs: t.attributes.chairs,
-              slots: t.attributes.slots,
-            }}
-            active={t.id === sidebarTableId}
-            bookedToday={
-              bookings?.data.find((booking) => booking.attributes.table.data.id === t.id) !=
-              undefined
-            }
-            onClick={() => {
-              handlePlaceClick(t.id)
-            }}
-          />
-        ))}
+        places.data.map((t) => {
+          const bookedToday = bookings?.data.find(
+            (booking) => booking.attributes.table.data.id === t.id
+          )
+          return (
+            <Place
+              key={`place_${t.id}`}
+              id={t.id}
+              attributes={{
+                name: t.attributes.name,
+                group: t.attributes.group,
+                rotation: t.attributes.rotation,
+                x: t.attributes.x,
+                y: t.attributes.y,
+                available: t.attributes.available,
+                features: t.attributes.features,
+                width: t.attributes.width,
+                height: t.attributes.height,
+                rounded: t.attributes.rounded,
+                chairs: t.attributes.chairs,
+                slots: t.attributes.slots,
+              }}
+              active={t.id === sidebarTableId}
+              bookedToday={bookedToday != undefined}
+              bookedByWho={
+                bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
+                ' ' +
+                bookedToday?.attributes.users_permissions_user.data.attributes.lastName
+              }
+              onClick={() => {
+                handlePlaceClick(t.id)
+              }}
+            />
+          )
+        })}
     </>
   )
 }
