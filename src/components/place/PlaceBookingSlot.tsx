@@ -23,10 +23,10 @@ const PlaceBookingSlot = ({
         onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
-          'group relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
+          'relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
           addWithSpace(
             !isBooked &&
-              'cursor-pointer border-slate-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900'
+              'group cursor-pointer border-slate-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900'
           ) +
           addWithSpace(
             isBooked && !isBookedByMe && 'cursor-not-allowed border-rose-300 bg-rose-50 opacity-40'
@@ -38,7 +38,7 @@ const PlaceBookingSlot = ({
         }
       >
         {humanDate(dateFrom)}
-        <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
+        <ArrowRight className="size-4 text-slate-400 group-hover:text-slate-200" strokeWidth={1} />
         {humanDate(dateTo)}
       </div>
 

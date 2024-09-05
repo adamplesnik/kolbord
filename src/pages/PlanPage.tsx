@@ -39,6 +39,10 @@ const PlanPage = () => {
   }, [sidebarTitle])
 
   useEffect(() => {
+    setWorkingDate(workingDate)
+  }, [workingDate])
+
+  useEffect(() => {
     setPlanId(planId)
   }, [planId])
 
