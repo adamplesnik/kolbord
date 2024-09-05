@@ -110,7 +110,14 @@ const MainPage = () => {
   return (
     <>
       {listView ? (
-        <Lists />
+        <Lists
+          handlePlaceClick={handlePlaceClick}
+          listView={false}
+          planId={planId}
+          sidebarPlanEdit={sidebarPlanEdit}
+          sidebarTableId={sidebarTableId}
+          workingDate={workingDate}
+        />
       ) : (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
