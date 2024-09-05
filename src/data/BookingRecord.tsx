@@ -1,3 +1,7 @@
+export type BookingQueryType = {
+  data: BookingRecord[]
+}
+
 export type BookingRecord = {
   id: number
   attributes: {
@@ -9,6 +13,11 @@ export type BookingRecord = {
           firstName: string
           lastName: string
         }
+      }
+    }
+    table: {
+      data: {
+        id: number
       }
     }
     from: string

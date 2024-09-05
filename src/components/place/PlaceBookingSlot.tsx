@@ -1,7 +1,7 @@
 import { ArrowRight, Trash2 } from 'lucide-react'
+import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
-import { HTMLAttributes } from 'react'
 
 const PlaceBookingSlot = ({
   bookedBy,
@@ -23,22 +23,22 @@ const PlaceBookingSlot = ({
         onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
-          'group relative flex flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
+          'relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
           addWithSpace(
-            isBooked
-              ? 'border-red-400 bg-pink-50'
-              : 'cursor-pointer border-slate-300 hover:border-slate-900 hover:bg-slate-800 hover:text-white'
+            !isBooked &&
+              'group cursor-pointer border-slate-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900'
           ) +
-          addWithSpace(isBooked && !isBookedByMe && 'opacity-40') +
           addWithSpace(
-            isBookedByMe
-              ? 'cursor-pointer hover:border-red-500 hover:bg-pink-100'
-              : 'cursor-not-allowed'
+            isBooked && !isBookedByMe && 'cursor-not-allowed border-rose-300 bg-rose-50 opacity-40'
+          ) +
+          addWithSpace(
+            isBookedByMe &&
+              'cursor-pointer border-slate-800 bg-slate-700 text-white hover:bg-slate-600 active:bg-slate-900'
           )
         }
       >
         {humanDate(dateFrom)}
-        <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
+        <ArrowRight className="size-4 text-slate-400 group-hover:text-slate-200" strokeWidth={1} />
         {humanDate(dateTo)}
       </div>
 

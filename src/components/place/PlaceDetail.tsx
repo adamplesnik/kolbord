@@ -38,7 +38,7 @@ const PlaceDetail = ({
       <>
         {loadedTable.data ? (
           <div className="flex flex-col gap-8">
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-2">
               {loadedTable.data.attributes.group.data && !editMode && (
                 <Badge
                   className="text-sm"
@@ -51,7 +51,6 @@ const PlaceDetail = ({
               {loadedTable.data.attributes.features.data && !editMode && (
                 <PlaceFeatures features={loadedTable.data.attributes.features.data} />
               )}
-              <div className="flex-1"></div>
             </div>
             {loadedTable.data.attributes.available && !editMode && (
               <PlaceBooking

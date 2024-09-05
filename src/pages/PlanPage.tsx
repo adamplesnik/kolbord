@@ -39,6 +39,10 @@ const PlanPage = () => {
   }, [sidebarTitle])
 
   useEffect(() => {
+    setWorkingDate(workingDate)
+  }, [workingDate])
+
+  useEffect(() => {
     setPlanId(planId)
   }, [planId])
 
@@ -143,6 +147,7 @@ const PlanPage = () => {
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
+                workingDate={workingDate}
               />
               {planId > 0 && <Plan planId={planId} />}
             </div>
