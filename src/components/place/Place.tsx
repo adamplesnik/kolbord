@@ -14,6 +14,7 @@ const Place = ({
   bookedToday = false,
   bookedByWho,
   bookings,
+  listView,
 }: PlaceProps) => {
   const hasChairs = chairs > 0 && chairs
   const humanDate = (date: string) => {
@@ -113,6 +114,7 @@ export type PlaceProps = {
   bookedToday?: boolean
   bookedByWho?: string | undefined
   bookings?: any
+  listView: boolean
 } & TableRecord
 
 export default Place

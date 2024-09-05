@@ -10,6 +10,9 @@ import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { List, Map } from 'lucide-react'
+import Button from '../components/basic/Button'
+import Lists from '../components/list/Lists'
 
 const MainPage = () => {
   const { user, userCanEdit } = useAuthContext()
@@ -21,6 +24,7 @@ const MainPage = () => {
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
+  const [listView, setListView] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
       ? new Date(getLocalWorkingDate.toString())
@@ -70,6 +74,7 @@ const MainPage = () => {
     return (
       <MenuBar position="bottom" logo>
         <UserMenu />
+        <Button Icon={listView ? List : Map} onClick={() => setListView(!listView)} />
         <div className="flex rounded bg-slate-200/70 p-0.5">
           {user && !user.error && (
             <>
@@ -104,13 +109,18 @@ const MainPage = () => {
 
   return (
     <>
-      <PlanTransformWrapper
-        handlePlaceClick={handlePlaceClick}
-        planId={planId}
-        sidebarPlanEdit={sidebarPlanEdit}
-        sidebarTableId={sidebarTableId}
-        workingDate={workingDate}
-      />
+      {listView ? (
+        <Lists />
+      ) : (
+        <PlanTransformWrapper
+          handlePlaceClick={handlePlaceClick}
+          listView={listView}
+          planId={planId}
+          sidebarPlanEdit={sidebarPlanEdit}
+          sidebarTableId={sidebarTableId}
+          workingDate={workingDate}
+        />
+      )}
       <Controls />
       <Sidebar
         editMode={editMode}

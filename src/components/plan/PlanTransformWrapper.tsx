@@ -10,6 +10,7 @@ import MenuBar from '../../partials/MenuBar'
 
 const PlanTransformWrapper = ({
   handlePlaceClick,
+  listView,
   planId,
   sidebarPlanEdit,
   sidebarTableId,
@@ -53,6 +54,7 @@ const PlanTransformWrapper = ({
               handlePlaceClick={handlePlaceClick}
               planId={planId}
               workingDate={workingDate}
+              listView={listView}
             />
             {planId > 0 && <Plan planId={planId} />}
           </div>
@@ -64,6 +66,7 @@ const PlanTransformWrapper = ({
 
 type PlanTransformWrapperProps = {
   handlePlaceClick: (id: number) => void
+  listView: boolean
   planId: number
   sidebarPlanEdit: boolean
   sidebarTableId: number
