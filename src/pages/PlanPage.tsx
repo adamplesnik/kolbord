@@ -12,7 +12,6 @@ import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
-import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 import { addWithSpace } from '../utils/addWithSpace'
@@ -24,7 +23,6 @@ const PlanPage = () => {
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
-  const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
@@ -52,19 +50,12 @@ const PlanPage = () => {
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
-      setSidebarMarkerId(0)
       setSidebarTableId(0)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
 
-  const handleMarkerClick = (id: number) => {
-    setSidebarMarkerId(id)
-    setSidebarTableId(0)
-  }
-
   const handlePlaceClick = (id: number) => {
-    setSidebarMarkerId(0)
     setSidebarTableId(id)
     setSidebarPlanEdit(false)
   }
@@ -124,7 +115,7 @@ const PlanPage = () => {
   }
 
   return (
-    <Page>
+    <>
       <TransformWrapper
         pinch={{ disabled: false }}
         panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
@@ -142,7 +133,7 @@ const PlanPage = () => {
                 addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
               }
             >
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
+              <GroupMarkers planId={planId} />
               <Places
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
@@ -186,16 +177,7 @@ const PlanPage = () => {
           />
         )}
       </Sidebar>
-      <Sidebar
-        editMode={editMode}
-        handleEditMode={() => setEditMode(!editMode)}
-        isOpen={sidebarMarkerId > 0}
-        closeSidebar={() => setSidebarMarkerId(0)}
-        sidebarTitle={sidebarTitle}
-      >
-        mamm
-      </Sidebar>
-    </Page>
+    </>
   )
 }
 
