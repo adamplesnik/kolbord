@@ -1,18 +1,18 @@
+import { List, Map } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
-import PlaceDetail from '../components/place/PlaceDetail'
+import Button from '../components/basic/Button'
+import Lists from '../components/list/Lists'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
+import SpaceDetail from '../components/space/SpaceDetail'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
-import { List, Map } from 'lucide-react'
-import Button from '../components/basic/Button'
-import Lists from '../components/list/Lists'
 
 const MainPage = () => {
   const { user, userCanEdit } = useAuthContext()
@@ -141,7 +141,7 @@ const MainPage = () => {
         }}
       >
         {sidebarTableId > 0 && (
-          <PlaceDetail
+          <SpaceDetail
             editMode={editMode}
             sendTitle={(title) => setSidebarTitle(title)}
             tableId={sidebarTableId}

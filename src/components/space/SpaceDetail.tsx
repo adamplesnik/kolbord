@@ -3,18 +3,18 @@ import { HTMLAttributes, useEffect } from 'react'
 import { loadTable } from '../../utils/fetchApi'
 import Badge from '../basic/Badge'
 import Loading from '../basic/Loading'
-import PlaceBooking from './PlaceBooking'
-import PlaceDetailEdit from './PlaceDetailEdit'
-import { PlaceFeatures } from './PlaceFeatures'
+import SpaceBooking from './SpaceBooking.tsx'
+import SpaceEdit from './SpaceEdit.tsx'
+import { SpaceFeatures } from './SpaceFeatures.tsx'
 
-const PlaceDetail = ({
+const SpaceDetail = ({
   tableId,
   workingDate,
   planId,
   handleDelete,
   sendTitle,
   editMode,
-}: PlaceDetailProps) => {
+}: SpaceDetailProps) => {
   const {
     data: loadedTable,
     isSuccess,
@@ -49,11 +49,11 @@ const PlaceDetail = ({
                 </Badge>
               )}
               {loadedTable.data.attributes.features.data && !editMode && (
-                <PlaceFeatures features={loadedTable.data.attributes.features.data} />
+                <SpaceFeatures features={loadedTable.data.attributes.features.data} />
               )}
             </div>
             {loadedTable.data.attributes.available && !editMode && (
-              <PlaceBooking
+              <SpaceBooking
                 tableId={tableId}
                 slots={loadedTable.data.attributes.slots}
                 workingDate={workingDate}
@@ -63,7 +63,7 @@ const PlaceDetail = ({
               <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
             )}
             {editMode && (
-              <PlaceDetailEdit
+              <SpaceEdit
                 table={loadedTable.data}
                 planId={planId}
                 handleDelete={handleDelete}
@@ -78,7 +78,7 @@ const PlaceDetail = ({
   }
 }
 
-export type PlaceDetailProps = {
+export type SpaceDetailProps = {
   tableId: number
   workingDate: string | undefined
   planId: number
@@ -87,4 +87,4 @@ export type PlaceDetailProps = {
   editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export default PlaceDetail
+export default SpaceDetail
