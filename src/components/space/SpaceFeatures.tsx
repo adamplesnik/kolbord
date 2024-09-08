@@ -2,16 +2,16 @@ import { Fragment, HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import Badge from '../basic/Badge'
-import PlaceFeatureIcon from './PlaceFeatureIcon'
+import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
 
-export const PlaceFeatures = ({ features }: PlaceFeaturesProps) => {
+export const SpaceFeatures = ({ features }: SpaceFeaturesProps) => {
   return (
     <>
       {features?.map((feature) => (
         <Fragment key={feature.id}>
           <div data-tooltip-id={`feature${feature.id}`}>
             <Badge className="w-8 *:stroke-1.5">
-              <PlaceFeatureIcon name={feature.attributes.lucideIcon} />
+              <SpaceFeatureIcon name={feature.attributes.lucideIcon} />
             </Badge>
           </div>
           <Tooltip
@@ -25,6 +25,6 @@ export const PlaceFeatures = ({ features }: PlaceFeaturesProps) => {
   )
 }
 
-export type PlaceFeaturesProps = {
+export type SpaceFeaturesProps = {
   features: FeatureRecord[]
 } & HTMLAttributes<HTMLDivElement>

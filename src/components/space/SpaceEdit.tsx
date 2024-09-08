@@ -7,9 +7,9 @@ import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import PlaceDelete from './PlaceDelete'
+import SpaceDelete from './SpaceDelete.tsx'
 
-const PlaceDetailEdit = ({ table, planId, handleDelete }: PlaceDetailEditProps) => {
+const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
@@ -250,15 +250,15 @@ const PlaceDetailEdit = ({ table, planId, handleDelete }: PlaceDetailEditProps) 
           </div>
         </div>
       </form>
-      <PlaceDelete id={table.id} handleDelete={handleDelete} />
+      <SpaceDelete id={table.id} handleDelete={handleDelete} />
     </>
   )
 }
 
-export type PlaceDetailEditProps = {
+export type SpaceEditProps = {
   table: TableRecord
   planId: number
   handleDelete: () => void
 } & HTMLAttributes<HTMLDivElement>
 
-export default PlaceDetailEdit
+export default SpaceEdit
