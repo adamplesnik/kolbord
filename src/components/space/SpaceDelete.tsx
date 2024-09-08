@@ -4,10 +4,10 @@ import { getToken } from '../../auth/helpers'
 import Button from '../basic/Button'
 import P from '../basic/P'
 
-const PlaceDelete = ({ id, handleDelete }: PlaceDeleteProps) => {
+const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
 
-  const deletePlace = async (id: number) => {
+  const deleteSpace = async (id: number) => {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
         method: 'delete',
@@ -24,7 +24,7 @@ const PlaceDelete = ({ id, handleDelete }: PlaceDeleteProps) => {
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlace(id),
+    mutationFn: () => deleteSpace(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['places'],
@@ -60,9 +60,9 @@ const PlaceDelete = ({ id, handleDelete }: PlaceDeleteProps) => {
   )
 }
 
-type PlaceDeleteProps = {
+type SpaceDeleteProps = {
   id: number
   handleDelete: () => void
 }
 
-export default PlaceDelete
+export default SpaceDelete

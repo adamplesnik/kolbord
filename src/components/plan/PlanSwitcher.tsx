@@ -9,7 +9,7 @@ import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
-import PlaceAdd from '../place/PlaceAdd'
+import SpaceAdd from '../space/SpaceAdd.tsx'
 
 const PlanSwitcher = ({
   companyId,
@@ -127,7 +127,7 @@ const PlanSwitcher = ({
               <Button Icon={Plus} onClick={() => mutate()} className="w-full">
                 New plan
               </Button>
-              {currentPlan > 0 && <PlaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
+              {currentPlan > 0 && <SpaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
             </>
           )}
         </div>

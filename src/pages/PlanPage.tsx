@@ -3,8 +3,8 @@ import { Navigate } from 'react-router-dom'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
 import GroupMarkers from '../components/group-marker/GroupMarkers'
-import PlaceDetail from '../components/place/PlaceDetail'
-import Places from '../components/place/Places'
+import SpaceDetail from '../components/space/SpaceDetail.tsx'
+import Spaces from '../components/space/Spaces.tsx'
 import Plan from '../components/plan/Plan'
 import PlanControls from '../components/plan/PlanControls'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
@@ -143,7 +143,7 @@ const PlanPage = () => {
               }
             >
               <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
-              <Places
+              <Spaces
                 sidebarTableId={sidebarTableId}
                 handlePlaceClick={handlePlaceClick}
                 planId={planId}
@@ -166,7 +166,7 @@ const PlanPage = () => {
         }}
       >
         {sidebarTableId > 0 && (
-          <PlaceDetail
+          <SpaceDetail
             editMode={editMode}
             sendTitle={(title) => setSidebarTitle(title)}
             tableId={sidebarTableId}

@@ -4,13 +4,13 @@ import { getToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
 import Heading from '../basic/Heading'
 import { getSlots } from './generateSlots'
-import PlaceBookingSlot from './PlaceBookingSlot'
+import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
 type BookingQueryType = {
   data: BookingRecord[]
 }
 
-const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
+const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
   const { user } = useAuthContext()
 
   const humanDay = (date: Date) => {
@@ -137,7 +137,7 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
           }
 
           return (
-            <PlaceBookingSlot
+            <SpaceBookingSlot
               key={`${from.toISOString}_${to.toISOString}_${i}`}
               dateFrom={from}
               dateTo={to}
@@ -159,10 +159,10 @@ const PlaceBookingDay = ({ date, slots, tableId }: PlaceBookingDayProps) => {
   )
 }
 
-type PlaceBookingDayProps = {
+type SpaceBookingDayProps = {
   date: Date
   slots: 'whole day' | 'half-day' | 'hours 2' | 'hour 1' | 'minutes 30' | string
   tableId: number
 }
 
-export default PlaceBookingDay
+export default SpaceBookingDay

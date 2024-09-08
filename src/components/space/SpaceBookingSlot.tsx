@@ -3,14 +3,14 @@ import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
 
-const PlaceBookingSlot = ({
+const SpaceBookingSlot = ({
   bookedBy,
   dateFrom,
   dateTo,
   isBooked,
   isBookedByMe,
   onClick,
-}: PlaceBookingSlotProps) => {
+}: SpaceBookingSlotProps) => {
   const humanDate = (date: Date) => {
     return date.toLocaleString([], { hour: '2-digit', minute: '2-digit' })
   }
@@ -57,7 +57,7 @@ const PlaceBookingSlot = ({
   )
 }
 
-type PlaceBookingSlotProps = {
+type SpaceBookingSlotProps = {
   bookedBy?: string
   dateFrom: Date
   dateTo: Date
@@ -65,4 +65,4 @@ type PlaceBookingSlotProps = {
   isBookedByMe?: boolean | undefined
 } & HTMLAttributes<HTMLDivElement>
 
-export default PlaceBookingSlot
+export default SpaceBookingSlot

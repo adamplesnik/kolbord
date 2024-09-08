@@ -8,7 +8,7 @@ type IconProps = Omit<LucideProps, 'ref'> & {
   name: keyof typeof dynamicIconImports
 }
 
-const PlaceFeatureIcon = ({ name, ...props }: IconProps) => {
+const SpaceFeatureIcon = ({ name, ...props }: IconProps) => {
   const LucideIcon = lazy(dynamicIconImports[name])
 
   return (
@@ -18,4 +18,4 @@ const PlaceFeatureIcon = ({ name, ...props }: IconProps) => {
   )
 }
 
-export default PlaceFeatureIcon
+export default SpaceFeatureIcon

@@ -4,7 +4,7 @@ import { getToken } from '../../auth/helpers'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
 
-const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
+const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
   const placeMetadata = '160, 80, 500, 500, 0'
 
@@ -14,7 +14,7 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
   const defaultData = {
     data: {
       id: 0,
-      name: 'New place',
+      name: 'New space',
       width: +width,
       height: +height,
       x: +x,
@@ -62,7 +62,7 @@ const PlaceAdd = ({ planId, handlePlaceAdd }: PlaceAddProps) => {
   )
 }
 
-type PlaceAddProps = {
+type SpaceAddProps = {
   planId: number
   handlePlaceAdd: (placeId: number) => void
 }
@@ -80,4 +80,4 @@ type NewTableRecord = {
   }
 }
 
-export default PlaceAdd
+export default SpaceAdd

@@ -3,9 +3,9 @@ import { MouseEventHandler } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import PlaceRectangle from './PlaceRectangle'
+import SpaceRectangle from './SpaceRectangle.tsx'
 
-const Place = ({
+const Space = ({
   id,
   active,
   className,
@@ -14,7 +14,7 @@ const Place = ({
   bookedToday = false,
   bookedByWho,
   bookings,
-}: PlaceProps) => {
+}: SpaceProps) => {
   const hasChairs = chairs > 0 && chairs
   const humanDate = (date: string) => {
     return new Date(date).toLocaleString([], { hour: '2-digit', minute: '2-digit' })
@@ -62,14 +62,14 @@ const Place = ({
           </div>
         )}
         {hasChairs && (
-          <PlaceRectangle
+          <SpaceRectangle
             isBooked={bookedToday && available}
             height={40}
             width={40}
             className="rounded-xl"
           />
         )}
-        <PlaceRectangle
+        <SpaceRectangle
           isBooked={bookedToday && available}
           height={height}
           width={width}
@@ -83,7 +83,7 @@ const Place = ({
               <span className={'text-md font-semibold'}>{name}</span>
             </div>
           </div>
-        </PlaceRectangle>
+        </SpaceRectangle>
       </div>
       {bookings && bookings?.length > 0 && (
         <Tooltip id={tooltipId}>
@@ -106,7 +106,7 @@ const Place = ({
   )
 }
 
-export type PlaceProps = {
+export type SpaceProps = {
   active?: boolean | undefined
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
@@ -115,4 +115,4 @@ export type PlaceProps = {
   bookings?: any
 } & TableRecord
 
-export default Place
+export default Space
