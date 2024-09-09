@@ -36,7 +36,7 @@ const SpaceDetail = ({
   if (isSuccess) {
     return (
       <>
-        {loadedTable.data ? (
+        {loadedTable.data ?
           <div className="flex flex-col gap-8">
             <div className="flex gap-2 pt-2">
               {loadedTable.data.attributes.group.data && !editMode && (
@@ -52,27 +52,18 @@ const SpaceDetail = ({
                 <SpaceFeatures features={loadedTable.data.attributes.features.data} />
               )}
             </div>
-            {loadedTable.data.attributes.available && !editMode && (
+            {!editMode && (
               <SpaceBooking
                 tableId={tableId}
                 slots={loadedTable.data.attributes.slots}
                 workingDate={workingDate}
               />
             )}
-            {!loadedTable.data.attributes.available && !editMode && (
-              <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
-            )}
             {editMode && (
-              <SpaceEdit
-                table={loadedTable.data}
-                planId={planId}
-                handleDelete={handleDelete}
-              />
+              <SpaceEdit table={loadedTable.data} planId={planId} handleDelete={handleDelete} />
             )}
           </div>
-        ) : (
-          'No table selected.'
-        )}
+        : 'No table selected.'}
       </>
     )
   }

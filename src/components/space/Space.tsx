@@ -10,7 +10,7 @@ const Space = ({
   id,
   active,
   className,
-  attributes: { available, x, y },
+  attributes: { x, y },
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -45,11 +45,9 @@ const Space = ({
           left: x,
         }}
       >
-        {available && (
-          <SpaceBookingSlot isBooked={bookedToday} isBookedByMe={bookedByMe} large>
-            {initials(bookedByWho)}
-          </SpaceBookingSlot>
-        )}
+        <SpaceBookingSlot isBooked={bookedToday} isBookedByMe={bookedByMe} large>
+          {initials(bookedByWho)}
+        </SpaceBookingSlot>
       </div>
       {bookings && bookings?.length > 0 && (
         <Tooltip id={tooltipId}>
