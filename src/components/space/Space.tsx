@@ -3,22 +3,19 @@ import { MouseEventHandler } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
+import { humanTime } from '../../utils/humanTime.ts'
 import SpaceRectangle from './SpaceRectangle.tsx'
 
 const Space = ({
   id,
   active,
   className,
-  attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
+  attributes: { available, height, name, rotation, rounded, width, x, y },
   onClick,
   bookedToday = false,
   bookedByWho,
   bookings,
 }: SpaceProps) => {
-  const hasChairs = chairs > 0 && chairs
-  const humanDate = (date: string) => {
-    return new Date(date).toLocaleString([], { hour: '2-digit', minute: '2-digit' })
-  }
   const initials = (name: string | undefined) => {
     if (name) {
       const names = name.split(' ')
@@ -34,7 +31,6 @@ const Space = ({
         data-tooltip-id={tooltipId}
         className={
           'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
-          addWithSpace(hasChairs && 'pt-2') +
           addWithSpace(available ? 'group cursor-pointer hover:ring-slate-300' : 'opacity-40') +
           addWithSpace(
             active
@@ -47,7 +43,7 @@ const Space = ({
           top: y,
           left: x,
           width: width,
-          height: hasChairs ? height + 64 : height,
+          height: height,
           rotate: `${rotation}deg`,
         }}
       >
@@ -60,14 +56,6 @@ const Space = ({
               {initials(bookedByWho)}
             </div>
           </div>
-        )}
-        {hasChairs && (
-          <SpaceRectangle
-            isBooked={bookedToday && available}
-            height={40}
-            width={40}
-            className="rounded-xl"
-          />
         )}
         <SpaceRectangle
           isBooked={bookedToday && available}
@@ -90,9 +78,9 @@ const Space = ({
           {bookings?.map((b: any, i: number) => (
             <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
               <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
-                {humanDate(b.attributes.from)}
+                {humanTime(b.attributes.from)}
                 <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
-                {humanDate(b.attributes.to)}
+                {humanTime(b.attributes.to)}
               </div>
               <span className="font-semibold">
                 {b.attributes.users_permissions_user.data.attributes.firstName}{' '}

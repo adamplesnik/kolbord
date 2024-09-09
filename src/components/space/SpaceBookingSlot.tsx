@@ -2,6 +2,7 @@ import { ArrowRight, Trash2 } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
+import { humanTime } from '../../utils/humanTime'
 
 const SpaceBookingSlot = ({
   bookedBy,
@@ -11,10 +12,6 @@ const SpaceBookingSlot = ({
   isBookedByMe,
   onClick,
 }: SpaceBookingSlotProps) => {
-  const humanDate = (date: Date) => {
-    return date.toLocaleString([], { hour: '2-digit', minute: '2-digit' })
-  }
-
   const tooltipId = (dateFrom.getTime() + dateTo.getTime()).toString()
 
   return (
@@ -37,9 +34,9 @@ const SpaceBookingSlot = ({
           )
         }
       >
-        {humanDate(dateFrom)}
+        {humanTime(dateFrom)}
         <ArrowRight className="size-4 text-slate-400 group-hover:text-slate-200" strokeWidth={1} />
-        {humanDate(dateTo)}
+        {humanTime(dateTo)}
       </div>
 
       {isBooked && (
