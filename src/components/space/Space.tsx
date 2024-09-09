@@ -10,7 +10,7 @@ const Space = ({
   id,
   active,
   className,
-  attributes: { available, height, name, rotation, rounded, width, x, y },
+  attributes: { available, x, y },
   onClick,
   bookedToday = false,
   bookedByWho,
