@@ -44,9 +44,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
             },
           },
         },
-        features: {
-          data: [],
-        },
+        features: table?.attributes.features,
       },
     },
   })
@@ -158,6 +156,18 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
             />
           </div>
         </div>
+        <Field name="attributes.features.data" mode="array">
+          {(field) => {
+            return (
+              <div>
+                {field.state.value.map((value, i) => {
+                  console.log(field.state.value)
+                  return <>{/* <Field name={}></Field> */}</>
+                })}
+              </div>
+            )
+          }}
+        </Field>
       </form>
       <SpaceDelete id={table.id} handleDelete={handleDelete} />
     </>
