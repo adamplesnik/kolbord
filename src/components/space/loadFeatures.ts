@@ -7,7 +7,7 @@ type FeatureRecordQueryType = {
 }
 
 const loadFeatures = async (): Promise<FeatureRecordQueryType> => {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/features`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/features?sort[0]=description`, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
