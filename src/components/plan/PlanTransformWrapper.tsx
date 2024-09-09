@@ -1,12 +1,12 @@
 import { Fullscreen, ZoomIn, ZoomOut } from 'lucide-react'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
+import MenuBar from '../../partials/MenuBar'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Button from '../basic/Button'
 import GroupMarkers from '../group-marker/GroupMarkers'
-import Places from '../place/Places'
+import Spaces from '../space/Spaces'
 import Plan from './Plan'
 import { Value } from './PlanDateSelector'
-import MenuBar from '../../partials/MenuBar'
 
 const PlanTransformWrapper = ({
   handlePlaceClick,
@@ -49,7 +49,7 @@ const PlanTransformWrapper = ({
             }
           >
             <GroupMarkers planId={planId} />
-            <Places
+            <Spaces
               sidebarTableId={sidebarTableId}
               handlePlaceClick={handlePlaceClick}
               planId={planId}

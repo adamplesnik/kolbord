@@ -1,5 +1,5 @@
-import Places from '../place/Places'
 import { Value } from '../plan/PlanDateSelector'
+import Spaces from '../space/Spaces'
 
 const Lists = ({
   handlePlaceClick,
@@ -10,7 +10,7 @@ const Lists = ({
 }: ListsProps) => {
   return (
     <div>
-      <Places
+      <Spaces
         listView={true}
         handlePlaceClick={handlePlaceClick}
         workingDate={workingDate}
