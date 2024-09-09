@@ -4,7 +4,7 @@ import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/humanTime.ts'
-import SpaceRectangle from './SpaceRectangle.tsx'
+import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
 const Space = ({
   id,
@@ -14,9 +14,11 @@ const Space = ({
   onClick,
   bookedToday = false,
   bookedByWho,
+  bookedByMe,
   bookings,
 }: SpaceProps) => {
   const initials = (name: string | undefined) => {
+    console.log(name)
     if (name) {
       const names = name.split(' ')
       return names.map((n) => Array.from(n)[0])
@@ -30,48 +32,24 @@ const Space = ({
         onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
-          'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
-          addWithSpace(available ? 'group cursor-pointer hover:ring-slate-300' : 'opacity-40') +
+          'group absolute cursor-pointer rounded-full p-6 ring ring-2 transition-colors' +
           addWithSpace(
-            active
-              ? 'z-40 bg-slate-700 ring-slate-700 ring-offset-4 hover:ring-slate-800'
-              : 'ring-transparent'
+            active ?
+              'z-40 bg-slate-400 ring-slate-600 ring-offset-4 hover:ring-slate-800'
+            : 'ring-transparent hover:bg-slate-200 hover:ring-slate-300 hover:ring-offset-4'
           ) +
           addWithSpace(className)
         }
         style={{
           top: y,
           left: x,
-          width: width,
-          height: height,
-          rotate: `${rotation}deg`,
         }}
       >
-        {bookedToday && available && (
-          <div className="absolute inset-2">
-            <div
-              className="inline-block rounded-full bg-slate-800 p-2 text-xl text-white"
-              style={{ rotate: `${rotation * -1}deg` }}
-            >
-              {initials(bookedByWho)}
-            </div>
-          </div>
+        {available && (
+          <SpaceBookingSlot isBooked={bookedToday} isBookedByMe={bookedByMe} large>
+            {initials(bookedByWho)}
+          </SpaceBookingSlot>
         )}
-        <SpaceRectangle
-          isBooked={bookedToday && available}
-          height={height}
-          width={width}
-          className={rounded ? 'rounded-full' : 'rounded-xl'}
-        >
-          <div
-            className="flex flex-col items-center gap-1"
-            style={{ rotate: `${rotation * -1}deg` }}
-          >
-            <div className="flex items-center gap-2">
-              <span className={'text-md font-semibold'}>{name}</span>
-            </div>
-          </div>
-        </SpaceRectangle>
       </div>
       {bookings && bookings?.length > 0 && (
         <Tooltip id={tooltipId}>
@@ -99,6 +77,7 @@ export type SpaceProps = {
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
   bookedToday?: boolean
+  bookedByMe?: boolean
   bookedByWho?: string | undefined
   bookings?: any
 } & TableRecord
