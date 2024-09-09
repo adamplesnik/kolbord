@@ -4,7 +4,6 @@ import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/humanTime.ts'
-import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
 const Space = ({
   id,
@@ -32,11 +31,11 @@ const Space = ({
         onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
-          'group absolute cursor-pointer rounded-full p-6 ring ring-2 transition-colors' +
+          'group absolute cursor-pointer rounded-full p-6 ring transition-colors hover:z-50' +
           addWithSpace(
             active ?
-              'z-40 bg-slate-400 ring-slate-600 ring-offset-4 hover:ring-slate-800'
-            : 'ring-transparent hover:bg-slate-200 hover:ring-slate-300 hover:ring-offset-4'
+              'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
+            : 'ring-4 ring-transparent hover:bg-slate-400/50 hover:ring-white'
           ) +
           addWithSpace(className)
         }
@@ -45,9 +44,22 @@ const Space = ({
           left: x,
         }}
       >
-        <SpaceBookingSlot isBooked={bookedToday} isBookedByMe={bookedByMe} large>
+        <div
+          className={
+            'group flex size-16 cursor-pointer items-center justify-center rounded-full border-2 text-lg' +
+            addWithSpace(
+              !bookedToday &&
+                'border-slate-500 bg-teal-400 group-hover:border-teal-600 active:bg-teal-600'
+            ) +
+            addWithSpace(bookedToday && !bookedByMe && 'border-rose-300 bg-rose-50 opacity-90') +
+            addWithSpace(
+              bookedByMe &&
+                'cursor-pointer border-slate-800 bg-slate-700 text-white hover:bg-slate-600 active:bg-slate-900'
+            )
+          }
+        >
           {initials(bookedByWho)}
-        </SpaceBookingSlot>
+        </div>
       </div>
       {bookings && bookings?.length > 0 && (
         <Tooltip id={tooltipId}>
