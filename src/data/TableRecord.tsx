@@ -6,7 +6,6 @@ export type TableRecord = {
   id: number
   attributes: {
     name: string
-    rotation: number
     x: number
     y: number
     group: {
@@ -15,11 +14,6 @@ export type TableRecord = {
     plan?: {
       data: PlanRecord
     }
-    available: boolean
-    width: number
-    height: number
-    rounded: boolean
-    chairs: number
     slots: string
     features: {
       data: FeatureRecord[]

@@ -5,6 +5,8 @@ import { BookingRecord } from '../../data/BookingRecord'
 import Heading from '../basic/Heading'
 import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
+import { humanTime } from '../../utils/humanTime.ts'
+import { ArrowRight } from 'lucide-react'
 
 type BookingQueryType = {
   data: BookingRecord[]
@@ -139,9 +141,8 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
           return (
             <SpaceBookingSlot
               key={`${from.toISOString}_${to.toISOString}_${i}`}
-              dateFrom={from}
-              dateTo={to}
               isBooked={isBooked != undefined}
+              tooltipId={(from.getTime() + to.getTime()).toString()}
               onClick={() => {
                 if (isBooked && isBookedByMe) {
                   removeBooking(isBooked.id)
@@ -151,7 +152,14 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
               }}
               bookedBy={bookedBy}
               isBookedByMe={isBookedByMe}
-            />
+            >
+              {humanTime(from)}
+              <ArrowRight
+                className="size-4 text-slate-400 group-hover:text-slate-200"
+                strokeWidth={1}
+              />
+              {humanTime(to)}
+            </SpaceBookingSlot>
           )
         })}
       </div>

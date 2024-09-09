@@ -33,47 +33,34 @@ const SpaceDetail = ({
     return <Loading loading={isLoading} />
   }
 
-  if (isSuccess) {
+  if (isSuccess && loadedTable.data) {
     return (
-      <>
-        {loadedTable.data ? (
-          <div className="flex flex-col gap-8">
-            <div className="flex gap-2 pt-2">
-              {loadedTable.data.attributes.group.data && !editMode && (
-                <Badge
-                  className="text-sm"
-                  dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
-                  dataTooltipId="badge"
-                >
-                  {loadedTable.data.attributes.group.data.attributes.name}
-                </Badge>
-              )}
-              {loadedTable.data.attributes.features.data && !editMode && (
-                <SpaceFeatures features={loadedTable.data.attributes.features.data} />
-              )}
-            </div>
-            {loadedTable.data.attributes.available && !editMode && (
-              <SpaceBooking
-                tableId={tableId}
-                slots={loadedTable.data.attributes.slots}
-                workingDate={workingDate}
-              />
-            )}
-            {!loadedTable.data.attributes.available && !editMode && (
-              <span className="rounded bg-slate-200 py-2 px-4 text-slate-500">Not available</span>
-            )}
-            {editMode && (
-              <SpaceEdit
-                table={loadedTable.data}
-                planId={planId}
-                handleDelete={handleDelete}
-              />
-            )}
-          </div>
-        ) : (
-          'No table selected.'
+      <div className="flex flex-col gap-8">
+        <div className="flex gap-2 pt-2">
+          {loadedTable.data.attributes.group.data && !editMode && (
+            <Badge
+              className="text-sm"
+              dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
+              dataTooltipId="badge"
+            >
+              {loadedTable.data.attributes.group.data.attributes.name}
+            </Badge>
+          )}
+          {loadedTable.data.attributes.features.data && !editMode && (
+            <SpaceFeatures features={loadedTable.data.attributes.features.data} />
+          )}
+        </div>
+        {!editMode && (
+          <SpaceBooking
+            tableId={tableId}
+            slots={loadedTable.data.attributes.slots}
+            workingDate={workingDate}
+          />
         )}
-      </>
+        {editMode && (
+          <SpaceEdit table={loadedTable.data} planId={planId} handleDelete={handleDelete} />
+        )}
+      </div>
     )
   }
 }

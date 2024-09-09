@@ -3,6 +3,7 @@ import { getToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Space from './Space.tsx'
+import { useAuthContext } from '../../auth/AuthContext.tsx'
 
 type TableQueryType = {
   data: TableRecord[]
@@ -12,9 +13,11 @@ type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 const Spaces = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: SpacesProps) => {
+  const { user } = useAuthContext()
+
   const loadPlaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?populate[features][fields][0]=description&populate[features][fields][1]=lucideIcon&fields[0]=x&fields[1]=y&fields[2]=width&fields[3]=height&fields[4]=name&fields[5]=rotation&fields[6]=available&fields[7]=rounded&fields[8]=chairs&populate[group][fields][0]=name&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
+      `${import.meta.env.VITE_API_URL}/tables?populate[features][fields][0]=description&populate[features][fields][1]=lucideIcon&fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -67,24 +70,22 @@ const Spaces = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: Space
               attributes={{
                 name: t.attributes.name,
                 group: t.attributes.group,
-                rotation: t.attributes.rotation,
                 x: t.attributes.x,
                 y: t.attributes.y,
-                available: t.attributes.available,
                 features: t.attributes.features,
-                width: t.attributes.width,
-                height: t.attributes.height,
-                rounded: t.attributes.rounded,
-                chairs: t.attributes.chairs,
                 slots: t.attributes.slots,
               }}
               active={t.id === sidebarTableId}
               bookedToday={bookedToday != undefined}
               bookings={allToday}
               bookedByWho={
+                bookedToday &&
                 bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
-                ' ' +
-                bookedToday?.attributes.users_permissions_user.data.attributes.lastName
+                  ' ' +
+                  bookedToday?.attributes.users_permissions_user.data.attributes.lastName
+              }
+              bookedByMe={
+                bookedToday?.attributes.users_permissions_user.data.attributes.email === user?.email
               }
               onClick={() => {
                 handlePlaceClick(t.id)
