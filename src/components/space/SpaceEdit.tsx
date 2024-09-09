@@ -4,7 +4,6 @@ import { HTMLAttributes, useEffect } from 'react'
 import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
-import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import SpaceDelete from './SpaceDelete.tsx'
@@ -33,12 +32,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         name: table?.attributes.name,
         x: table?.attributes.x,
         y: table?.attributes.y,
-        width: table?.attributes.width,
-        height: table?.attributes.height,
-        rotation: table?.attributes.rotation,
-        available: table?.attributes.available,
-        rounded: table?.attributes.rounded,
-        chairs: table?.attributes.chairs,
         slots: table?.attributes.slots,
         group: {
           data: {
@@ -63,13 +56,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   }, [table])
 
   const saveLatestMetadata = (data: TableRecord) => {
-    const metadata = [
-      data.attributes.width,
-      data.attributes.height,
-      data.attributes.x,
-      data.attributes.y,
-      data.attributes.rotation,
-    ]
+    const metadata = [data.attributes.x, data.attributes.y]
     localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
   }
 
@@ -146,19 +133,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                 />
               )}
             />
-            <Field
-              name="attributes.chairs"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Chairs"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
           </div>
           <div>
             <Field
@@ -180,71 +154,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                     <option value="minutes30">30 minutes</option>
                   </select>
                 </label>
-              )}
-            />
-          </div>
-          <div className="flex gap-2">
-            <Field
-              name="attributes.width"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Width"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
-            <Field
-              name="attributes.height"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Height"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
-            <Field
-              name="attributes.rotation"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Rotation"
-                  value={state.value}
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  required
-                  inputType="number"
-                />
-              )}
-            />
-          </div>
-          <div className="flex gap-4 *:flex-1">
-            <Field
-              name="attributes.available"
-              children={({ state, handleChange, handleBlur }) => (
-                <CheckboxWithLabel
-                  label="Available"
-                  onChange={(e) => handleChange(e.target.checked)}
-                  onBlur={handleBlur}
-                  checked={state.value}
-                />
-              )}
-            />
-            <Field
-              name="attributes.rounded"
-              children={({ state, handleChange, handleBlur }) => (
-                <CheckboxWithLabel
-                  label="Rounded"
-                  onChange={(e) => handleChange(e.target.checked)}
-                  onBlur={handleBlur}
-                  checked={state.value}
-                />
               )}
             />
           </div>
