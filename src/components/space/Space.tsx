@@ -65,57 +65,60 @@ const Space = ({
     )
   } else {
     return (
-      <div
-        className={
-          'flex cursor-pointer flex-col gap-2 rounded-lg py-2 px-4 lg:flex-row lg:items-center' +
-          addWithSpace(active ? 'bg-slate-700 text-white' : 'bg-slate-50')
-        }
-        onClick={onClick}
-      >
-        <div className="flex items-center gap-2">
-          <SpaceDot
-            bookedByMe={bookedByMe}
-            bookedByWho={bookedByWho}
-            bookedToday={bookedToday}
-            small
-          />
-          <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">{name}</div>
-          <div
-            className={'flex shrink-0 gap-2 lg:w-64' + addWithSpace(active ? '*:text-white' : '')}
-          >
-            {group.data && <Badge>{group.data.attributes.name}</Badge>}
-            {features && (
-              <SpaceFeatures
-                noTooltip
-                badgeClassName={active ? '*:text-white' : ''}
-                features={features.data}
-              />
-            )}
+      <>
+        <div
+          className={
+            'flex cursor-pointer flex-col gap-2 rounded-lg py-2 px-4 lg:flex-row lg:items-center' +
+            addWithSpace(active ? 'bg-slate-700 text-white' : ' hover:bg-slate-200')
+          }
+          onClick={onClick}
+        >
+          <div className="flex items-center gap-2">
+            <SpaceDot
+              bookedByMe={bookedByMe}
+              bookedByWho={bookedByWho}
+              bookedToday={bookedToday}
+              small
+            />
+            <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">{name}</div>
+            <div
+              className={'flex shrink-0 gap-2 lg:w-64' + addWithSpace(active ? '*:text-white' : '')}
+            >
+              {group.data && <Badge>{group.data.attributes.name}</Badge>}
+              {features && (
+                <SpaceFeatures
+                  noTooltip
+                  badgeClassName={active ? '*:text-white' : ''}
+                  features={features.data}
+                />
+              )}
+            </div>
+          </div>
+          <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
+            {bookings &&
+              bookings?.length > 0 &&
+              bookings?.map((b: any, i: number) => (
+                <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
+                  <div
+                    className={
+                      'flex w-28 items-center justify-evenly gap-1 ' +
+                      addWithSpace(active ? 'text-slate-300' : 'text-slate-600')
+                    }
+                  >
+                    {humanTime(b.attributes.from)}
+                    <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
+                    {humanTime(b.attributes.to)}
+                  </div>
+                  <span className="font-semibold">
+                    {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
+                    {b.attributes.users_permissions_user.data.attributes.lastName}
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
-        <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
-          {bookings &&
-            bookings?.length > 0 &&
-            bookings?.map((b: any, i: number) => (
-              <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
-                <div
-                  className={
-                    'flex w-28 items-center justify-evenly gap-1 ' +
-                    addWithSpace(active ? 'text-slate-300' : 'text-slate-600')
-                  }
-                >
-                  {humanTime(b.attributes.from)}
-                  <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
-                  {humanTime(b.attributes.to)}
-                </div>
-                <span className="font-semibold">
-                  {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
-                  {b.attributes.users_permissions_user.data.attributes.lastName}
-                </span>
-              </div>
-            ))}
-        </div>
-      </div>
+        <div className="h-px w-full bg-slate-200 last-of-type:hidden"></div>
+      </>
     )
   }
 }

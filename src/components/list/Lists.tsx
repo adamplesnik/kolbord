@@ -3,8 +3,8 @@ import Spaces from '../space/Spaces'
 
 const Lists = ({ handlePlaceClick, planId, sidebarTableId, workingDate }: ListsProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-zinc-300 to-zinc-100">
-      <div className="mx-auto flex max-w-5xl flex-col gap-1 p-2 pb-24">
+    <div className="min-h-screen bg-slate-200/0">
+      <div className="mx-auto flex max-w-5xl flex-col gap-1 p-8 pb-24">
         <Spaces
           listView={true}
           handlePlaceClick={handlePlaceClick}
