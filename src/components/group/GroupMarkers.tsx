@@ -1,30 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { getToken } from '../../auth/helpers'
-import { GroupRecord } from '../../data/GroupRecord'
 import GroupMarker from './GroupMarker'
+import { useGroupsForPlanQuery } from './loadGroup'
 
 const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
   const editMode = false
-  type GroupQueryType = {
-    data: GroupRecord[]
-  }
 
-  const loadMarkers = async (apiPlanId: number): Promise<GroupQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/groups?fields[0]=name&fields[1]=description&fields[2]=x&fields[3]=y&filters[plan][id][$eq]=${apiPlanId}&filters[showMarker][$eq]=true`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    )
-    return response.json()
-  }
-
-  const { data: markers, isSuccess } = useQuery({
-    queryKey: ['markers', planId],
-    queryFn: () => loadMarkers(planId),
-  })
+  const { data: markers, isSuccess } = useGroupsForPlanQuery(planId)
 
   if (isSuccess) {
     return (

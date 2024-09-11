@@ -2,7 +2,7 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import GroupMarkers from '../components/group-marker/GroupMarkers'
+import GroupMarkers from '../components/group/GroupMarkers.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import Spaces from '../components/space/Spaces.tsx'
 import Plan from '../components/plan/Plan'
@@ -29,9 +29,9 @@ const PlanPage = () => {
   const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
   const [workingDate, setWorkingDate] = useState<Value>(
-    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
-      ? new Date(getLocalWorkingDate.toString())
-      : new Date()
+    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
+      new Date(getLocalWorkingDate.toString())
+    : new Date()
   )
 
   useEffect(() => {
