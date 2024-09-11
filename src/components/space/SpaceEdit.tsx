@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Check, X } from 'lucide-react'
+import { Check, Plus, X } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
@@ -189,7 +189,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                             addWithSpace(isActive && 'bg-slate-100')
                           }
                           onClick={() => {
-                            console.log(isActive)
                             !isActive ?
                               field.pushValue({
                                 id: all.id,
@@ -201,22 +200,23 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                         >
                           <span
                             className={
-                              'flex flex-col self-start transition-transform' +
-                              addWithSpace(isActive ? 'group-hover:-translate-y-8' : '')
+                              '-mt-px flex -translate-y-8 flex-col self-start transition-transform duration-500 ease-in-out' +
+                              addWithSpace(
+                                isActive ? 'group-hover:-translate-y-16' : 'translate-y-0'
+                              )
                             }
                           >
-                            <Check
-                              strokeWidth={1.5}
+                            <Plus
+                              strokeWidth={2.5}
                               className={
-                                'size-4 h-8' + addWithSpace(isActive ? 'opacity-100' : 'opacity-20')
+                                'size-4 h-8 text-emerald-600' +
+                                addWithSpace(
+                                  isActive ? 'opacity-100' : 'opacity-50 group-hover:opacity-100'
+                                )
                               }
                             />
-                            <X
-                              strokeWidth={1.5}
-                              className={
-                                'size-4 h-8' + addWithSpace(isActive ? 'opacity-100' : 'opacity-20')
-                              }
-                            />
+                            <Check strokeWidth={2} className="size-4 h-8 text-slate-800" />
+                            <X strokeWidth={2} className="size-4 h-8 text-pink-600" />
                           </span>
                           {all.attributes.description}
                         </Badge>
