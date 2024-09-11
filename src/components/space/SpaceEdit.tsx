@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Check, Plus, X } from 'lucide-react'
-import { HTMLAttributes, useEffect } from 'react'
+import { Check, Eraser, Plus, X } from 'lucide-react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
@@ -11,11 +11,14 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useFeaturesQuery } from './loadFeatures.ts'
 import SpaceDelete from './SpaceDelete.tsx'
+import { useGroupsForPlanQuery } from '../group/loadGroup.ts'
+import Button from '../basic/Button.tsx'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   const queryClient = useQueryClient()
 
   const { data: allFeatures } = useFeaturesQuery()
+  const { data: allGroups } = useGroupsForPlanQuery(planId)
 
   const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
@@ -33,15 +36,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
           data: table?.attributes.features.data || [],
         },
         group: {
-          data: {
-            id: 0,
-            attributes: {
-              name: '',
-              description: '',
-              x: 0,
-              y: 0,
-            },
-          },
+          data: table?.attributes.group.data || 0,
         },
       },
     },
@@ -58,6 +53,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
       y: data.attributes.y,
       slots: data.attributes.slots,
       features: data.attributes.features.data.map((f) => f.id),
+      group: data.attributes.group.data.id > 0 ? [data.attributes.group.data.id] : [],
     }
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
@@ -89,6 +85,9 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
       queryClient.invalidateQueries({
         queryKey: ['place', table.id],
       })
+      queryClient.invalidateQueries({
+        queryKey: ['groups', planId],
+      })
     },
   })
 
@@ -106,7 +105,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         className="relative"
       >
         <FetchStatus isPending={isPending} isSuccess={isSuccess} isError={isError} />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <Field
             name="attributes.name"
             children={({ state, handleChange, handleBlur }) => (
@@ -120,6 +119,41 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               />
             )}
           />
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-bold">Group</span>
+            <div className="flex gap-1">
+              <Field
+                name={`attributes.group.data`}
+                mode="array"
+                children={(field) => (
+                  <select
+                    onBlur={field.handleBlur}
+                    onChange={(e) =>
+                      field.setValue({
+                        id: +e.target.value,
+                        attributes: {
+                          name: '',
+                          description: '',
+                          x: 0,
+                          y: 0,
+                          showMarker: false,
+                        },
+                      })
+                    }
+                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1.5 px-3 hover:border-slate-600"
+                    value={field.state.value ? field.state.value.id : ''}
+                  >
+                    <option value={0}>(none)</option>
+                    {allGroups?.data.map((all) => (
+                      <option key={`group_option${all.id}`} value={all.id}>
+                        {all.attributes.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+            </div>
+          </div>
           <div className="flex gap-2">
             <Field
               name="attributes.x"
@@ -156,7 +190,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                   <span className={'text-sm font-bold'}>Slots</span>
                   <select
                     required
-                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1.5 px-3 hover:border-slate-600"
                     value={state.value}
                     onBlur={handleBlur}
                     onChange={(e) => handleChange(e.target.value)}

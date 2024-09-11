@@ -8,7 +8,7 @@ type GroupQueryType = {
 
 const loadGroupsForPlan = async (id: number): Promise<GroupQueryType> => {
   const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/groups?fields[0]=name&fields[1]=description&fields[2]=x&fields[3]=y&filters[plan][id][$eq]=${id}&filters[showMarker][$eq]=true`,
+    `${import.meta.env.VITE_API_URL}/groups?fields[0]=name&fields[1]=description&fields[2]=x&fields[3]=y&fields[4]=showMarker&filters[plan][id][$eq]=${id}`,
     {
       headers: {
         Authorization: `Bearer ${getToken()}`,
