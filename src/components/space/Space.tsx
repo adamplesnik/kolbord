@@ -67,25 +67,33 @@ const Space = ({
     return (
       <div
         className={
-          'flex cursor-pointer items-center gap-2 rounded-lg py-2 px-4' +
+          'flex cursor-pointer flex-col gap-2 rounded-lg py-2 px-4 lg:flex-row lg:items-center' +
           addWithSpace(active ? 'bg-slate-700 text-white' : 'bg-slate-50')
         }
         onClick={onClick}
       >
-        <SpaceDot
-          bookedByMe={bookedByMe}
-          bookedByWho={bookedByWho}
-          bookedToday={bookedToday}
-          small
-        />
-        <div className="w-48 shrink-0 text-lg font-medium">{name}</div>
-        <div className={'flex w-64 shrink-0 gap-2' + addWithSpace(active ? '*:text-white' : '')}>
-          {group.data && <Badge>{group.data.attributes.name}</Badge>}
-          {features && (
-            <SpaceFeatures badgeClassName={active ? '*:text-white' : ''} features={features.data} />
-          )}
+        <div className="flex items-center gap-2">
+          <SpaceDot
+            bookedByMe={bookedByMe}
+            bookedByWho={bookedByWho}
+            bookedToday={bookedToday}
+            small
+          />
+          <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">{name}</div>
+          <div
+            className={'flex shrink-0 gap-2 lg:w-64' + addWithSpace(active ? '*:text-white' : '')}
+          >
+            {group.data && <Badge>{group.data.attributes.name}</Badge>}
+            {features && (
+              <SpaceFeatures
+                noTooltip
+                badgeClassName={active ? '*:text-white' : ''}
+                features={features.data}
+              />
+            )}
+          </div>
         </div>
-        <div className="flex flex-wrap items-start gap-x-4 text-sm">
+        <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
           {bookings &&
             bookings?.length > 0 &&
             bookings?.map((b: any, i: number) => (

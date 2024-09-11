@@ -6,7 +6,11 @@ import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
 import { useFeaturesQuery } from './loadFeatures.ts'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
 
-export const SpaceFeatures = ({ features, badgeClassName }: SpaceFeaturesProps) => {
+export const SpaceFeatures = ({
+  features,
+  badgeClassName,
+  noTooltip = false,
+}: SpaceFeaturesProps) => {
   const { data } = useFeaturesQuery()
 
   const filteredData = data?.data.filter((d) => features.some((f) => d.id === f.id))
@@ -22,9 +26,11 @@ export const SpaceFeatures = ({ features, badgeClassName }: SpaceFeaturesProps) 
               )}
             </Badge>
           </div>
-          <Tooltip id={`feature${feature.id}`} className="z-30">
-            <span className="text-sm">{feature.attributes.description}</span>
-          </Tooltip>
+          {!noTooltip && (
+            <Tooltip id={`feature${feature.id}`} className="z-30">
+              <span className="text-sm">{feature.attributes.description}</span>
+            </Tooltip>
+          )}
         </Fragment>
       ))}
     </>
@@ -34,4 +40,5 @@ export const SpaceFeatures = ({ features, badgeClassName }: SpaceFeaturesProps) 
 export type SpaceFeaturesProps = {
   features: FeatureRecord[]
   badgeClassName?: string | undefined
+  noTooltip?: boolean | undefined
 } & HTMLAttributes<HTMLDivElement>
