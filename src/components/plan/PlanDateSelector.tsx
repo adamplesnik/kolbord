@@ -4,7 +4,7 @@ import { Tooltip } from 'react-tooltip'
 import Button from '../basic/Button'
 
 type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+export type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 const PlanDateSelector = ({ onChange, workingDate }: PlanDateSelectorProps) => {
   const isDirty =

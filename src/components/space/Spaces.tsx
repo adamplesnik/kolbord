@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import { useAuthContext } from '../../auth/AuthContext.tsx'
 import { getToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Space from './Space.tsx'
-import { useAuthContext } from '../../auth/AuthContext.tsx'
 
 type TableQueryType = {
   data: TableRecord[]
@@ -12,12 +12,18 @@ type TableQueryType = {
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
-const Spaces = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: SpacesProps) => {
+const Spaces = ({
+  planId,
+  sidebarTableId,
+  handlePlaceClick,
+  workingDate,
+  listView,
+}: SpacesProps) => {
   const { user } = useAuthContext()
 
   const loadPlaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
+      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -90,6 +96,7 @@ const Spaces = ({ planId, sidebarTableId, handlePlaceClick, workingDate }: Space
               onClick={() => {
                 handlePlaceClick(t.id)
               }}
+              listView={listView}
             />
           )
         })}
@@ -102,6 +109,7 @@ type SpacesProps = {
   sidebarTableId: number
   handlePlaceClick: (id: number) => void
   workingDate: Value
+  listView: boolean
 }
 
 export default Spaces

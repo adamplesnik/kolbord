@@ -8,7 +8,7 @@ import LoginPage from './auth/LoginPage.tsx'
 import Onboarding from './auth/Onboarding.tsx'
 import RegisterCompanyAdminPage from './auth/RegisterCompanyAdminPage.tsx'
 import './index.css'
-import PlanPage from './pages/PlanPage.tsx'
+import MainPage from './pages/MainPage.tsx'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     path: '/onboarding',
     element: <Onboarding />,
   },
-  { path: '/plan', element: <PlanPage /> },
+  { path: '/plan', element: <MainPage /> },
 ])
 const queryClient = new QueryClient()
 

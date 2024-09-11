@@ -1,33 +1,30 @@
+import { List, Map } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pan-pinch'
 import { useAuthContext } from '../auth/AuthContext'
-import GroupMarkers from '../components/group/GroupMarkers.tsx'
-import SpaceDetail from '../components/space/SpaceDetail.tsx'
-import Spaces from '../components/space/Spaces.tsx'
-import Plan from '../components/plan/Plan'
-import PlanControls from '../components/plan/PlanControls'
+import Button from '../components/basic/Button'
+import Lists from '../components/list/Lists'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
+import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
+import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
-import Page from '../partials/Page'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
-import { addWithSpace } from '../utils/addWithSpace'
 
-const PlanPage = () => {
+const MainPage = () => {
   const { user, userCanEdit } = useAuthContext()
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
-  const [sidebarMarkerId, setSidebarMarkerId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
+  const [listView, setListView] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
       new Date(getLocalWorkingDate.toString())
@@ -52,25 +49,19 @@ const PlanPage = () => {
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
-      setSidebarMarkerId(0)
       setSidebarTableId(0)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
 
-  const handleMarkerClick = (id: number) => {
-    setSidebarMarkerId(id)
-    setSidebarTableId(0)
-  }
-
   const handlePlaceClick = (id: number) => {
-    setSidebarMarkerId(0)
     setSidebarTableId(id)
     setSidebarPlanEdit(false)
   }
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
+    setListView(false)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
     setEditMode(true)
@@ -81,16 +72,10 @@ const PlanPage = () => {
   }, [workingDate])
 
   const Controls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls()
-
     return (
-      <MenuBar>
-        <PlanControls
-          zoomIn={() => zoomIn()}
-          zoomOut={() => zoomOut()}
-          resetTransform={() => resetTransform()}
-        />
+      <MenuBar position="bottom" logo>
         <UserMenu />
+        <Button Icon={listView ? List : Map} onClick={() => setListView(!listView)} />
         <div className="flex rounded bg-slate-200/70 p-0.5">
           {user && !user.error && (
             <>
@@ -124,36 +109,25 @@ const PlanPage = () => {
   }
 
   return (
-    <Page>
-      <TransformWrapper
-        pinch={{ disabled: false }}
-        panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
-        initialScale={0.6}
-        centerOnInit={true}
-        minScale={0.2}
-        maxScale={1}
-      >
-        <>
-          <Controls />
-          <TransformComponent wrapperClass="!h-screen !w-full bg-gradient-to-tr from-zinc-300 to-zinc-100 !p-2">
-            <div
-              className={
-                'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
-                addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
-              }
-            >
-              <GroupMarkers onMarkerClick={handleMarkerClick} planId={planId} />
-              <Spaces
-                sidebarTableId={sidebarTableId}
-                handlePlaceClick={handlePlaceClick}
-                planId={planId}
-                workingDate={workingDate}
-              />
-              {planId > 0 && <Plan planId={planId} />}
-            </div>
-          </TransformComponent>
-        </>
-      </TransformWrapper>
+    <>
+      {listView ?
+        <Lists
+          handlePlaceClick={handlePlaceClick}
+          listView={false}
+          planId={planId}
+          sidebarTableId={sidebarTableId}
+          workingDate={workingDate}
+        />
+      : <PlanTransformWrapper
+          handlePlaceClick={handlePlaceClick}
+          listView={listView}
+          planId={planId}
+          sidebarPlanEdit={sidebarPlanEdit}
+          sidebarTableId={sidebarTableId}
+          workingDate={workingDate}
+        />
+      }
+      <Controls />
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
@@ -186,19 +160,10 @@ const PlanPage = () => {
           />
         )}
       </Sidebar>
-      <Sidebar
-        editMode={editMode}
-        handleEditMode={() => setEditMode(!editMode)}
-        isOpen={sidebarMarkerId > 0}
-        closeSidebar={() => setSidebarMarkerId(0)}
-        sidebarTitle={sidebarTitle}
-      >
-        mamm
-      </Sidebar>
-    </Page>
+    </>
   )
 }
 
-export type PlanPageProps = {} & HTMLAttributes<HTMLDivElement>
+export type MainPageProps = {} & HTMLAttributes<HTMLDivElement>
 
-export default PlanPage
+export default MainPage
