@@ -10,22 +10,15 @@ const InputWithLabel = ({
   inputType,
   onChange,
   onBlur,
-  loose = false,
   placeholder,
   hasError = false,
 }: InputWithLabelProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <label className={'flex flex-col' + addWithSpace(loose ? 'gap-1' : 'gap-1')}>
+    <label className="flex flex-col gap-1">
       {label && (
-        <span
-          className={
-            'shrink-0' +
-            addWithSpace(loose ? 'text-sm' : 'text-xs') +
-            addWithSpace(required ? 'font-bold' : 'font-normal')
-          }
-        >
+        <span className={'shrink-0 text-sm' + addWithSpace(required ? 'font-bold' : 'font-normal')}>
           <>{label}</>
         </span>
       )}
@@ -33,12 +26,11 @@ const InputWithLabel = ({
         <input
           required={required}
           className={
-            'w-full rounded' +
-            addWithSpace(loose ? 'py-1.5 px-3' : 'py-1 px-2 text-sm') +
+            'w-full rounded py-1 px-2 text-sm' +
             addWithSpace(
-              hasError
-                ? 'border-red-600 bg-red-50'
-                : 'border-slate-400 bg-slate-50 hover:border-slate-600'
+              hasError ?
+                'border-red-600 bg-red-50'
+              : 'border-slate-400 bg-slate-50 hover:border-slate-600'
             )
           }
           type={showPassword ? 'text' : inputType}
@@ -66,7 +58,6 @@ type InputWithLabelProps = {
   inputType: 'text' | 'number' | 'password' | 'email'
   onChange: ChangeEventHandler<HTMLInputElement> | undefined
   onBlur: FocusEventHandler<HTMLInputElement> | undefined
-  loose?: boolean
   placeholder?: string | undefined
   hasError?: boolean | undefined
 }
