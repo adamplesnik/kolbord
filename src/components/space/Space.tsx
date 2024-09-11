@@ -6,6 +6,7 @@ import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/humanTime.ts'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 import Badge from '../basic/Badge.tsx'
+import SpaceDot from './SpaceDot.tsx'
 
 const Space = ({
   id,
@@ -19,12 +20,6 @@ const Space = ({
   bookings,
   listView,
 }: SpaceProps) => {
-  const initials = (name: string | undefined) => {
-    if (name) {
-      const names = name.split(' ')
-      return names.map((n) => Array.from(n)[0])
-    }
-  }
   const tooltipId = `bookingTooltip_${id}`
 
   if (!listView) {
@@ -47,22 +42,7 @@ const Space = ({
             left: x,
           }}
         >
-          <div
-            className={
-              'group flex size-16 cursor-pointer items-center justify-center rounded-full border-2 text-2xl font-bold' +
-              addWithSpace(
-                !bookedToday &&
-                  'border-slate-500 bg-teal-400 group-hover:border-teal-600 active:bg-teal-600'
-              ) +
-              addWithSpace(bookedToday && !bookedByMe && 'border-rose-400 bg-rose-300 opacity-80') +
-              addWithSpace(
-                bookedByMe &&
-                  'cursor-pointer border-slate-800 bg-slate-700 text-white hover:bg-slate-600 active:bg-slate-900'
-              )
-            }
-          >
-            {initials(bookedByWho)}
-          </div>
+          <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
         </div>
         {bookings && bookings?.length > 0 && (
           <Tooltip id={tooltipId}>
