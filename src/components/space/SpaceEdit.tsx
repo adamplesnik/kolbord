@@ -1,25 +1,21 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Check, Plus, X } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
+import { addWithSpace } from '../../utils/addWithSpace.ts'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import Badge from '../basic/Badge.tsx'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
+import { useFeaturesQuery } from './loadFeatures.ts'
 import SpaceDelete from './SpaceDelete.tsx'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
-  const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
-      method: 'put',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ data: data.attributes }),
-    })
-    return response.json()
-  }
+  const queryClient = useQueryClient()
+
+  const { data: allFeatures } = useFeaturesQuery()
 
   const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
@@ -33,6 +29,9 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         x: table?.attributes.x,
         y: table?.attributes.y,
         slots: table?.attributes.slots,
+        features: {
+          data: table?.attributes.features.data || [],
+        },
         group: {
           data: {
             id: 0,
@@ -44,23 +43,38 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
             },
           },
         },
-        features: {
-          data: [],
-        },
       },
     },
   })
 
   useEffect(() => {
     reset()
-  }, [table])
+  }, [table, reset])
+
+  const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
+    const payload = {
+      name: data.attributes.name,
+      x: data.attributes.x,
+      y: data.attributes.y,
+      slots: data.attributes.slots,
+      features: data.attributes.features.data.map((f) => f.id),
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
+      method: 'put',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: payload }),
+    })
+    return response.json()
+  }
 
   const saveLatestMetadata = (data: TableRecord) => {
     const metadata = [data.attributes.x, data.attributes.y]
     localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
   }
-
-  const queryClient = useQueryClient()
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
@@ -156,6 +170,62 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                 </label>
               )}
             />
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-bold">Features</span>
+            <div className="flex flex-wrap gap-0.5 text-sm">
+              <Field
+                name={`attributes.features.data`}
+                mode="array"
+                children={(field) => (
+                  <>
+                    {allFeatures?.data.map((all) => {
+                      const index = field.state.value.findIndex((s) => s.id === all.id)
+                      const isActive = index > -1
+                      return (
+                        <Badge
+                          className={
+                            'group flex cursor-pointer gap-1 truncate hover:bg-slate-200 active:bg-slate-300' +
+                            addWithSpace(isActive && 'bg-slate-100')
+                          }
+                          onClick={() => {
+                            !isActive ?
+                              field.pushValue({
+                                id: all.id,
+                                attributes: { description: '', lucideIcon: 'cog' },
+                              })
+                            : field.removeValue(index)
+                            handleSubmit()
+                          }}
+                        >
+                          <span
+                            className={
+                              '-mt-px flex -translate-y-8 flex-col self-start transition-transform duration-500 ease-in-out' +
+                              addWithSpace(
+                                isActive ? 'group-hover:-translate-y-16' : 'translate-y-0'
+                              )
+                            }
+                          >
+                            <Plus
+                              strokeWidth={2.5}
+                              className={
+                                'size-4 h-8 text-emerald-600' +
+                                addWithSpace(
+                                  isActive ? 'opacity-100' : 'opacity-50 group-hover:opacity-100'
+                                )
+                              }
+                            />
+                            <Check strokeWidth={2} className="size-4 h-8 text-slate-800" />
+                            <X strokeWidth={2} className="size-4 h-8 text-pink-600" />
+                          </span>
+                          {all.attributes.description}
+                        </Badge>
+                      )
+                    })}
+                  </>
+                )}
+              />
+            </div>
           </div>
         </div>
       </form>

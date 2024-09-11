@@ -13,7 +13,7 @@ const GroupMarker = ({
   return (
     <div
       className={
-        'absolute z-50 rounded-lg border border-2 border-transparent bg-slate-600 py-1 px-4 font-medium text-white transition-colors' +
+        'absolute z-50 rounded-lg border border-2 border-transparent bg-slate-600 py-1 px-4 text-sm font-medium text-white transition-colors' +
         addWithSpace(className)
       }
       style={{ left: x, top: y }}
