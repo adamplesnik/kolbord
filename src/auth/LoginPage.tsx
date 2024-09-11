@@ -83,7 +83,6 @@ const LoginPage = () => {
           children={({ state, handleBlur, handleChange }) => (
             <div className="flex flex-col gap-1">
               <InputWithLabel
-                loose
                 required
                 label="Email and password"
                 placeholder="Email"
@@ -102,7 +101,6 @@ const LoginPage = () => {
           name="userPassword"
           children={({ state, handleBlur, handleChange }) => (
             <InputWithLabel
-              loose
               required
               inputType="password"
               placeholder="Password"

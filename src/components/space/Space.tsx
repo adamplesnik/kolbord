@@ -3,23 +3,20 @@ import { MouseEventHandler } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import SpaceRectangle from './SpaceRectangle.tsx'
+import { humanTime } from '../../utils/humanTime.ts'
 
 const Space = ({
   id,
   active,
   className,
-  attributes: { available, height, name, rotation, rounded, width, x, y, chairs },
+  attributes: { x, y },
   onClick,
   bookedToday = false,
   bookedByWho,
+  bookedByMe,
   bookings,
   listView,
 }: SpaceProps) => {
-  const hasChairs = chairs > 0 && chairs
-  const humanDate = (date: string) => {
-    return new Date(date).toLocaleString([], { hour: '2-digit', minute: '2-digit' })
-  }
   const initials = (name: string | undefined) => {
     if (name) {
       const names = name.split(' ')
@@ -34,66 +31,44 @@ const Space = ({
         onClick={onClick}
         data-tooltip-id={tooltipId}
         className={
-          'absolute inline-flex size-[160px] flex-col items-center justify-between rounded-xl p-px ring-4 transition-colors' +
-          addWithSpace(hasChairs && 'pt-2') +
-          addWithSpace(available ? 'group cursor-pointer hover:ring-slate-300' : 'opacity-40') +
+          'group absolute cursor-pointer rounded-full p-6 ring transition-colors hover:z-50' +
           addWithSpace(
-            active
-              ? 'z-40 bg-slate-700 ring-slate-700 ring-offset-4 hover:ring-slate-800'
-              : 'ring-transparent'
+            active ?
+              'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
+            : 'ring-4 ring-transparent hover:bg-slate-400/50 hover:ring-white'
           ) +
           addWithSpace(className)
         }
         style={{
           top: y,
           left: x,
-          width: width,
-          height: hasChairs ? height + 64 : height,
-          rotate: `${rotation}deg`,
         }}
       >
-        {bookedToday && available && (
-          <div className="absolute inset-2">
-            <div
-              className="inline-block rounded-full bg-slate-800 p-2 text-xl text-white"
-              style={{ rotate: `${rotation * -1}deg` }}
-            >
-              {initials(bookedByWho)}
-            </div>
-          </div>
-        )}
-        {hasChairs && (
-          <SpaceRectangle
-            isBooked={bookedToday && available}
-            height={40}
-            width={40}
-            className="rounded-xl"
-          />
-        )}
-        <SpaceRectangle
-          isBooked={bookedToday && available}
-          height={height}
-          width={width}
-          className={rounded ? 'rounded-full' : 'rounded-xl'}
+        <div
+          className={
+            'group flex size-16 cursor-pointer items-center justify-center rounded-full border-2 text-2xl font-bold' +
+            addWithSpace(
+              !bookedToday &&
+                'border-slate-500 bg-teal-400 group-hover:border-teal-600 active:bg-teal-600'
+            ) +
+            addWithSpace(bookedToday && !bookedByMe && 'border-rose-400 bg-rose-300 opacity-80') +
+            addWithSpace(
+              bookedByMe &&
+                'cursor-pointer border-slate-800 bg-slate-700 text-white hover:bg-slate-600 active:bg-slate-900'
+            )
+          }
         >
-          <div
-            className="flex flex-col items-center gap-1"
-            style={{ rotate: `${rotation * -1}deg` }}
-          >
-            <div className="flex items-center gap-2">
-              <span className={'text-md font-semibold'}>{name}</span>
-            </div>
-          </div>
-        </SpaceRectangle>
+          {initials(bookedByWho)}
+        </div>
       </div>
       {bookings && bookings?.length > 0 && (
         <Tooltip id={tooltipId}>
           {bookings?.map((b: any, i: number) => (
             <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
               <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
-                {humanDate(b.attributes.from)}
+                {humanTime(b.attributes.from)}
                 <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
-                {humanDate(b.attributes.to)}
+                {humanTime(b.attributes.to)}
               </div>
               <span className="font-semibold">
                 {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
@@ -112,6 +87,7 @@ export type SpaceProps = {
   onClick?: MouseEventHandler<HTMLDivElement> | undefined
   className?: string | undefined
   bookedToday?: boolean
+  bookedByMe?: boolean
   bookedByWho?: string | undefined
   bookings?: any
   listView: boolean

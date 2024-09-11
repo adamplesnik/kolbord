@@ -4,23 +4,16 @@ import { HTMLAttributes, useEffect } from 'react'
 import { getToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
-import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
+import { useGroupsForPlanQuery } from '../group/loadGroup.ts'
 import SpaceDelete from './SpaceDelete.tsx'
+import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
-  const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
-      method: 'put',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ data: data.attributes }),
-    })
-    return response.json()
-  }
+  const queryClient = useQueryClient()
+
+  const { data: allGroups } = useGroupsForPlanQuery(planId)
 
   const { Field, handleSubmit, reset } = useForm<TableRecord>({
     onSubmit: async ({ value }) => {
@@ -33,26 +26,12 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         name: table?.attributes.name,
         x: table?.attributes.x,
         y: table?.attributes.y,
-        width: table?.attributes.width,
-        height: table?.attributes.height,
-        rotation: table?.attributes.rotation,
-        available: table?.attributes.available,
-        rounded: table?.attributes.rounded,
-        chairs: table?.attributes.chairs,
         slots: table?.attributes.slots,
-        group: {
-          data: {
-            id: 0,
-            attributes: {
-              name: '',
-              description: '',
-              x: 0,
-              y: 0,
-            },
-          },
-        },
         features: {
-          data: [],
+          data: table?.attributes.features.data || [],
+        },
+        group: {
+          data: table?.attributes.group.data || 0,
         },
       },
     },
@@ -60,20 +39,33 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
 
   useEffect(() => {
     reset()
-  }, [table])
+  }, [table, reset])
 
-  const saveLatestMetadata = (data: TableRecord) => {
-    const metadata = [
-      data.attributes.width,
-      data.attributes.height,
-      data.attributes.x,
-      data.attributes.y,
-      data.attributes.rotation,
-    ]
-    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+  const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
+    const payload = {
+      name: data.attributes.name,
+      x: data.attributes.x,
+      y: data.attributes.y,
+      slots: data.attributes.slots,
+      features: data.attributes.features.data.map((f) => f.id),
+      group: data.attributes.group.data.id > 0 ? [data.attributes.group.data.id] : [],
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
+      method: 'put',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: payload }),
+    })
+    return response.json()
   }
 
-  const queryClient = useQueryClient()
+  const saveLatestMetadata = (data: TableRecord) => {
+    const metadata = [data.attributes.x, data.attributes.y]
+    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+  }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
@@ -87,6 +79,9 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
       })
       queryClient.invalidateQueries({
         queryKey: ['place', table.id],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['groups', planId],
       })
     },
   })
@@ -105,7 +100,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         className="relative"
       >
         <FetchStatus isPending={isPending} isSuccess={isSuccess} isError={isError} />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <Field
             name="attributes.name"
             children={({ state, handleChange, handleBlur }) => (
@@ -119,6 +114,41 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               />
             )}
           />
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-bold">Group</span>
+            <div className="flex gap-1">
+              <Field
+                name={`attributes.group.data`}
+                mode="array"
+                children={(field) => (
+                  <select
+                    onBlur={field.handleBlur}
+                    onChange={(e) =>
+                      field.setValue({
+                        id: +e.target.value,
+                        attributes: {
+                          name: '',
+                          description: '',
+                          x: 0,
+                          y: 0,
+                          showMarker: false,
+                        },
+                      })
+                    }
+                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                    value={field.state.value ? field.state.value.id : ''}
+                  >
+                    <option value={0}>(none)</option>
+                    {allGroups?.data.map((all) => (
+                      <option key={`group_option${all.id}`} value={all.id}>
+                        {all.attributes.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+            </div>
+          </div>
           <div className="flex gap-2">
             <Field
               name="attributes.x"
@@ -138,19 +168,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               children={({ state, handleChange, handleBlur }) => (
                 <InputWithLabel
                   label="Y"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
-            <Field
-              name="attributes.chairs"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Chairs"
                   value={state.value}
                   required
                   onChange={(e) => handleChange(+e.target.value)}
@@ -183,70 +200,17 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               )}
             />
           </div>
-          <div className="flex gap-2">
-            <Field
-              name="attributes.width"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Width"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
-            <Field
-              name="attributes.height"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Height"
-                  value={state.value}
-                  required
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  inputType="number"
-                />
-              )}
-            />
-            <Field
-              name="attributes.rotation"
-              children={({ state, handleChange, handleBlur }) => (
-                <InputWithLabel
-                  label="Rotation"
-                  value={state.value}
-                  onChange={(e) => handleChange(+e.target.value)}
-                  onBlur={handleBlur}
-                  required
-                  inputType="number"
-                />
-              )}
-            />
-          </div>
-          <div className="flex gap-4 *:flex-1">
-            <Field
-              name="attributes.available"
-              children={({ state, handleChange, handleBlur }) => (
-                <CheckboxWithLabel
-                  label="Available"
-                  onChange={(e) => handleChange(e.target.checked)}
-                  onBlur={handleBlur}
-                  checked={state.value}
-                />
-              )}
-            />
-            <Field
-              name="attributes.rounded"
-              children={({ state, handleChange, handleBlur }) => (
-                <CheckboxWithLabel
-                  label="Rounded"
-                  onChange={(e) => handleChange(e.target.checked)}
-                  onBlur={handleBlur}
-                  checked={state.value}
-                />
-              )}
-            />
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-bold">Features</span>
+            <div className="flex flex-wrap gap-0.5 text-sm">
+              <Field
+                name={`attributes.features.data`}
+                mode="array"
+                children={(field) => (
+                  <SpaceEditFeatures field={field} handleSubmit={handleSubmit} />
+                )}
+              />
+            </div>
           </div>
         </div>
       </form>

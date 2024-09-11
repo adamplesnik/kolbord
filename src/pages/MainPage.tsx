@@ -8,7 +8,7 @@ import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
-import SpaceDetail from '../components/space/SpaceDetail'
+import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
@@ -26,9 +26,9 @@ const MainPage = () => {
   const [planId, setPlanId] = useState(0)
   const [listView, setListView] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(
-    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date()
-      ? new Date(getLocalWorkingDate.toString())
-      : new Date()
+    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
+      new Date(getLocalWorkingDate.toString())
+    : new Date()
   )
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const MainPage = () => {
 
   return (
     <>
-      {listView ? (
+      {listView ?
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -118,8 +118,7 @@ const MainPage = () => {
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      ) : (
-        <PlanTransformWrapper
+      : <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
           listView={listView}
           planId={planId}
@@ -127,7 +126,7 @@ const MainPage = () => {
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      )}
+      }
       <Controls />
       <Sidebar
         editMode={editMode}

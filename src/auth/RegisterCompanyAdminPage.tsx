@@ -92,7 +92,7 @@ const RegisterCompanyAdminPage = () => {
               {error}
             </div>
           )}
-          {isRegistered ? (
+          {isRegistered ?
             <div className="flex items-center gap-3 rounded border border-emerald-600 bg-emerald-50 p-4 shadow-xl">
               <MailCheck strokeWidth={1.5} className="shrink-0 text-emerald-800" />
               <div>
@@ -100,8 +100,7 @@ const RegisterCompanyAdminPage = () => {
                 <p>Check your email with the activation link.</p>
               </div>
             </div>
-          ) : (
-            <form
+          : <form
               className="flex w-full max-w-sm flex-col gap-3"
               onSubmit={(e) => {
                 e.preventDefault()
@@ -113,7 +112,6 @@ const RegisterCompanyAdminPage = () => {
                 children={({ state, handleBlur, handleChange }) => (
                   <div className="flex flex-col gap-1">
                     <InputWithLabel
-                      loose
                       required
                       label="Email"
                       placeholder="Email"
@@ -133,7 +131,6 @@ const RegisterCompanyAdminPage = () => {
                 name="password"
                 children={({ state, handleBlur, handleChange }) => (
                   <InputWithLabel
-                    loose
                     required
                     label="Password"
                     inputType="password"
@@ -149,7 +146,6 @@ const RegisterCompanyAdminPage = () => {
                 name="firstName"
                 children={({ state, handleBlur, handleChange }) => (
                   <InputWithLabel
-                    loose
                     required
                     label="Name"
                     inputType="text"
@@ -164,7 +160,6 @@ const RegisterCompanyAdminPage = () => {
                 name="lastName"
                 children={({ state, handleBlur, handleChange }) => (
                   <InputWithLabel
-                    loose
                     required
                     label="Last name"
                     inputType="text"
@@ -179,7 +174,6 @@ const RegisterCompanyAdminPage = () => {
                 name="onboardingCompanyName"
                 children={({ state, handleBlur, handleChange }) => (
                   <InputWithLabel
-                    loose
                     required
                     label="Company name"
                     inputType="text"
@@ -219,7 +213,7 @@ const RegisterCompanyAdminPage = () => {
                 You did not receive the confirmation email?
               </A>
             </form>
-          )}
+          }
         </div>
       </div>
     </LoginWrapper>

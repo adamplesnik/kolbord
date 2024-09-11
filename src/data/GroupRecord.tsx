@@ -5,5 +5,6 @@ export type GroupRecord = {
     description: string
     x: number
     y: number
+    showMarker: boolean
   }
 }
