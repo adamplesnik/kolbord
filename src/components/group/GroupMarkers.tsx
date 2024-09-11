@@ -1,7 +1,7 @@
 import GroupMarker from './GroupMarker'
 import { useGroupsForPlanQuery } from './loadGroup'
 
-const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
+const GroupMarkers = ({ planId }: GroupMarkersProps) => {
   const editMode = false
 
   const { data: markers, isSuccess } = useGroupsForPlanQuery(planId)
@@ -20,7 +20,6 @@ const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
                   groupDescription={m.attributes.description}
                   x={m.attributes.x}
                   y={m.attributes.y}
-                  onClick={() => editMode && onMarkerClick(m.id)}
                 />
               )
           )}
@@ -31,7 +30,6 @@ const GroupMarkers = ({ planId, onMarkerClick }: GroupMarkersProps) => {
 
 type GroupMarkersProps = {
   planId: number
-  onMarkerClick: (id: number) => void
 }
 
 export default GroupMarkers

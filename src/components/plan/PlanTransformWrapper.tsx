@@ -3,7 +3,7 @@ import { TransformComponent, TransformWrapper, useControls } from 'react-zoom-pa
 import MenuBar from '../../partials/MenuBar'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Button from '../basic/Button'
-import GroupMarkers from '../group-marker/GroupMarkers'
+import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
 import Plan from './Plan'
 import { Value } from './PlanDateSelector'
