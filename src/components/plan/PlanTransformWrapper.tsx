@@ -22,24 +22,27 @@ const PlanTransformWrapper = ({
       minScale={0.2}
       maxScale={1}
     >
-      <TransformComponent wrapperClass="!h-screen !w-full  !p-2">
-        <div
-          className={
-            'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
-            addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
-          }
-        >
-          <GroupMarkers planId={planId} />
-          <Spaces
-            sidebarTableId={sidebarTableId}
-            handlePlaceClick={handlePlaceClick}
-            planId={planId}
-            workingDate={workingDate}
-            listView={listView}
-          />
-          {planId > 0 && <Plan planId={planId} />}
-        </div>
-      </TransformComponent>
+      {({ zoomToElement }) => (
+        <TransformComponent wrapperClass="!h-screen !w-full !p-2">
+          <div
+            className={
+              'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
+              addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
+            }
+          >
+            <GroupMarkers planId={planId} />
+            <Spaces
+              handleZoomToElement={zoomToElement}
+              sidebarTableId={sidebarTableId}
+              handlePlaceClick={handlePlaceClick}
+              planId={planId}
+              workingDate={workingDate}
+              listView={listView}
+            />
+            {planId > 0 && <Plan planId={planId} />}
+          </div>
+        </TransformComponent>
+      )}
     </TransformWrapper>
   )
 }

@@ -16,6 +16,7 @@ const Spaces = ({
   planId,
   sidebarTableId,
   handlePlaceClick,
+  handleZoomToElement,
   workingDate,
   listView,
 }: SpacesProps) => {
@@ -95,6 +96,8 @@ const Spaces = ({
               }
               onClick={() => {
                 handlePlaceClick(t.id)
+                handleZoomToElement &&
+                  setTimeout(() => handleZoomToElement(`space_${t.id.toFixed()}`, 0.75), 400)
               }}
               listView={listView}
             />
@@ -108,6 +111,7 @@ type SpacesProps = {
   planId: number
   sidebarTableId: number
   handlePlaceClick: (id: number) => void
+  handleZoomToElement?: (id: string, zoom: number) => void | undefined
   workingDate: Value
   listView: boolean
 }
