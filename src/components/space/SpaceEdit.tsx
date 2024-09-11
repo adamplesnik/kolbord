@@ -135,7 +135,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                         },
                       })
                     }
-                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1.5 px-3 hover:border-slate-600"
+                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
                     value={field.state.value ? field.state.value.id : ''}
                   >
                     <option value={0}>(none)</option>
@@ -185,7 +185,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                   <span className={'text-sm font-bold'}>Slots</span>
                   <select
                     required
-                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1.5 px-3 hover:border-slate-600"
+                    className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
                     value={state.value}
                     onBlur={handleBlur}
                     onChange={(e) => handleChange(e.target.value)}

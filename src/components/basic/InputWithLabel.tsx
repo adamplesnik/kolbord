@@ -26,7 +26,7 @@ const InputWithLabel = ({
         <input
           required={required}
           className={
-            'w-full rounded py-1.5 px-3' +
+            'w-full rounded py-1 px-2 text-sm' +
             addWithSpace(
               hasError ?
                 'border-red-600 bg-red-50'
