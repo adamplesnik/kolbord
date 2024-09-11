@@ -61,6 +61,7 @@ const MainPage = () => {
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
+    setListView(false)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
     setEditMode(true)
@@ -114,7 +115,6 @@ const MainPage = () => {
           handlePlaceClick={handlePlaceClick}
           listView={false}
           planId={planId}
-          sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
