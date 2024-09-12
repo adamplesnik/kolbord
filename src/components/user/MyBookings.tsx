@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ListX } from 'lucide-react'
 import { Fragment } from 'react/jsx-runtime'
 import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
@@ -9,6 +9,7 @@ import DateHeading from '../basic/DateHeading'
 import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 import Button from '../basic/Button'
+import Empty from '../basic/Empty'
 
 const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
   const { user } = useAuthContext()
@@ -44,62 +45,72 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
     ),
   ]
 
+  console.log(bookingDates.length)
+
   return (
-    <div className="min-h-screen bg-slate-200/0">
+    <div className="min-h-screen">
       <div className="mx-auto flex max-w-5xl flex-col gap-12 p-8 pb-24">
-        {bookingDates?.map((set, i) => (
-          <>
-            <div
-              className="flex flex-col gap-8 md:flex-row md:items-stretch"
-              key={`my_booking_${set}_${i}`}
-            >
-              <DateHeading date={set} className="w-32 shrink-0" breakDate />
-              {bookingZones?.map((zone) => (
-                <>
-                  <div className="flex flex-1 flex-col gap-4">
-                    <span className="text-sm text-slate-400">{zone}</span>
-                    {myBookings?.data.map(
-                      (booking, i) =>
-                        set === humanDate(booking.attributes.from) &&
-                        zone ===
-                          booking.attributes.table.data.attributes?.plan?.data?.attributes
-                            ?.name && (
-                          <Fragment key={`user_booking${i}`}>
-                            <div className="flex items-center gap-2">
-                              <span className="flex-[2] font-medium">
-                                <Button
-                                  onClick={() =>
-                                    setSidebarTableId(booking.attributes.table.data.id)
-                                  }
+        {bookingDates.length < 1 && (
+          <Empty
+            Icon={ListX}
+            message="You have no bookings."
+            additional="lorem lorem lorem lorem lorem lorem lorem "
+          />
+        )}
+        {bookingDates &&
+          bookingDates?.map((set, i) => (
+            <>
+              <div
+                className="flex flex-col gap-8 md:flex-row md:items-stretch"
+                key={`my_booking_${set}_${i}`}
+              >
+                <DateHeading date={set} className="w-32 shrink-0" breakDate />
+                {bookingZones?.map((zone) => (
+                  <>
+                    <div className="flex flex-1 flex-col gap-4">
+                      <span className="text-sm text-slate-400">{zone}</span>
+                      {myBookings?.data.map(
+                        (booking, i) =>
+                          set === humanDate(booking.attributes.from) &&
+                          zone ===
+                            booking.attributes.table.data.attributes?.plan?.data?.attributes
+                              ?.name && (
+                            <Fragment key={`user_booking${i}`}>
+                              <div className="flex items-center gap-2">
+                                <span className="flex-[2] font-medium">
+                                  <Button
+                                    onClick={() =>
+                                      setSidebarTableId(booking.attributes.table.data.id)
+                                    }
+                                  >
+                                    {booking.attributes.table.data.attributes?.name}
+                                  </Button>
+                                </span>
+                                <SpaceBookingSlot
+                                  isBooked={booking}
+                                  tableId={booking.attributes.table.data.id}
+                                  from={new Date(booking.attributes.from)}
+                                  to={new Date(booking.attributes.to)}
                                 >
-                                  {booking.attributes.table.data.attributes?.name}
-                                </Button>
-                              </span>
-                              <SpaceBookingSlot
-                                isBooked={booking}
-                                tableId={booking.attributes.table.data.id}
-                                from={new Date(booking.attributes.from)}
-                                to={new Date(booking.attributes.to)}
-                              >
-                                {humanTime(booking.attributes.from)}
-                                <ArrowRight
-                                  className="size-4 text-slate-400 group-hover:text-slate-200"
-                                  strokeWidth={1}
-                                />
-                                {humanTime(booking.attributes.to)}
-                              </SpaceBookingSlot>
-                            </div>
-                          </Fragment>
-                        )
-                    )}
-                  </div>
-                  <div className="w-px bg-slate-200 last:hidden"></div>
-                </>
-              ))}
-            </div>
-            <div className="h-px w-full bg-slate-200 last:hidden"></div>
-          </>
-        ))}
+                                  {humanTime(booking.attributes.from)}
+                                  <ArrowRight
+                                    className="size-4 text-slate-400 group-hover:text-slate-200"
+                                    strokeWidth={1}
+                                  />
+                                  {humanTime(booking.attributes.to)}
+                                </SpaceBookingSlot>
+                              </div>
+                            </Fragment>
+                          )
+                      )}
+                    </div>
+                    <div className="w-px bg-slate-200 last:hidden"></div>
+                  </>
+                ))}
+              </div>
+              <div className="h-px w-full bg-slate-200 last:hidden"></div>
+            </>
+          ))}
       </div>
     </div>
   )

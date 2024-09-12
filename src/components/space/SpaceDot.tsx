@@ -11,11 +11,11 @@ const SpaceDot = ({ bookedByMe, bookedByWho, bookedToday, small = false }: Space
   return (
     <div
       className={
-        'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-bold' +
+        'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-bold shadow-md' +
         addWithSpace(small ? 'size-4 border-1' : 'size-16 border-2 text-2xl') +
         addWithSpace(
           !bookedToday &&
-            'border-slate-500 bg-teal-400 group-hover:border-teal-600 active:bg-teal-600'
+            'border-slate-500 bg-teal-400/80 group-hover:border-teal-600 active:bg-teal-500'
         ) +
         addWithSpace(bookedToday && !bookedByMe && 'border-rose-400 bg-rose-300 opacity-80') +
         addWithSpace(
