@@ -5,6 +5,7 @@ import Lists from '../components/list/Lists'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
+import MyBookings from '../components/user/MyBookings.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
@@ -76,6 +77,7 @@ const MainPage = () => {
 
   return (
     <>
+      <MyBookings workingDate={workingDate} />
       {listView ?
         <Lists
           handlePlaceClick={handlePlaceClick}

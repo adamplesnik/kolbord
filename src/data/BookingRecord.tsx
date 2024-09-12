@@ -20,6 +20,14 @@ export type BookingRecord = {
         id: number
         attributes?: {
           name?: string
+          plan?: {
+            data?: {
+              id?: number
+              attributes?: {
+                name?: string
+              }
+            }
+          }
         }
       }
     }
