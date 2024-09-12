@@ -35,46 +35,63 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
     ...new Set(myBookings?.data.map((booking) => humanDate(booking.attributes.from))),
   ]
 
+  const bookingZones = [
+    ...new Set(
+      myBookings?.data.map(
+        (booking) => booking.attributes.table.data.attributes?.plan?.data?.attributes?.name
+      )
+    ),
+  ]
+
   return (
     <div className="min-h-screen bg-slate-200/0">
-      <div className="mx-auto flex max-w-5xl flex-col gap-4 p-8 pb-24">
+      <div className="mx-auto flex max-w-5xl flex-col gap-12 p-8 pb-24">
         {bookingDates?.map((set, i) => (
-          <div className="flex flex-col gap-2" key={`my_booking_${set}_${i}`}>
-            <DateHeading date={set} />
-            <div className="flex flex-wrap items-center gap-4">
-              {myBookings?.data.map((booking, i) => {
-                console.log(booking)
-                return (
-                  set === humanDate(booking.attributes.from) && (
-                    <Fragment key={`user_booking${i}`}>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">
-                          {booking.attributes.table.data.attributes?.name}
-                        </span>
-                        <span className="text-sm text-slate-600">
-                          {booking.attributes.table.data.attributes?.plan?.data?.attributes?.name}
-                        </span>
-                        <SpaceBookingSlot
-                          isBooked={booking}
-                          tableId={booking.attributes.table.data.id}
-                          from={new Date(booking.attributes.from)}
-                          to={new Date(booking.attributes.to)}
-                        >
-                          {humanTime(booking.attributes.from)}
-                          <ArrowRight
-                            className="size-4 text-slate-400 group-hover:text-slate-200"
-                            strokeWidth={1}
-                          />
-                          {humanTime(booking.attributes.to)}
-                        </SpaceBookingSlot>
-                      </div>
-                    </Fragment>
-                  )
-                )
-              })}
+          <>
+            <div
+              className="flex flex-col gap-8 md:flex-row md:items-stretch"
+              key={`my_booking_${set}_${i}`}
+            >
+              <DateHeading date={set} className="w-32 shrink-0" breakDate />
+              {bookingZones?.map((zone) => (
+                <>
+                  <div className="flex flex-1 flex-col gap-4">
+                    <span className="text-sm text-slate-400">{zone}</span>
+                    {myBookings?.data.map(
+                      (booking, i) =>
+                        set === humanDate(booking.attributes.from) &&
+                        zone ===
+                          booking.attributes.table.data.attributes?.plan?.data?.attributes
+                            ?.name && (
+                          <Fragment key={`user_booking${i}`}>
+                            <div className="flex items-center gap-2">
+                              <span className="flex-[3] font-medium">
+                                {booking.attributes.table.data.attributes?.name}
+                              </span>
+                              <SpaceBookingSlot
+                                isBooked={booking}
+                                tableId={booking.attributes.table.data.id}
+                                from={new Date(booking.attributes.from)}
+                                to={new Date(booking.attributes.to)}
+                              >
+                                {humanTime(booking.attributes.from)}
+                                <ArrowRight
+                                  className="size-4 text-slate-400 group-hover:text-slate-200"
+                                  strokeWidth={1}
+                                />
+                                {humanTime(booking.attributes.to)}
+                              </SpaceBookingSlot>
+                            </div>
+                          </Fragment>
+                        )
+                    )}
+                  </div>
+                  <div className="w-px bg-slate-200 last:hidden"></div>
+                </>
+              ))}
             </div>
-            <div className="h-px w-full bg-slate-200 last-of-type:hidden"></div>
-          </div>
+            <div className="h-px w-full bg-slate-200 last:hidden"></div>
+          </>
         ))}
       </div>
     </div>
