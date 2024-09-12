@@ -128,10 +128,10 @@ const SpaceBookingSlot = ({
       {isBooked && (
         <Tooltip id={tooltipId}>
           {isBookedByMe ?
-            <span className="flex items-center gap-1 text-xs">
+            <span className="flex items-center gap-1 text-sm">
               <Trash2 className="size-5" strokeWidth={1} /> Click to unbook.
             </span>
-          : <span className="text-xs">{bookedBy}</span>}
+          : <span className="text-sm">{bookedBy}</span>}
         </Tooltip>
       )}
     </>
