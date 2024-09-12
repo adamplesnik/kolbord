@@ -1,15 +1,10 @@
-import { List, Map } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
-import Button from '../components/basic/Button'
 import Lists from '../components/list/Lists'
-import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanEditor from '../components/plan/PlanEditor'
-import PlanSwitcher from '../components/plan/PlanSwitcher'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
-import UserMenu from '../components/user/UserMenu'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
@@ -71,35 +66,6 @@ const MainPage = () => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
 
-  const Controls = () => {
-    return (
-      <MenuBar position="bottom" logo>
-        <UserMenu />
-        <Button Icon={listView ? List : Map} onClick={() => setListView(!listView)} />
-        <div className="flex rounded bg-slate-200/70 p-0.5">
-          {user && !user.error && (
-            <>
-              <PlanDateSelector
-                onChange={(value) => setWorkingDate(value)}
-                workingDate={workingDate}
-              />
-              <PlanSwitcher
-                onPlanEdit={onPlanEdit}
-                currentPlan={planId}
-                companyId={user.company.id}
-                onPlanChange={handlePlanIdChange}
-                handlePlaceAdd={(id) => {
-                  handlePlaceClick(id)
-                  setEditMode(true)
-                }}
-              />
-            </>
-          )}
-        </div>
-      </MenuBar>
-    )
-  }
-
   if (!user || user.error) {
     return <Navigate to="/" />
   }
@@ -127,7 +93,19 @@ const MainPage = () => {
           workingDate={workingDate}
         />
       }
-      <Controls />
+      <MenuBar
+        onPlanChange={handlePlanIdChange}
+        onPlanEdit={onPlanEdit}
+        workingDate={workingDate}
+        onListChange={() => setListView(!listView)}
+        onDateChange={(value) => setWorkingDate(value)}
+        planId={planId}
+        listView={listView}
+        handlePlaceAdd={(id) => {
+          handlePlaceClick(id)
+          setEditMode(true)
+        }}
+      />
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
