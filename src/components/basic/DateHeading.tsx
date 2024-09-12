@@ -8,7 +8,9 @@ const DateHeading = ({ breakDate = false, date, className }: DateHeadingProps) =
       <span className={'font-semibold text-slate-900' + addWithSpace(breakDate && 'flex')}>
         {humanDayName(date)}
       </span>
-      <span className="flex-1 ps-1 text-sm text-slate-600">{humanDate(date)}</span>
+      <span className={'flex-1 text-sm text-slate-600' + addWithSpace(!breakDate && 'pl-1')}>
+        {humanDate(date)}
+      </span>
     </Heading>
   )
 }

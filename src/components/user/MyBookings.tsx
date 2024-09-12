@@ -10,6 +10,7 @@ import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 import Button from '../basic/Button'
 import Empty from '../basic/Empty'
+import Heading from '../basic/Heading'
 
 const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
   const { user } = useAuthContext()
@@ -57,6 +58,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
             additional="lorem lorem lorem lorem lorem lorem lorem "
           />
         )}
+        {bookingDates.length > 0 && <Heading size={3}>Your bookings</Heading>}
         {bookingDates &&
           bookingDates?.map((set, i) => (
             <>
@@ -67,8 +69,8 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
                 <DateHeading date={set} className="w-32 shrink-0" breakDate />
                 {bookingZones?.map((zone) => (
                   <>
-                    <div className="flex flex-1 flex-col gap-4">
-                      <span className="text-sm text-slate-400">{zone}</span>
+                    <div className="flex max-w-lg flex-1 flex-col gap-4">
+                      <span className="pl-2 text-sm text-slate-400">{zone}</span>
                       {myBookings?.data.map(
                         (booking, i) =>
                           set === humanDate(booking.attributes.from) &&
