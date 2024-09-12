@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { getToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
-import { humanDate, humanDayName } from '../../utils/human.ts'
-import Heading from '../basic/Heading'
+import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
@@ -31,10 +30,7 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <Heading size={4}>
-        <span className="font-semibold text-slate-900">{humanDayName(date)}</span>
-        <span className="flex-1 ps-1 text-sm text-slate-600">{humanDate(date)}</span>
-      </Heading>
+      <DateHeading date={date} />
       <div className="flex flex-wrap gap-1">
         {getSlots(date, slots).map((slot, i) => {
           const { from, to } = slot.slot

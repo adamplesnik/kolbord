@@ -1,24 +1,24 @@
-export const humanDate = (date: Date) => {
-  return date.toLocaleString([], {
+export const humanDate = (date: Date | string) => {
+  return new Date(date).toLocaleString([], {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
   })
 }
 
-export const humanDayName = (date: Date) => {
+export const humanDayName = (date: Date | string) => {
   const todayString = new Date().toDateString()
   const tomorrowString = new Date(+new Date() + 86400000).toDateString()
 
-  if (todayString === date.toDateString()) {
+  if (todayString === new Date(date).toDateString()) {
     return 'Today'
-  } else if (tomorrowString === date.toDateString()) {
+  } else if (tomorrowString === new Date(date).toDateString()) {
     return 'Tomorrow'
   } else {
-    return date.toLocaleString([], { weekday: 'long' })
+    return new Date(date).toLocaleString([], { weekday: 'long' })
   }
 }
 
-export const humanTime = (date: string | Date) => {
+export const humanTime = (date: Date | string) => {
   return new Date(date).toLocaleString([], { hour: '2-digit', minute: '2-digit' })
 }
