@@ -26,6 +26,7 @@ const Space = ({
     return (
       <>
         <div
+          id={`space_${id.toFixed()}`}
           onClick={onClick}
           data-tooltip-id={tooltipId}
           className={
