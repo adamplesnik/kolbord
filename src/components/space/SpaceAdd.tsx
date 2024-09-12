@@ -6,20 +6,17 @@ import Button from '../basic/Button'
 
 const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
-  const placeMetadata = '160, 80, 500, 500, 0'
+  const placeMetadata = '500, 500'
 
-  const [width, height, x, y, rotation] =
+  const [x, y] =
     latestPlaceMetadata != null ? latestPlaceMetadata.split(',') : placeMetadata.split(',')
 
   const defaultData = {
     data: {
       id: 0,
       name: 'New space',
-      width: +width,
-      height: +height,
       x: +x,
       y: +y,
-      rotation: +rotation,
       plan: planId,
       slots: 'halfday',
     },
@@ -57,7 +54,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
       Icon={Plus}
       className="w-full"
     >
-      New place
+      New space
     </Button>
   )
 }
@@ -71,11 +68,8 @@ type NewTableRecord = {
   data: {
     id: number
     name: string
-    width: number
-    height: number
     x: number
     y: number
-    rotation: number
     plan: number
   }
 }

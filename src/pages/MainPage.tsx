@@ -1,15 +1,12 @@
-import { List, Map } from 'lucide-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
-import Button from '../components/basic/Button'
 import Lists from '../components/list/Lists'
-import PlanDateSelector from '../components/plan/PlanDateSelector'
+import { Value } from '../components/plan/PlanDateSelector.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
-import PlanSwitcher from '../components/plan/PlanSwitcher'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
-import UserMenu from '../components/user/UserMenu'
+import MyBookings from '../components/user/MyBookings.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
@@ -23,8 +20,9 @@ const MainPage = () => {
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
+  const [listMode, setListMode] = useState(false)
   const [planId, setPlanId] = useState(0)
-  const [listView, setListView] = useState(false)
+  const [bookingsMode, setBookingsMode] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
       new Date(getLocalWorkingDate.toString())
@@ -43,13 +41,15 @@ const MainPage = () => {
     setPlanId(planId)
   }, [planId])
 
-  type ValuePiece = Date | null
-  type Value = ValuePiece | [ValuePiece, ValuePiece]
+  useEffect(() => {
+    setBookingsMode(bookingsMode)
+  }, [bookingsMode])
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
       setSidebarTableId(0)
+      setBookingsMode(false)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
@@ -61,44 +61,22 @@ const MainPage = () => {
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
-    setListView(false)
+    setListMode(false)
+    setBookingsMode(false)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
     setEditMode(true)
   }
 
+  const handleMyBookings = () => {
+    setBookingsMode(true)
+    console.log(bookingsMode)
+    setPlanId(0)
+  }
+
   useEffect(() => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
-
-  const Controls = () => {
-    return (
-      <MenuBar position="bottom" logo>
-        <UserMenu />
-        <Button Icon={listView ? List : Map} onClick={() => setListView(!listView)} />
-        <div className="flex rounded bg-slate-200/70 p-0.5">
-          {user && !user.error && (
-            <>
-              <PlanDateSelector
-                onChange={(value) => setWorkingDate(value)}
-                workingDate={workingDate}
-              />
-              <PlanSwitcher
-                onPlanEdit={onPlanEdit}
-                currentPlan={planId}
-                companyId={user.company.id}
-                onPlanChange={handlePlanIdChange}
-                handlePlaceAdd={(id) => {
-                  handlePlaceClick(id)
-                  setEditMode(true)
-                }}
-              />
-            </>
-          )}
-        </div>
-      </MenuBar>
-    )
-  }
 
   if (!user || user.error) {
     return <Navigate to="/" />
@@ -110,7 +88,8 @@ const MainPage = () => {
 
   return (
     <>
-      {listView ?
+      {bookingsMode && <MyBookings workingDate={workingDate} />}
+      {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -118,16 +97,32 @@ const MainPage = () => {
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      : <PlanTransformWrapper
+      )}
+      {!listMode && !bookingsMode && (
+        <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          listView={listView}
+          listView={listMode}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      }
-      <Controls />
+      )}
+      <MenuBar
+        bookings={bookingsMode}
+        handleMyBookings={handleMyBookings}
+        handleViewChange={() => setListMode(!listMode)}
+        listMode={listMode}
+        onDateChange={(value) => setWorkingDate(value)}
+        onPlanChange={handlePlanIdChange}
+        onPlanEdit={onPlanEdit}
+        planId={planId}
+        workingDate={workingDate}
+        handlePlaceAdd={(id) => {
+          handlePlaceClick(id)
+          setEditMode(true)
+        }}
+      />
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
