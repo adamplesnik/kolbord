@@ -18,6 +18,9 @@ export type BookingRecord = {
     table: {
       data: {
         id: number
+        attributes?: {
+          name?: string
+        }
       }
     }
     from: string

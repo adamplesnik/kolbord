@@ -3,10 +3,10 @@ import { MouseEventHandler } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
-import { humanTime } from '../../utils/humanTime.ts'
-import { SpaceFeatures } from './SpaceFeatures.tsx'
+import { humanTime } from '../../utils/human.ts'
 import Badge from '../basic/Badge.tsx'
 import SpaceDot from './SpaceDot.tsx'
+import { SpaceFeatures } from './SpaceFeatures.tsx'
 
 const Space = ({
   id,
