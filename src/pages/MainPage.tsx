@@ -19,8 +19,9 @@ const MainPage = () => {
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
+  const [listMode, setListMode] = useState(false)
   const [planId, setPlanId] = useState(0)
-  const [viewMode, setViewMode] = useState<'plan' | 'list' | 'bookings'>('plan')
+  const [bookingsMode, setBookingsMode] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
       new Date(getLocalWorkingDate.toString())
@@ -57,14 +58,15 @@ const MainPage = () => {
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
-    setViewMode('plan')
+    setListMode(false)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
     setEditMode(true)
   }
 
-  const handleViewModeChange = (mode: 'plan' | 'list' | 'bookings') => {
-    setViewMode(mode)
+  const handleMyBookings = () => {
+    setBookingsMode(true)
+    setPlanId(0)
   }
 
   useEffect(() => {
@@ -81,8 +83,8 @@ const MainPage = () => {
 
   return (
     <>
-      {viewMode === 'bookings' && <MyBookings workingDate={workingDate} />}
-      {viewMode === 'list' && (
+      {bookingsMode && <MyBookings workingDate={workingDate} />}
+      {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -91,10 +93,10 @@ const MainPage = () => {
           workingDate={workingDate}
         />
       )}
-      {viewMode === 'plan' && (
+      {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          listView={viewMode != 'plan'}
+          listView={listMode}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}
@@ -102,13 +104,15 @@ const MainPage = () => {
         />
       )}
       <MenuBar
+        listMode={listMode}
+        handleViewChange={() => setListMode(!listMode)}
         onPlanChange={handlePlanIdChange}
+        bookings={bookingsMode}
         onPlanEdit={onPlanEdit}
-        workingDate={workingDate}
-        onListChange={handleViewModeChange}
+        handleMyBookings={handleMyBookings}
         onDateChange={(value) => setWorkingDate(value)}
+        workingDate={workingDate}
         planId={planId}
-        viewMode={viewMode}
         handlePlaceAdd={(id) => {
           handlePlaceClick(id)
           setEditMode(true)

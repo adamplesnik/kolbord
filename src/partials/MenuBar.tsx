@@ -1,6 +1,5 @@
-import { Ellipsis, List, Map, User } from 'lucide-react'
+import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/basic/Button'
 import Logo from '../components/Logo'
@@ -9,14 +8,16 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 
 const MenuBar = ({
+  bookings,
+  handleMyBookings,
   workingDate,
   onPlanEdit,
+  handleViewChange,
   planId,
   onPlanChange,
-  onListChange,
   handlePlaceAdd,
   onDateChange,
-  viewMode,
+  listMode,
 }: MenuBarProps) => {
   const { user } = useAuthContext()
 
@@ -27,46 +28,17 @@ const MenuBar = ({
         {user && !user.error && (
           <>
             <PlanSwitcher
+              handleMyBookings={handleMyBookings}
               onPlanEdit={onPlanEdit}
               currentPlan={planId}
+              bookings={bookings}
               companyId={user.company.id}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
             />
             <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
             <div className="h-6 w-px bg-slate-300"></div>
-            <Button Icon={Ellipsis} data-tooltip-id="view-switch" />
-            <Tooltip id="view-switch" clickable openOnClick>
-              <div className="flex flex-col gap-2">
-                <Button
-                  onClick={() => onListChange('plan')}
-                  className="w-full"
-                  active={viewMode === 'plan'}
-                  Icon={Map}
-                  iconClassName={viewMode === 'plan' ? 'opacity-85' : 'opacity-35'}
-                >
-                  Plan
-                </Button>
-                <Button
-                  onClick={() => onListChange('list')}
-                  className="w-full"
-                  active={viewMode === 'list'}
-                  Icon={List}
-                  iconClassName={viewMode === 'list' ? 'opacity-85' : 'opacity-35'}
-                >
-                  List
-                </Button>
-                <Button
-                  onClick={() => onListChange('bookings')}
-                  className="w-full"
-                  active={viewMode === 'bookings'}
-                  Icon={User}
-                  iconClassName={viewMode === 'bookings' ? 'opacity-85' : 'opacity-35'}
-                >
-                  My bookings
-                </Button>
-              </div>
-            </Tooltip>
+            <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
           </>
         )}
       </div>
@@ -76,14 +48,16 @@ const MenuBar = ({
 }
 
 type MenuBarProps = {
+  bookings: boolean
+  handleMyBookings: () => void
+  handlePlaceAdd: (id: number) => void
+  handleViewChange: () => void
+  listMode: boolean
+  onDateChange: (value: Value) => void
+  onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
-  viewMode: 'plan' | 'list' | 'bookings'
   planId: number
   workingDate: Value
-  onPlanChange: (id: number | undefined) => void
-  onListChange: (mode: 'plan' | 'list' | 'bookings') => void
-  handlePlaceAdd: (id: number) => void
-  onDateChange: (value: Value) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default MenuBar

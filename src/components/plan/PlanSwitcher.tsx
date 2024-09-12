@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Plus } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
@@ -12,11 +12,13 @@ import Ping from '../basic/Ping'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 
 const PlanSwitcher = ({
+  bookings,
   companyId,
-  onPlanChange,
   currentPlan,
-  onPlanEdit,
+  handleMyBookings,
   handlePlaceAdd,
+  onPlanChange,
+  onPlanEdit,
 }: PlanSwitcherProps) => {
   const { userCanEdit } = useAuthContext()
 
@@ -89,14 +91,14 @@ const PlanSwitcher = ({
               <Ping className="-mr-[1.6rem]" />
             </div>
           )}
+          {bookings && 'My bookings'}
           {plans &&
             plans.data &&
+            !bookings &&
             plans.data.map((plan) =>
-              currentPlan === plan.id ? (
+              currentPlan === plan.id ?
                 <span key={`plan_in_switcher_${plan.id}`}>{plan.attributes.name}</span>
-              ) : (
-                ''
-              )
+              : ''
             )}
         </Button>
       </div>
@@ -118,6 +120,15 @@ const PlanSwitcher = ({
                 <EditButton onClick={() => onPlanEdit(plan.id)} editMode={false} />
               </div>
             ))}
+          <Button
+            onClick={handleMyBookings}
+            className="w-full"
+            active={bookings}
+            Icon={User}
+            iconClassName={bookings ? 'opacity-85' : 'opacity-35'}
+          >
+            My bookings
+          </Button>
 
           {userCanEdit && (
             <>
@@ -138,10 +149,12 @@ const PlanSwitcher = ({
 
 type PlanSwitcherProps = {
   companyId: number
+  bookings: boolean
   onPlanChange: (id: number | undefined) => void
   currentPlan: number
   onPlanEdit: (planId: number | undefined) => void
   handlePlaceAdd: (id: number) => void
+  handleMyBookings: () => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher
