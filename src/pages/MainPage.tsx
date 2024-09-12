@@ -63,6 +63,10 @@ const MainPage = () => {
     setEditMode(true)
   }
 
+  const handleViewModeChange = (mode: 'plan' | 'list' | 'bookings') => {
+    setViewMode(mode)
+  }
+
   useEffect(() => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
@@ -101,10 +105,10 @@ const MainPage = () => {
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
         workingDate={workingDate}
-        onListChange={() => setViewMode('plan')}
+        onListChange={handleViewModeChange}
         onDateChange={(value) => setWorkingDate(value)}
         planId={planId}
-        listView={viewMode != 'plan'}
+        viewMode={viewMode}
         handlePlaceAdd={(id) => {
           handlePlaceClick(id)
           setEditMode(true)
