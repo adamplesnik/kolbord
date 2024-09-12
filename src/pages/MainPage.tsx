@@ -88,7 +88,9 @@ const MainPage = () => {
 
   return (
     <>
-      {bookingsMode && <MyBookings workingDate={workingDate} />}
+      {bookingsMode && (
+        <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
+      )}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}

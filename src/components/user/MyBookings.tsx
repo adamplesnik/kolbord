@@ -8,8 +8,9 @@ import { humanDate, humanTime } from '../../utils/human'
 import DateHeading from '../basic/DateHeading'
 import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
+import Button from '../basic/Button'
 
-const MyBookings = ({ workingDate }: MyBookingsProps) => {
+const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
   const { user } = useAuthContext()
   const date = workingDate ? new Date(workingDate.toString()) : new Date()
 
@@ -65,8 +66,14 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
                             ?.name && (
                           <Fragment key={`user_booking${i}`}>
                             <div className="flex items-center gap-2">
-                              <span className="flex-[3] font-medium">
-                                {booking.attributes.table.data.attributes?.name}
+                              <span className="flex-[2] font-medium">
+                                <Button
+                                  onClick={() =>
+                                    setSidebarTableId(booking.attributes.table.data.id)
+                                  }
+                                >
+                                  {booking.attributes.table.data.attributes?.name}
+                                </Button>
                               </span>
                               <SpaceBookingSlot
                                 isBooked={booking}
@@ -99,6 +106,7 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
 }
 
 type MyBookingsProps = {
+  setSidebarTableId: (id: number) => void
   workingDate: Value
 }
 
