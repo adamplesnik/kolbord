@@ -70,7 +70,6 @@ const MainPage = () => {
 
   const handleMyBookings = () => {
     setBookingsMode(true)
-    console.log(bookingsMode)
     setPlanId(0)
   }
 
