@@ -20,7 +20,7 @@ const MainPage = () => {
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [planId, setPlanId] = useState(0)
-  const [listView, setListView] = useState(false)
+  const [viewMode, setViewMode] = useState<'plan' | 'list' | 'bookings'>('plan')
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
       new Date(getLocalWorkingDate.toString())
@@ -57,7 +57,7 @@ const MainPage = () => {
 
   const onPlanEdit = (planId: number | undefined) => {
     planId && setPlanId(planId)
-    setListView(false)
+    setViewMode('plan')
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
     setEditMode(true)
@@ -77,8 +77,8 @@ const MainPage = () => {
 
   return (
     <>
-      <MyBookings workingDate={workingDate} />
-      {listView ?
+      {viewMode === 'bookings' && <MyBookings workingDate={workingDate} />}
+      {viewMode === 'list' && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -86,23 +86,25 @@ const MainPage = () => {
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      : <PlanTransformWrapper
+      )}
+      {viewMode === 'plan' && (
+        <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          listView={listView}
+          listView={viewMode != 'plan'}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}
           workingDate={workingDate}
         />
-      }
+      )}
       <MenuBar
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
         workingDate={workingDate}
-        onListChange={() => setListView(!listView)}
+        onListChange={() => setViewMode('plan')}
         onDateChange={(value) => setWorkingDate(value)}
         planId={planId}
-        listView={listView}
+        listView={viewMode != 'plan'}
         handlePlaceAdd={(id) => {
           handlePlaceClick(id)
           setEditMode(true)
