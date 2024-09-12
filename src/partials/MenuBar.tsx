@@ -1,5 +1,6 @@
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
+import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../auth/AuthContext'
 import Button from '../components/basic/Button'
 import Logo from '../components/Logo'
@@ -23,11 +24,9 @@ const MenuBar = ({
     <div className="fixed bottom-2 left-2 z-50 flex items-center gap-3 rounded-xl border border-slate-200/30 border-r-transparent border-l-pink-300/30 bg-white/95 p-2 shadow-2xl">
       <Logo className="h-5" />
       <UserMenu />
-      <Button Icon={listView ? List : Map} onClick={onListChange} />
-      <div className="flex rounded bg-slate-200/70 p-0.5">
+      <div className="flex items-center gap-0.5 rounded bg-slate-200/70 p-0.5">
         {user && !user.error && (
           <>
-            <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
             <PlanSwitcher
               onPlanEdit={onPlanEdit}
               currentPlan={planId}
@@ -35,6 +34,14 @@ const MenuBar = ({
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
             />
+            <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
+            <div className="h-6 w-px bg-slate-300"></div>
+            <Button
+              Icon={listView ? List : Map}
+              onClick={onListChange}
+              data-tooltip-id="view-switch"
+            />
+            <Tooltip id="view-switch" children={listView ? 'Show plan' : 'Show list'} />
           </>
         )}
       </div>
