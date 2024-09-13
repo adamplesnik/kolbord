@@ -115,13 +115,21 @@ const SpaceBookingSlot = ({
           addWithSpace(isBooked && !isBookedByMe && 'border-rose-300 bg-rose-50 opacity-40') +
           addWithSpace(
             isBookedByMe &&
-              'cursor-pointer border-slate-800 bg-slate-700 text-white hover:bg-slate-600 active:bg-slate-900'
+              'cursor-pointer border-slate-700 bg-slate-500 text-white hover:bg-slate-700 active:bg-slate-800'
           )
         }
         {...props}
       >
         {humanTime(from)}
-        <ArrowRight className="size-4 text-slate-400 group-hover:text-slate-200" strokeWidth={1} />
+        <ArrowRight
+          className={
+            'size-4' +
+            addWithSpace(
+              isBookedByMe ? 'text-slate-200' : 'text-slate-600 group-hover:text-slate-300'
+            )
+          }
+          strokeWidth={1.5}
+        />
         {humanTime(to)}
       </div>
 

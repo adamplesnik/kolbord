@@ -11,6 +11,7 @@ import Empty from '../basic/Empty'
 import Heading from '../basic/Heading'
 import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
+import Separator from '../basic/Separator'
 
 const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
   const { user } = useAuthContext()
@@ -18,7 +19,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
 
   const loadBookingsForUser = async (email: string | undefined): Promise<BookingQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&populate[table][fields][0]=name&populate[table][populate][plan][fields][0]=name&populate[table][populate][group][fields][0]=name&filters[$and][0][from][$gte]=${date.toISOString()}&filters[users_permissions_user][email][$eq]=${email}&sort[0]=from`,
+      `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&populate[table][fields][0]=name&populate[table][populate][plan][fields][0]=name&populate[table][populate][group][fields][0]=name&filters[$and][0][from][$gte]=${date.toISOString()}&filters[users_permissions_user][email][$eq]=${email}&sort[0]=from&pagination[pageSize]=1000&pagination[withCount]=false`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -48,7 +49,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto flex max-w-5xl flex-col gap-12 p-8 pb-24">
+      <div className="mx-auto flex max-w-5xl flex-col p-8 pb-24">
         {bookingDates.length < 1 && (
           <Empty
             Icon={ListX}
@@ -56,7 +57,11 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
             additional="lorem lorem lorem lorem lorem lorem lorem "
           />
         )}
-        {bookingDates.length > 0 && <Heading size={3}>Your bookings</Heading>}
+        {bookingDates.length > 0 && (
+          <Heading size={3} className="pb-8">
+            Your bookings
+          </Heading>
+        )}
         {bookingDates &&
           bookingDates?.map((set, i) => (
             <>
@@ -64,11 +69,12 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
                 className="flex flex-col gap-8 md:flex-row md:items-stretch"
                 key={`my_booking_${set}_${i}`}
               >
-                <DateHeading date={set} className="w-32 shrink-0" breakDate />
+                <DateHeading date={set} className="w-32 shrink-0 md:py-8" breakDate />
+                <Separator horizontal />
                 {bookingZones?.map((zone) => (
                   <>
-                    <div className="flex max-w-lg flex-1 flex-col gap-4">
-                      <span className="pl-2 text-sm text-slate-600">{zone}</span>
+                    <div className="flex max-w-lg flex-1 flex-col gap-4 md:py-8">
+                      <span className="pb-2 pl-2 text-sm text-slate-500">{zone}</span>
                       {myBookings?.data.map(
                         (booking, i) =>
                           set === humanDate(booking.attributes.from) &&
@@ -112,11 +118,11 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
                           )
                       )}
                     </div>
-                    <div className="w-px bg-slate-200 last:hidden"></div>
+                    <Separator horizontal />
                   </>
                 ))}
               </div>
-              <div className="h-px w-full bg-slate-200 last:hidden"></div>
+              <Separator />
             </>
           ))}
       </div>

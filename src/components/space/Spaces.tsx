@@ -113,7 +113,7 @@ const Spaces = ({
   console.log(groups.length)
 
   return (
-    <div className={listView ? 'flex flex-col gap-12' : ''}>
+    <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
         <>
           <div
@@ -121,11 +121,12 @@ const Spaces = ({
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
-              <Heading size={4} className="w-32 shrink-0">
+              <Heading size={4} className="w-32 shrink-0 py-8">
                 {group ? group : '(no group)'}
               </Heading>
             )}
-            <div className={listView ? 'flex w-full flex-col gap-2' : ''}>
+            {listView && <Separator horizontal />}
+            <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
               {spaces?.data
                 .filter((space) => space?.attributes?.group?.data?.attributes.name === group)
                 .map((space, i) => {

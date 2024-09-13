@@ -78,7 +78,7 @@ const Space = ({
                 small
               />
             </div>
-            <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">
+            <div className="flex-1 shrink-0 font-medium lg:w-48">
               <Button onClick={onClick}>{name}</Button>
             </div>
             <div className="flex shrink-0 items-center gap-2 lg:w-64">
