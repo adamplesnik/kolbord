@@ -50,13 +50,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
   return (
     <div className="min-h-screen">
       <div className="mx-auto flex max-w-5xl flex-col p-8 pb-24">
-        {bookingDates.length < 1 && (
-          <Empty
-            Icon={ListX}
-            message="You have no bookings."
-            additional="lorem lorem lorem lorem lorem lorem lorem "
-          />
-        )}
+        {bookingDates.length < 1 && <Empty Icon={ListX} message="You have no bookings." />}
         {bookingDates.length > 0 && (
           <Heading size={3} className="pb-8">
             Your bookings
