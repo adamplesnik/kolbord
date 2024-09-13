@@ -13,7 +13,7 @@ const SpaceFeatureIcon = ({ name, ...props }: IconProps) => {
 
   return (
     <Suspense fallback={fallback}>
-      <LucideIcon {...props} className="size-5" />
+      <LucideIcon {...props} className="size-4" />
     </Suspense>
   )
 }

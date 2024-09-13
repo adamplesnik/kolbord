@@ -12,7 +12,7 @@ const Badge = ({
   return (
     <div
       className={
-        'flex h-8 items-center justify-center rounded border border-slate-400 px-1 text-sm text-slate-600' +
+        'flex h-8 items-center justify-center rounded bg-slate-50 px-1 text-sm text-slate-500' +
         addWithSpace(className)
       }
       data-tooltip-content={dataTooltipContent}
