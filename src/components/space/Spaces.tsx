@@ -24,9 +24,9 @@ const Spaces = ({
 }: SpacesProps) => {
   const { user } = useAuthContext()
 
-  const loadspaces = async (planId: number): Promise<TableQueryType> => {
+  const loadSpaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
+      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -38,7 +38,7 @@ const Spaces = ({
 
   const { data: spaces } = useQuery({
     queryKey: ['spaces', planId],
-    queryFn: () => loadspaces(planId),
+    queryFn: () => loadSpaces(planId),
   })
 
   const loadBookingsForPlan = async (id: number, date: Value): Promise<BookingQueryType> => {
@@ -113,16 +113,19 @@ const Spaces = ({
   console.log(groups.length)
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className={listView ? 'flex flex-col gap-12' : ''}>
       {groups.map((group) => (
         <>
-          <div key={group} className="flex w-full flex-col gap-8 md:flex-row md:items-stretch">
+          <div
+            key={group}
+            className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
+          >
             {listView && (
               <Heading size={4} className="w-32 shrink-0">
                 {group ? group : 'Others'}
               </Heading>
             )}
-            <div className="flex w-full flex-col gap-2">
+            <div className={listView ? 'flex w-full flex-col gap-2' : ''}>
               {spaces?.data
                 .filter((space) => space?.attributes?.group?.data?.attributes.name === group)
                 .map((space, i) => {
@@ -143,7 +146,7 @@ const Spaces = ({
                 })}
             </div>
           </div>
-          <Separator />
+          {listView && <Separator />}
         </>
       ))}
     </div>
