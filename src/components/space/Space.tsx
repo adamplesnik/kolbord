@@ -31,11 +31,12 @@ const Space = ({
           onClick={onClick}
           data-tooltip-id={tooltipId}
           className={
-            'group absolute cursor-pointer rounded-full p-6 ring transition-colors hover:z-50' +
+            'group absolute cursor-pointer rounded-full p-6 hover:z-50' +
             addWithSpace(
-              active ?
-                'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
-              : 'ring-4 ring-transparent hover:bg-slate-400/50 hover:ring-white'
+              active && bookedToday && 'bg-gradient-to-tl from-pink-300 to-pink-200/40 to-60%'
+            ) +
+            addWithSpace(
+              active && !bookedToday && 'bg-gradient-to-br from-teal-300 to-emerald-200/40 to-60%'
             ) +
             addWithSpace(className)
           }
@@ -44,7 +45,12 @@ const Space = ({
             left: x,
           }}
         >
-          <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
+          <SpaceDot
+            bookedByMe={bookedByMe}
+            bookedByWho={bookedByWho}
+            bookedToday={bookedToday}
+            className={'border' + addWithSpace(active ? 'border-white/70' : 'border-transparent')}
+          />
         </div>
         {bookings && bookings?.length > 0 && (
           <Tooltip id={tooltipId} className="z-10">
