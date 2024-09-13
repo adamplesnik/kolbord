@@ -122,7 +122,7 @@ const Spaces = ({
           >
             {listView && (
               <Heading size={4} className="w-32 shrink-0">
-                {group ? group : 'Others'}
+                {group ? group : '(no group)'}
               </Heading>
             )}
             <div className={listView ? 'flex w-full flex-col gap-2' : ''}>

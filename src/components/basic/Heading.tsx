@@ -16,12 +16,12 @@ const Heading = ({ size = 1, children, className }: HeadingProps) => {
     )
   } else if (size === 3) {
     return (
-      <h3 className={'text-xl font-bold leading-snug md:text-2xl' + addWithSpace(className)}>
+      <h3 className={'text-xl font-semibold leading-snug md:text-2xl' + addWithSpace(className)}>
         {children}
       </h3>
     )
   } else if (size === 4) {
-    return <h4 className={'text-md' + addWithSpace(className)}>{children}</h4>
+    return <h4 className={className}>{children}</h4>
   }
 }
 

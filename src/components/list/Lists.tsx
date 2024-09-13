@@ -9,10 +9,8 @@ const Lists = ({ handlePlaceClick, planId, sidebarTableId, workingDate }: ListsP
   return (
     <div className="min-h-screen bg-slate-200/0">
       <div className="mx-auto flex max-w-5xl flex-col gap-1 p-8 pb-24">
-        <div className="flex items-baseline gap-2">
-          <Heading size={3} className="pb-8">
-            {plan?.data.attributes.name}
-          </Heading>
+        <div className="flex items-baseline gap-2 pb-8">
+          <Heading size={3}>{plan?.data.attributes.name}</Heading>
           {workingDate && humanDate(new Date(Date.parse(workingDate.toString())))}
         </div>
         <Spaces
