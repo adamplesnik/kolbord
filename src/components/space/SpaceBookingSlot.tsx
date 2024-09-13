@@ -18,7 +18,7 @@ const SpaceBookingSlot = ({
 }: SpaceBookingSlotProps) => {
   const { user } = useAuthContext()
 
-  const tooltipId = (from.getTime() + to.getTime()).toString()
+  const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
 
   let bookedBy = ''
   let isBookedByMe = false

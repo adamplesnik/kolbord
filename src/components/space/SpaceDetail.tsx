@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
+import { Tooltip } from 'react-tooltip'
 import { loadTable } from '../../utils/fetchApi'
-import Badge from '../basic/Badge'
 import Loading from '../basic/Loading'
 import SpaceBooking from './SpaceBooking.tsx'
 import SpaceEdit from './SpaceEdit.tsx'
@@ -36,15 +36,16 @@ const SpaceDetail = ({
   if (isSuccess && loadedTable.data) {
     return (
       <div className="flex flex-col gap-8">
-        <div className="flex gap-2 pt-2">
+        <div className="flex items-center gap-2 pt-2">
           {loadedTable.data.attributes.group.data && !editMode && (
-            <Badge
-              className="text-sm"
-              dataTooltipContent={loadedTable.data.attributes.group.data.attributes.description}
-              dataTooltipId="badge"
-            >
-              {loadedTable.data.attributes.group.data.attributes.name}
-            </Badge>
+            <>
+              <span className="text-sm text-slate-600" data-tooltip-id="badge">
+                {loadedTable.data.attributes.group.data.attributes.name}
+              </span>
+              <Tooltip id="badge" className="z-50">
+                {loadedTable.data.attributes.group.data.attributes.description}
+              </Tooltip>
+            </>
           )}
           {loadedTable.data.attributes.features.data && !editMode && (
             <SpaceFeatures features={loadedTable.data.attributes.features.data} />

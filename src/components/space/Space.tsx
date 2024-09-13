@@ -1,10 +1,11 @@
 import { ArrowRight } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
+import { BookingRecord } from '../../data/BookingRecord.tsx'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
-import Badge from '../basic/Badge.tsx'
 import Button from '../basic/Button.tsx'
+import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 
@@ -12,7 +13,7 @@ const Space = ({
   id,
   active,
   className,
-  attributes: { x, y, name, features, group },
+  attributes: { x, y, name, features },
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -67,7 +68,7 @@ const Space = ({
   } else {
     return (
       <>
-        <div className="flex flex-col gap-2 rounded-lg py-2 px-4 lg:flex-row lg:items-center">
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
           <div className="flex items-center gap-2">
             <div onClick={onClick}>
               <SpaceDot
@@ -80,15 +81,14 @@ const Space = ({
             <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">
               <Button onClick={onClick}>{name}</Button>
             </div>
-            <div className="flex shrink-0 gap-2 lg:w-64">
-              {group.data && <Badge>{group.data.attributes.name}</Badge>}
+            <div className="flex shrink-0 items-center gap-2 lg:w-64">
               {features && <SpaceFeatures noTooltip features={features.data} />}
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
             {bookings &&
               bookings?.length > 0 &&
-              bookings?.map((b: any, i: number) => (
+              bookings?.map((b: BookingRecord, i: number) => (
                 <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
                   <div className="flex w-28 items-center justify-evenly gap-1 text-slate-600">
                     {humanTime(b.attributes.from)}
@@ -103,7 +103,7 @@ const Space = ({
               ))}
           </div>
         </div>
-        <div className="h-px w-full bg-slate-200 last-of-type:hidden"></div>
+        <Separator />
       </>
     )
   }
