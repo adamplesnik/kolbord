@@ -8,7 +8,7 @@ const GroupMarkers = ({ planId }: GroupMarkersProps) => {
 
   if (isSuccess) {
     return (
-      <div>
+      <>
         {markers.data &&
           markers.data.map(
             (m, i) =>
@@ -23,7 +23,7 @@ const GroupMarkers = ({ planId }: GroupMarkersProps) => {
                 />
               )
           )}
-      </div>
+      </>
     )
   }
 }

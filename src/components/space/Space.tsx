@@ -1,10 +1,11 @@
 import { ArrowRight } from 'lucide-react'
-import { MouseEventHandler } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { BookingRecord } from '../../data/BookingRecord.tsx'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
-import Badge from '../basic/Badge.tsx'
+import Button from '../basic/Button.tsx'
+import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 
@@ -12,7 +13,7 @@ const Space = ({
   id,
   active,
   className,
-  attributes: { x, y, name, features, group },
+  attributes: { x, y, name, features },
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -46,7 +47,7 @@ const Space = ({
           <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
         </div>
         {bookings && bookings?.length > 0 && (
-          <Tooltip id={tooltipId}>
+          <Tooltip id={tooltipId} className="z-10">
             {bookings?.map((b: any, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
@@ -67,45 +68,29 @@ const Space = ({
   } else {
     return (
       <>
-        <div
-          className={
-            'flex cursor-pointer flex-col gap-2 rounded-lg py-2 px-4 lg:flex-row lg:items-center' +
-            addWithSpace(active ? 'bg-slate-700 text-white' : ' hover:bg-slate-200')
-          }
-          onClick={onClick}
-        >
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
           <div className="flex items-center gap-2">
-            <SpaceDot
-              bookedByMe={bookedByMe}
-              bookedByWho={bookedByWho}
-              bookedToday={bookedToday}
-              small
-            />
-            <div className="flex-1 shrink-0 text-lg font-medium lg:w-48">{name}</div>
-            <div
-              className={'flex shrink-0 gap-2 lg:w-64' + addWithSpace(active ? '*:text-white' : '')}
-            >
-              {group.data && <Badge>{group.data.attributes.name}</Badge>}
-              {features && (
-                <SpaceFeatures
-                  noTooltip
-                  badgeClassName={active ? '*:text-white' : ''}
-                  features={features.data}
-                />
-              )}
+            <div onClick={onClick}>
+              <SpaceDot
+                bookedByMe={bookedByMe}
+                bookedByWho={bookedByWho}
+                bookedToday={bookedToday}
+                small
+              />
+            </div>
+            <div className="flex-1 shrink-0 font-medium lg:w-48">
+              <Button onClick={onClick}>{name}</Button>
+            </div>
+            <div className="flex shrink-0 items-center gap-2 lg:w-64">
+              {features && <SpaceFeatures noTooltip features={features.data} />}
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
             {bookings &&
               bookings?.length > 0 &&
-              bookings?.map((b: any, i: number) => (
+              bookings?.map((b: BookingRecord, i: number) => (
                 <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
-                  <div
-                    className={
-                      'flex w-28 items-center justify-evenly gap-1 ' +
-                      addWithSpace(active ? 'text-slate-300' : 'text-slate-600')
-                    }
-                  >
+                  <div className="flex w-28 items-center justify-evenly gap-1 text-slate-600">
                     {humanTime(b.attributes.from)}
                     <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
                     {humanTime(b.attributes.to)}
@@ -118,7 +103,7 @@ const Space = ({
               ))}
           </div>
         </div>
-        <div className="h-px w-full bg-slate-200 last-of-type:hidden"></div>
+        <Separator />
       </>
     )
   }
@@ -126,7 +111,7 @@ const Space = ({
 
 export type SpaceProps = {
   active?: boolean | undefined
-  onClick?: MouseEventHandler<HTMLDivElement> | undefined
+  onClick?: () => void | undefined
   className?: string | undefined
   bookedToday?: boolean
   bookedByMe?: boolean

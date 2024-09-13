@@ -91,7 +91,7 @@ const PlanSwitcher = ({
               <Ping className="-mr-[1.6rem]" />
             </div>
           )}
-          {bookings && 'My bookings'}
+          {bookings && 'Your bookings'}
           {plans &&
             plans.data &&
             !bookings &&
@@ -120,6 +120,7 @@ const PlanSwitcher = ({
                 <EditButton onClick={() => onPlanEdit(plan.id)} editMode={false} />
               </div>
             ))}
+          <div className="my-2 h-px w-full bg-slate-200"></div>
           <Button
             onClick={handleMyBookings}
             className="w-full"
@@ -127,7 +128,7 @@ const PlanSwitcher = ({
             Icon={User}
             iconClassName={bookings ? 'opacity-85' : 'opacity-35'}
           >
-            My bookings
+            Your bookings
           </Button>
 
           {userCanEdit && (

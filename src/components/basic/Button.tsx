@@ -1,6 +1,6 @@
+import { LucideIcon } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { addWithSpace } from '../../utils/addWithSpace'
-import { LucideIcon } from 'lucide-react'
 
 const Button = ({
   children,
@@ -58,11 +58,11 @@ export type ButtonProps = {
   active?: boolean | undefined
   asBlock?: boolean | undefined
   buttonType?: 'primary' | 'secondary' | 'danger'
-  type?: 'button' | 'submit'
-  Icon?: LucideIcon | undefined
-  IconRight?: LucideIcon | undefined
-  iconClassName?: string | undefined
   disabled?: boolean | undefined
+  Icon?: LucideIcon | undefined
+  iconClassName?: string | undefined
+  IconRight?: LucideIcon | undefined
+  type?: 'button' | 'submit'
 } & HTMLAttributes<HTMLButtonElement>
 
 export default Button

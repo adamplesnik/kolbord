@@ -70,7 +70,6 @@ const MainPage = () => {
 
   const handleMyBookings = () => {
     setBookingsMode(true)
-    console.log(bookingsMode)
     setPlanId(0)
   }
 
@@ -88,7 +87,9 @@ const MainPage = () => {
 
   return (
     <>
-      {bookingsMode && <MyBookings workingDate={workingDate} />}
+      {bookingsMode && (
+        <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
+      )}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
@@ -101,7 +102,6 @@ const MainPage = () => {
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          listView={listMode}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}

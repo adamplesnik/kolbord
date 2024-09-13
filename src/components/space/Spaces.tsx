@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
+import { BracesIcon } from 'lucide-react'
 import { useAuthContext } from '../../auth/AuthContext.tsx'
 import { getToken } from '../../auth/helpers'
-import { BookingQueryType } from '../../data/BookingRecord'
+import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
+import Empty from '../basic/Empty.tsx'
+import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
+import Heading from '../basic/Heading.tsx'
+import Separator from '../basic/Separator.tsx'
 
 type TableQueryType = {
   data: TableRecord[]
 }
-
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 const Spaces = ({
   planId,
@@ -22,9 +24,9 @@ const Spaces = ({
 }: SpacesProps) => {
   const { user } = useAuthContext()
 
-  const loadPlaces = async (planId: number): Promise<TableQueryType> => {
+  const loadSpaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&publicationState=live&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
+      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -34,9 +36,9 @@ const Spaces = ({
     return response.json()
   }
 
-  const { data: places } = useQuery({
-    queryKey: ['places', planId],
-    queryFn: () => loadPlaces(planId),
+  const { data: spaces } = useQuery({
+    queryKey: ['spaces', planId],
+    queryFn: () => loadSpaces(planId),
   })
 
   const loadBookingsForPlan = async (id: number, date: Value): Promise<BookingQueryType> => {
@@ -59,51 +61,96 @@ const Spaces = ({
     queryFn: () => loadBookingsForPlan(planId, workingDate),
   })
 
-  return (
-    <>
-      {places?.data &&
-        places.data.map((t) => {
-          const bookedToday = bookings?.data.find(
-            (booking) => booking.attributes.table.data.id === t.id
-          )
-          const allToday = bookings?.data.filter(
-            (booking) => booking.attributes.table.data.id === t.id
-          )
+  const SpaceComponent = ({
+    space,
+    allToday,
+    bookedToday,
+  }: {
+    space: TableRecord
+    allToday: BookingRecord[] | undefined
+    bookedToday: BookingRecord | undefined
+  }) => {
+    if (space) {
+      return (
+        <Space
+          id={space.id}
+          attributes={{
+            features: space.attributes.features,
+            group: space.attributes.group,
+            name: space.attributes.name,
+            slots: space.attributes.slots,
+            x: space.attributes.x,
+            y: space.attributes.y,
+          }}
+          active={space.id === sidebarTableId}
+          bookedToday={bookedToday != undefined}
+          bookings={allToday}
+          bookedByWho={
+            bookedToday &&
+            bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
+              ' ' +
+              bookedToday?.attributes.users_permissions_user.data.attributes.lastName
+          }
+          bookedByMe={
+            bookedToday?.attributes.users_permissions_user.data.attributes.email === user?.email
+          }
+          onClick={() => {
+            handlePlaceClick(space.id)
+            handleZoomToElement &&
+              setTimeout(() => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75), 400)
+          }}
+          listView={listView}
+        />
+      )
+    } else {
+      return <Empty Icon={BracesIcon} message="No space available"></Empty>
+    }
+  }
 
-          return (
-            <Space
-              key={`place_${t.id}`}
-              id={t.id}
-              attributes={{
-                name: t.attributes.name,
-                group: t.attributes.group,
-                x: t.attributes.x,
-                y: t.attributes.y,
-                features: t.attributes.features,
-                slots: t.attributes.slots,
-              }}
-              active={t.id === sidebarTableId}
-              bookedToday={bookedToday != undefined}
-              bookings={allToday}
-              bookedByWho={
-                bookedToday &&
-                bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
-                  ' ' +
-                  bookedToday?.attributes.users_permissions_user.data.attributes.lastName
-              }
-              bookedByMe={
-                bookedToday?.attributes.users_permissions_user.data.attributes.email === user?.email
-              }
-              onClick={() => {
-                handlePlaceClick(t.id)
-                handleZoomToElement &&
-                  setTimeout(() => handleZoomToElement(`space_${t.id.toFixed()}`, 0.75), 400)
-              }}
-              listView={listView}
-            />
-          )
-        })}
-    </>
+  const groups = [
+    ...new Set(spaces?.data.map((space) => space?.attributes?.group?.data?.attributes.name)),
+  ].sort()
+  console.log(groups.length)
+
+  return (
+    <div className={listView ? 'flex flex-col' : ''}>
+      {groups.map((group) => (
+        <>
+          <div
+            key={group}
+            className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
+          >
+            {listView && (
+              <Heading size={4} className="w-32 shrink-0 py-8">
+                {group ? group : '(no group)'}
+              </Heading>
+            )}
+            {listView && <Separator horizontal />}
+            <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
+              {spaces?.data
+                .filter((space) => space?.attributes?.group?.data?.attributes.name === group)
+                .map((space, i) => {
+                  const bookedToday = bookings?.data.find(
+                    (booking) => booking.attributes.table.data.id === space.id
+                  )
+                  const allToday = bookings?.data.filter(
+                    (booking) => booking.attributes.table.data.id === space.id
+                  )
+                  return (
+                    <SpaceComponent
+                      allToday={allToday}
+                      bookedToday={bookedToday}
+                      key={`space_${space.attributes.x}_${space.attributes.y}_${i}`}
+                      space={space}
+                    />
+                  )
+                })}
+            </div>
+          </div>
+          {listView && <Separator />}
+        </>
+      ))}
+    </div>
   )
 }
 

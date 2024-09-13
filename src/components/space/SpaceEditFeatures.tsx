@@ -17,8 +17,8 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
         return (
           <Badge
             className={
-              'group flex cursor-pointer gap-1 truncate hover:bg-slate-200 active:bg-slate-300' +
-              addWithSpace(isActive && 'bg-slate-100')
+              'group flex cursor-pointer gap-1 truncate border hover:bg-slate-200 active:bg-slate-300' +
+              addWithSpace(isActive ? 'border-slate-400' : 'border-transparent')
             }
             onClick={() => {
               !isActive ?
