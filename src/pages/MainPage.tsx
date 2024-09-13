@@ -102,7 +102,6 @@ const MainPage = () => {
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          listView={listMode}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarTableId={sidebarTableId}
