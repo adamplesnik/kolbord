@@ -14,6 +14,7 @@ const MenuBar = ({
   handleViewChange,
   listMode,
   onDateChange,
+  onGroupEdit,
   onPlanChange,
   onPlanEdit,
   planId,
@@ -28,6 +29,7 @@ const MenuBar = ({
         {user && !user.error && (
           <>
             <PlanSwitcher
+              onGroupEdit={(groupId) => onGroupEdit(groupId)}
               onPlanEdit={onPlanEdit}
               currentPlan={planId}
               companyId={user.company.id}
@@ -53,6 +55,7 @@ type MenuBarProps = {
   handleViewChange: () => void
   listMode: boolean
   onDateChange: (value: Value) => void
+  onGroupEdit: (groupId: number) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
   planId: number

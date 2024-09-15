@@ -16,6 +16,7 @@ const MainPage = () => {
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
+  const [sidebarGroupId, setSidebarGroupId] = useState(0)
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
@@ -72,6 +73,10 @@ const MainPage = () => {
     setEditMode(true)
   }
 
+  const onGroupEdit = (groupId: number) => {
+    setSidebarGroupId(groupId)
+  }
+
   const handleMyBookings = () => {
     setBookingsMode(true)
   }
@@ -118,6 +123,7 @@ const MainPage = () => {
         onDateChange={(value) => setWorkingDate(value)}
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
+        onGroupEdit={onGroupEdit}
         planId={planId}
         workingDate={workingDate}
         handlePlaceAdd={(id) => {
@@ -129,10 +135,11 @@ const MainPage = () => {
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
-        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode)}
+        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode) || sidebarGroupId > 0}
         sidebarTitle={sidebarTitle}
         closeSidebar={() => {
           setSidebarTableId(0)
+          setSidebarGroupId(0)
           setSidebarPlanEdit(false)
           setEditMode(false)
         }}
