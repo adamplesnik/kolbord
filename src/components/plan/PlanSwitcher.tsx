@@ -9,11 +9,13 @@ import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 import { addPlan, usePlansQuery } from './planFetch.ts'
+import GroupAdd from '../group/GroupAdd.tsx'
 
 const PlanSwitcher = ({
   bookings,
   companyId,
   currentPlan,
+  handleGroupAdd,
   handleMyBookings,
   handlePlaceAdd,
   onPlanChange,
@@ -100,6 +102,10 @@ const PlanSwitcher = ({
               <Button Icon={Plus} onClick={() => mutate()} className="w-full">
                 New plan
               </Button>
+              <Button Icon={Plus} onClick={handleGroupAdd} className="w-full">
+                New group
+              </Button>
+              {currentPlan > 0 && <GroupAdd planId={currentPlan} handleGroupAdd={handleGroupAdd} />}
               {currentPlan > 0 && <SpaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
             </>
           )}
@@ -117,6 +123,7 @@ type PlanSwitcherProps = {
   onPlanEdit: (planId: number | undefined) => void
   handlePlaceAdd: (id: number) => void
   handleMyBookings: () => void
+  handleGroupAdd: () => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

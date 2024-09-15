@@ -1,5 +1,5 @@
 import GroupMarker from './GroupMarker'
-import { useGroupsForPlanQuery } from './loadGroup'
+import { useGroupsForPlanQuery } from './groupFetch'
 
 const GroupMarkers = ({ planId }: GroupMarkersProps) => {
   const editMode = false

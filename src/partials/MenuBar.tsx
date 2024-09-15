@@ -9,15 +9,16 @@ import UserMenu from '../components/user/UserMenu'
 
 const MenuBar = ({
   bookings,
+  handleGroupAdd,
   handleMyBookings,
-  workingDate,
-  onPlanEdit,
-  handleViewChange,
-  planId,
-  onPlanChange,
   handlePlaceAdd,
-  onDateChange,
+  handleViewChange,
   listMode,
+  onDateChange,
+  onPlanChange,
+  onPlanEdit,
+  planId,
+  workingDate,
 }: MenuBarProps) => {
   const { user } = useAuthContext()
 
@@ -35,6 +36,7 @@ const MenuBar = ({
               companyId={user.company.id}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
+              handleGroupAdd={handleGroupAdd}
             />
             <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
             <div className="h-6 w-px bg-slate-300"></div>
@@ -49,6 +51,7 @@ const MenuBar = ({
 
 type MenuBarProps = {
   bookings: boolean
+  handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (id: number) => void
   handleViewChange: () => void

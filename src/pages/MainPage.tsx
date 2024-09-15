@@ -54,6 +54,10 @@ const MainPage = () => {
     }
   }
 
+  const handleGroupAdd = () => {
+    setSidebarTableId(0)
+  }
+
   const handlePlaceClick = (id: number) => {
     setSidebarTableId(id)
     setSidebarPlanEdit(false)
@@ -122,6 +126,7 @@ const MainPage = () => {
           handlePlaceClick(id)
           setEditMode(true)
         }}
+        handleGroupAdd={handleGroupAdd}
       />
       <Sidebar
         editMode={editMode}
