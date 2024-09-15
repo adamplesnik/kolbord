@@ -1,15 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
-import { getToken } from '../../auth/helpers'
-import { PlanRecord } from '../../data/PlanRecord'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
 import Ping from '../basic/Ping'
 import SpaceAdd from '../space/SpaceAdd.tsx'
+import { addPlan, usePlansQuery } from './planFetch.ts'
 
 const PlanSwitcher = ({
   bookings,
@@ -22,45 +21,7 @@ const PlanSwitcher = ({
 }: PlanSwitcherProps) => {
   const { userCanEdit } = useAuthContext()
 
-  type NewPlanType = {
-    data: PlanRecord
-  }
-  const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undefined> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
-      method: 'post',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: { name: 'New plan', svg: '<svg></svg>', company: apiCompanyId },
-      }),
-    })
-    if (response.ok) {
-      return response.json()
-    }
-  }
-
-  type PlansQueryType = {
-    data: PlanRecord[]
-  }
-
-  const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&filters[company][id][$eq]=${apiCompanyId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    )
-    return response.json()
-  }
-
-  const { data: plans } = useQuery({
-    queryKey: ['plans'],
-    queryFn: () => loadPlans(companyId),
-  })
+  const { data: plans } = usePlansQuery(companyId)
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({

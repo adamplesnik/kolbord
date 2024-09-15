@@ -7,7 +7,7 @@ import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { usePlanQuery } from './loadPlan'
+import { usePlanQuery } from './planFetch'
 import PlanDelete from './PlanDelete'
 
 const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
