@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getToken } from '../../auth/helpers'
 import { GroupRecord } from '../../data/GroupRecord'
 
-const loadGroup = async (groupId: number): Promise<GroupRecord> => {
+const loadGroup = async (groupId: number): Promise<{ data: GroupRecord }> => {
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/groups/${groupId}?fields[0]=name&fields[1]=description&fields[2]=x&fields[3]=y&fields[4]=showMarker`,
     {
@@ -45,6 +45,7 @@ export const addGroup = async (planId: number) => {
     method: 'post',
     headers: {
       Authorization: `Bearer ${getToken()}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       data: {
