@@ -8,7 +8,6 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 
 const MenuBar = ({
-  bookings,
   handleGroupAdd,
   handleMyBookings,
   handlePlaceAdd,
@@ -29,10 +28,8 @@ const MenuBar = ({
         {user && !user.error && (
           <>
             <PlanSwitcher
-              handleMyBookings={handleMyBookings}
               onPlanEdit={onPlanEdit}
               currentPlan={planId}
-              bookings={bookings}
               companyId={user.company.id}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
@@ -44,13 +41,12 @@ const MenuBar = ({
           </>
         )}
       </div>
-      <UserMenu />
+      <UserMenu handleMyBookings={handleMyBookings} />
     </div>
   )
 }
 
 type MenuBarProps = {
-  bookings: boolean
   handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (id: number) => void

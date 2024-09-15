@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
@@ -12,11 +12,9 @@ import { addPlan, usePlansQuery } from './planFetch.ts'
 import GroupAdd from '../group/GroupAdd.tsx'
 
 const PlanSwitcher = ({
-  bookings,
   companyId,
   currentPlan,
   handleGroupAdd,
-  handleMyBookings,
   handlePlaceAdd,
   onPlanChange,
   onPlanEdit,
@@ -54,10 +52,8 @@ const PlanSwitcher = ({
               <Ping className="-mr-[1.6rem]" />
             </div>
           )}
-          {bookings && 'Your bookings'}
           {plans &&
             plans.data &&
-            !bookings &&
             plans.data.map((plan) =>
               currentPlan === plan.id ?
                 <span key={`plan_in_switcher_${plan.id}`}>{plan.attributes.name}</span>
@@ -83,17 +79,6 @@ const PlanSwitcher = ({
                 <EditButton onClick={() => onPlanEdit(plan.id)} editMode={false} />
               </div>
             ))}
-          <div className="my-2 h-px w-full bg-slate-200"></div>
-          <Button
-            onClick={handleMyBookings}
-            className="w-full"
-            active={bookings}
-            Icon={User}
-            iconClassName={bookings ? 'opacity-85' : 'opacity-35'}
-          >
-            Your bookings
-          </Button>
-
           {userCanEdit && (
             <>
               {plans && plans.data.length > 0 && (

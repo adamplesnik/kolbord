@@ -74,7 +74,6 @@ const MainPage = () => {
 
   const handleMyBookings = () => {
     setBookingsMode(true)
-    setPlanId(0)
   }
 
   useEffect(() => {
@@ -113,7 +112,6 @@ const MainPage = () => {
         />
       )}
       <MenuBar
-        bookings={bookingsMode}
         handleMyBookings={handleMyBookings}
         handleViewChange={() => setListMode(!listMode)}
         listMode={listMode}
