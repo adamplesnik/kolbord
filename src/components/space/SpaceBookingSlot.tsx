@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ArrowRight, Trash2 } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+import { ArrowRight, Check, Trash2 } from 'lucide-react'
+import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
@@ -17,6 +17,7 @@ const SpaceBookingSlot = ({
   ...props
 }: SpaceBookingSlotProps) => {
   const { user } = useAuthContext()
+  const [mouseOut, setMouseOut] = useState(false)
 
   const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
   const beforeNow = to <= new Date()
@@ -101,19 +102,20 @@ const SpaceBookingSlot = ({
         onClick={() => {
           if (isBooked && isBookedByMe) {
             removeBooking(isBooked.id)
+            setMouseOut(false)
           } else if (!isBooked && !beforeNow) {
             addBooking(data)
           }
         }}
+        onMouseLeave={() => isBookedByMe && setMouseOut(true)}
         data-tooltip-id={tooltipId}
         className={
-          'relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
+          'group relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors' +
           addWithSpace(
             !isBooked &&
-              'group cursor-pointer group-hover:border-teal-800 group-hover:bg-teal-700 group-hover:text-white hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900'
+              'cursor-pointer border-slate-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900'
           ) +
-          addWithSpace(!isBooked && 'border-slate-300 bg-teal-50') +
-          addWithSpace(isBooked && !isBookedByMe && 'border-rose-300 bg-rose-50 opacity-40') +
+          addWithSpace(isBooked && !isBookedByMe && 'border-rose-300 bg-rose-50') +
           addWithSpace(
             isBookedByMe &&
               'cursor-pointer border-slate-700 bg-slate-500 text-white hover:bg-slate-700 active:bg-slate-800'
@@ -123,25 +125,27 @@ const SpaceBookingSlot = ({
         {...props}
       >
         {humanTime(from)}
-        <ArrowRight
+        <div
           className={
-            'size-4' +
+            'flex flex-col transition-transform duration-500' +
             addWithSpace(
-              isBookedByMe ? 'text-slate-200' : 'text-slate-600 group-hover:text-slate-300'
+              isBooked ? 'translate-y-0' : 'translate-y-8 text-slate-600 group-hover:text-slate-300'
+            ) +
+            addWithSpace(
+              isBookedByMe && mouseOut && 'translate-y-0 text-slate-200 group-hover:-translate-y-8'
             )
           }
-          strokeWidth={1.5}
-        />
+        >
+          <ArrowRight className="h-8 w-4" strokeWidth={1.5} />
+          <Check className="h-8 w-4" strokeWidth={2} />
+          <Trash2 className="h-8 w-4" strokeWidth={1.5} />
+        </div>
         {humanTime(to)}
       </div>
 
-      {isBooked && (
+      {isBooked && !isBookedByMe && (
         <Tooltip id={tooltipId}>
-          {isBookedByMe ?
-            <span className="flex items-center gap-1 text-sm">
-              <Trash2 className="size-5" strokeWidth={1} /> Click to unbook.
-            </span>
-          : <span className="text-sm">{bookedBy}</span>}
+          <span className="text-sm">{bookedBy}</span>
         </Tooltip>
       )}
     </>
