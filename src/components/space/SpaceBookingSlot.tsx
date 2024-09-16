@@ -138,7 +138,7 @@ const SpaceBookingSlot = ({
         >
           <ArrowRight className="h-8 w-4" strokeWidth={1.5} />
           <Check className="h-8 w-4" strokeWidth={2} />
-          <Trash2 className="h-8 w-4" strokeWidth={1.5} />
+          <Trash2 className="h-8 w-4 text-rose-300" strokeWidth={1.5} />
         </div>
         {humanTime(to)}
       </div>
