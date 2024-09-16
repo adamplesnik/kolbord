@@ -79,6 +79,9 @@ const MainPage = () => {
 
   const onGroupEdit = (groupId: number) => {
     setSidebarGroupId(groupId)
+    setSidebarTableId(0)
+    setEditMode(true)
+    setSidebarPlanEdit(false)
   }
 
   const handleMyBookings = () => {
@@ -143,7 +146,9 @@ const MainPage = () => {
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
-        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode) || sidebarGroupId > 0}
+        isOpen={
+          sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+        }
         sidebarTitle={sidebarTitle}
         closeSidebar={() => {
           setSidebarTableId(0)
@@ -156,6 +161,7 @@ const MainPage = () => {
           <GroupDetail
             editMode={editMode}
             groupId={sidebarGroupId}
+            planId={planId}
             sendTitle={(title) => sendTitle(title)}
           />
         )}
