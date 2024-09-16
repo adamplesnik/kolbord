@@ -6,7 +6,7 @@ import { TableRecord } from '../../data/TableRecord'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useGroupsForPlanQuery } from '../group/loadGroup.ts'
+import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
 import SpaceDelete from './SpaceDelete.tsx'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 

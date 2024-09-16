@@ -8,16 +8,17 @@ import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 
 const MenuBar = ({
-  bookings,
+  handleGroupAdd,
   handleMyBookings,
-  workingDate,
-  onPlanEdit,
-  handleViewChange,
-  planId,
-  onPlanChange,
   handlePlaceAdd,
-  onDateChange,
+  handleViewChange,
   listMode,
+  onDateChange,
+  onGroupEdit,
+  onPlanChange,
+  onPlanEdit,
+  planId,
+  workingDate,
 }: MenuBarProps) => {
   const { user } = useAuthContext()
 
@@ -28,13 +29,13 @@ const MenuBar = ({
         {user && !user.error && (
           <>
             <PlanSwitcher
-              handleMyBookings={handleMyBookings}
+              onGroupEdit={(groupId) => onGroupEdit(groupId)}
               onPlanEdit={onPlanEdit}
               currentPlan={planId}
-              bookings={bookings}
               companyId={user.company.id}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
+              handleGroupAdd={handleGroupAdd}
             />
             <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
             <div className="h-6 w-px bg-slate-300"></div>
@@ -42,18 +43,19 @@ const MenuBar = ({
           </>
         )}
       </div>
-      <UserMenu />
+      <UserMenu handleMyBookings={handleMyBookings} />
     </div>
   )
 }
 
 type MenuBarProps = {
-  bookings: boolean
+  handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (id: number) => void
   handleViewChange: () => void
   listMode: boolean
   onDateChange: (value: Value) => void
+  onGroupEdit: (groupId: number) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
   planId: number

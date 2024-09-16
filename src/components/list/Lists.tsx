@@ -1,6 +1,6 @@
 import { humanDate } from '../../utils/human'
 import Heading from '../basic/Heading'
-import { usePlanQuery } from '../plan/loadPlan'
+import { usePlanQuery } from '../plan/planFetch'
 import { Value } from '../plan/PlanDateSelector'
 import Spaces from '../space/Spaces'
 

@@ -1,6 +1,7 @@
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
+import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
 import { Value } from '../components/plan/PlanDateSelector.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
@@ -16,13 +17,14 @@ const MainPage = () => {
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
-  const [sidebarTableId, setSidebarTableId] = useState(0)
-  const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
-  const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
+  const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
   const [planId, setPlanId] = useState(0)
-  const [bookingsMode, setBookingsMode] = useState(false)
+  const [sidebarGroupId, setSidebarGroupId] = useState(0)
+  const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
+  const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [workingDate, setWorkingDate] = useState<Value>(
     getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
       new Date(getLocalWorkingDate.toString())
@@ -45,17 +47,33 @@ const MainPage = () => {
     setBookingsMode(bookingsMode)
   }, [bookingsMode])
 
+  const sidebarOpen =
+    sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+
+  const closeSidebar = () => {
+    setEditMode(false)
+    setSidebarGroupId(0)
+    setSidebarPlanEdit(false)
+    setSidebarTableId(0)
+  }
+
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
       setSidebarTableId(0)
+      setSidebarGroupId(0)
       setBookingsMode(false)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
 
+  const handleGroupAdd = () => {
+    setSidebarTableId(0)
+  }
+
   const handlePlaceClick = (id: number) => {
     setSidebarTableId(id)
+    setSidebarGroupId(0)
     setSidebarPlanEdit(false)
   }
 
@@ -65,12 +83,23 @@ const MainPage = () => {
     setBookingsMode(false)
     setSidebarPlanEdit(true)
     setSidebarTableId(0)
+    setSidebarGroupId(0)
     setEditMode(true)
+  }
+
+  const onGroupEdit = (groupId: number) => {
+    setSidebarGroupId(groupId)
+    setSidebarTableId(0)
+    setEditMode(true)
+    setSidebarPlanEdit(false)
   }
 
   const handleMyBookings = () => {
     setBookingsMode(true)
-    setPlanId(0)
+  }
+
+  const sendTitle = (title: string | undefined) => {
+    setSidebarTitle(title)
   }
 
   useEffect(() => {
@@ -109,35 +138,40 @@ const MainPage = () => {
         />
       )}
       <MenuBar
-        bookings={bookingsMode}
         handleMyBookings={handleMyBookings}
         handleViewChange={() => setListMode(!listMode)}
         listMode={listMode}
         onDateChange={(value) => setWorkingDate(value)}
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
+        onGroupEdit={onGroupEdit}
         planId={planId}
         workingDate={workingDate}
         handlePlaceAdd={(id) => {
           handlePlaceClick(id)
           setEditMode(true)
         }}
+        handleGroupAdd={handleGroupAdd}
       />
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
-        isOpen={sidebarTableId > 0 || (sidebarPlanEdit && editMode)}
+        isOpen={sidebarOpen}
         sidebarTitle={sidebarTitle}
-        closeSidebar={() => {
-          setSidebarTableId(0)
-          setSidebarPlanEdit(false)
-          setEditMode(false)
-        }}
+        closeSidebar={closeSidebar}
       >
+        {sidebarGroupId > 0 && (
+          <GroupDetail
+            editMode={editMode}
+            groupId={sidebarGroupId}
+            planId={planId}
+            sendTitle={(title) => sendTitle(title)}
+          />
+        )}
         {sidebarTableId > 0 && (
           <SpaceDetail
             editMode={editMode}
-            sendTitle={(title) => setSidebarTitle(title)}
+            sendTitle={(title) => sendTitle(title)}
             tableId={sidebarTableId}
             workingDate={workingDate?.toString()}
             planId={planId}
@@ -146,7 +180,7 @@ const MainPage = () => {
         )}
         {userCanEdit && sidebarPlanEdit && editMode && (
           <PlanEditor
-            sendTitle={(title) => setSidebarTitle(title)}
+            sendTitle={(title) => sendTitle(title)}
             planId={planId}
             handleDelete={() => {
               setSidebarPlanEdit(false)

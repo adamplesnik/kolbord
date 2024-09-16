@@ -1,5 +1,5 @@
 import Loading from '../basic/Loading'
-import { usePlanQuery } from './loadPlan'
+import { usePlanQuery } from './planFetch'
 
 const Plan = ({ planId }: PlanProps) => {
   const { data: plan, isLoading } = usePlanQuery(planId)

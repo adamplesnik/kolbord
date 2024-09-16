@@ -1,10 +1,10 @@
-import { LogIn, LogOut } from 'lucide-react'
+import { LogIn, LogOut, User } from 'lucide-react'
 import { Link, redirect } from 'react-router-dom'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
 import Button from '../basic/Button'
 
-const UserMenu = () => {
+const UserMenu = ({ handleMyBookings }: UserMenuProps) => {
   const { user, logout } = useAuthContext()
 
   return (
@@ -18,7 +18,10 @@ const UserMenu = () => {
         </Link>
       }
       <Tooltip id="userTooltip" clickable openOnClick>
-        <div className="flex flex-col *:w-full">
+        <div className="flex flex-col gap-1 *:w-full">
+          <Button onClick={handleMyBookings} className="w-full" Icon={User}>
+            Your bookings
+          </Button>
           <Button
             onClick={() => {
               logout()
@@ -32,6 +35,10 @@ const UserMenu = () => {
       </Tooltip>
     </>
   )
+}
+
+type UserMenuProps = {
+  handleMyBookings: () => void
 }
 
 export default UserMenu
