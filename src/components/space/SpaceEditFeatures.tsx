@@ -1,5 +1,6 @@
 import { FieldApi } from '@tanstack/react-form'
-import { Check, Plus, X } from 'lucide-react'
+import { Check, Plus, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { FeatureRecord } from '../../data/FeatureRecord'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
@@ -14,37 +15,45 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
       {allFeatures?.data.map((all) => {
         const index = field.state.value.findIndex((s) => s.id === all.id)
         const isActive = index > -1
+        const [mouseOut, setMouseOut] = useState(false)
+        const onClick = () => {
+          if (!isActive) {
+            field.pushValue({
+              id: all.id,
+              attributes: { description: '', lucideIcon: 'cog' },
+            })
+          } else {
+            field.removeValue(index)
+            setMouseOut(false)
+          }
+          handleSubmit()
+        }
+
         return (
           <Badge
             className={
               'group flex cursor-pointer gap-1 truncate border hover:bg-slate-200 active:bg-slate-300' +
               addWithSpace(isActive ? 'border-slate-400' : 'border-transparent')
             }
-            onClick={() => {
-              !isActive ?
-                field.pushValue({
-                  id: all.id,
-                  attributes: { description: '', lucideIcon: 'cog' },
-                })
-              : field.removeValue(index)
-              handleSubmit()
-            }}
+            onMouseLeave={() => isActive && setMouseOut(true)}
+            onClick={onClick}
           >
             <span
               className={
-                '-mt-px flex -translate-y-8 flex-col self-start transition-transform duration-500 ease-in-out' +
-                addWithSpace(isActive ? 'group-hover:-translate-y-16' : 'translate-y-0')
+                '-mt-px flex flex-col self-start transition-transform duration-500' +
+                addWithSpace(isActive ? '-translate-y-8' : 'translate-y-0') +
+                addWithSpace(isActive && mouseOut && 'group-hover:-translate-y-16')
               }
             >
               <Plus
                 strokeWidth={2.5}
                 className={
                   'size-4 h-8 text-emerald-600' +
-                  addWithSpace(isActive ? 'opacity-100' : 'opacity-50 group-hover:opacity-100')
+                  addWithSpace(isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100')
                 }
               />
               <Check strokeWidth={2} className="size-4 h-8 text-slate-800" />
-              <X strokeWidth={2} className="size-4 h-8 text-pink-600" />
+              <Trash2 strokeWidth={1.5} className="size-4 h-8 text-pink-600" />
             </span>
             {all.attributes.description}
           </Badge>

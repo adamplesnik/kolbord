@@ -110,7 +110,6 @@ const Spaces = ({
   const groups = [
     ...new Set(spaces?.data.map((space) => space?.attributes?.group?.data?.attributes.name)),
   ].sort()
-  console.log(groups.length)
 
   return (
     <div className={listView ? 'flex flex-col' : ''}>
