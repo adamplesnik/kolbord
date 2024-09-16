@@ -19,6 +19,7 @@ const SpaceBookingSlot = ({
   const { user } = useAuthContext()
 
   const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
+  const beforeNow = to <= new Date()
 
   let bookedBy = ''
   let isBookedByMe = false
@@ -100,7 +101,7 @@ const SpaceBookingSlot = ({
         onClick={() => {
           if (isBooked && isBookedByMe) {
             removeBooking(isBooked.id)
-          } else if (!isBooked) {
+          } else if (!isBooked && !beforeNow) {
             addBooking(data)
           }
         }}
@@ -116,7 +117,8 @@ const SpaceBookingSlot = ({
           addWithSpace(
             isBookedByMe &&
               'cursor-pointer border-slate-700 bg-slate-500 text-white hover:bg-slate-700 active:bg-slate-800'
-          )
+          ) +
+          addWithSpace(beforeNow && 'pointer-events-none opacity-30')
         }
         {...props}
       >
