@@ -25,11 +25,12 @@ const MainPage = () => {
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarTableId, setSidebarTableId] = useState(0)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
-  const [workingDate, setWorkingDate] = useState<Value>(
-    getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= new Date() ?
-      new Date(getLocalWorkingDate.toString())
-    : new Date()
-  )
+  const [workingDate, setWorkingDate] = useState<Value>(() => {
+    const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
+    const currentBeforeToday =
+      getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= todayMidnight
+    return currentBeforeToday ? new Date(getLocalWorkingDate.toString()) : todayMidnight
+  })
 
   useEffect(() => {
     setSidebarTitle(sidebarTitle)
