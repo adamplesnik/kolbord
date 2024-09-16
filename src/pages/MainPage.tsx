@@ -47,6 +47,16 @@ const MainPage = () => {
     setBookingsMode(bookingsMode)
   }, [bookingsMode])
 
+  const sidebarOpen =
+    sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+
+  const closeSidebar = () => {
+    setEditMode(false)
+    setSidebarGroupId(0)
+    setSidebarPlanEdit(false)
+    setSidebarTableId(0)
+  }
+
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
@@ -146,16 +156,9 @@ const MainPage = () => {
       <Sidebar
         editMode={editMode}
         handleEditMode={() => setEditMode(!editMode)}
-        isOpen={
-          sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
-        }
+        isOpen={sidebarOpen}
         sidebarTitle={sidebarTitle}
-        closeSidebar={() => {
-          setSidebarTableId(0)
-          setSidebarGroupId(0)
-          setSidebarPlanEdit(false)
-          setEditMode(false)
-        }}
+        closeSidebar={closeSidebar}
       >
         {sidebarGroupId > 0 && (
           <GroupDetail
