@@ -1,5 +1,5 @@
+import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
 import { useAuthContext } from '../auth/AuthContext'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
@@ -107,16 +107,11 @@ const MainPage = () => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
 
-  if (!user || user.error) {
-    return <Navigate to="/" />
-  }
-
-  if (user && user.onboardingCompanyName) {
-    return <Navigate to="/onboarding" />
-  }
-
   return (
     <>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
       {bookingsMode && (
         <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
       )}

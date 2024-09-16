@@ -6,6 +6,7 @@ import Logo from '../components/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
+import { SignedIn, UserButton } from '@clerk/clerk-react'
 
 const MenuBar = ({
   handleGroupAdd,
@@ -43,6 +44,9 @@ const MenuBar = ({
           </>
         )}
       </div>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
       <UserMenu handleMyBookings={handleMyBookings} />
     </div>
   )
