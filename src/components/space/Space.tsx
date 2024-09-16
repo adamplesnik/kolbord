@@ -31,7 +31,7 @@ const Space = ({
           onClick={onClick}
           data-tooltip-id={tooltipId}
           className={
-            'group absolute cursor-pointer rounded-full p-6 ring transition-colors hover:z-50' +
+            'group absolute cursor-pointer rounded-full p-2 ring transition-colors hover:z-50' +
             addWithSpace(
               active ?
                 'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
@@ -47,7 +47,7 @@ const Space = ({
           <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
         </div>
         {bookings && bookings?.length > 0 && (
-          <Tooltip id={tooltipId} className="z-10">
+          <Tooltip id={tooltipId} className="z-10 text-sm">
             {bookings?.map((b: any, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">

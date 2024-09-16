@@ -12,7 +12,7 @@ const SpaceDot = ({ bookedByMe, bookedByWho, bookedToday, small = false }: Space
     <div
       className={
         'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-bold' +
-        addWithSpace(small ? 'size-4 border-1' : 'size-16 border-2 text-2xl') +
+        addWithSpace(small ? 'size-4 border-1' : 'size-8 border-2 text-sm') +
         addWithSpace(
           !bookedToday &&
             'border-slate-500 bg-teal-400/80 group-hover:border-teal-600 active:bg-teal-500'
