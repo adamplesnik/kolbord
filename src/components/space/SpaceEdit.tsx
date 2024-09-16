@@ -70,15 +70,15 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   const { mutate, isPending, isSuccess, isError } = useMutation({
     mutationFn: (data: TableRecord) => updateTable(table.id, data),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['places'] })
-      await queryClient.cancelQueries({ queryKey: ['place'] })
+      await queryClient.cancelQueries({ queryKey: ['spaces'] })
+      await queryClient.cancelQueries({ queryKey: ['space'] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['places', planId],
+        queryKey: ['spaces', planId],
       })
       queryClient.invalidateQueries({
-        queryKey: ['place', table.id],
+        queryKey: ['space', table.id],
       })
       queryClient.invalidateQueries({
         queryKey: ['groups', planId],
