@@ -13,7 +13,7 @@ import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
-  const { user, userCanEdit } = useAuthContext()
+  const { userCanEdit } = useAuthContext()
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 

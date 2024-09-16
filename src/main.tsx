@@ -5,7 +5,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import SignInPage from './auth/SignInPage.tsx'
-import Onboarding from './auth/Onboarding.tsx'
 import SignUpPage from './auth/SignUpPage.tsx'
 import './index.css'
 import MainPage from './pages/MainPage.tsx'
@@ -20,18 +19,15 @@ const router = createBrowserRouter([
     path: '/sign-up',
     element: <SignUpPage />,
   },
-  {
-    path: '/onboarding',
-    element: <Onboarding />,
-  },
+
   { path: '/plan', element: <MainPage /> },
 ])
-const queryClient = new QueryClient()
 
+const queryClient = new QueryClient()
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key')
+  throw new Error('Missing publishable key')
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
