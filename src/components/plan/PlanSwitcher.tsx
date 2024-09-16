@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Plus } from 'lucide-react'
+import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { useAuthContext } from '../../auth/AuthContext'
@@ -18,6 +18,7 @@ const PlanSwitcher = ({
   currentPlan,
   handleGroupAdd,
   handlePlaceAdd,
+  handleMyBookings,
   onGroupEdit,
   onPlanChange,
   onPlanEdit,
@@ -99,6 +100,9 @@ const PlanSwitcher = ({
             </div>
           )}
         </div>
+        <Button onClick={handleMyBookings} className="w-full" Icon={User}>
+          Your bookings
+        </Button>
       </Tooltip>
     </>
   )
@@ -106,12 +110,13 @@ const PlanSwitcher = ({
 
 type PlanSwitcherProps = {
   companyId: number
-  onPlanChange: (id: number | undefined) => void
   currentPlan: number
-  onGroupEdit: (groupId: number) => void
-  onPlanEdit: (planId: number | undefined) => void
-  handlePlaceAdd: (id: number) => void
   handleGroupAdd: () => void
+  handleMyBookings: () => void
+  handlePlaceAdd: (id: number) => void
+  onGroupEdit: (groupId: number) => void
+  onPlanChange: (id: number | undefined) => void
+  onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher
