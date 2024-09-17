@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { ArrowRight, ListX } from 'lucide-react'
 import { Fragment } from 'react/jsx-runtime'
-import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
 import { humanDate, humanTime } from '../../utils/human'
@@ -14,7 +13,6 @@ import SpaceBookingSlot from '../space/SpaceBookingSlot'
 import Separator from '../basic/Separator'
 
 const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
-  const { user } = useAuthContext()
   const date = workingDate ? new Date(workingDate.toString()) : new Date()
 
   const loadBookingsForUser = async (email: string | undefined): Promise<BookingQueryType> => {
@@ -31,8 +29,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
 
   const { data: myBookings } = useQuery({
     queryKey: ['myBookings', date],
-    enabled: user != undefined,
-    queryFn: () => loadBookingsForUser(user?.email),
+    queryFn: () => loadBookingsForUser('mike@tester.test'),
   })
 
   const bookingDates = [

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { BracesIcon } from 'lucide-react'
-import { useAuthContext } from '../../auth/AuthContext.tsx'
 import { getToken } from '../../auth/helpers'
 import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
@@ -22,8 +21,6 @@ const Spaces = ({
   workingDate,
   listView,
 }: SpacesProps) => {
-  const { user } = useAuthContext()
-
   const loadSpaces = async (planId: number): Promise<TableQueryType> => {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
@@ -92,7 +89,8 @@ const Spaces = ({
               bookedToday?.attributes.users_permissions_user.data.attributes.lastName
           }
           bookedByMe={
-            bookedToday?.attributes.users_permissions_user.data.attributes.email === user?.email
+            bookedToday?.attributes.users_permissions_user.data.attributes.email ===
+            'mike@tester.test'
           }
           onClick={() => {
             handlePlaceClick(space.id)

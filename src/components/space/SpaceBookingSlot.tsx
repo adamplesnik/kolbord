@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
@@ -16,7 +15,6 @@ const SpaceBookingSlot = ({
   to,
   ...props
 }: SpaceBookingSlotProps) => {
-  const { user } = useAuthContext()
   const [mouseOut, setMouseOut] = useState(false)
 
   const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
@@ -28,7 +26,7 @@ const SpaceBookingSlot = ({
   if (isBooked) {
     const { email, firstName, lastName } =
       isBooked.attributes.users_permissions_user.data.attributes
-    isBookedByMe = email === user?.email
+    isBookedByMe = email === 'mike@tester.test'
     bookedBy = `${firstName} ${lastName}`
   }
 
@@ -36,7 +34,7 @@ const SpaceBookingSlot = ({
     data: {
       from: from,
       to: to,
-      users_permissions_user: user?.id,
+      users_permissions_user: 1,
       table: tableId,
     },
   }
