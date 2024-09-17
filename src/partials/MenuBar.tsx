@@ -1,4 +1,4 @@
-import { SignedIn, UserButton, useUser } from '@clerk/clerk-react'
+import { OrganizationSwitcher, SignedIn, UserButton, useUser } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
@@ -45,6 +45,7 @@ const MenuBar = ({
         )}
       </div>
       <SignedIn>
+        <OrganizationSwitcher />
         <UserButton />
       </SignedIn>
     </div>

@@ -1,17 +1,16 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useAuthContext } from '../../auth/AuthContext'
 import { getToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { usePlanQuery } from './planFetch'
 import PlanDelete from './PlanDelete'
+import { usePlanQuery } from './planFetch'
 
 const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
-  const { user, userCanEdit } = useAuthContext()
+  const userCanEdit = true
 
   const updatePlan = async (
     id: number,
@@ -118,8 +117,6 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
       <PlanDelete
         planId={planId}
         planName={plan?.data.attributes.name}
-        planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
-        userCompanyUuid={user?.company.uuid}
         handleDelete={handleDelete}
       />
     </>

@@ -5,15 +5,7 @@ import Button from '../basic/Button'
 import P from '../basic/P'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 
-const PlanDelete = ({
-  planId,
-  planName,
-  planCompanyUuid,
-  userCompanyUuid,
-  handleDelete,
-}: PlanDeleteProps) => {
-  const canDelete = planCompanyUuid === userCompanyUuid
-
+const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
 
   const deletePlan = async (id: number) => {
@@ -69,11 +61,7 @@ const PlanDelete = ({
             onChange={(e) => setDeleteStep(e.target.value === planName ? 2 : 1)}
           ></input>
           <div className="flex justify-between">
-            <Button
-              disabled={deleteStep < 2 && canDelete}
-              buttonType="danger"
-              onClick={() => mutate()}
-            >
+            <Button disabled={deleteStep < 2} buttonType="danger" onClick={() => mutate()}>
               Delete the plan
             </Button>
             <Button onClick={() => setDeleteStep(0)}>Cancel</Button>
@@ -87,8 +75,6 @@ const PlanDelete = ({
 type PlanDeleteProps = {
   planId: number
   planName: string | undefined
-  planCompanyUuid: string | undefined
-  userCompanyUuid: string | undefined
   handleDelete: () => void
 }
 

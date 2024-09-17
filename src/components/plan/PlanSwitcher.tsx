@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { useAuthContext } from '../../auth/AuthContext'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
@@ -23,7 +22,7 @@ const PlanSwitcher = ({
   onPlanChange,
   onPlanEdit,
 }: PlanSwitcherProps) => {
-  const { userCanEdit } = useAuthContext()
+  const userCanEdit = true
 
   const { data: plans } = usePlansQuery(companyId)
 

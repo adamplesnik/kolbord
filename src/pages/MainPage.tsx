@@ -1,6 +1,5 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
-import { useAuthContext } from '../auth/AuthContext'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
 import { Value } from '../components/plan/PlanDateSelector.tsx'
@@ -13,7 +12,7 @@ import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
-  const { userCanEdit } = useAuthContext()
+  const userCanEdit = true
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
