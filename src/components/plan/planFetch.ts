@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 
 type PlanQueryType = {
@@ -11,7 +11,7 @@ const loadPlan = async (id: number): Promise<PlanQueryType> => {
     `${import.meta.env.VITE_API_URL}/plans/${id}?populate[company][fields][0]=uuid&fields[0]=name&fields[1]=svg`,
     {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
       },
     }
   )
@@ -33,7 +33,7 @@ export const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undef
   const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
     method: 'post',
     headers: {
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${getOldToken()}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -54,7 +54,7 @@ const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
     `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&filters[company][id][$eq]=${apiCompanyId}`,
     {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
       },
     }
   )

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
 import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
@@ -15,7 +15,7 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
       `${import.meta.env.VITE_API_URL}/bookings?populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&filters[$and][0][table][id]=${id}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}`,
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getOldToken()}`,
         },
       }
     )

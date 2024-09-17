@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
@@ -20,7 +20,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
       method: 'put',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ data: { name: name, svg: svg } }),

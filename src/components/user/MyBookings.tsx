@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { ArrowRight, ListX } from 'lucide-react'
 import { Fragment } from 'react/jsx-runtime'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType } from '../../data/BookingRecord'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
@@ -20,7 +20,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
       `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&populate[table][fields][0]=name&populate[table][populate][plan][fields][0]=name&populate[table][populate][group][fields][0]=name&filters[$and][0][from][$gte]=${date.toISOString()}&filters[users_permissions_user][email][$eq]=${email}&sort[0]=from&pagination[pageSize]=1000&pagination[withCount]=false`,
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getOldToken()}`,
         },
       }
     )

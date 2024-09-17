@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
@@ -43,7 +43,7 @@ const SpaceBookingSlot = ({
     const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
       method: 'post',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
@@ -72,7 +72,7 @@ const SpaceBookingSlot = ({
     const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings/${id}`, {
       method: 'delete',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
         'Content-Type': 'application/json',
       },
     })

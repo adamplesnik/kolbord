@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
 
@@ -26,7 +26,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables`, {
       method: 'post',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),

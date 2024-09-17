@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { BracesIcon } from 'lucide-react'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Empty from '../basic/Empty.tsx'
@@ -26,7 +26,7 @@ const Spaces = ({
       `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getOldToken()}`,
         },
       }
     )
@@ -46,7 +46,7 @@ const Spaces = ({
       `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&populate[table][fields][0]=id&fields[0]=from&fields[1]=to&filters[$and][0][table][plan][id]=${id}&filters[$and][1][from][$gte]=${today}&filters[$and][2][to][$lte]=${midnight?.toISOString()}&sort[0]=from`,
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getOldToken()}`,
         },
       }
     )

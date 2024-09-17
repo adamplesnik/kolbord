@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { FeatureRecord } from '../../data/FeatureRecord'
 
 type FeatureRecordQueryType = {
@@ -9,7 +9,7 @@ type FeatureRecordQueryType = {
 const loadFeatures = async (): Promise<FeatureRecordQueryType> => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/features?sort[0]=description`, {
     headers: {
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${getOldToken()}`,
     },
   })
   return response.json()

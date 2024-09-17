@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import Button from '../basic/Button'
 import P from '../basic/P'
 
@@ -12,7 +12,7 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
       await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
         method: 'delete',
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${getOldToken()}`,
           'Content-Type': 'application/json',
         },
       })

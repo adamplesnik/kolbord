@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
-import { getToken } from '../../auth/helpers'
+import { getOldToken } from '../../auth/helpers'
 import { TableRecord } from '../../data/TableRecord'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
@@ -54,7 +54,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
       method: 'put',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${getOldToken()}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ data: payload }),
