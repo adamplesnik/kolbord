@@ -1,16 +1,20 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import { BracesIcon } from 'lucide-react'
 import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Empty from '../basic/Empty.tsx'
-import { Value } from '../plan/PlanDateSelector.tsx'
-import Space from './Space.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
+import { Value } from '../plan/PlanDateSelector.tsx'
+import Space from './Space.tsx'
+import axios from 'axios'
 
 type TableQueryType = {
-  data: TableRecord[]
+  data: {
+    docs: TableRecord[]
+  }
 }
 
 const Spaces = ({
@@ -21,16 +25,16 @@ const Spaces = ({
   workingDate,
   listView,
 }: SpacesProps) => {
+  const { getToken } = useAuth()
   const loadSpaces = async (planId: number): Promise<TableQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
+    return axios(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}&depth=0`,
       {
         headers: {
-          Authorization: `Bearer ${getOldToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
         },
       }
     )
-    return response.json()
   }
 
   const { data: spaces } = useQuery({
@@ -71,14 +75,12 @@ const Spaces = ({
       return (
         <Space
           id={space.id}
-          attributes={{
-            features: space.attributes.features,
-            group: space.attributes.group,
-            name: space.attributes.name,
-            slots: space.attributes.slots,
-            x: space.attributes.x,
-            y: space.attributes.y,
-          }}
+          features={space.features}
+          group={space.group}
+          name={space.name}
+          slots={space.slots}
+          x={space.x}
+          y={space.y}
           active={space.id === sidebarTableId}
           bookedToday={bookedToday != undefined}
           bookings={allToday}
@@ -105,9 +107,7 @@ const Spaces = ({
     }
   }
 
-  const groups = [
-    ...new Set(spaces?.data.map((space) => space?.attributes?.group?.data?.attributes.name)),
-  ].sort()
+  const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
 
   return (
     <div className={listView ? 'flex flex-col' : ''}>
@@ -124,8 +124,8 @@ const Spaces = ({
             )}
             {listView && <Separator horizontal />}
             <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
-              {spaces?.data
-                .filter((space) => space?.attributes?.group?.data?.attributes.name === group)
+              {spaces?.data.docs
+                .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
                   const bookedToday = bookings?.data.find(
                     (booking) => booking.attributes.table.data.id === space.id
@@ -137,7 +137,7 @@ const Spaces = ({
                     <SpaceComponent
                       allToday={allToday}
                       bookedToday={bookedToday}
-                      key={`space_${space.attributes.x}_${space.attributes.y}_${i}`}
+                      key={`space_${space.x}_${space.y}_${i}`}
                       space={space}
                     />
                   )

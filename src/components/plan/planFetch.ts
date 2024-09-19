@@ -17,8 +17,8 @@ const loadPlan = async (id: number): Promise<PlanQueryType | undefined> => {
         'Content-Type': 'application/json',
       },
     })
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.error(error)
   }
 }
 

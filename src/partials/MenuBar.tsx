@@ -1,11 +1,10 @@
-import { OrganizationSwitcher, SignedIn, useAuth, UserButton, useUser } from '@clerk/clerk-react'
+import { OrganizationSwitcher, SignedIn, UserButton, useUser } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
 import Logo from '../components/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
-import { getClerkToken } from '../auth/helpers'
 
 const MenuBar = ({
   handleGroupAdd,
@@ -21,8 +20,6 @@ const MenuBar = ({
   workingDate,
 }: MenuBarProps) => {
   const { user } = useUser()
-
-  console.log(user?.organizationMemberships)
 
   return (
     <div className="fixed bottom-2 left-2 z-50 flex items-center gap-3 rounded-xl border border-slate-200/30 border-r-transparent border-l-pink-300/30 bg-white/95 p-2 shadow-2xl">

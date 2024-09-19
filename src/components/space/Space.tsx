@@ -7,13 +7,15 @@ import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
-import { SpaceFeatures } from './SpaceFeatures.tsx'
 
 const Space = ({
   id,
   active,
   className,
-  attributes: { x, y, name, features },
+  x,
+  y,
+  name,
+  features,
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -82,7 +84,7 @@ const Space = ({
               <Button onClick={onClick}>{name}</Button>
             </div>
             <div className="flex shrink-0 items-center gap-2 lg:w-64">
-              {features && <SpaceFeatures noTooltip features={features.data} />}
+              {/* {features && <SpaceFeatures noTooltip features={features.data} />} */}
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">

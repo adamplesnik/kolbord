@@ -1,23 +1,15 @@
-import { FeatureRecord } from './FeatureRecord'
-import { GroupRecord } from './GroupRecord'
-import { PlanRecord } from './PlanRecord'
-
 export type TableRecord = {
   id: number
-  attributes: {
-    name: string
-    x: number
-    y: number
-    group: {
-      data: GroupRecord
-    }
-    plan?: {
-      data: PlanRecord
-    }
-    slots: string
-    features: {
-      data: FeatureRecord[]
-    }
+  name: string
+  x: number
+  y: number
+  zone?: {
+    value: number
   }
+  group: {
+    value: number
+  }
+  features: [number]
+  slots: string
   active?: boolean | undefined
 }
