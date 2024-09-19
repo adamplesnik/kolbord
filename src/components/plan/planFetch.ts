@@ -1,21 +1,25 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { getOldToken } from '../../auth/helpers'
 import { PlanRecord } from '../../data/PlanRecord'
 
-type PlanQueryType = {
+export type PlanQueryType = {
   data: PlanRecord
 }
 
-const loadPlan = async (id: number): Promise<PlanQueryType> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/plans/${id}?populate[company][fields][0]=uuid&fields[0]=name&fields[1]=svg`,
-    {
+const loadPlan = async (id: number): Promise<PlanQueryType | undefined> => {
+  const { getToken } = useAuth()
+  try {
+    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}zones/${id}`, {
       headers: {
-        Authorization: `Bearer ${getOldToken()}`,
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
       },
-    }
-  )
-  return response.json()
+    })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export const usePlanQuery = (id: number) =>
@@ -25,11 +29,7 @@ export const usePlanQuery = (id: number) =>
     queryFn: () => loadPlan(id),
   })
 
-type NewPlanType = {
-  data: PlanRecord
-}
-
-export const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undefined> => {
+export const addPlan = async (apiCompanyId: number): Promise<PlanRecord | undefined> => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
     method: 'post',
     headers: {
@@ -44,25 +44,3 @@ export const addPlan = async (apiCompanyId: number): Promise<NewPlanType | undef
     return response.json()
   }
 }
-
-type PlansQueryType = {
-  data: PlanRecord[]
-}
-
-const loadPlans = async (apiCompanyId: number): Promise<PlansQueryType> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_API_URL}/plans?fields[0]=id&fields[1]=name&filters[company][id][$eq]=${apiCompanyId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${getOldToken()}`,
-      },
-    }
-  )
-  return response.json()
-}
-
-export const usePlansQuery = (companyId: number) =>
-  useQuery({
-    queryKey: ['plans'],
-    queryFn: () => loadPlans(companyId),
-  })

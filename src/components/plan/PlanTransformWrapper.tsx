@@ -38,7 +38,7 @@ const PlanTransformWrapper = ({
               workingDate={workingDate}
               listView={false}
             />
-            {planId > 0 && <Plan planId={planId} />}
+            {planId > 0 && <Plan zoneId={planId} />}
           </div>
         </TransformComponent>
       )}
