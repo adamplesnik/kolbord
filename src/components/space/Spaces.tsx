@@ -1,6 +1,8 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
+import { Fragment } from 'react'
 import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
@@ -9,7 +11,6 @@ import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
-import axios from 'axios'
 
 type TableQueryType = {
   data: {
@@ -112,9 +113,8 @@ const Spaces = ({
   return (
     <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
-        <>
+        <Fragment key={group}>
           <div
-            key={group}
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
@@ -145,7 +145,7 @@ const Spaces = ({
             </div>
           </div>
           {listView && <Separator />}
-        </>
+        </Fragment>
       ))}
     </div>
   )
