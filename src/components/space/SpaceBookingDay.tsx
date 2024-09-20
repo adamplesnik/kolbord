@@ -1,32 +1,37 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
-import { getOldToken } from '../../auth/helpers'
+import axios from 'axios'
 import { BookingQueryType } from '../../data/BookingRecord'
 import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
-const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
+const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
   let midnight = new Date()
   midnight.setHours(23, 59, 59, 999)
   midnight.setDate(date.getDate())
 
-  const loadBookingsForTable = async (id: number): Promise<BookingQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/bookings?populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&filters[$and][0][table][id]=${id}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}`,
+  const { getToken } = useAuth()
+  const loadBookingsForSpace = async (spaceId: number): Promise<BookingQueryType> => {
+    return axios.get(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings`,
+      //?filters[$and][0][table][id]=${spaceId}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}
       {
         headers: {
-          Authorization: `Bearer ${getOldToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
         },
       }
     )
-    return response.json()
   }
 
-  const { data: loadedTableBooking } = useQuery({
-    enabled: tableId > 0,
-    queryKey: ['tableBooking', tableId, date],
-    queryFn: () => loadBookingsForTable(tableId),
+  const { data: loadedSpaceBooking } = useQuery({
+    enabled: spaceId > 0,
+    queryKey: ['tableBooking', spaceId, date],
+    queryFn: () => loadBookingsForSpace(spaceId),
   })
+
+  console.log(loadedSpaceBooking)
+  return
 
   return (
     <div className="flex flex-col gap-3">
@@ -35,7 +40,7 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
         {getSlots(date, slots).map((slot, i) => {
           const { from, to } = slot.slot
 
-          const isBooked = loadedTableBooking?.data.find(
+          const isBooked = loadedSpaceBooking?.data.find(
             (booking) =>
               new Date(booking.attributes.from) <= from && new Date(booking.attributes.to) >= to
           )
@@ -45,7 +50,7 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
               from={from}
               isBooked={isBooked}
               key={`${from.toISOString}_${to.toISOString}_${i}`}
-              tableId={tableId}
+              spaceId={spaceId}
               to={to}
             />
           )
@@ -58,7 +63,7 @@ const SpaceBookingDay = ({ date, slots, tableId }: SpaceBookingDayProps) => {
 type SpaceBookingDayProps = {
   date: Date
   slots: 'whole day' | 'half-day' | 'hours 2' | 'hour 1' | 'minutes 30' | string
-  tableId: number
+  spaceId: number
 }
 
 export default SpaceBookingDay

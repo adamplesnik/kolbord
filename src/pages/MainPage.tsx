@@ -167,7 +167,7 @@ const MainPage = () => {
           <SpaceDetail
             editMode={editMode}
             sendTitle={(title) => sendTitle(title)}
-            tableId={sidebarTableId}
+            spaceId={sidebarTableId}
             workingDate={workingDate?.toString()}
             planId={planId}
             handleDelete={() => setSidebarTableId(0)}

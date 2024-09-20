@@ -1,65 +1,74 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { loadTable } from '../../utils/fetchApi'
+import { TableRecord } from '../../data/TableRecord.tsx'
 import Loading from '../basic/Loading'
-import SpaceBooking from './SpaceBooking.tsx'
 import SpaceEdit from './SpaceEdit.tsx'
-import { SpaceFeatures } from './SpaceFeatures.tsx'
 
 const SpaceDetail = ({
-  tableId,
+  spaceId,
   workingDate,
   planId,
   handleDelete,
   sendTitle,
   editMode,
 }: SpaceDetailProps) => {
+  const { getToken } = useAuth()
+  const loadSpace = async (spaceId: number): Promise<{ data: TableRecord }> => {
+    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${spaceId}?depth=0`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
+  }
+
   const {
-    data: loadedTable,
+    data: loadedSpace,
     isSuccess,
     isLoading,
   } = useQuery({
-    enabled: tableId > 0,
-    queryKey: ['place', tableId],
-    queryFn: () => loadTable(tableId),
+    enabled: spaceId > 0,
+    queryKey: ['place', spaceId],
+    queryFn: () => loadSpace(spaceId),
   })
 
   useEffect(() => {
-    sendTitle(loadedTable?.data.attributes.name)
-  }, [loadedTable?.data.attributes.name])
+    sendTitle(loadedSpace?.data.name)
+  }, [loadedSpace?.data.name])
 
   if (isLoading) {
     return <Loading loading={isLoading} />
   }
 
-  if (isSuccess && loadedTable.data) {
+  if (isSuccess && loadedSpace.data) {
     return (
       <div className="flex flex-col gap-8">
         <div className="flex items-center gap-2 pt-2">
-          {loadedTable.data.attributes.group.data && !editMode && (
+          {loadedSpace.data.group.data && !editMode && (
             <>
               <span className="text-sm text-slate-600" data-tooltip-id="badge">
-                {loadedTable.data.attributes.group.data.attributes.name}
+                {loadedSpace.data.group.value}
               </span>
               <Tooltip id="badge" className="z-50">
-                {loadedTable.data.attributes.group.data.attributes.description}
+                {loadedSpace.data.group.value}
               </Tooltip>
             </>
           )}
-          {loadedTable.data.attributes.features.data && !editMode && (
-            <SpaceFeatures features={loadedTable.data.attributes.features.data} />
-          )}
+          {/* {loadedSpace.data.features && !editMode && (
+            <SpaceFeatures features={loadedSpace.data.features} />
+          )} */}
         </div>
-        {!editMode && (
+        {/* {!editMode && (
           <SpaceBooking
-            tableId={tableId}
-            slots={loadedTable.data.attributes.slots}
+            spaceId={spaceId}
+            slots={loadedSpace.data.slots}
             workingDate={workingDate}
           />
-        )}
+        )} */}
         {editMode && (
-          <SpaceEdit table={loadedTable.data} planId={planId} handleDelete={handleDelete} />
+          <SpaceEdit table={loadedSpace.data} planId={planId} handleDelete={handleDelete} />
         )}
       </div>
     )
@@ -67,7 +76,7 @@ const SpaceDetail = ({
 }
 
 export type SpaceDetailProps = {
-  tableId: number
+  spaceId: number
   workingDate: string | undefined
   planId: number
   handleDelete: () => void

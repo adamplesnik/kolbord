@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import { Fragment } from 'react'
-import { getOldToken } from '../../auth/helpers'
 import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Empty from '../basic/Empty.tsx'
@@ -11,12 +10,6 @@ import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
-
-type TableQueryType = {
-  data: {
-    docs: TableRecord[]
-  }
-}
 
 const Spaces = ({
   planId,
@@ -27,7 +20,7 @@ const Spaces = ({
   listView,
 }: SpacesProps) => {
   const { getToken } = useAuth()
-  const loadSpaces = async (planId: number): Promise<TableQueryType> => {
+  const loadSpaces = async (planId: number): Promise<{ data: { docs: TableRecord[] } }> => {
     return axios(
       `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}&depth=0`,
       {
@@ -43,25 +36,27 @@ const Spaces = ({
     queryFn: () => loadSpaces(planId),
   })
 
-  const loadBookingsForPlan = async (id: number, date: Value): Promise<BookingQueryType> => {
+  const loadBookingsForZone = async (zoneId: number, date: Value): Promise<BookingQueryType> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
     let midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&populate[table][fields][0]=id&fields[0]=from&fields[1]=to&filters[$and][0][table][plan][id]=${id}&filters[$and][1][from][$gte]=${today}&filters[$and][2][to][$lte]=${midnight?.toISOString()}&sort[0]=from`,
+    return axios.get(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?depth=0`,
+      //?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&populate[table][fields][0]=id&fields[0]=from&fields[1]=to&filters[$and][0][table][plan][id]=${zoneId}&filters[$and][1][from][$gte]=${today}&filters[$and][2][to][$lte]=${midnight?.toISOString()}&sort[0]=from`,
       {
         headers: {
-          Authorization: `Bearer ${getOldToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
         },
       }
     )
-    return response.json()
   }
 
   const { data: bookings } = useQuery({
     queryKey: ['bookings', planId, workingDate],
-    queryFn: () => loadBookingsForPlan(planId, workingDate),
+    queryFn: () => loadBookingsForZone(planId, workingDate),
   })
+
+  console.log(bookings)
 
   const SpaceComponent = ({
     space,
@@ -86,14 +81,17 @@ const Spaces = ({
           bookedToday={bookedToday != undefined}
           bookings={allToday}
           bookedByWho={
-            bookedToday &&
-            bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
-              ' ' +
-              bookedToday?.attributes.users_permissions_user.data.attributes.lastName
+            'feri XXX'
+            // bookedToday &&
+            // bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
+            //   ' ' +
+            //   bookedToday?.attributes.users_permissions_user.data.attributes.lastName
           }
           bookedByMe={
-            bookedToday?.attributes.users_permissions_user.data.attributes.email ===
-            'mike@tester.test'
+            false
+            // XXX
+            // bookedToday?.attributes.users_permissions_user.data.attributes.email ===
+            // 'mike@tester.test'
           }
           onClick={() => {
             handlePlaceClick(space.id)
@@ -127,11 +125,11 @@ const Spaces = ({
               {spaces?.data.docs
                 .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
-                  const bookedToday = bookings?.data.find(
-                    (booking) => booking.attributes.table.data.id === space.id
+                  const bookedToday = bookings?.data.docs.find(
+                    (booking) => booking.space.value === space.id
                   )
-                  const allToday = bookings?.data.filter(
-                    (booking) => booking.attributes.table.data.id === space.id
+                  const allToday = bookings?.data.docs.filter(
+                    (booking) => booking.space.value === space.id
                   )
                   return (
                     <SpaceComponent
