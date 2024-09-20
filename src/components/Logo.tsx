@@ -5,7 +5,6 @@ const Logo = ({ className }: HTMLAttributes<HTMLHeadingElement>) => {
   return (
     <h1 className={'text-slate-950' + addWithSpace(className)}>
       <span className="hidden">kolbord</span>
-      kolbord
       <svg
         viewBox="0 0 106 26"
         height="100%"
