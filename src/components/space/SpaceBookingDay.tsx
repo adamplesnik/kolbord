@@ -7,7 +7,7 @@ import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
 const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
-  let midnight = new Date()
+  const midnight = new Date()
   midnight.setHours(23, 59, 59, 999)
   midnight.setDate(date.getDate())
 
@@ -31,7 +31,6 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
   })
 
   console.log(loadedSpaceBooking)
-  return
 
   return (
     <div className="flex flex-col gap-3">
@@ -40,9 +39,8 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
         {getSlots(date, slots).map((slot, i) => {
           const { from, to } = slot.slot
 
-          const isBooked = loadedSpaceBooking?.data.find(
-            (booking) =>
-              new Date(booking.attributes.from) <= from && new Date(booking.attributes.to) >= to
+          const isBooked = loadedSpaceBooking?.data.docs.find(
+            (booking) => new Date(booking.from) <= from && new Date(booking.to) >= to
           )
 
           return (

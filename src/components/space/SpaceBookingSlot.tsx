@@ -1,63 +1,56 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { getOldToken } from '../../auth/helpers'
 import { BookingRecord } from '../../data/BookingRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
 
-const SpaceBookingSlot = ({
-  from,
-  isBooked,
-  onClick,
-  tableId,
-  to,
-  ...props
-}: SpaceBookingSlotProps) => {
+const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookingSlotProps) => {
+  const { userId, getToken, orgId } = useAuth()
   const [mouseOut, setMouseOut] = useState(false)
 
   const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
   const beforeNow = to <= new Date()
 
-  let bookedBy = ''
+  const bookedBy = isBooked?.sub
   let isBookedByMe = false
 
   if (isBooked) {
-    const { email, firstName, lastName } =
-      isBooked.attributes.users_permissions_user.data.attributes
-    isBookedByMe = email === 'mike@tester.test'
-    bookedBy = `${firstName} ${lastName}`
+    const userSub = isBooked.sub
+    isBookedByMe = userSub === userId
   }
 
   const data = {
-    data: {
-      from: from,
-      to: to,
-      users_permissions_user: 1,
-      table: tableId,
+    id: 0,
+    from: from,
+    to: to,
+    sub: userId,
+    space: {
+      relationTo: 'spaces',
+      value: spaceId,
     },
+    org: orgId,
   }
 
   const createBooking = async (data: BookingRecord): Promise<BookingRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
-      method: 'post',
+    return axios.post(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings`, JSON.stringify(data), {
       headers: {
-        Authorization: `Bearer ${getOldToken()}`,
+        Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     })
-    return response.json()
   }
 
   const queryClient = useQueryClient()
 
   const { mutate: addBooking } = useMutation({
-    mutationFn: (data: any) => createBooking(data),
+    mutationFn: (data: BookingRecord) => createBooking(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tableBooking', tableId, from],
+        queryKey: ['tableBooking', spaceId, from],
       })
       queryClient.invalidateQueries({
         queryKey: ['bookings'],
@@ -68,22 +61,20 @@ const SpaceBookingSlot = ({
     },
   })
 
-  const deleteBooking = async (id: number): Promise<BookingRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/bookings/${id}`, {
-      method: 'delete',
+  const deleteBooking = async (bookingId: number): Promise<BookingRecord> => {
+    return axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings/${bookingId}`, {
       headers: {
-        Authorization: `Bearer ${getOldToken()}`,
+        Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
       },
     })
-    return response.json()
   }
 
   const { mutate: removeBooking } = useMutation({
-    mutationFn: (id: number) => deleteBooking(id),
+    mutationFn: (bookingId: number) => deleteBooking(bookingId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tableBooking', tableId, from],
+        queryKey: ['tableBooking', spaceId, from],
       })
       queryClient.invalidateQueries({
         queryKey: ['bookings'],
@@ -154,7 +145,7 @@ type SpaceBookingSlotProps = {
   bookedBy?: string
   from: Date
   isBooked?: BookingRecord | undefined
-  tableId: number
+  spaceId: number
   to: Date
 } & HTMLAttributes<HTMLDivElement>
 

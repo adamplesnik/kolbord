@@ -5,6 +5,7 @@ import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { TableRecord } from '../../data/TableRecord.tsx'
 import Loading from '../basic/Loading'
+import SpaceBooking from './SpaceBooking.tsx'
 import SpaceEdit from './SpaceEdit.tsx'
 
 const SpaceDetail = ({
@@ -60,13 +61,13 @@ const SpaceDetail = ({
             <SpaceFeatures features={loadedSpace.data.features} />
           )} */}
         </div>
-        {/* {!editMode && (
+        {!editMode && (
           <SpaceBooking
             spaceId={spaceId}
             slots={loadedSpace.data.slots}
             workingDate={workingDate}
           />
-        )} */}
+        )}
         {editMode && (
           <SpaceEdit table={loadedSpace.data} planId={planId} handleDelete={handleDelete} />
         )}

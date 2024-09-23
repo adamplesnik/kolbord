@@ -15,7 +15,7 @@ const Space = ({
   x,
   y,
   name,
-  features,
+  // features,
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -85,7 +85,7 @@ const Space = ({
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
-            {/* {!bookings &&
+            {bookings &&
               bookings?.length > 0 &&
               bookings?.map((b: BookingRecord, i: number) => (
                 <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
@@ -94,12 +94,9 @@ const Space = ({
                     <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
                     {humanTime(b.to)}
                   </div>
-                  <span className="font-semibold">
-                    {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
-                    {b.attributes.users_permissions_user.data.attributes.lastName}
-                  </span>
+                  <span className="font-semibold">{b.sub}</span>
                 </div>
-              ))} */}
+              ))}
           </div>
         </div>
         <Separator />
@@ -110,13 +107,13 @@ const Space = ({
 
 export type SpaceProps = {
   active?: boolean | undefined
-  onClick?: () => void | undefined
-  className?: string | undefined
-  bookedToday?: boolean
   bookedByMe?: boolean
-  bookedByWho?: string | undefined
-  bookings?: any
+  bookedByWho?: string | undefined | null
+  bookedToday?: boolean
+  bookings?: BookingRecord[] | undefined
+  className?: string | undefined
   listView: boolean
+  onClick?: () => void | undefined
 } & TableRecord
 
 export default Space

@@ -97,7 +97,6 @@ const Spaces = ({
               {spaces?.data.docs
                 .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
-                  console.log(space.id)
                   const bookedToday = bookings?.data.docs.find(
                     (booking) => booking.space.value === space.id
                   )

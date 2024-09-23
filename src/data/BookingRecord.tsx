@@ -6,11 +6,11 @@ export type BookingQueryType = {
 
 export type BookingRecord = {
   id: number
-  from: string
-  to: string
+  from: Date
+  to: Date
   space: {
     value: number
   }
-  sub: string
-  org: string
+  sub?: string | null | undefined
+  org?: string | null | undefined
 }
