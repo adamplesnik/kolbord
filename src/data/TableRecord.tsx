@@ -1,3 +1,5 @@
+import dynamicIconImports from 'lucide-react/dynamicIconImports'
+
 export type TableRecord = {
   id: number
   name: string
@@ -7,9 +9,20 @@ export type TableRecord = {
     value: number
   }
   group: {
-    value: number
+    value:
+      | number
+      | {
+          name: string
+          description: string
+        }
   }
-  features: [number]
+  features: {
+    value: {
+      id?: number
+      lucideIcon: keyof typeof dynamicIconImports
+      name: string
+    }
+  }[]
   slots: string
   active?: boolean | undefined
 }

@@ -30,8 +30,6 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
     queryFn: () => loadBookingsForSpace(spaceId),
   })
 
-  console.log(loadedSpaceBooking)
-
   return (
     <div className="flex flex-col gap-3">
       <DateHeading date={date} />
