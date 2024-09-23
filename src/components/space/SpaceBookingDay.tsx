@@ -14,7 +14,7 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
   const { getToken } = useAuth()
   const loadBookingsForSpace = async (spaceId: number): Promise<BookingQueryType> => {
     return axios.get(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings`,
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?where[space][id][equals]=${spaceId}`,
       //?filters[$and][0][table][id]=${spaceId}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}
       {
         headers: {

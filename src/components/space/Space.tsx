@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
+import { BookingRecord } from '../../data/BookingRecord.tsx'
 import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
@@ -49,17 +50,14 @@ const Space = ({
         </div>
         {bookings && bookings?.length > 0 && (
           <Tooltip id={tooltipId} className="z-10 text-sm">
-            {bookings?.map((b: any, i: number) => (
+            {bookings?.map((b: BookingRecord, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
                   {humanTime(b.from)}
                   <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
                   {humanTime(b.to)}
                 </div>
-                <span className="font-semibold">
-                  {/* XXX {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
-                  {b.attributes.users_permissions_user.data.attributes.lastName} */}
-                </span>
+                <span className="font-semibold">{b.sub}</span>
               </div>
             ))}
           </Tooltip>

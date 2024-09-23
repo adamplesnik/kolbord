@@ -2,8 +2,9 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
+import qs from 'qs'
 import { Fragment } from 'react'
-import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
+import { BookingQueryType } from '../../data/BookingRecord'
 import { TableRecord } from '../../data/TableRecord'
 import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
@@ -12,17 +13,17 @@ import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
 
 const Spaces = ({
-  planId,
+  planId: zoneId,
   sidebarTableId,
   handlePlaceClick,
   handleZoomToElement,
   workingDate,
   listView,
 }: SpacesProps) => {
-  const { getToken } = useAuth()
+  const { getToken, userId } = useAuth()
   const loadSpaces = async (planId: number): Promise<{ data: { docs: TableRecord[] } }> => {
     return axios(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}&depth=0`,
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}`,
       {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
@@ -32,81 +33,52 @@ const Spaces = ({
   }
 
   const { data: spaces } = useQuery({
-    queryKey: ['spaces', planId],
-    queryFn: () => loadSpaces(planId),
+    queryKey: ['spaces', zoneId],
+    queryFn: () => loadSpaces(zoneId),
   })
 
   const loadBookingsForZone = async (zoneId: number, date: Value): Promise<BookingQueryType> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
-    let midnight = date && new Date(Date.parse(date.toString()))
+    const midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
-    return axios.get(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?depth=0`,
-      //?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&populate[table][fields][0]=id&fields[0]=from&fields[1]=to&filters[$and][0][table][plan][id]=${zoneId}&filters[$and][1][from][$gte]=${today}&filters[$and][2][to][$lte]=${midnight?.toISOString()}&sort[0]=from`,
-      {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-        },
-      }
-    )
+
+    const query = qs.stringify({
+      where: {
+        and: [
+          {
+            space: {
+              'zone.id': {
+                equals: zoneId,
+              },
+            },
+            from: {
+              greater_than_equal: today,
+            },
+            to: {
+              less_than_equal: midnight,
+            },
+          },
+        ],
+      },
+    })
+
+    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', planId, workingDate],
-    queryFn: () => loadBookingsForZone(planId, workingDate),
+    queryKey: ['bookings', zoneId, workingDate],
+    queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
 
-  console.log(bookings)
-
-  const SpaceComponent = ({
-    space,
-    allToday,
-    bookedToday,
-  }: {
-    space: TableRecord
-    allToday: BookingRecord[] | undefined
-    bookedToday: BookingRecord | undefined
-  }) => {
-    if (space) {
-      return (
-        <Space
-          id={space.id}
-          features={space.features}
-          group={space.group}
-          name={space.name}
-          slots={space.slots}
-          x={space.x}
-          y={space.y}
-          active={space.id === sidebarTableId}
-          bookedToday={bookedToday != undefined}
-          bookings={allToday}
-          bookedByWho={
-            'feri XXX'
-            // bookedToday &&
-            // bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
-            //   ' ' +
-            //   bookedToday?.attributes.users_permissions_user.data.attributes.lastName
-          }
-          bookedByMe={
-            false
-            // XXX
-            // bookedToday?.attributes.users_permissions_user.data.attributes.email ===
-            // 'mike@tester.test'
-          }
-          onClick={() => {
-            handlePlaceClick(space.id)
-            handleZoomToElement &&
-              setTimeout(() => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75), 400)
-          }}
-          listView={listView}
-        />
-      )
-    } else {
-      return <Empty Icon={BracesIcon} message="No space available"></Empty>
-    }
-  }
-
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
+
+  if (!spaces) {
+    return <Empty Icon={BracesIcon} message="No space available"></Empty>
+  }
 
   return (
     <div className={listView ? 'flex flex-col' : ''}>
@@ -125,6 +97,7 @@ const Spaces = ({
               {spaces?.data.docs
                 .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
+                  console.log(space.id)
                   const bookedToday = bookings?.data.docs.find(
                     (booking) => booking.space.value === space.id
                   )
@@ -132,11 +105,29 @@ const Spaces = ({
                     (booking) => booking.space.value === space.id
                   )
                   return (
-                    <SpaceComponent
-                      allToday={allToday}
-                      bookedToday={bookedToday}
+                    <Space
+                      id={space.id}
+                      features={space.features}
+                      group={space.group}
+                      name={space.name}
+                      slots={space.slots}
+                      x={space.x}
+                      y={space.y}
+                      active={space.id === sidebarTableId}
+                      bookedToday={bookedToday != undefined}
+                      bookings={allToday}
+                      bookedByWho={bookedToday?.sub}
+                      bookedByMe={bookedToday?.sub === userId}
+                      onClick={() => {
+                        handlePlaceClick(space.id)
+                        handleZoomToElement &&
+                          setTimeout(
+                            () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
+                            400
+                          )
+                      }}
                       key={`space_${space.x}_${space.y}_${i}`}
-                      space={space}
+                      listView={listView}
                     />
                   )
                 })}
