@@ -188,6 +188,6 @@ const MainPage = () => {
   )
 }
 
-export type MainPageProps = {} & HTMLAttributes<HTMLDivElement>
+export type MainPageProps = HTMLAttributes<HTMLDivElement>
 
 export default MainPage

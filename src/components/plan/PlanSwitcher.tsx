@@ -5,6 +5,7 @@ import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { PlanRecord } from '../../data/PlanRecord.tsx'
+import { LATEST_PLAN_ID } from '../../utils/constants.ts'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading.tsx'
@@ -13,7 +14,6 @@ import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 import { addPlan } from './planFetch.ts'
-import { LATEST_PLAN_ID } from '../../utils/constants.ts'
 
 const PlanSwitcher = ({
   companyId,
@@ -58,7 +58,7 @@ const PlanSwitcher = ({
       const defaultPlanId = latestPlanId ? latestPlanId : zones.data.docs[0].id
       onPlanChange(defaultPlanId)
     }
-  }, [zones, currentPlan])
+  }, [zones, currentPlan, onPlanChange])
 
   return (
     <>
