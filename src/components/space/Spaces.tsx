@@ -10,7 +10,7 @@ import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
-import { SpaceType } from './spaceTypes'
+import { SpaceType } from './spaceType'
 
 const Spaces = ({
   planId: zoneId,
@@ -23,7 +23,7 @@ const Spaces = ({
   const { getToken, userId } = useAuth()
   const loadSpaces = async (planId: number): Promise<{ data: { docs: SpaceType[] } }> => {
     return axios(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}`,
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}&depth=1`,
       {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
@@ -85,13 +85,13 @@ const Spaces = ({
   return (
     <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
-        <Fragment key={group}>
+        <Fragment key={group.id}>
           <div
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
               <Heading size={4} className="w-32 shrink-0 py-8">
-                {group ? group : '(no group)'}
+                {group.name ? group.name : '(no group)'}
               </Heading>
             )}
             {listView && <Separator horizontal />}

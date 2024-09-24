@@ -3,7 +3,7 @@ import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
-import { RelationShipDetailType } from './spaceTypes'
+import { RelationshipType } from './spaceType'
 
 export const SpaceFeatures = ({
   features,
@@ -32,7 +32,7 @@ export const SpaceFeatures = ({
 }
 
 export type SpaceFeaturesProps = {
-  features: RelationShipDetailType[]
+  features: RelationshipType[]
   badgeClassName?: string | undefined
   noTooltip?: boolean | undefined
 } & HTMLAttributes<HTMLDivElement>

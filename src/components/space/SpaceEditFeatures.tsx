@@ -3,7 +3,7 @@ import { Check, Plus, Trash2 } from 'lucide-react'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../basic/Badge'
 import { useFeaturesQuery } from './loadFeatures'
-import { RelationShipDetailType, SpaceDetailType } from './spaceTypes'
+import { RelationshipType, SpaceType } from './spaceType'
 
 const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
   const { data: allFeatures } = useFeaturesQuery()
@@ -65,7 +65,7 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
 }
 
 type SpaceEditFeaturesProps = {
-  field: FieldApi<SpaceDetailType, 'features', undefined, undefined, RelationShipDetailType[]>
+  field: FieldApi<SpaceType, 'features', undefined, undefined, RelationshipType[]>
   handleSubmit: () => Promise<void>
 }
 

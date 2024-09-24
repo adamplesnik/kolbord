@@ -7,7 +7,7 @@ import Loading from '../basic/Loading'
 import SpaceBooking from './SpaceBooking.tsx'
 import SpaceEdit from './SpaceEdit.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
-import { SpaceDetailType } from './spaceTypes'
+import { SpaceType } from './spaceType'
 
 const SpaceDetail = ({
   spaceId,
@@ -18,7 +18,7 @@ const SpaceDetail = ({
   editMode,
 }: SpaceDetailProps) => {
   const { getToken } = useAuth()
-  const loadSpace = async (spaceId: number): Promise<{ data: SpaceDetailType }> => {
+  const loadSpace = async (spaceId: number): Promise<{ data: SpaceType }> => {
     return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${spaceId}?depth=1`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,

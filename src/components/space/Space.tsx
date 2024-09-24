@@ -6,7 +6,7 @@ import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
-import { SpaceType } from './spaceTypes'
+import { SpaceType } from './spaceType'
 
 const Space = ({
   id,

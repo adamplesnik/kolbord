@@ -7,14 +7,14 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
 import SpaceDelete from './SpaceDelete.tsx'
-import { SpaceDetailType } from './spaceTypes'
+import { SpaceType } from './spaceType'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   const queryClient = useQueryClient()
 
   const { data: allGroups } = useGroupsForPlanQuery(planId)
 
-  const { Field, handleSubmit, reset } = useForm<SpaceDetailType>({
+  const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
       mutate(value)
       saveLatestMetadata(value)
@@ -38,7 +38,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     reset()
   }, [table, reset])
 
-  const updateTable = async (id: number, data: SpaceDetailType): Promise<SpaceDetailType> => {
+  const updateTable = async (id: number, data: SpaceType): Promise<SpaceType> => {
     const payload = {
       name: data.name,
       x: data.x,
@@ -59,13 +59,13 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     return response.json()
   }
 
-  const saveLatestMetadata = (data: SpaceDetailType) => {
+  const saveLatestMetadata = (data: SpaceType) => {
     const metadata = [data.x, data.y]
     localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
   }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (data: SpaceDetailType) => updateTable(table.id, data),
+    mutationFn: (data: SpaceType) => updateTable(table.id, data),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['spaces'] })
       await queryClient.cancelQueries({ queryKey: ['space'] })
@@ -213,7 +213,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
 }
 
 export type SpaceEditProps = {
-  table: SpaceDetailType
+  table: SpaceType
   planId: number
   handleDelete: () => void
 } & HTMLAttributes<HTMLDivElement>
