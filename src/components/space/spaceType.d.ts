@@ -1,5 +1,12 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
+export type FeatureType = {
+  id: number
+  name: string
+  description?: string
+  lucideIcon?: keyof typeof dynamicIconImports
+}
+
 export type RelationshipType = {
   relationTo?: string | undefined
   value: {

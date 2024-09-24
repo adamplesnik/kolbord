@@ -7,6 +7,7 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
 import SpaceDelete from './SpaceDelete.tsx'
+import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 import { SpaceType } from './spaceType'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
@@ -25,9 +26,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
       x: table?.x,
       y: table?.y,
       slots: table?.slots,
-      // features: {
-      //   value: table.features.
-      // },
+      features: table.features,
       group: {
         value: table.group.value,
       },
@@ -193,18 +192,18 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               )}
             />
           </div>
-          {/* <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-bold">Features</span>
             <div className="flex flex-wrap gap-0.5 text-sm">
               <Field
-                name={`features.data`}
+                name={'features'}
                 mode="array"
                 children={(field) => (
                   <SpaceEditFeatures field={field} handleSubmit={handleSubmit} />
                 )}
               />
             </div>
-          </div> */}
+          </div>
         </div>
       </form>
       <SpaceDelete id={table.id} handleDelete={handleDelete} />
