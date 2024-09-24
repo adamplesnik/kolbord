@@ -40,7 +40,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
     mutationFn: (data: NewTableRecord) => createTable(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['places', planId],
+        queryKey: ['spaces', planId],
       })
       handlePlaceAdd(data.data.id)
     },

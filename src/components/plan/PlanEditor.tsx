@@ -34,15 +34,15 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
   const { mutate, isPending, isError, isSuccess } = useMutation({
     mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['plans'] })
-      await queryClient.cancelQueries({ queryKey: ['plan', planId] })
+      await queryClient.cancelQueries({ queryKey: ['zones'] })
+      await queryClient.cancelQueries({ queryKey: ['zone', planId] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['plans'],
+        queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['plan', planId],
+        queryKey: ['zone', planId],
       })
     },
   })

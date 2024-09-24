@@ -24,7 +24,7 @@ const loadPlan = async (id: number): Promise<PlanQueryType | undefined> => {
 
 export const usePlanQuery = (id: number) =>
   useQuery({
-    queryKey: ['plan', id],
+    queryKey: ['zone', id],
     enabled: id > 0,
     queryFn: () => loadPlan(id),
   })

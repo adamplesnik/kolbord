@@ -39,7 +39,7 @@ const PlanSwitcher = ({
   }
 
   const { data: zones } = useQuery({
-    queryKey: ['plans'],
+    queryKey: ['zones'],
     queryFn: () => loadPlans(),
   })
 
@@ -47,7 +47,7 @@ const PlanSwitcher = ({
   const { mutate } = useMutation({
     mutationFn: () => addPlan(companyId),
     onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: ['plans'] })
+      queryClient.invalidateQueries({ queryKey: ['zones'] })
       onPlanEdit(result?.id)
     },
   })

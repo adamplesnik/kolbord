@@ -32,7 +32,7 @@ const SpaceDetail = ({
     isLoading,
   } = useQuery({
     enabled: spaceId > 0,
-    queryKey: ['place', spaceId],
+    queryKey: ['space', spaceId],
     queryFn: () => loadSpace(spaceId),
   })
 

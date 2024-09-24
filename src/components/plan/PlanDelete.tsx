@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { getOldToken } from '../../auth/helpers'
+import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import P from '../basic/P'
-import { LATEST_PLAN_ID } from '../../utils/constants'
 
 const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
@@ -17,7 +17,8 @@ const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
           'Content-Type': 'application/json',
         },
       })
-    } catch {
+    } catch (error) {
+      console.error(error)
     } finally {
       handleDelete()
     }
@@ -28,13 +29,13 @@ const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
     mutationFn: () => deletePlan(planId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['plans'],
+        queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['places'],
+        queryKey: ['spaces'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['plan', planId],
+        queryKey: ['zone', planId],
       })
       localStorage.removeItem(LATEST_PLAN_ID)
     },

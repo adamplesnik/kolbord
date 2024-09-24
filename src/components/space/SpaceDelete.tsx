@@ -27,10 +27,10 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
     mutationFn: () => deleteSpace(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['places'],
+        queryKey: ['spaces'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['place', id],
+        queryKey: ['space', id],
       })
     },
   })

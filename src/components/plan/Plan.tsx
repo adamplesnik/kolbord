@@ -1,8 +1,8 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import Loading from '../basic/Loading'
 import { PlanRecord } from '../../data/PlanRecord'
+import Loading from '../basic/Loading'
 
 const Plan = ({ zoneId }: PlanProps) => {
   const { getToken } = useAuth()
@@ -19,7 +19,7 @@ const Plan = ({ zoneId }: PlanProps) => {
     }
   }
   const { data: zone, isLoading } = useQuery({
-    queryKey: ['plan', zoneId],
+    queryKey: ['zone', zoneId],
     enabled: zoneId > 0,
     queryFn: () => loadPlan(zoneId),
   })
