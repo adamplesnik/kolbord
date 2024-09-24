@@ -2,37 +2,34 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { HTMLAttributes, useEffect } from 'react'
 import { getOldToken } from '../../auth/helpers'
-import { TableRecord } from '../../data/TableRecord'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
 import SpaceDelete from './SpaceDelete.tsx'
-import SpaceEditFeatures from './SpaceEditFeatures.tsx'
+import { SpaceDetailType } from './spaceTypes'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
   const queryClient = useQueryClient()
 
   const { data: allGroups } = useGroupsForPlanQuery(planId)
 
-  const { Field, handleSubmit, reset } = useForm<TableRecord>({
+  const { Field, handleSubmit, reset } = useForm<SpaceDetailType>({
     onSubmit: async ({ value }) => {
       mutate(value)
       saveLatestMetadata(value)
     },
     defaultValues: {
       id: table?.id,
-      attributes: {
-        name: table?.attributes.name,
-        x: table?.attributes.x,
-        y: table?.attributes.y,
-        slots: table?.attributes.slots,
-        features: {
-          data: table?.attributes.features.data || [],
-        },
-        group: {
-          data: table?.attributes.group.data || 0,
-        },
+      name: table?.name,
+      x: table?.x,
+      y: table?.y,
+      slots: table?.slots,
+      // features: {
+      //   value: table.features.
+      // },
+      group: {
+        value: table.group.value,
       },
     },
   })
@@ -41,14 +38,14 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     reset()
   }, [table, reset])
 
-  const updateTable = async (id: number, data: TableRecord): Promise<TableRecord> => {
+  const updateTable = async (id: number, data: SpaceDetailType): Promise<SpaceDetailType> => {
     const payload = {
-      name: data.attributes.name,
-      x: data.attributes.x,
-      y: data.attributes.y,
-      slots: data.attributes.slots,
-      features: data.attributes.features.data.map((f) => f.id),
-      group: data.attributes.group.data.id > 0 ? [data.attributes.group.data.id] : [],
+      name: data.name,
+      x: data.x,
+      y: data.y,
+      slots: data.slots,
+      // features: data.features.data.map((f) => f.id),
+      group: data.group.value.id > 0 ? data.group.value.id : undefined,
     }
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
@@ -62,13 +59,13 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     return response.json()
   }
 
-  const saveLatestMetadata = (data: TableRecord) => {
-    const metadata = [data.attributes.x, data.attributes.y]
+  const saveLatestMetadata = (data: SpaceDetailType) => {
+    const metadata = [data.x, data.y]
     localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
   }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (data: TableRecord) => updateTable(table.id, data),
+    mutationFn: (data: SpaceDetailType) => updateTable(table.id, data),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['spaces'] })
       await queryClient.cancelQueries({ queryKey: ['space'] })
@@ -102,7 +99,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
         <FetchStatus isPending={isPending} isSuccess={isSuccess} isError={isError} />
         <div className="flex flex-col gap-4">
           <Field
-            name="attributes.name"
+            name="name"
             children={({ state, handleChange, handleBlur }) => (
               <InputWithLabel
                 label="Name"
@@ -118,25 +115,21 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
             <span className="text-sm font-bold">Group</span>
             <div className="flex gap-1">
               <Field
-                name={`attributes.group.data`}
+                name={`group`}
                 mode="array"
                 children={(field) => (
                   <select
                     onBlur={field.handleBlur}
                     onChange={(e) =>
                       field.setValue({
-                        id: +e.target.value,
-                        attributes: {
+                        value: {
+                          id: +e.target.value,
                           name: '',
-                          description: '',
-                          x: 0,
-                          y: 0,
-                          showMarker: false,
                         },
                       })
                     }
                     className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-                    value={field.state.value ? field.state.value.id : ''}
+                    value={+field.state.value ? +field.state.value : ''}
                   >
                     <option value={0}>(none)</option>
                     {allGroups?.data.map((all) => (
@@ -151,7 +144,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
           </div>
           <div className="flex gap-2">
             <Field
-              name="attributes.x"
+              name="x"
               children={({ state, handleChange, handleBlur }) => (
                 <InputWithLabel
                   label="X"
@@ -164,7 +157,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
               )}
             />
             <Field
-              name="attributes.y"
+              name="y"
               children={({ state, handleChange, handleBlur }) => (
                 <InputWithLabel
                   label="Y"
@@ -179,7 +172,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
           </div>
           <div>
             <Field
-              name="attributes.slots"
+              name="slots"
               children={({ state, handleChange, handleBlur }) => (
                 <label className="flex flex-col gap-1">
                   <span className={'text-sm font-bold'}>Slots</span>
@@ -192,26 +185,26 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
                   >
                     <option value="wholeday">Whole day</option>
                     <option value="halfday">Half-day</option>
-                    <option value="hours2">2 hours</option>
-                    <option value="hours1">1 hour</option>
-                    <option value="minutes30">30 minutes</option>
+                    <option value="2hours">2 hours</option>
+                    <option value="1hour">1 hour</option>
+                    <option value="30minutes">30 minutes</option>
                   </select>
                 </label>
               )}
             />
           </div>
-          <div className="flex flex-col gap-1">
+          {/* <div className="flex flex-col gap-1">
             <span className="text-sm font-bold">Features</span>
             <div className="flex flex-wrap gap-0.5 text-sm">
               <Field
-                name={`attributes.features.data`}
+                name={`features.data`}
                 mode="array"
                 children={(field) => (
                   <SpaceEditFeatures field={field} handleSubmit={handleSubmit} />
                 )}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </form>
       <SpaceDelete id={table.id} handleDelete={handleDelete} />
@@ -220,7 +213,7 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
 }
 
 export type SpaceEditProps = {
-  table: TableRecord
+  table: SpaceDetailType
   planId: number
   handleDelete: () => void
 } & HTMLAttributes<HTMLDivElement>

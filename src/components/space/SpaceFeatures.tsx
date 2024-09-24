@@ -1,15 +1,16 @@
 import { Fragment, HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { FeatureRecord } from '../../data/FeatureRecord.tsx'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
+import { RelationShipDetailType } from './spaceTypes'
 
 export const SpaceFeatures = ({
   features,
   badgeClassName,
   noTooltip = false,
 }: SpaceFeaturesProps) => {
+  console.log(features)
   return (
     <>
       {features.map((feature) => (
@@ -31,7 +32,7 @@ export const SpaceFeatures = ({
 }
 
 export type SpaceFeaturesProps = {
-  features: { value: FeatureRecord }[]
+  features: RelationShipDetailType[]
   badgeClassName?: string | undefined
   noTooltip?: boolean | undefined
 } & HTMLAttributes<HTMLDivElement>

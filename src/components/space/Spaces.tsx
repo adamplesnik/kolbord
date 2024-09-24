@@ -5,12 +5,12 @@ import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
 import { Fragment } from 'react'
 import { BookingQueryType } from '../../data/BookingRecord'
-import { TableRecord } from '../../data/TableRecord'
 import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
 import Space from './Space.tsx'
+import { SpaceType } from './spaceTypes'
 
 const Spaces = ({
   planId: zoneId,
@@ -21,7 +21,7 @@ const Spaces = ({
   listView,
 }: SpacesProps) => {
   const { getToken, userId } = useAuth()
-  const loadSpaces = async (planId: number): Promise<{ data: { docs: TableRecord[] } }> => {
+  const loadSpaces = async (planId: number): Promise<{ data: { docs: SpaceType[] } }> => {
     return axios(
       `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}`,
       {
@@ -36,6 +36,8 @@ const Spaces = ({
     queryKey: ['spaces', zoneId],
     queryFn: () => loadSpaces(zoneId),
   })
+
+  console.log(spaces)
 
   const loadBookingsForZone = async (zoneId: number, date: Value): Promise<BookingQueryType> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()

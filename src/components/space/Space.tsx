@@ -1,12 +1,12 @@
 import { ArrowRight } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 import { BookingRecord } from '../../data/BookingRecord.tsx'
-import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
+import { SpaceType } from './spaceTypes'
 
 const Space = ({
   id,
@@ -105,7 +105,7 @@ const Space = ({
   }
 }
 
-export type SpaceProps = {
+type SpaceProps = {
   active?: boolean | undefined
   bookedByMe?: boolean
   bookedByWho?: string | undefined | null
@@ -114,6 +114,6 @@ export type SpaceProps = {
   className?: string | undefined
   listView: boolean
   onClick?: () => void | undefined
-} & TableRecord
+} & SpaceType
 
 export default Space
