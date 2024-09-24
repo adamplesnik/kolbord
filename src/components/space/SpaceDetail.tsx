@@ -36,8 +36,6 @@ const SpaceDetail = ({
     queryFn: () => loadSpace(spaceId),
   })
 
-  console.log(loadedSpace)
-
   useEffect(() => {
     sendTitle(loadedSpace?.data.name)
   }, [sendTitle, loadedSpace?.data.name])

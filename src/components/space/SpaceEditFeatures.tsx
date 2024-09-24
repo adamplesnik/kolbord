@@ -29,7 +29,6 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
         allFeatures.data.docs.map((feature) => {
           const index = field.state.value?.findIndex((field) => field.value.id === feature.id)
           const isActive = index !== undefined && index > -1
-          console.log(isActive)
           // const [mouseOut, setMouseOut] = useState(false)
           const onClick = () => {
             if (!isActive) {

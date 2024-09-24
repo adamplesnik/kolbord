@@ -37,8 +37,6 @@ const Spaces = ({
     queryFn: () => loadSpaces(zoneId),
   })
 
-  console.log(spaces)
-
   const loadBookingsForZone = async (zoneId: number, date: Value): Promise<BookingQueryType> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
     const midnight = date && new Date(Date.parse(date.toString()))

@@ -10,7 +10,6 @@ export const SpaceFeatures = ({
   badgeClassName,
   noTooltip = false,
 }: SpaceFeaturesProps) => {
-  console.log(features)
   return (
     <>
       {features.map((feature) => (

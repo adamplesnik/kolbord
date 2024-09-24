@@ -1,7 +1,8 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
-import { getOldToken } from '../../auth/helpers'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
@@ -11,6 +12,7 @@ import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 import { SpaceType } from './spaceType'
 
 const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
+  const { getToken } = useAuth()
   const queryClient = useQueryClient()
 
   const { data: allGroups } = useGroupsForPlanQuery(planId)
@@ -37,25 +39,34 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     reset()
   }, [table, reset])
 
-  const updateTable = async (id: number, data: SpaceType): Promise<SpaceType> => {
+  const updateTable = async (id: number, space: SpaceType): Promise<SpaceType> => {
     const payload = {
-      name: data.name,
-      x: data.x,
-      y: data.y,
-      slots: data.slots,
-      // features: data.features.data.map((f) => f.id),
-      group: data.group.value.id > 0 ? data.group.value.id : undefined,
-    }
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
-      method: 'put',
-      headers: {
-        Authorization: `Bearer ${getOldToken()}`,
-        'Content-Type': 'application/json',
+      name: space.name,
+      x: space.x,
+      y: space.y,
+      slots: space.slots,
+      features: space.features?.map((feature) => ({
+        relationTo: feature.relationTo,
+        value: feature.value.id,
+      })),
+      group: {
+        relationTo: 'zone-groups',
+        value: space.group.value.id > 0 ? space.group.value.id : undefined,
       },
-      body: JSON.stringify({ data: payload }),
-    })
-    return response.json()
+    }
+    console.log(payload)
+
+    return await axios.patch(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${id}`,
+      JSON.stringify(payload),
+      {
+        method: 'put',
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   }
 
   const saveLatestMetadata = (data: SpaceType) => {
