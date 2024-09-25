@@ -66,7 +66,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
     }
 
     return await axios.patch(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${id}`,
+      `${import.meta.env.VITE_API_URL}/spaces/${id}`,
       JSON.stringify(payload),
       {
         method: 'put',

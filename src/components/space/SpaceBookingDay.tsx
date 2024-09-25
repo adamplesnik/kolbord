@@ -33,7 +33,7 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
         ],
       },
     })
-    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
+    return axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },

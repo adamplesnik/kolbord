@@ -30,7 +30,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
 
   const editGroup = async (groupId: number, data: GroupRecord) => {
     return await axios.patch(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups/${groupId}`,
+      `${import.meta.env.VITE_API_URL}/zone-groups/${groupId}`,
       JSON.stringify({
         name: data.name,
         description: data.description,

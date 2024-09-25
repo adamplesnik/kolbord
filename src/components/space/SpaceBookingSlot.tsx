@@ -36,7 +36,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
   }
 
   const createBooking = async (data: BookingRecord): Promise<BookingRecord> => {
-    return axios.post(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings`, JSON.stringify(data), {
+    return axios.post(`${import.meta.env.VITE_API_URL}/bookings`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
   })
 
   const deleteBooking = async (bookingId: number): Promise<BookingRecord> => {
-    return axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings/${bookingId}`, {
+    return axios.delete(`${import.meta.env.VITE_API_URL}/bookings/${bookingId}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',

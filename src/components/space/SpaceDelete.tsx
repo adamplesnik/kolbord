@@ -11,7 +11,7 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
 
   const deleteSpace = async (id: number) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/spaces/${id}`, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',

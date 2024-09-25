@@ -30,17 +30,13 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   }
 
   const createTable = async (data: SpaceType): Promise<SpaceType> => {
-    return await axios.post(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces`,
-      JSON.stringify(data),
-      {
-        method: 'post',
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    return await axios.post(`${import.meta.env.VITE_API_URL}/spaces`, JSON.stringify(data), {
+      method: 'post',
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
   const { mutate } = useMutation({

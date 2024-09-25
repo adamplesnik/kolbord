@@ -37,7 +37,7 @@ const MyBookings = ({ setSidebarTable, workingDate }: MyBookingsProps) => {
       },
       sort: 'from',
     })
-    return await axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}&depth=3`, {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}&depth=3`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },

@@ -18,7 +18,7 @@ const Plan = () => {
     const query = qs.stringify({
       sort: 'id',
     })
-    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones?${query}`, {
+    return axios(`${import.meta.env.VITE_API_URL}/zones?${query}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ const Plan = () => {
   })
 
   const loadZone = async (zoneId: number): Promise<{ data: PlanType } | undefined> => {
-    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${zoneId}`, {
+    return axios(`${import.meta.env.VITE_API_URL}/zones/${zoneId}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ const PlanAdd = () => {
 
   const addPlan = async (): Promise<PlanType | undefined> => {
     return await axios.post(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/zones`,
+      `${import.meta.env.VITE_API_URL}/zones`,
       JSON.stringify({
         name: 'New plan',
         svg: NEW_PLAN_SVG,

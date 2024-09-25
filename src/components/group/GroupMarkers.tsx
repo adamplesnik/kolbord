@@ -21,7 +21,7 @@ const GroupMarkers = () => {
         },
       },
     })
-    return await axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups?${query}`, {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/zone-groups?${query}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },

@@ -11,7 +11,7 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
   const { getToken } = useAuth()
 
   const loadFeatures = async (): Promise<{ data: { docs: FeatureType[] } }> => {
-    return await axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/space-features?sort=name`, {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/space-features?sort=name`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },

@@ -19,7 +19,7 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
     svg?: string | undefined
   ): Promise<PlanType> => {
     return await axios.patch(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${id}`,
+      `${import.meta.env.VITE_API_URL}/zones/${id}`,
       JSON.stringify({ name: name, svg: svg }),
       {
         headers: {

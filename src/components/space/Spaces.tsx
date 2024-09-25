@@ -34,7 +34,7 @@ const Spaces = ({
       },
     })
 
-    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?${query}&depth=1`, {
+    return axios(`${import.meta.env.VITE_API_URL}/spaces?${query}&depth=1`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },
@@ -75,7 +75,7 @@ const Spaces = ({
       },
     })
 
-    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
+    return axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },

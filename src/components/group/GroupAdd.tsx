@@ -14,7 +14,7 @@ const GroupAdd = () => {
     zoneId: number | undefined
   ): Promise<{ data: { docs: GroupRecord[] } }> => {
     return await axios.post(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups`,
+      `${import.meta.env.VITE_API_URL}/zone-groups`,
       JSON.stringify({
         name: 'New group',
         description: 'Description',
