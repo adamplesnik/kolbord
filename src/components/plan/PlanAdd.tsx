@@ -2,6 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { NEW_PLAN_SVG } from '../../utils/constants'
 import Button from '../basic/Button'
 import { PlanType } from './planType'
 
@@ -14,7 +15,7 @@ const PlanAdd = () => {
       `${import.meta.env.VITE_API_PAYLOAD_URL}/zones`,
       JSON.stringify({
         name: 'New plan',
-        svg: '<svg></svg>',
+        svg: NEW_PLAN_SVG,
         org: orgId,
       }),
       {

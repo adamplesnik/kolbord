@@ -14,7 +14,7 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
 
   const deletePlan = async (id: number | undefined) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/plans/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${id}`, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
