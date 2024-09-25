@@ -14,16 +14,23 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   const [x, y] =
     latestPlaceMetadata != null ? latestPlaceMetadata.split(',') : placeMetadata.split(',')
 
-  const defaultData = {
+  const defaultData: SpaceType = {
     id: 0,
     name: 'New space',
     x: +x,
     y: +y,
-    zone: planId,
+    // group: {
+    //   relationTo: 'zone-groups',
+    //   value: { id: 0 },
+    // },
+    zone: {
+      relationTo: 'zones',
+      value: planId || 0,
+    },
     slots: 'halfday',
   }
 
-  const createTable = async (data: NewTableRecord): Promise<NewTableRecord> => {
+  const createTable = async (data: SpaceType): Promise<SpaceType> => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/tables`, {
       method: 'post',
       headers: {
@@ -36,7 +43,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   }
 
   const { mutate } = useMutation({
-    mutationFn: (data: NewTableRecord) => createTable(data),
+    mutationFn: (data: SpaceType) => createTable(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ['spaces', planId],
@@ -61,14 +68,6 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
 type SpaceAddProps = {
   planId: number | undefined
   handlePlaceAdd: (space: SpaceType) => void
-}
-
-type NewTableRecord = {
-  id: number
-  name: string
-  x: number
-  y: number
-  zone: number
 }
 
 export default SpaceAdd

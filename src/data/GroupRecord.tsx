@@ -1,10 +1,13 @@
 export type GroupRecord = {
   id: number
-  attributes: {
-    name: string
-    description: string
-    x: number
-    y: number
-    showMarker: boolean
+  name: string
+  description: string
+  x: number
+  y: number
+  zone: {
+    relationTo: string
+    value: number
   }
+  showMarker: boolean
+  org: string
 }

@@ -18,7 +18,6 @@ import { PlanType } from './planType'
 import { useZone } from './useZone.ts'
 
 const PlanSwitcher = ({
-  companyId,
   handleGroupAdd,
   handlePlaceAdd,
   handleMyBookings,
@@ -46,7 +45,7 @@ const PlanSwitcher = ({
   console.log(currentPlanId, zones)
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => addPlan(companyId),
+    mutationFn: () => addPlan(),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['zones'] })
       onPlanEdit(result?.id)
@@ -112,7 +111,7 @@ const PlanSwitcher = ({
           {userCanEdit && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
-              <GroupList planId={currentPlanId} onGroupEdit={onGroupEdit} />
+              <GroupList onGroupEdit={onGroupEdit} />
               {currentPlanId != undefined && currentPlanId > 0 && (
                 <GroupAdd planId={currentPlanId} handleGroupAdd={handleGroupAdd} />
               )}
@@ -128,8 +127,6 @@ const PlanSwitcher = ({
 }
 
 type PlanSwitcherProps = {
-  companyId: number
-  currentPlan: number
   handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void

@@ -1,15 +1,32 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { GroupRecord } from '../../data/GroupRecord'
 import Button from '../basic/Button'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { editGroup, useGroupQuery } from './groupFetch'
+import { useZone } from '../plan/useZone'
+import { editGroup } from './groupFetch'
 
-const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
-  const { data: group } = useGroupQuery(groupId)
+const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
+  const { getToken } = useAuth()
+  const { zoneId } = useZone()
+  const loadGroup = async (groupId: number): Promise<{ data: GroupRecord }> => {
+    const response = await fetch(`${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups/${groupId}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
+    return response.json()
+  }
+
+  const { data: group } = useQuery({
+    queryKey: ['group', groupId],
+    enabled: groupId > 0,
+    queryFn: () => loadGroup(groupId),
+  })
 
   const { Field, handleSubmit, reset } = useForm<GroupRecord>({
     onSubmit: async ({ value }) => {
@@ -17,13 +34,11 @@ const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
     },
     defaultValues: {
       id: group?.data.id ?? 0,
-      attributes: {
-        name: group?.data.attributes.name ?? '',
-        description: group?.data.attributes.description ?? '',
-        x: group?.data.attributes.x ?? 0,
-        y: group?.data.attributes.y ?? 0,
-        showMarker: group?.data.attributes.showMarker ?? false,
-      },
+      name: group?.data.attributes.name ?? '',
+      description: group?.data.attributes.description ?? '',
+      x: group?.data.attributes.x ?? 0,
+      y: group?.data.attributes.y ?? 0,
+      showMarker: group?.data.attributes.showMarker ?? false,
     },
   })
 
@@ -35,7 +50,7 @@ const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['groups', planId],
+        queryKey: ['groups', zoneId],
       })
       queryClient.invalidateQueries({
         queryKey: ['group', groupId],
@@ -45,7 +60,7 @@ const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
 
   useEffect(() => {
     sendTitle(group?.data.attributes.name)
-  }, [group?.data.attributes.name])
+  }, [sendTitle, group?.data.attributes.name])
 
   useEffect(() => {
     reset()
@@ -133,7 +148,7 @@ const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
         </Button>
       </form>
       {/* <PlanDelete
-          planId={planId}
+          zoneId={zoneId}
           planName={plan?.data.attributes.name}
           planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
           userCompanyUuid={user?.company.uuid}
@@ -146,7 +161,6 @@ const GroupDetail = ({ groupId, planId, sendTitle }: GroupDetailProps) => {
 type GroupDetailProps = {
   editMode: boolean
   groupId: number
-  planId: number
   sendTitle: (title: string | undefined) => void
 }
 

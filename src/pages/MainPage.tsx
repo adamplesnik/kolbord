@@ -139,7 +139,6 @@ const MainPage = () => {
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
         onGroupEdit={onGroupEdit}
-        planId={zoneId}
         workingDate={workingDate}
         handlePlaceAdd={(space) => {
           handlePlaceClick(space)
@@ -158,7 +157,6 @@ const MainPage = () => {
           <GroupDetail
             editMode={editMode}
             groupId={sidebarGroupId}
-            planId={zoneId}
             sendTitle={(title) => sendTitle(title)}
           />
         )}

@@ -6,7 +6,6 @@ import { HTMLAttributes, useEffect } from 'react'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
 import { useZone } from '../plan/useZone.ts'
 import SpaceDelete from './SpaceDelete.tsx'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
@@ -17,7 +16,8 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
 
-  const { data: allGroups } = useGroupsForPlanQuery(zoneId)
+  // const { data: allGroups } = useGroupsForPlanQuery(zoneId) XXX
+  return
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {

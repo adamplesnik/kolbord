@@ -17,7 +17,6 @@ const MenuBar = ({
   onGroupEdit,
   onPlanChange,
   onPlanEdit,
-  planId,
   workingDate,
 }: MenuBarProps) => {
   const { user } = useUser()
@@ -31,8 +30,6 @@ const MenuBar = ({
             <PlanSwitcher
               onGroupEdit={(groupId) => onGroupEdit(groupId)}
               onPlanEdit={onPlanEdit}
-              currentPlan={planId}
-              companyId={1}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
               handleGroupAdd={handleGroupAdd}
@@ -62,7 +59,6 @@ type MenuBarProps = {
   onGroupEdit: (groupId: number) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
-  planId: number
   workingDate: Value
 } & HTMLAttributes<HTMLDivElement>
 
