@@ -7,15 +7,17 @@ import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useGroupsForPlanQuery } from '../group/groupFetch.ts'
+import { useZone } from '../plan/useZone.ts'
 import SpaceDelete from './SpaceDelete.tsx'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 import { SpaceType } from './spaceType'
 
-const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
+const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
+  const { zoneId } = useZone()
 
-  const { data: allGroups } = useGroupsForPlanQuery(planId)
+  const { data: allGroups } = useGroupsForPlanQuery(zoneId)
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
@@ -78,17 +80,13 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
     mutationFn: (data: SpaceType) => updateTable(table.id, data),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['spaces'] })
-      await queryClient.cancelQueries({ queryKey: ['space'] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['spaces', planId],
+        queryKey: ['spaces', zoneId],
       })
       queryClient.invalidateQueries({
-        queryKey: ['space', table.id],
-      })
-      queryClient.invalidateQueries({
-        queryKey: ['groups', planId],
+        queryKey: ['groups', zoneId],
       })
     },
   })
@@ -224,7 +222,6 @@ const SpaceEdit = ({ table, planId, handleDelete }: SpaceEditProps) => {
 
 export type SpaceEditProps = {
   table: SpaceType
-  planId: number
   handleDelete: () => void
 } & HTMLAttributes<HTMLDivElement>
 

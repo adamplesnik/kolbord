@@ -12,8 +12,7 @@ import { useZone } from './useZone'
 
 const PlanEditor = ({ handleDelete, sendTitle }: PlanEditorProps) => {
   const { getToken } = useAuth()
-  const { data: zone } = useZone()
-  const zoneId = zone?.data.id
+  const { zone, zoneId } = useZone()
 
   const userCanEdit = true
 

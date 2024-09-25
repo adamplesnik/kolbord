@@ -168,7 +168,6 @@ const MainPage = () => {
             sendTitle={(title) => sendTitle(title)}
             space={sidebarSpace}
             workingDate={workingDate?.toString()}
-            planId={planId}
             handleDelete={() => setSidebarSpace(undefined)}
           />
         )}

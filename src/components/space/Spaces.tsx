@@ -21,7 +21,7 @@ const Spaces = ({
   listView,
 }: SpacesProps) => {
   const { getToken, userId } = useAuth()
-  const { data: zone } = useZone()
+  const { zoneId } = useZone()
 
   const loadSpaces = async (
     zoneId: number | undefined
@@ -42,8 +42,8 @@ const Spaces = ({
   }
 
   const { data: spaces } = useQuery({
-    queryKey: ['spaces', zone?.data.id],
-    queryFn: () => loadSpaces(zone?.data.id),
+    queryKey: ['spaces', zoneId],
+    queryFn: () => loadSpaces(zoneId),
   })
 
   const loadBookingsForZone = async (
@@ -82,8 +82,8 @@ const Spaces = ({
   }
 
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', zone?.data.id, workingDate],
-    queryFn: () => loadBookingsForZone(zone?.data.id, workingDate),
+    queryKey: ['bookings', zoneId, workingDate],
+    queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()

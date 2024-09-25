@@ -8,7 +8,6 @@ import { SpaceType } from './spaceType'
 const SpaceDetail = ({
   space,
   workingDate,
-  planId,
   handleDelete,
   sendTitle,
   editMode,
@@ -35,18 +34,17 @@ const SpaceDetail = ({
       {!editMode && (
         <SpaceBooking spaceId={space.id} slots={space.slots} workingDate={workingDate} />
       )}
-      {editMode && <SpaceEdit table={space} planId={planId} handleDelete={handleDelete} />}
+      {editMode && <SpaceEdit table={space} handleDelete={handleDelete} />}
     </div>
   )
 }
 
 export type SpaceDetailProps = {
-  space: SpaceType
-  workingDate: string | undefined
-  planId: number
+  editMode: boolean
   handleDelete: () => void
   sendTitle: (title: string | undefined) => void
-  editMode: boolean
+  space: SpaceType
+  workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 
 export default SpaceDetail

@@ -33,7 +33,7 @@ const loadGroupsForPlan = async (id: number): Promise<{ data: GroupRecord[] }> =
   return response.json()
 }
 
-export const useGroupsForPlanQuery = (planId: number) =>
+export const useGroupsForPlanQuery = (planId: number | undefined) =>
   useQuery({
     queryKey: ['groups', planId],
     enabled: planId > 0,

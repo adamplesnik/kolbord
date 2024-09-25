@@ -16,7 +16,8 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
           'Content-Type': 'application/json',
         },
       })
-    } catch {
+    } catch (error) {
+      console.error(error)
     } finally {
       handleDelete()
     }
@@ -28,9 +29,6 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['spaces'],
-      })
-      queryClient.invalidateQueries({
-        queryKey: ['space', id],
       })
     },
   })
