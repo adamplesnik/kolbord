@@ -6,6 +6,7 @@ import { Value } from '../components/plan/PlanDateSelector.tsx'
 import PlanDelete from '../components/plan/PlanDelete.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
+import SpaceDelete from '../components/space/SpaceDelete.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
 import { SpaceType } from '../components/space/spaceType'
@@ -164,12 +165,14 @@ const MainPage = () => {
           />
         )}
         {sidebarSpace && editMode && (
-          <SpaceEdit
-            space={sidebarSpace}
-            sendTitle={(title) => sendTitle(title)}
-            handleEdit={(space) => setSidebarSpace(space)}
-            handleDelete={() => setSidebarSpace(undefined)}
-          />
+          <>
+            <SpaceEdit
+              space={sidebarSpace}
+              sendTitle={(title) => sendTitle(title)}
+              handleEdit={(space) => setSidebarSpace(space)}
+            />
+            <SpaceDelete id={sidebarSpace.id} handleDelete={() => setSidebarSpace(undefined)} />
+          </>
         )}
         {userCanEdit && sidebarPlanEdit && editMode && (
           <>

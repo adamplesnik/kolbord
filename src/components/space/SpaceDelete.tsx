@@ -1,18 +1,19 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useState } from 'react'
-import { getOldToken } from '../../auth/helpers'
 import Button from '../basic/Button'
 import P from '../basic/P'
 
 const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
+  const { getToken } = useAuth()
   const [deleteStep, setDeleteStep] = useState(0)
 
   const deleteSpace = async (id: number) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
-        method: 'delete',
+      await axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${id}`, {
         headers: {
-          Authorization: `Bearer ${getOldToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       })
