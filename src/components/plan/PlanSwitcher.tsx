@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { GroupRecord } from '../../data/GroupRecord.tsx'
 import { LATEST_PLAN_ID } from '../../utils/constants.ts'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
@@ -42,7 +43,6 @@ const PlanSwitcher = ({
     queryFn: () => loadZones(),
   })
 
-  console.log(currentPlanId, zones)
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: () => addPlan(),
@@ -130,7 +130,7 @@ type PlanSwitcherProps = {
   handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void
-  onGroupEdit: (groupId: number) => void
+  onGroupEdit: (group: GroupRecord) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>

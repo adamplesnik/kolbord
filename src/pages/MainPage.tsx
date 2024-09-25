@@ -7,6 +7,7 @@ import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import { SpaceType } from '../components/space/spaceType'
+import { GroupRecord } from '../data/GroupRecord.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
@@ -20,7 +21,7 @@ const MainPage = () => {
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
   const [zoneId, setZoneId] = useState(0)
-  const [sidebarGroupId, setSidebarGroupId] = useState(0)
+  const [sidebarGroup, setSidebarGroup] = useState<GroupRecord | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
@@ -48,11 +49,13 @@ const MainPage = () => {
   }, [bookingsMode])
 
   const sidebarOpen =
-    sidebarSpace != undefined || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+    sidebarSpace != undefined ||
+    (sidebarPlanEdit && editMode) ||
+    (sidebarGroup != undefined && editMode)
 
   const closeSidebar = () => {
     setEditMode(false)
-    setSidebarGroupId(0)
+    setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
     setSidebarSpace(undefined)
   }
@@ -61,7 +64,7 @@ const MainPage = () => {
     if (id) {
       setZoneId(id)
       setSidebarSpace(undefined)
-      setSidebarGroupId(0)
+      setSidebarGroup(undefined)
       setBookingsMode(false)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
@@ -73,7 +76,7 @@ const MainPage = () => {
 
   const handlePlaceClick = (space: SpaceType) => {
     setSidebarSpace(space)
-    setSidebarGroupId(0)
+    setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
   }
 
@@ -83,12 +86,12 @@ const MainPage = () => {
     setBookingsMode(false)
     setSidebarPlanEdit(true)
     setSidebarSpace(undefined)
-    setSidebarGroupId(0)
+    setSidebarGroup(undefined)
     setEditMode(true)
   }
 
-  const onGroupEdit = (groupId: number) => {
-    setSidebarGroupId(groupId)
+  const onGroupEdit = (group: GroupRecord) => {
+    setSidebarGroup(group)
     setSidebarSpace(undefined)
     setEditMode(true)
     setSidebarPlanEdit(false)
@@ -153,10 +156,10 @@ const MainPage = () => {
         sidebarTitle={sidebarTitle}
         closeSidebar={closeSidebar}
       >
-        {sidebarGroupId > 0 && (
+        {sidebarGroup != undefined && (
           <GroupDetail
             editMode={editMode}
-            groupId={sidebarGroupId}
+            group={sidebarGroup}
             sendTitle={(title) => sendTitle(title)}
           />
         )}

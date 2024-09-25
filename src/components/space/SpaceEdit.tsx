@@ -17,7 +17,6 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
   const { zoneId } = useZone()
 
   // const { data: allGroups } = useGroupsForPlanQuery(zoneId) XXX
-  return
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
@@ -56,7 +55,6 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
         value: space.group.value.id > 0 ? space.group.value.id : undefined,
       },
     }
-    console.log(payload)
 
     return await axios.patch(
       `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces/${id}`,
@@ -140,11 +138,12 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
                     value={+field.state.value ? +field.state.value : ''}
                   >
                     <option value={0}>(none)</option>
-                    {allGroups?.data.map((all) => (
-                      <option key={`group_option${all.id}`} value={all.id}>
-                        {all.attributes.name}
-                      </option>
-                    ))}
+                    {false &&
+                      allGroups?.data.map((all) => (
+                        <option key={`group_option${all.id}`} value={all.id}>
+                          {all.attributes.name}
+                        </option>
+                      ))}
                   </select>
                 )}
               />

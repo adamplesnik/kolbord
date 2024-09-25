@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useEffect } from 'react'
 import { GroupRecord } from '../../data/GroupRecord'
 import Button from '../basic/Button'
@@ -8,63 +9,67 @@ import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone'
-import { editGroup } from './groupFetch'
 
-const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
-  const { getToken } = useAuth()
+const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
   const { zoneId } = useZone()
-  const loadGroup = async (groupId: number): Promise<{ data: GroupRecord }> => {
-    const response = await fetch(`${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups/${groupId}`, {
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
-    return response.json()
-  }
-
-  const { data: group } = useQuery({
-    queryKey: ['group', groupId],
-    enabled: groupId > 0,
-    queryFn: () => loadGroup(groupId),
-  })
+  const { getToken } = useAuth()
 
   const { Field, handleSubmit, reset } = useForm<GroupRecord>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
     defaultValues: {
-      id: group?.data.id ?? 0,
-      name: group?.data.attributes.name ?? '',
-      description: group?.data.attributes.description ?? '',
-      x: group?.data.attributes.x ?? 0,
-      y: group?.data.attributes.y ?? 0,
-      showMarker: group?.data.attributes.showMarker ?? false,
+      id: group?.id ?? 0,
+      name: group?.name ?? '',
+      description: group?.description ?? '',
+      x: group?.x ?? 0,
+      y: group?.y ?? 0,
+      showMarker: group?.showMarker ?? false,
     },
   })
 
+  const editGroup = async (groupId: number, data: GroupRecord) => {
+    return await axios.patch(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/zone-groups/${groupId}`,
+      JSON.stringify({
+        name: data.name,
+        description: data.description,
+        x: data.x,
+        y: data.y,
+        showMarker: data.showMarker,
+      }),
+      {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+  }
+
   const queryClient = useQueryClient()
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: GroupRecord) => editGroup(groupId, data),
+    mutationFn: (data: GroupRecord) => editGroup(group.id, data),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['group', groupId] })
+      await queryClient.cancelQueries({ queryKey: ['group', group.id] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['groups', zoneId],
       })
       queryClient.invalidateQueries({
-        queryKey: ['group', groupId],
+        queryKey: ['group', group.id],
       })
     },
   })
 
   useEffect(() => {
-    sendTitle(group?.data.attributes.name)
-  }, [sendTitle, group?.data.attributes.name])
+    sendTitle(group?.name)
+  }, [sendTitle, group])
 
   useEffect(() => {
     reset()
-  }, [groupId])
+  }, [reset, group])
 
   return (
     <>
@@ -77,7 +82,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
       >
         <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
         <Field
-          name="attributes.name"
+          name="name"
           children={({ state, handleChange, handleBlur }) => (
             <InputWithLabel
               label="Name"
@@ -90,7 +95,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
           )}
         />
         <Field
-          name="attributes.description"
+          name="description"
           children={({ state, handleChange, handleBlur }) => (
             <div className="flex flex-col gap-1">
               <span className="block text-xs font-bold">Description</span>
@@ -105,7 +110,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
           )}
         />
         <Field
-          name="attributes.showMarker"
+          name="showMarker"
           children={({ state, handleChange, handleBlur }) => (
             <CheckboxWithLabel
               label="Show marker"
@@ -117,7 +122,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
         />
         <div className="flex gap-4">
           <Field
-            name="attributes.x"
+            name="x"
             children={({ state, handleChange, handleBlur }) => (
               <InputWithLabel
                 label="X"
@@ -130,7 +135,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
             )}
           />
           <Field
-            name="attributes.y"
+            name="y"
             children={({ state, handleChange, handleBlur }) => (
               <InputWithLabel
                 label="Y"
@@ -149,8 +154,8 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
       </form>
       {/* <PlanDelete
           zoneId={zoneId}
-          planName={plan?.data.attributes.name}
-          planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
+          planName={plan?.data.name}
+          planCompanyUuid={plan?.data.company?.data.uuid}
           userCompanyUuid={user?.company.uuid}
           handleDelete={handleDelete}
         /> */}
@@ -160,7 +165,7 @@ const GroupDetail = ({ groupId, sendTitle }: GroupDetailProps) => {
 
 type GroupDetailProps = {
   editMode: boolean
-  groupId: number
+  group: GroupRecord
   sendTitle: (title: string | undefined) => void
 }
 

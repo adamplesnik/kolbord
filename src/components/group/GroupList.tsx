@@ -15,7 +15,7 @@ const GroupList = ({ onGroupEdit }: GroupListProps) => {
       {data?.data.docs.map((group) => (
         <div className="flex items-center gap-1">
           <span className="flex-1">{group.name}</span>
-          <EditButton onClick={() => onGroupEdit(group.id)} editMode={false} />
+          <EditButton onClick={() => onGroupEdit(group)} editMode={false} />
         </div>
       ))}
     </div>
@@ -23,7 +23,7 @@ const GroupList = ({ onGroupEdit }: GroupListProps) => {
 }
 
 type GroupListProps = {
-  onGroupEdit: (groupId: number) => void
+  onGroupEdit: (group: GroupRecord) => void
 }
 
 export default GroupList
