@@ -9,7 +9,6 @@ import { SpaceType } from '../components/space/spaceType'
 import { GroupRecord } from '../data/GroupRecord'
 
 const MenuBar = ({
-  handleGroupAdd,
   handleMyBookings,
   handlePlaceAdd,
   handleViewChange,
@@ -33,7 +32,6 @@ const MenuBar = ({
               onPlanEdit={onPlanEdit}
               onPlanChange={onPlanChange}
               handlePlaceAdd={handlePlaceAdd}
-              handleGroupAdd={handleGroupAdd}
               handleMyBookings={handleMyBookings}
             />
             <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
@@ -51,7 +49,6 @@ const MenuBar = ({
 }
 
 type MenuBarProps = {
-  handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void
   handleViewChange: () => void

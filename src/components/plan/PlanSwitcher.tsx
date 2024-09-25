@@ -16,7 +16,6 @@ import { PlanType } from './planType'
 import { useZone } from './useZone.ts'
 
 const PlanSwitcher = ({
-  handleGroupAdd,
   handlePlaceAdd,
   handleMyBookings,
   onGroupEdit,
@@ -85,9 +84,7 @@ const PlanSwitcher = ({
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
               <GroupList onGroupEdit={onGroupEdit} />
-              {zoneId != undefined && zoneId > 0 && (
-                <GroupAdd planId={zoneId} handleGroupAdd={handleGroupAdd} />
-              )}
+              {zoneId != undefined && zoneId > 0 && <GroupAdd />}
             </div>
           )}
         </div>
@@ -100,7 +97,6 @@ const PlanSwitcher = ({
 }
 
 type PlanSwitcherProps = {
-  handleGroupAdd: () => void
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void
   onGroupEdit: (group: GroupRecord) => void

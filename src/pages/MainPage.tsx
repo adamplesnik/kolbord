@@ -67,10 +67,6 @@ const MainPage = () => {
     }
   }
 
-  const handleGroupAdd = () => {
-    setSidebarSpace(undefined)
-  }
-
   const handlePlaceClick = (space: SpaceType) => {
     setSidebarSpace(space)
     setSidebarGroup(undefined)
@@ -140,7 +136,6 @@ const MainPage = () => {
           handlePlaceClick(space)
           setEditMode(true)
         }}
-        handleGroupAdd={handleGroupAdd}
       />
       <Sidebar
         editMode={editMode}
