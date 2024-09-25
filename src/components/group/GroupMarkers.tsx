@@ -1,9 +1,9 @@
 import GroupMarker from './GroupMarker'
 import { useGroupsForPlanQuery } from './groupFetch'
 
-const GroupMarkers = ({ planId }: GroupMarkersProps) => {
+const GroupMarkers = () => {
   const editMode = false
-
+  return
   const { data: markers, isSuccess } = useGroupsForPlanQuery(planId)
 
   if (isSuccess) {
@@ -26,10 +26,6 @@ const GroupMarkers = ({ planId }: GroupMarkersProps) => {
       </>
     )
   }
-}
-
-type GroupMarkersProps = {
-  planId: number
 }
 
 export default GroupMarkers

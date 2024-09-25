@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/clerk-react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { useEffect } from 'react'
 import Loading from '../basic/Loading'
 import { PlanType } from './planType'
 
@@ -18,11 +19,17 @@ const Plan = ({ zoneId }: PlanProps) => {
       console.error(error)
     }
   }
+
   const { data: zone, isLoading } = useQuery({
-    queryKey: ['zone', zoneId],
+    queryKey: ['zone'],
     enabled: zoneId > 0,
     queryFn: () => loadPlan(zoneId),
   })
+
+  const queryClient = useQueryClient()
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['zone'] })
+  }, [queryClient, zoneId])
 
   return (
     <>

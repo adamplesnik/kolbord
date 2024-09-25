@@ -8,7 +8,7 @@ import { Value } from './PlanDateSelector'
 
 const PlanTransformWrapper = ({
   handlePlaceClick,
-  planId,
+  zoneId,
   sidebarPlanEdit,
   sidebarSpace,
   workingDate,
@@ -30,16 +30,15 @@ const PlanTransformWrapper = ({
               addWithSpace(sidebarSpace || sidebarPlanEdit ? 'mr-[23rem]' : '')
             }
           >
-            <GroupMarkers planId={planId} />
+            <GroupMarkers />
             <Spaces
               handleZoomToElement={zoomToElement}
               sidebarSpace={sidebarSpace}
               handlePlaceClick={handlePlaceClick}
-              planId={planId}
               workingDate={workingDate}
               listView={false}
             />
-            {planId > 0 && <Plan zoneId={planId} />}
+            {zoneId > 0 && <Plan zoneId={zoneId} />}
           </div>
         </TransformComponent>
       )}
@@ -49,7 +48,7 @@ const PlanTransformWrapper = ({
 
 type PlanTransformWrapperProps = {
   handlePlaceClick: (space: SpaceType) => void
-  planId: number
+  zoneId: number
   sidebarPlanEdit: boolean
   sidebarSpace: SpaceType | undefined
   workingDate: Value

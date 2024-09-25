@@ -6,6 +6,8 @@ import Button from '../basic/Button'
 import { SpaceType } from './spaceType'
 
 const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
+  const queryClient = useQueryClient()
+
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
   const placeMetadata = '500, 500'
 
@@ -13,14 +15,12 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
     latestPlaceMetadata != null ? latestPlaceMetadata.split(',') : placeMetadata.split(',')
 
   const defaultData = {
-    data: {
-      id: 0,
-      name: 'New space',
-      x: +x,
-      y: +y,
-      plan: planId,
-      slots: 'halfday',
-    },
+    id: 0,
+    name: 'New space',
+    x: +x,
+    y: +y,
+    zone: planId,
+    slots: 'halfday',
   }
 
   const createTable = async (data: NewTableRecord): Promise<NewTableRecord> => {
@@ -34,8 +34,6 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
     })
     return response.json()
   }
-
-  const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
     mutationFn: (data: NewTableRecord) => createTable(data),

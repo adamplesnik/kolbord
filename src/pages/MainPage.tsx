@@ -118,7 +118,6 @@ const MainPage = () => {
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
-          planId={planId}
           sidebarSpace={sidebarSpace}
           workingDate={workingDate}
         />
@@ -126,7 +125,7 @@ const MainPage = () => {
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          planId={planId}
+          zoneId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarSpace={sidebarSpace}
           workingDate={workingDate}

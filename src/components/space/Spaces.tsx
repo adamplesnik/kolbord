@@ -9,11 +9,11 @@ import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
+import { useZone } from '../plan/useZone.ts'
 import Space from './Space.tsx'
 import { SpaceType } from './spaceType'
 
 const Spaces = ({
-  planId: zoneId,
   sidebarSpace,
   handlePlaceClick,
   handleZoomToElement,
@@ -21,23 +21,35 @@ const Spaces = ({
   listView,
 }: SpacesProps) => {
   const { getToken, userId } = useAuth()
-  const loadSpaces = async (planId: number): Promise<{ data: { docs: SpaceType[] } }> => {
-    return axios(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?where[zones][id][equals]=${planId}&depth=1`,
-      {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
+  const { data: zone } = useZone()
+
+  const loadSpaces = async (
+    zoneId: number | undefined
+  ): Promise<{ data: { docs: SpaceType[] } }> => {
+    const query = qs.stringify({
+      where: {
+        'zone.value': {
+          equals: zoneId,
         },
-      }
-    )
+      },
+    })
+
+    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/spaces?${query}&depth=1`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: spaces } = useQuery({
-    queryKey: ['spaces', zoneId],
-    queryFn: () => loadSpaces(zoneId),
+    queryKey: ['spaces', zone?.data.id],
+    queryFn: () => loadSpaces(zone?.data.id),
   })
 
-  const loadBookingsForZone = async (zoneId: number, date: Value): Promise<BookingQueryType> => {
+  const loadBookingsForZone = async (
+    zoneId: number | undefined,
+    date: Value
+  ): Promise<BookingQueryType> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
     const midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
@@ -47,7 +59,7 @@ const Spaces = ({
         and: [
           {
             space: {
-              'zone.id': {
+              'zone.value': {
                 equals: zoneId,
               },
             },
@@ -70,8 +82,8 @@ const Spaces = ({
   }
 
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', zoneId, workingDate],
-    queryFn: () => loadBookingsForZone(zoneId, workingDate),
+    queryKey: ['bookings', zone?.data.id, workingDate],
+    queryFn: () => loadBookingsForZone(zone?.data.id, workingDate),
   })
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
@@ -140,7 +152,6 @@ const Spaces = ({
 }
 
 type SpacesProps = {
-  planId: number
   handlePlaceClick: (space: SpaceType) => void
   handleZoomToElement?: (id: string, zoom: number) => void | undefined
   listView: boolean
