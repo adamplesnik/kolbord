@@ -15,10 +15,10 @@ const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
         {space.group && (
           <>
             <span className="text-sm text-slate-600" data-tooltip-id="badge">
-              {space.group.value.name}
+              {space.group.value?.name}
             </span>
             <Tooltip id="badge" className="z-50">
-              {space.group.value.description}
+              {space.group.value?.description}
             </Tooltip>
           </>
         )}
