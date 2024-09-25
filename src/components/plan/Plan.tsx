@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Loading from '../basic/Loading'
 import { PlanType } from './planType'
@@ -12,8 +12,6 @@ const Plan = () => {
   const { getToken } = useAuth()
   const { zoneId } = useZone()
   const queryClient = useQueryClient()
-
-  const [id, setId] = useState<number | undefined>(undefined)
   const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
 
   const loadZones = async (): Promise<{ data: { docs: PlanType[] } } | undefined> => {
@@ -44,22 +42,17 @@ const Plan = () => {
 
   const { data: zone } = useQuery({
     queryKey: ['zone'],
-    enabled: !!id,
-    queryFn: () => loadZone(id!),
+    enabled: zoneId != undefined, //@todo do not send undefined
+    queryFn: () => loadZone(zoneId!),
   })
 
   useEffect(() => {
-    if (zoneId) {
-      setId(zoneId)
-      console.log('zoneId from useZone used')
-    } else if (savedZoneId > 0) {
-      setId(savedZoneId)
-      console.log('savedZoneId from local storage used')
-    } else if (zones?.data?.docs && zones.data.docs.length > 0) {
-      setId(zones.data.docs[0].id)
-      console.log('first zoneId from zones data used')
+    if (!zoneId) {
+      queryClient.setQueryData<{ data: PlanType }>(['zone'], {
+        data: { id: savedZoneId || zones?.data.docs[0].id },
+      })
     }
-  }, [zoneId, savedZoneId, zones?.data?.docs])
+  }, [queryClient, zoneId, savedZoneId, zones?.data?.docs])
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['zone'] })

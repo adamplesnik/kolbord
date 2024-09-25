@@ -20,7 +20,6 @@ const PlanSwitcher = ({
   handlePlaceAdd,
   handleMyBookings,
   onGroupEdit,
-  onPlanChange,
   onPlanEdit,
 }: PlanSwitcherProps) => {
   const userCanEdit = true //XXX
@@ -31,10 +30,12 @@ const PlanSwitcher = ({
 
   const { zoneId } = useZone()
   const queryClient = useQueryClient()
+
   const { mutate } = useMutation({
     mutationFn: () => addPlan(),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ['zones'] })
+      queryClient.invalidateQueries({ queryKey: ['zone'] })
       onPlanEdit(result?.id)
     },
   })
@@ -66,14 +67,22 @@ const PlanSwitcher = ({
                 <div className="flex gap-1" key={`plan_${zone.id}`}>
                   <Button
                     className="flex-1"
-                    onClick={() => onPlanChange(zone.id)}
+                    onClick={() =>
+                      queryClient.setQueryData<{ data: PlanType }>(['zone'], {
+                        data: {
+                          id: zone.id,
+                        },
+                      })
+                    }
                     active={zoneId === zone.id}
                     Icon={Check}
                     iconClassName={zoneId === zone.id ? 'opacity-100' : 'opacity-35'}
                   >
                     {zone.name}
                   </Button>
-                  <EditButton onClick={() => onPlanEdit(zone.id)} editMode={false} />
+                  {zoneId === zone.id && (
+                    <EditButton onClick={() => onPlanEdit(zone.id)} editMode={false} />
+                  )}
                 </div>
               ))}
             {userCanEdit && (

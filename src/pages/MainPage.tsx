@@ -75,8 +75,7 @@ const MainPage = () => {
     setSidebarPlanEdit(false)
   }
 
-  const onPlanEdit = (zoneId: number | undefined) => {
-    zoneId && setZoneId(zoneId)
+  const onPlanEdit = () => {
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
