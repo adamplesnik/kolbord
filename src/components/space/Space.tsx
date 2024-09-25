@@ -1,19 +1,21 @@
 import { ArrowRight } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
 import { BookingRecord } from '../../data/BookingRecord.tsx'
-import { TableRecord } from '../../data/TableRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
 import SpaceDot from './SpaceDot.tsx'
-import { SpaceFeatures } from './SpaceFeatures.tsx'
+import { SpaceType } from './spaceType'
 
 const Space = ({
   id,
   active,
   className,
-  attributes: { x, y, name, features },
+  x,
+  y,
+  name,
+  // features,
   onClick,
   bookedToday = false,
   bookedByWho,
@@ -48,17 +50,14 @@ const Space = ({
         </div>
         {bookings && bookings?.length > 0 && (
           <Tooltip id={tooltipId} className="z-10 text-sm">
-            {bookings?.map((b: any, i: number) => (
+            {bookings?.map((b: BookingRecord, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
-                  {humanTime(b.attributes.from)}
+                  {humanTime(b.from)}
                   <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
-                  {humanTime(b.attributes.to)}
+                  {humanTime(b.to)}
                 </div>
-                <span className="font-semibold">
-                  {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
-                  {b.attributes.users_permissions_user.data.attributes.lastName}
-                </span>
+                <span className="font-semibold">{b.sub}</span>
               </div>
             ))}
           </Tooltip>
@@ -82,7 +81,7 @@ const Space = ({
               <Button onClick={onClick}>{name}</Button>
             </div>
             <div className="flex shrink-0 items-center gap-2 lg:w-64">
-              {features && <SpaceFeatures noTooltip features={features.data} />}
+              {/* {features && <SpaceFeatures noTooltip features={features.data} />} */}
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
@@ -91,14 +90,11 @@ const Space = ({
               bookings?.map((b: BookingRecord, i: number) => (
                 <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
                   <div className="flex w-28 items-center justify-evenly gap-1 text-slate-600">
-                    {humanTime(b.attributes.from)}
+                    {humanTime(b.from)}
                     <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
-                    {humanTime(b.attributes.to)}
+                    {humanTime(b.to)}
                   </div>
-                  <span className="font-semibold">
-                    {b.attributes.users_permissions_user.data.attributes.firstName}{' '}
-                    {b.attributes.users_permissions_user.data.attributes.lastName}
-                  </span>
+                  <span className="font-semibold">{b.sub}</span>
                 </div>
               ))}
           </div>
@@ -109,15 +105,15 @@ const Space = ({
   }
 }
 
-export type SpaceProps = {
+type SpaceProps = {
   active?: boolean | undefined
-  onClick?: () => void | undefined
-  className?: string | undefined
-  bookedToday?: boolean
   bookedByMe?: boolean
-  bookedByWho?: string | undefined
-  bookings?: any
+  bookedByWho?: string | undefined | null
+  bookedToday?: boolean
+  bookings?: BookingRecord[] | undefined
+  className?: string | undefined
   listView: boolean
-} & TableRecord
+  onClick?: () => void | undefined
+} & SpaceType
 
 export default Space

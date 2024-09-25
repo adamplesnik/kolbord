@@ -1,48 +1,51 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { Plus } from 'lucide-react'
-import { getToken } from '../../auth/helpers'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
+import { SpaceType } from './spaceType'
 
 const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
+  const queryClient = useQueryClient()
+  const { getToken, orgId } = useAuth()
+
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
   const placeMetadata = '500, 500'
 
   const [x, y] =
     latestPlaceMetadata != null ? latestPlaceMetadata.split(',') : placeMetadata.split(',')
 
-  const defaultData = {
-    data: {
-      id: 0,
-      name: 'New space',
-      x: +x,
-      y: +y,
-      plan: planId,
-      slots: 'halfday',
+  const defaultData: SpaceType = {
+    id: 0,
+    name: 'New space',
+    x: +x,
+    y: +y,
+    zone: {
+      relationTo: 'zones',
+      value: planId || 0,
     },
+    slots: 'halfday',
+    org: orgId,
   }
 
-  const createTable = async (data: NewTableRecord): Promise<NewTableRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/tables`, {
+  const createTable = async (data: SpaceType): Promise<SpaceType> => {
+    return await axios.post(`${import.meta.env.VITE_API_URL}/spaces`, JSON.stringify(data), {
       method: 'post',
       headers: {
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     })
-    return response.json()
   }
 
-  const queryClient = useQueryClient()
-
   const { mutate } = useMutation({
-    mutationFn: (data: NewTableRecord) => createTable(data),
+    mutationFn: (data: SpaceType) => createTable(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['places', planId],
+        queryKey: ['spaces', planId],
       })
-      handlePlaceAdd(data.data.id)
+      handlePlaceAdd(data)
     },
   })
 
@@ -60,18 +63,8 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
 }
 
 type SpaceAddProps = {
-  planId: number
-  handlePlaceAdd: (placeId: number) => void
-}
-
-type NewTableRecord = {
-  data: {
-    id: number
-    name: string
-    x: number
-    y: number
-    plan: number
-  }
+  planId: number | undefined
+  handlePlaceAdd: (space: SpaceType) => void
 }
 
 export default SpaceAdd

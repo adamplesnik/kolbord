@@ -1,6 +1,6 @@
 import { addWithSpace } from '../../utils/addWithSpace'
 
-const initials = (name: string | undefined) => {
+const initials = (name: string | undefined | null) => {
   if (name) {
     const names = name.split(' ')
     return names.map((n) => Array.from(n)[0])
@@ -31,7 +31,7 @@ const SpaceDot = ({ bookedByMe, bookedByWho, bookedToday, small = false }: Space
 
 type SpaceDotProps = {
   bookedToday?: boolean | undefined
-  bookedByWho?: string | undefined
+  bookedByWho?: string | undefined | null
   bookedByMe?: boolean | undefined
   small?: boolean
 }

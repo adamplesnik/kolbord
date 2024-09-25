@@ -1,15 +1,21 @@
+import { useQuery } from '@tanstack/react-query'
+import { GroupRecord } from '../../data/GroupRecord'
 import EditButton from '../basic/EditButton'
-import { useGroupsForPlanQuery } from './groupFetch'
+import { useZone } from '../plan/useZone'
 
-const GroupList = ({ planId, onGroupEdit }: GroupListProps) => {
-  const { data: groups } = useGroupsForPlanQuery(planId)
+const GroupList = ({ onGroupEdit }: GroupListProps) => {
+  const { zoneId } = useZone()
+  const { data } = useQuery<{ data: { docs: GroupRecord[] } }>({
+    queryKey: ['groups', zoneId],
+    enabled: true,
+  })
 
   return (
     <div className="flex flex-col gap-2">
-      {groups?.data.map((group) => (
+      {data?.data.docs.map((group) => (
         <div className="flex items-center gap-1">
-          <span className="flex-1">{group.attributes.name}</span>
-          <EditButton onClick={() => onGroupEdit(group.id)} editMode={false} />
+          <span className="flex-1">{group.name}</span>
+          <EditButton onClick={() => onGroupEdit(group)} editMode={false} />
         </div>
       ))}
     </div>
@@ -17,8 +23,7 @@ const GroupList = ({ planId, onGroupEdit }: GroupListProps) => {
 }
 
 type GroupListProps = {
-  onGroupEdit: (groupId: number) => void
-  planId: number
+  onGroupEdit: (group: GroupRecord) => void
 }
 
 export default GroupList

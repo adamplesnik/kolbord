@@ -1,6 +1,6 @@
 const generateSlots = (date: Date, startHours: number, endHours: number, stepHours: number) => {
   const slots = []
-  let currentTime = new Date(date)
+  const currentTime = new Date(date)
   currentTime.setHours(startHours, 0, 0, 0)
 
   while (currentTime.getHours() + currentTime.getMinutes() / 60 < endHours) {
@@ -25,11 +25,11 @@ export const getSlots = (date: Date, slots: string) => {
       return generateSlots(date, 6, 18, 12)
     case 'halfday':
       return generateSlots(date, 6, 18, 6)
-    case 'hours2':
+    case '2hours':
       return generateSlots(date, 6, 18, 2)
-    case 'hour1':
+    case '1hour':
       return generateSlots(date, 6, 18, 1)
-    case 'minutes30':
+    case '30minutes':
       return generateSlots(date, 6, 18, 0.5)
     default:
       return generateSlots(date, 6, 18, 6)

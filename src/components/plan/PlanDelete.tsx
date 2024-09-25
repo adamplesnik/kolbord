@@ -1,31 +1,27 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useState } from 'react'
-import { getToken } from '../../auth/helpers'
+import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import P from '../basic/P'
-import { LATEST_PLAN_ID } from '../../utils/constants'
+import { useZone } from './useZone'
 
-const PlanDelete = ({
-  planId,
-  planName,
-  planCompanyUuid,
-  userCompanyUuid,
-  handleDelete,
-}: PlanDeleteProps) => {
-  const canDelete = planCompanyUuid === userCompanyUuid
-
+const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
+  const { zone, zoneId } = useZone()
+  const { getToken } = useAuth()
 
-  const deletePlan = async (id: number) => {
+  const deletePlan = async (id: number | undefined) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-        method: 'delete',
+      await axios.delete(`${import.meta.env.VITE_API_URL}/zones/${id}`, {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       })
-    } catch {
+    } catch (error) {
+      console.error(error)
     } finally {
       handleDelete()
     }
@@ -33,16 +29,16 @@ const PlanDelete = ({
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlan(planId),
+    mutationFn: () => deletePlan(zoneId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['plans'],
+        queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['places'],
+        queryKey: ['spaces'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['plan', planId],
+        queryKey: ['zone'],
       })
       localStorage.removeItem(LATEST_PLAN_ID)
     },
@@ -66,14 +62,10 @@ const PlanDelete = ({
             type="text"
             defaultValue={''}
             className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-            onChange={(e) => setDeleteStep(e.target.value === planName ? 2 : 1)}
+            onChange={(e) => setDeleteStep(e.target.value === zone?.data.name ? 2 : 1)}
           ></input>
           <div className="flex justify-between">
-            <Button
-              disabled={deleteStep < 2 && canDelete}
-              buttonType="danger"
-              onClick={() => mutate()}
-            >
+            <Button disabled={deleteStep < 2} buttonType="danger" onClick={() => mutate()}>
               Delete the plan
             </Button>
             <Button onClick={() => setDeleteStep(0)}>Cancel</Button>
@@ -85,10 +77,6 @@ const PlanDelete = ({
 }
 
 type PlanDeleteProps = {
-  planId: number
-  planName: string | undefined
-  planCompanyUuid: string | undefined
-  userCompanyUuid: string | undefined
   handleDelete: () => void
 }
 

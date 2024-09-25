@@ -1,34 +1,27 @@
 import { Fragment, HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { FeatureRecord } from '../../data/FeatureRecord'
+import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
-import { useFeaturesQuery } from './loadFeatures.ts'
-import { addWithSpace } from '../../utils/addWithSpace.ts'
+import { RelationshipType } from './spaceType'
 
 export const SpaceFeatures = ({
   features,
   badgeClassName,
   noTooltip = false,
 }: SpaceFeaturesProps) => {
-  const { data } = useFeaturesQuery()
-
-  const filteredData = data?.data.filter((d) => features.some((f) => d.id === f.id))
-
   return (
     <>
-      {filteredData?.map((feature) => (
-        <Fragment key={feature.id}>
-          <div data-tooltip-id={`feature${feature.id}`}>
+      {features.map((feature) => (
+        <Fragment key={feature.value?.id}>
+          <div data-tooltip-id={`feature${feature.value?.id}`}>
             <Badge className={'w-8 *:stroke-1.5' + addWithSpace(badgeClassName)}>
-              {feature.attributes.lucideIcon && (
-                <SpaceFeatureIcon name={feature.attributes.lucideIcon} />
-              )}
+              {feature.value?.lucideIcon && <SpaceFeatureIcon name={feature.value.lucideIcon} />}
             </Badge>
           </div>
           {!noTooltip && (
-            <Tooltip id={`feature${feature.id}`} className="z-30">
-              <span className="text-sm">{feature.attributes.description}</span>
+            <Tooltip id={`feature${feature.value?.id}`} className="z-30">
+              <span className="text-sm">{feature.value?.name}</span>
             </Tooltip>
           )}
         </Fragment>
@@ -38,7 +31,7 @@ export const SpaceFeatures = ({
 }
 
 export type SpaceFeaturesProps = {
-  features: FeatureRecord[]
+  features: RelationshipType[]
   badgeClassName?: string | undefined
   noTooltip?: boolean | undefined
 } & HTMLAttributes<HTMLDivElement>

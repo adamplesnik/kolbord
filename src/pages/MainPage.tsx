@@ -1,29 +1,32 @@
+import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import { useAuthContext } from '../auth/AuthContext'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
 import { Value } from '../components/plan/PlanDateSelector.tsx'
+import PlanDelete from '../components/plan/PlanDelete.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
+import SpaceDelete from '../components/space/SpaceDelete.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
+import SpaceEdit from '../components/space/SpaceEdit.tsx'
+import { SpaceType } from '../components/space/spaceType'
 import MyBookings from '../components/user/MyBookings.tsx'
+import { GroupRecord } from '../data/GroupRecord.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
-  const { user, userCanEdit } = useAuthContext()
+  const userCanEdit = true
 
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [planId, setPlanId] = useState(0)
-  const [sidebarGroupId, setSidebarGroupId] = useState(0)
+  const [sidebarGroup, setSidebarGroup] = useState<GroupRecord | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
-  const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [workingDate, setWorkingDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
@@ -41,56 +44,47 @@ const MainPage = () => {
   }, [workingDate])
 
   useEffect(() => {
-    setPlanId(planId)
-  }, [planId])
-
-  useEffect(() => {
     setBookingsMode(bookingsMode)
   }, [bookingsMode])
 
   const sidebarOpen =
-    sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+    sidebarSpace != undefined ||
+    (sidebarPlanEdit && editMode) ||
+    (sidebarGroup != undefined && editMode)
 
   const closeSidebar = () => {
     setEditMode(false)
-    setSidebarGroupId(0)
+    setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
-    setSidebarTableId(0)
+    setSidebarSpace(undefined)
   }
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
-      setPlanId(id)
-      setSidebarTableId(0)
-      setSidebarGroupId(0)
+      setSidebarSpace(undefined)
+      setSidebarGroup(undefined)
       setBookingsMode(false)
-      localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
 
-  const handleGroupAdd = () => {
-    setSidebarTableId(0)
-  }
-
-  const handlePlaceClick = (id: number) => {
-    setSidebarTableId(id)
-    setSidebarGroupId(0)
+  const handlePlaceClick = (space: SpaceType) => {
+    setSidebarSpace(space)
+    setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
   }
 
-  const onPlanEdit = (planId: number | undefined) => {
-    planId && setPlanId(planId)
+  const onPlanEdit = () => {
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
-    setSidebarTableId(0)
-    setSidebarGroupId(0)
+    setSidebarSpace(undefined)
+    setSidebarGroup(undefined)
     setEditMode(true)
   }
 
-  const onGroupEdit = (groupId: number) => {
-    setSidebarGroupId(groupId)
-    setSidebarTableId(0)
+  const onGroupEdit = (group: GroupRecord) => {
+    setSidebarGroup(group)
+    setSidebarSpace(undefined)
     setEditMode(true)
     setSidebarPlanEdit(false)
   }
@@ -107,34 +101,25 @@ const MainPage = () => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
 
-  if (!user || user.error) {
-    return <Navigate to="/" />
-  }
-
-  if (user && user.onboardingCompanyName) {
-    return <Navigate to="/onboarding" />
-  }
-
   return (
     <>
-      {bookingsMode && (
-        <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
-      )}
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+      {bookingsMode && <MyBookings workingDate={workingDate} />}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
-          planId={planId}
-          sidebarTableId={sidebarTableId}
+          sidebarSpace={sidebarSpace}
           workingDate={workingDate}
         />
       )}
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
-          sidebarTableId={sidebarTableId}
+          sidebarSpace={sidebarSpace}
           workingDate={workingDate}
         />
       )}
@@ -146,13 +131,11 @@ const MainPage = () => {
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
         onGroupEdit={onGroupEdit}
-        planId={planId}
         workingDate={workingDate}
-        handlePlaceAdd={(id) => {
-          handlePlaceClick(id)
+        handlePlaceAdd={(space) => {
+          handlePlaceClick(space)
           setEditMode(true)
         }}
-        handleGroupAdd={handleGroupAdd}
       />
       <Sidebar
         editMode={editMode}
@@ -161,39 +144,45 @@ const MainPage = () => {
         sidebarTitle={sidebarTitle}
         closeSidebar={closeSidebar}
       >
-        {sidebarGroupId > 0 && (
+        {sidebarGroup != undefined && (
           <GroupDetail
             editMode={editMode}
-            groupId={sidebarGroupId}
-            planId={planId}
+            group={sidebarGroup}
             sendTitle={(title) => sendTitle(title)}
           />
         )}
-        {sidebarTableId > 0 && (
+        {sidebarSpace && !editMode && (
           <SpaceDetail
-            editMode={editMode}
             sendTitle={(title) => sendTitle(title)}
-            tableId={sidebarTableId}
+            space={sidebarSpace}
             workingDate={workingDate?.toString()}
-            planId={planId}
-            handleDelete={() => setSidebarTableId(0)}
           />
+        )}
+        {sidebarSpace && editMode && (
+          <>
+            <SpaceEdit
+              space={sidebarSpace}
+              sendTitle={(title) => sendTitle(title)}
+              handleEdit={(space) => setSidebarSpace(space)}
+            />
+            <SpaceDelete id={sidebarSpace.id} handleDelete={() => setSidebarSpace(undefined)} />
+          </>
         )}
         {userCanEdit && sidebarPlanEdit && editMode && (
-          <PlanEditor
-            sendTitle={(title) => sendTitle(title)}
-            planId={planId}
-            handleDelete={() => {
-              setSidebarPlanEdit(false)
-              setPlanId(0)
-            }}
-          />
+          <>
+            <PlanEditor sendTitle={(title) => sendTitle(title)} />
+            <PlanDelete
+              handleDelete={() => {
+                setSidebarPlanEdit(false)
+              }}
+            />
+          </>
         )}
       </Sidebar>
     </>
   )
 }
 
-export type MainPageProps = {} & HTMLAttributes<HTMLDivElement>
+export type MainPageProps = HTMLAttributes<HTMLDivElement>
 
 export default MainPage

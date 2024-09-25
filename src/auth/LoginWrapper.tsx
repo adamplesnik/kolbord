@@ -1,20 +1,19 @@
 import { HTMLAttributes } from 'react'
-import { Link } from 'react-router-dom'
 import A from '../components/basic/A'
-import Heading from '../components/basic/Heading'
 import P from '../components/basic/P'
 import Logo from '../components/Logo'
+import { SignedIn } from '@clerk/clerk-react'
+import { Navigate } from 'react-router-dom'
 
-const LoginWrapper = ({ showFooter = true, children, title = '' }: LoginWrapperProps) => {
+const LoginWrapper = ({ showFooter = true, children }: LoginWrapperProps) => {
   return (
     <div className="bg-site w-full md:min-h-screen">
       <div className="mx-auto flex w-full max-w-5xl overflow-hidden md:gap-16">
         <div className="mx-auto flex w-full flex-col gap-8 p-8 md:m-0">
-          <Link to="https://kolbord.com">
-            <Logo className="mb-8 h-6" />
-          </Link>
-          <Heading size={2}>{title}</Heading>
           {children}
+          <SignedIn>
+            <Navigate to="/plan" />
+          </SignedIn>
         </div>
         <div className="sticky top-4 z-10 hidden max-h-[calc(100vh_-_2rem)] flex-1 rounded-xl bg-cover bg-center bg-no-repeat md:block"></div>
       </div>
@@ -70,7 +69,6 @@ const LoginWrapper = ({ showFooter = true, children, title = '' }: LoginWrapperP
 
 type LoginWrapperProps = {
   showFooter?: boolean
-  title?: string
 } & HTMLAttributes<HTMLDivElement>
 
 export default LoginWrapper
