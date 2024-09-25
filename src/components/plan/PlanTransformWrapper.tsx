@@ -19,8 +19,8 @@ const PlanTransformWrapper = ({
       panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
       initialScale={1}
       centerOnInit={true}
-      minScale={0.5}
-      maxScale={1.5}
+      minScale={0.8}
+      maxScale={1}
     >
       {({ zoomToElement }) => (
         <TransformComponent wrapperClass="!h-screen !w-full !p-2">
