@@ -19,7 +19,7 @@ const MainPage = () => {
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [planId, setPlanId] = useState(0)
+  const [zoneId, setZoneId] = useState(0)
   const [sidebarGroupId, setSidebarGroupId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
@@ -40,8 +40,8 @@ const MainPage = () => {
   }, [workingDate])
 
   useEffect(() => {
-    setPlanId(planId)
-  }, [planId])
+    setZoneId(zoneId)
+  }, [zoneId])
 
   useEffect(() => {
     setBookingsMode(bookingsMode)
@@ -59,7 +59,7 @@ const MainPage = () => {
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
-      setPlanId(id)
+      setZoneId(id)
       setSidebarSpace(undefined)
       setSidebarGroupId(0)
       setBookingsMode(false)
@@ -77,8 +77,8 @@ const MainPage = () => {
     setSidebarPlanEdit(false)
   }
 
-  const onPlanEdit = (planId: number | undefined) => {
-    planId && setPlanId(planId)
+  const onPlanEdit = (zoneId: number | undefined) => {
+    zoneId && setZoneId(zoneId)
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
@@ -125,7 +125,7 @@ const MainPage = () => {
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          zoneId={planId}
+          zoneId={zoneId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarSpace={sidebarSpace}
           workingDate={workingDate}
@@ -139,7 +139,7 @@ const MainPage = () => {
         onPlanChange={handlePlanIdChange}
         onPlanEdit={onPlanEdit}
         onGroupEdit={onGroupEdit}
-        planId={planId}
+        planId={zoneId}
         workingDate={workingDate}
         handlePlaceAdd={(space) => {
           handlePlaceClick(space)
@@ -158,7 +158,7 @@ const MainPage = () => {
           <GroupDetail
             editMode={editMode}
             groupId={sidebarGroupId}
-            planId={planId}
+            planId={zoneId}
             sendTitle={(title) => sendTitle(title)}
           />
         )}
@@ -176,7 +176,7 @@ const MainPage = () => {
             sendTitle={(title) => sendTitle(title)}
             handleDelete={() => {
               setSidebarPlanEdit(false)
-              setPlanId(0)
+              setZoneId(0)
             }}
           />
         )}

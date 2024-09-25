@@ -43,6 +43,7 @@ const Spaces = ({
 
   const { data: spaces } = useQuery({
     queryKey: ['spaces', zoneId],
+    enabled: zoneId != undefined,
     queryFn: () => loadSpaces(zoneId),
   })
 

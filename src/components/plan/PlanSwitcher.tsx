@@ -15,10 +15,10 @@ import SpaceAdd from '../space/SpaceAdd.tsx'
 import { SpaceType } from '../space/spaceType'
 import { addPlan } from './planFetch.ts'
 import { PlanType } from './planType'
+import { useZone } from './useZone.ts'
 
 const PlanSwitcher = ({
   companyId,
-  currentPlan,
   handleGroupAdd,
   handlePlaceAdd,
   handleMyBookings,
@@ -26,24 +26,24 @@ const PlanSwitcher = ({
   onPlanChange,
   onPlanEdit,
 }: PlanSwitcherProps) => {
-  const userCanEdit = true
-
+  const userCanEdit = true //XXX
   const { getToken } = useAuth()
+  const { zoneId: currentPlanId } = useZone()
 
-  const loadPlans = async (): Promise<{ data: { docs: PlanType[] } }> => {
-    const token = await getToken()
+  const loadZones = async (): Promise<{ data: { docs: PlanType[] } }> => {
     return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     })
   }
 
   const { data: zones } = useQuery({
     queryKey: ['zones'],
-    queryFn: () => loadPlans(),
+    queryFn: () => loadZones(),
   })
 
+  console.log(currentPlanId, zones)
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: () => addPlan(companyId),
@@ -54,12 +54,12 @@ const PlanSwitcher = ({
   })
 
   useEffect(() => {
-    if (currentPlan === 0 && zones && zones.data.docs.length > 0) {
+    if (currentPlanId === undefined && zones && zones.data.docs.length > 0) {
       const latestPlanId = Number(localStorage.getItem(LATEST_PLAN_ID))
       const defaultPlanId = latestPlanId ? latestPlanId : zones.data.docs[0].id
       onPlanChange(defaultPlanId)
     }
-  }, [zones, currentPlan, onPlanChange])
+  }, [zones, currentPlanId, onPlanChange])
 
   return (
     <>
@@ -74,7 +74,7 @@ const PlanSwitcher = ({
           {zones &&
             zones.data &&
             zones.data.docs.map((plan) =>
-              currentPlan === plan.id ?
+              currentPlanId === plan.id ?
                 <span key={`plan_in_switcher_${plan.id}`}>{plan.name}</span>
               : ''
             )}
@@ -91,9 +91,9 @@ const PlanSwitcher = ({
                   <Button
                     className="flex-1"
                     onClick={() => onPlanChange(zone.id)}
-                    active={currentPlan === zone.id}
+                    active={currentPlanId === zone.id}
                     Icon={Check}
-                    iconClassName={currentPlan === zone.id ? 'opacity-100' : 'opacity-35'}
+                    iconClassName={currentPlanId === zone.id ? 'opacity-100' : 'opacity-35'}
                   >
                     {zone.name}
                   </Button>
@@ -105,13 +105,17 @@ const PlanSwitcher = ({
                 New plan
               </Button>
             )}
-            {currentPlan > 0 && <SpaceAdd planId={currentPlan} handlePlaceAdd={handlePlaceAdd} />}
+            {currentPlanId != undefined && currentPlanId > 0 && (
+              <SpaceAdd planId={currentPlanId} handlePlaceAdd={handlePlaceAdd} />
+            )}
           </div>
           {userCanEdit && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
-              <GroupList planId={currentPlan} onGroupEdit={onGroupEdit} />
-              {currentPlan > 0 && <GroupAdd planId={currentPlan} handleGroupAdd={handleGroupAdd} />}
+              <GroupList planId={currentPlanId} onGroupEdit={onGroupEdit} />
+              {currentPlanId != undefined && currentPlanId > 0 && (
+                <GroupAdd planId={currentPlanId} handleGroupAdd={handleGroupAdd} />
+              )}
             </div>
           )}
         </div>

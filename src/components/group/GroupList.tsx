@@ -18,7 +18,7 @@ const GroupList = ({ planId, onGroupEdit }: GroupListProps) => {
 
 type GroupListProps = {
   onGroupEdit: (groupId: number) => void
-  planId: number
+  planId: number | undefined
 }
 
 export default GroupList

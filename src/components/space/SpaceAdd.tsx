@@ -59,18 +59,16 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
 }
 
 type SpaceAddProps = {
-  planId: number
+  planId: number | undefined
   handlePlaceAdd: (space: SpaceType) => void
 }
 
 type NewTableRecord = {
-  data: {
-    id: number
-    name: string
-    x: number
-    y: number
-    plan: number
-  }
+  id: number
+  name: string
+  x: number
+  y: number
+  zone: number
 }
 
 export default SpaceAdd
