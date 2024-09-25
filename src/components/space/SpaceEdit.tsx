@@ -47,7 +47,7 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
       y: space.y,
       slots: space.slots,
       features: space.features?.map((feature) => ({
-        relationTo: feature.relationTo,
+        relationTo: 'space-features',
         value: feature.value.id,
       })),
       group: {
