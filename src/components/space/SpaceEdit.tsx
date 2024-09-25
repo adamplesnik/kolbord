@@ -1,8 +1,9 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
+import { GroupRecord } from '../../data/GroupRecord.tsx'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
@@ -14,9 +15,11 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
-  console.log(`zone ${zoneId}`)
 
-  // const { data: allGroups } = useGroupsForPlanQuery(zoneId) XXX
+  const { data: allGroups } = useQuery<{ data: { docs: GroupRecord[] } }>({
+    queryKey: ['groups', zoneId],
+    enabled: true,
+  })
 
   useEffect(() => {
     sendTitle(space.name)
@@ -54,7 +57,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
         relationTo: 'space-features',
         value: feature?.value?.id,
       })),
-      ...(space.group?.value && {
+      ...(space.group?.value?.id && {
         group: {
           relationTo: 'zone-groups',
           value: space.group?.value && space.group.value.id > 0 ? space.group.value.id : undefined,
@@ -140,19 +143,14 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
                     })
                   }
                   className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-                  value={
-                    field?.state.value && +field?.state?.value?.value?.id ?
-                      +field.state.value?.value?.id
-                    : ''
-                  }
+                  value={field?.state.value ? field.state.value?.value?.id : ''}
                 >
                   <option value={0}>(none)</option>
-                  {false &&
-                    allGroups?.data.map((all) => (
-                      <option key={`group_option${all.id}`} value={all.id}>
-                        {all.attributes.name}
-                      </option>
-                    ))}
+                  {allGroups?.data.docs.map((all) => (
+                    <option key={`group_option${all.id}`} value={all.id}>
+                      {all.name}
+                    </option>
+                  ))}
                 </select>
               )}
             />
