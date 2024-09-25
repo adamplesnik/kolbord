@@ -1,12 +1,12 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { PlanRecord } from '../../data/PlanRecord'
 import Loading from '../basic/Loading'
+import { PlanType } from './planType'
 
 const Plan = ({ zoneId }: PlanProps) => {
   const { getToken } = useAuth()
-  const loadPlan = async (id: number): Promise<{ data: PlanRecord } | undefined> => {
+  const loadPlan = async (id: number): Promise<{ data: PlanType } | undefined> => {
     try {
       return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${id}`, {
         headers: {

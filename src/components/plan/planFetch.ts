@@ -2,10 +2,10 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { getOldToken } from '../../auth/helpers'
-import { PlanRecord } from '../../data/PlanRecord'
+import { PlanType } from './planType'
 
 export type PlanQueryType = {
-  data: PlanRecord
+  data: PlanType
 }
 
 const loadPlan = async (id: number): Promise<PlanQueryType | undefined> => {
@@ -29,7 +29,7 @@ export const usePlanQuery = (id: number) =>
     queryFn: () => loadPlan(id),
   })
 
-export const addPlan = async (apiCompanyId: number): Promise<PlanRecord | undefined> => {
+export const addPlan = async (apiCompanyId: number): Promise<PlanType | undefined> => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}/plans`, {
     method: 'post',
     headers: {

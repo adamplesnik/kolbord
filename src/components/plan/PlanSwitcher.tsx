@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { PlanRecord } from '../../data/PlanRecord.tsx'
 import { LATEST_PLAN_ID } from '../../utils/constants.ts'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
@@ -14,6 +13,7 @@ import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 import { addPlan } from './planFetch.ts'
+import { PlanType } from './planType'
 
 const PlanSwitcher = ({
   companyId,
@@ -29,7 +29,7 @@ const PlanSwitcher = ({
 
   const { getToken } = useAuth()
 
-  const loadPlans = async (): Promise<{ data: { docs: PlanRecord[] } }> => {
+  const loadPlans = async (): Promise<{ data: { docs: PlanType[] } }> => {
     const token = await getToken()
     return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones`, {
       headers: {

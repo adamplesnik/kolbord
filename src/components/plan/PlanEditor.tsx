@@ -1,38 +1,39 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useEffect } from 'react'
-import { getOldToken } from '../../auth/helpers'
-import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import PlanDelete from './PlanDelete'
-import { usePlanQuery } from './planFetch'
+import { PlanType } from './planType'
 
 const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
+  const { getToken } = useAuth()
   const userCanEdit = true
 
   const updatePlan = async (
     id: number,
     name?: string,
     svg?: string | undefined
-  ): Promise<PlanRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-      method: 'put',
-      headers: {
-        Authorization: `Bearer ${getOldToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ data: { name: name, svg: svg } }),
-    })
-    return response.json()
+  ): Promise<PlanType> => {
+    return await axios.patch(
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${id}`,
+      JSON.stringify({ name: name, svg: svg }),
+      {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   }
 
-  const { data: plan } = usePlanQuery(planId)
-
   const queryClient = useQueryClient()
+  const plan: { data: PlanType } | undefined = queryClient.getQueryData(['zone', planId])
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
+    mutationFn: (data: PlanType) => updatePlan(planId, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
       await queryClient.cancelQueries({ queryKey: ['zone', planId] })
@@ -47,26 +48,24 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
     },
   })
 
-  const { Field, handleSubmit, reset } = useForm<PlanRecord>({
+  const { Field, handleSubmit, reset } = useForm<PlanType>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
     defaultValues: {
       id: plan?.data.id,
-      attributes: {
-        name: plan?.data.attributes.name,
-        svg: plan?.data.attributes.svg,
-      },
+      name: plan?.data.name,
+      svg: plan?.data.svg,
     },
   })
 
   useEffect(() => {
     reset()
-  }, [planId])
+  }, [reset, planId])
 
   useEffect(() => {
-    sendTitle(plan?.data.attributes.name)
-  }, [plan?.data.attributes.name])
+    sendTitle(plan?.data.name)
+  }, [sendTitle, plan?.data.name])
 
   if (!userCanEdit) {
     return ''
@@ -83,7 +82,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
       >
         <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
         <Field
-          name="attributes.name"
+          name="name"
           children={({ state, handleChange, handleBlur }) => (
             <InputWithLabel
               label="Name"
@@ -96,7 +95,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
           )}
         />
         <Field
-          name="attributes.svg"
+          name="svg"
           children={({ state, handleChange, handleBlur }) => (
             <div className="flex flex-col gap-1">
               <span className="block text-xs font-bold">SVG</span>
@@ -114,11 +113,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
           Update plan
         </Button>
       </form>
-      <PlanDelete
-        planId={planId}
-        planName={plan?.data.attributes.name}
-        handleDelete={handleDelete}
-      />
+      <PlanDelete planId={planId} planName={plan?.data.name} handleDelete={handleDelete} />
     </>
   )
 }
