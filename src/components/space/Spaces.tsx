@@ -14,7 +14,7 @@ import { SpaceType } from './spaceType'
 
 const Spaces = ({
   planId: zoneId,
-  sidebarTableId,
+  sidebarSpace,
   handlePlaceClick,
   handleZoomToElement,
   workingDate,
@@ -112,13 +112,13 @@ const Spaces = ({
                       slots={space.slots}
                       x={space.x}
                       y={space.y}
-                      active={space.id === sidebarTableId}
+                      active={space === sidebarSpace}
                       bookedToday={bookedToday != undefined}
                       bookings={allToday}
                       bookedByWho={bookedToday?.sub}
                       bookedByMe={bookedToday?.sub === userId}
                       onClick={() => {
-                        handlePlaceClick(space.id)
+                        handlePlaceClick(space)
                         handleZoomToElement &&
                           setTimeout(
                             () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
@@ -141,11 +141,11 @@ const Spaces = ({
 
 type SpacesProps = {
   planId: number
-  sidebarTableId: number
-  handlePlaceClick: (id: number) => void
+  handlePlaceClick: (space: SpaceType) => void
   handleZoomToElement?: (id: string, zoom: number) => void | undefined
-  workingDate: Value
   listView: boolean
+  sidebarSpace: SpaceType | undefined
+  workingDate: Value
 }
 
 export default Spaces

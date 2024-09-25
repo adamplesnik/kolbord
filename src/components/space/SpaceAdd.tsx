@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react'
 import { getOldToken } from '../../auth/helpers'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
+import { SpaceType } from './spaceType'
 
 const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
@@ -42,7 +43,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
       queryClient.invalidateQueries({
         queryKey: ['spaces', planId],
       })
-      handlePlaceAdd(data.data.id)
+      handlePlaceAdd(data)
     },
   })
 
@@ -61,7 +62,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
 
 type SpaceAddProps = {
   planId: number
-  handlePlaceAdd: (placeId: number) => void
+  handlePlaceAdd: (space: SpaceType) => void
 }
 
 type NewTableRecord = {

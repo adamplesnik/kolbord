@@ -6,7 +6,7 @@ import { Value } from '../components/plan/PlanDateSelector.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
-import MyBookings from '../components/user/MyBookings.tsx'
+import { SpaceType } from '../components/space/spaceType'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
@@ -22,7 +22,7 @@ const MainPage = () => {
   const [planId, setPlanId] = useState(0)
   const [sidebarGroupId, setSidebarGroupId] = useState(0)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
-  const [sidebarTableId, setSidebarTableId] = useState(0)
+  const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
   const [workingDate, setWorkingDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
@@ -48,19 +48,19 @@ const MainPage = () => {
   }, [bookingsMode])
 
   const sidebarOpen =
-    sidebarTableId > 0 || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
+    sidebarSpace != undefined || (sidebarPlanEdit && editMode) || (sidebarGroupId > 0 && editMode)
 
   const closeSidebar = () => {
     setEditMode(false)
     setSidebarGroupId(0)
     setSidebarPlanEdit(false)
-    setSidebarTableId(0)
+    setSidebarSpace(undefined)
   }
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
       setPlanId(id)
-      setSidebarTableId(0)
+      setSidebarSpace(undefined)
       setSidebarGroupId(0)
       setBookingsMode(false)
       localStorage.setItem(LATEST_PLAN_ID, id.toString())
@@ -68,11 +68,11 @@ const MainPage = () => {
   }
 
   const handleGroupAdd = () => {
-    setSidebarTableId(0)
+    setSidebarSpace(undefined)
   }
 
-  const handlePlaceClick = (id: number) => {
-    setSidebarTableId(id)
+  const handlePlaceClick = (space: SpaceType) => {
+    setSidebarSpace(space)
     setSidebarGroupId(0)
     setSidebarPlanEdit(false)
   }
@@ -82,14 +82,14 @@ const MainPage = () => {
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
-    setSidebarTableId(0)
+    setSidebarSpace(undefined)
     setSidebarGroupId(0)
     setEditMode(true)
   }
 
   const onGroupEdit = (groupId: number) => {
     setSidebarGroupId(groupId)
-    setSidebarTableId(0)
+    setSidebarSpace(undefined)
     setEditMode(true)
     setSidebarPlanEdit(false)
   }
@@ -111,15 +111,15 @@ const MainPage = () => {
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      {bookingsMode && (
+      {/* {bookingsMode && (
         <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
-      )}
+      )} */}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
           planId={planId}
-          sidebarTableId={sidebarTableId}
+          sidebarSpace={sidebarSpace}
           workingDate={workingDate}
         />
       )}
@@ -128,7 +128,7 @@ const MainPage = () => {
           handlePlaceClick={handlePlaceClick}
           planId={planId}
           sidebarPlanEdit={sidebarPlanEdit}
-          sidebarTableId={sidebarTableId}
+          sidebarSpace={sidebarSpace}
           workingDate={workingDate}
         />
       )}
@@ -142,8 +142,8 @@ const MainPage = () => {
         onGroupEdit={onGroupEdit}
         planId={planId}
         workingDate={workingDate}
-        handlePlaceAdd={(id) => {
-          handlePlaceClick(id)
+        handlePlaceAdd={(space) => {
+          handlePlaceClick(space)
           setEditMode(true)
         }}
         handleGroupAdd={handleGroupAdd}
@@ -163,14 +163,14 @@ const MainPage = () => {
             sendTitle={(title) => sendTitle(title)}
           />
         )}
-        {sidebarTableId > 0 && (
+        {sidebarSpace && (
           <SpaceDetail
             editMode={editMode}
             sendTitle={(title) => sendTitle(title)}
-            spaceId={sidebarTableId}
+            space={sidebarSpace}
             workingDate={workingDate?.toString()}
             planId={planId}
-            handleDelete={() => setSidebarTableId(0)}
+            handleDelete={() => setSidebarSpace(undefined)}
           />
         )}
         {userCanEdit && sidebarPlanEdit && editMode && (

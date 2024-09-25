@@ -4,8 +4,9 @@ import Heading from '../basic/Heading'
 import { Value } from '../plan/PlanDateSelector'
 import { PlanType } from '../plan/planType'
 import Spaces from '../space/Spaces'
+import { SpaceType } from '../space/spaceType'
 
-const Lists = ({ handlePlaceClick, planId, sidebarTableId, workingDate }: ListsProps) => {
+const Lists = ({ handlePlaceClick, planId, sidebarSpace, workingDate }: ListsProps) => {
   const queryClient = useQueryClient()
   const zone: { data: PlanType } | undefined = queryClient.getQueryData(['zone', planId])
 
@@ -21,7 +22,7 @@ const Lists = ({ handlePlaceClick, planId, sidebarTableId, workingDate }: ListsP
           handlePlaceClick={handlePlaceClick}
           workingDate={workingDate}
           planId={planId}
-          sidebarTableId={sidebarTableId}
+          sidebarSpace={sidebarSpace}
         />
       </div>
     </div>
@@ -29,11 +30,10 @@ const Lists = ({ handlePlaceClick, planId, sidebarTableId, workingDate }: ListsP
 }
 
 type ListsProps = {
-  handlePlaceClick: (id: number) => void
+  handlePlaceClick: (space: SpaceType) => void
   listView: boolean
   planId: number
-
-  sidebarTableId: number
+  sidebarSpace: SpaceType | undefined
   workingDate: Value
 }
 

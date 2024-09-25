@@ -12,6 +12,7 @@ import Ping from '../basic/Ping'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
+import { SpaceType } from '../space/spaceType'
 import { addPlan } from './planFetch.ts'
 import { PlanType } from './planType'
 
@@ -127,7 +128,7 @@ type PlanSwitcherProps = {
   currentPlan: number
   handleGroupAdd: () => void
   handleMyBookings: () => void
-  handlePlaceAdd: (id: number) => void
+  handlePlaceAdd: (space: SpaceType) => void
   onGroupEdit: (groupId: number) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void

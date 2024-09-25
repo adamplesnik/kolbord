@@ -5,6 +5,7 @@ import Button from '../components/basic/Button'
 import Logo from '../components/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
+import { SpaceType } from '../components/space/spaceType'
 
 const MenuBar = ({
   handleGroupAdd,
@@ -54,7 +55,7 @@ const MenuBar = ({
 type MenuBarProps = {
   handleGroupAdd: () => void
   handleMyBookings: () => void
-  handlePlaceAdd: (id: number) => void
+  handlePlaceAdd: (space: SpaceType) => void
   handleViewChange: () => void
   listMode: boolean
   onDateChange: (value: Value) => void
