@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Check, ChevronsUpDown, User } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { GroupRecord } from '../../data/GroupRecord.tsx'
@@ -11,7 +11,7 @@ import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 import { SpaceType } from '../space/spaceType'
-import { addPlan } from './planFetch.ts'
+import PlanAdd from './PlanAdd.tsx'
 import { PlanType } from './planType'
 import { useZone } from './useZone.ts'
 
@@ -30,15 +30,6 @@ const PlanSwitcher = ({
 
   const { zoneId } = useZone()
   const queryClient = useQueryClient()
-
-  const { mutate } = useMutation({
-    mutationFn: () => addPlan(),
-    onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: ['zones'] })
-      queryClient.invalidateQueries({ queryKey: ['zone'] })
-      onPlanEdit(result?.id)
-    },
-  })
 
   return (
     <>
@@ -85,11 +76,7 @@ const PlanSwitcher = ({
                   )}
                 </div>
               ))}
-            {userCanEdit && (
-              <Button Icon={Plus} onClick={() => mutate()} className="w-full">
-                New plan
-              </Button>
-            )}
+            {userCanEdit && <PlanAdd />}
             {zoneId != undefined && zoneId > 0 && (
               <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
             )}
