@@ -4,7 +4,7 @@ import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
 import { Fragment } from 'react'
-import { BookingQueryType } from '../../data/BookingRecord'
+import { BookingRecord } from '../../data/BookingRecord'
 import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
@@ -50,7 +50,7 @@ const Spaces = ({
   const loadBookingsForZone = async (
     zoneId: number | undefined,
     date: Value
-  ): Promise<BookingQueryType> => {
+  ): Promise<{ data: { docs: BookingRecord[] } }> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
     const midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
@@ -75,7 +75,7 @@ const Spaces = ({
       },
     })
 
-    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
+    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}&depth=1`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },
@@ -86,6 +86,7 @@ const Spaces = ({
     queryKey: ['bookings', zoneId, workingDate],
     queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
+  console.log(bookings)
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
 
@@ -96,7 +97,7 @@ const Spaces = ({
   return (
     <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
-        <Fragment key={group?.id}>
+        <Fragment key={`${group?.id}_group`}>
           <div
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
@@ -111,10 +112,10 @@ const Spaces = ({
                 .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
                   const bookedToday = bookings?.data.docs.find(
-                    (booking) => booking.space.value === space.id
+                    (booking) => booking.space.value.id === space.id
                   )
                   const allToday = bookings?.data.docs.filter(
-                    (booking) => booking.space.value === space.id
+                    (booking) => booking.space.value.id === space.id
                   )
                   return (
                     <Space

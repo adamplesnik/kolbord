@@ -1,47 +1,59 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { ArrowRight, ListX } from 'lucide-react'
+import qs from 'qs'
 import { Fragment } from 'react/jsx-runtime'
-import { getOldToken } from '../../auth/helpers'
-import { BookingQueryType } from '../../data/BookingRecord'
+import { BookingRecord } from '../../data/BookingRecord'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
 import DateHeading from '../basic/DateHeading'
 import Empty from '../basic/Empty'
 import Heading from '../basic/Heading'
+import Separator from '../basic/Separator'
 import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
-import Separator from '../basic/Separator'
+import { SpaceType } from '../space/spaceType'
 
-const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
+const MyBookings = ({ setSidebarTable, workingDate }: MyBookingsProps) => {
+  const { userId, getToken } = useAuth()
   const date = workingDate ? new Date(workingDate.toString()) : new Date()
 
-  const loadBookingsForUser = async (email: string | undefined): Promise<BookingQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&fields[0]=from&fields[1]=to&populate[table][fields][0]=name&populate[table][populate][plan][fields][0]=name&populate[table][populate][group][fields][0]=name&filters[$and][0][from][$gte]=${date.toISOString()}&filters[users_permissions_user][email][$eq]=${email}&sort[0]=from&pagination[pageSize]=1000&pagination[withCount]=false`,
-      {
-        headers: {
-          Authorization: `Bearer ${getOldToken()}`,
-        },
-      }
-    )
-    return response.json()
+  const loadBookingsForUser = async (
+    userId: string | null | undefined
+  ): Promise<{ data: { docs: BookingRecord[] } }> => {
+    const query = qs.stringify({
+      where: {
+        and: [
+          {
+            sub: {
+              equals: userId,
+            },
+            from: {
+              greater_than_equal: date,
+            },
+          },
+        ],
+      },
+      sort: 'from',
+    })
+    return await axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}&depth=3`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: myBookings } = useQuery({
     queryKey: ['myBookings', date],
-    queryFn: () => loadBookingsForUser('mike@tester.test'),
+    queryFn: () => loadBookingsForUser(userId),
   })
+  console.log(myBookings)
 
-  const bookingDates = [
-    ...new Set(myBookings?.data.map((booking) => humanDate(booking.attributes.from))),
-  ]
+  const bookingDates = [...new Set(myBookings?.data.docs.map((booking) => humanDate(booking.from)))]
 
   const bookingZones = [
-    ...new Set(
-      myBookings?.data.map(
-        (booking) => booking.attributes.table.data.attributes?.plan?.data?.attributes?.name
-      )
-    ),
+    ...new Set(myBookings?.data.docs.map((booking) => booking.space.value.zone?.value.name)),
   ]
 
   return (
@@ -66,43 +78,34 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
                   <>
                     <div className="flex max-w-lg flex-1 flex-col gap-4 md:py-8">
                       <span className="pb-2 pl-2 text-sm text-slate-500">{zone}</span>
-                      {myBookings?.data.map(
+                      {myBookings?.data.docs.map(
                         (booking, i) =>
-                          set === humanDate(booking.attributes.from) &&
-                          zone ===
-                            booking.attributes.table.data.attributes?.plan?.data?.attributes
-                              ?.name && (
+                          set === humanDate(booking.from) &&
+                          zone === booking.space.value.zone?.value.name && (
                             <Fragment key={`user_booking${i}`}>
                               <div className="flex items-center gap-2">
                                 <span className="flex flex-[2] items-center gap-1 font-medium">
-                                  <Button
-                                    onClick={() =>
-                                      setSidebarTableId(booking.attributes.table.data.id)
-                                    }
-                                  >
-                                    {booking.attributes.table.data.attributes?.name}
+                                  <Button onClick={() => setSidebarTable(booking.space.value)}>
+                                    {booking.space?.value.name}
                                   </Button>
-                                  {booking.attributes.table.data.attributes?.group?.data && (
+                                  {booking.space.value.group && (
                                     <span className="text-sm font-normal text-slate-400">
-                                      {
-                                        booking.attributes.table.data.attributes?.group?.data
-                                          .attributes.name
-                                      }
+                                      {booking.space.value.group.value.name}
                                     </span>
                                   )}
                                 </span>
                                 <SpaceBookingSlot
                                   isBooked={booking}
-                                  tableId={booking.attributes.table.data.id}
-                                  from={new Date(booking.attributes.from)}
-                                  to={new Date(booking.attributes.to)}
+                                  spaceId={booking.space.value.id}
+                                  from={new Date(booking.from)}
+                                  to={new Date(booking.to)}
                                 >
-                                  {humanTime(booking.attributes.from)}
+                                  {humanTime(booking.from)}
                                   <ArrowRight
                                     className="size-4 text-slate-400 group-hover:text-slate-200"
                                     strokeWidth={1}
                                   />
-                                  {humanTime(booking.attributes.to)}
+                                  {humanTime(booking.to)}
                                 </SpaceBookingSlot>
                               </div>
                             </Fragment>
@@ -122,7 +125,7 @@ const MyBookings = ({ setSidebarTableId, workingDate }: MyBookingsProps) => {
 }
 
 type MyBookingsProps = {
-  setSidebarTableId: (id: number) => void
+  setSidebarTable: (spaceId: SpaceType) => void
   workingDate: Value
 }
 

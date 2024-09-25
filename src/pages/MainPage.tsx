@@ -10,6 +10,7 @@ import SpaceDelete from '../components/space/SpaceDelete.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
 import { SpaceType } from '../components/space/spaceType'
+import MyBookings from '../components/user/MyBookings.tsx'
 import { GroupRecord } from '../data/GroupRecord.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
@@ -109,9 +110,7 @@ const MainPage = () => {
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      {/* {bookingsMode && (
-        <MyBookings workingDate={workingDate} setSidebarTableId={setSidebarTableId} />
-      )} */}
+      {bookingsMode && <MyBookings workingDate={workingDate} setSidebarTable={setSidebarSpace} />}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}
