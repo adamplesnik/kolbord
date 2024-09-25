@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import qs from 'qs'
 import { BookingQueryType } from '../../data/BookingRecord'
 import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
@@ -13,8 +14,25 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
 
   const { getToken } = useAuth()
   const loadBookingsForSpace = async (spaceId: number): Promise<BookingQueryType> => {
+    const query = qs.stringify({
+      where: {
+        and: [
+          {
+            'space.value': {
+              equals: spaceId,
+            },
+            from: {
+              greater_than_equal: date,
+            },
+            to: {
+              less_than_equal: midnight,
+            },
+          },
+        ],
+      },
+    })
     return axios.get(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?where[space][id][equals]=${spaceId}`,
+      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`,
       //?filters[$and][0][table][id]=${spaceId}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}
       {
         headers: {
