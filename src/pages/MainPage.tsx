@@ -175,7 +175,6 @@ const MainPage = () => {
         {userCanEdit && sidebarPlanEdit && editMode && (
           <PlanEditor
             sendTitle={(title) => sendTitle(title)}
-            planId={planId}
             handleDelete={() => {
               setSidebarPlanEdit(false)
               setPlanId(0)

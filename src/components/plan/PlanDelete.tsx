@@ -5,7 +5,7 @@ import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import P from '../basic/P'
 
-const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
+const PlanDelete = ({ zoneId, planName, handleDelete }: PlanDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
 
   const deletePlan = async (id: number) => {
@@ -26,7 +26,7 @@ const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlan(planId),
+    mutationFn: () => deletePlan(zoneId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['zones'],
@@ -35,7 +35,7 @@ const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
         queryKey: ['spaces'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['zone', planId],
+        queryKey: ['zone'],
       })
       localStorage.removeItem(LATEST_PLAN_ID)
     },
@@ -74,7 +74,7 @@ const PlanDelete = ({ planId, planName, handleDelete }: PlanDeleteProps) => {
 }
 
 type PlanDeleteProps = {
-  planId: number
+  zoneId: number | undefined
   planName: string | undefined
   handleDelete: () => void
 }

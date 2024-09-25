@@ -8,13 +8,17 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import PlanDelete from './PlanDelete'
 import { PlanType } from './planType'
+import { useZone } from './useZone'
 
-const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
+const PlanEditor = ({ handleDelete, sendTitle }: PlanEditorProps) => {
   const { getToken } = useAuth()
+  const { data: zone } = useZone()
+  const zoneId = zone?.data.id
+
   const userCanEdit = true
 
   const updatePlan = async (
-    id: number,
+    id: number | undefined,
     name?: string,
     svg?: string | undefined
   ): Promise<PlanType> => {
@@ -31,19 +35,19 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
   }
 
   const queryClient = useQueryClient()
-  const plan: { data: PlanType } | undefined = queryClient.getQueryData(['zone', planId])
+
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: PlanType) => updatePlan(planId, data.name, data.svg),
+    mutationFn: (data: PlanType) => updatePlan(zoneId, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
-      await queryClient.cancelQueries({ queryKey: ['zone', planId] })
+      await queryClient.cancelQueries({ queryKey: ['zone'] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['zone', planId],
+        queryKey: ['zone'],
       })
     },
   })
@@ -53,19 +57,19 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
       mutate(value)
     },
     defaultValues: {
-      id: plan?.data.id,
-      name: plan?.data.name,
-      svg: plan?.data.svg,
+      id: zone?.data.id,
+      name: zone?.data.name,
+      svg: zone?.data.svg,
     },
   })
 
   useEffect(() => {
     reset()
-  }, [reset, planId])
+  }, [reset, zoneId])
 
   useEffect(() => {
-    sendTitle(plan?.data.name)
-  }, [sendTitle, plan?.data.name])
+    sendTitle(zone?.data.name)
+  }, [sendTitle, zone?.data.name])
 
   if (!userCanEdit) {
     return ''
@@ -113,13 +117,12 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
           Update plan
         </Button>
       </form>
-      <PlanDelete planId={planId} planName={plan?.data.name} handleDelete={handleDelete} />
+      <PlanDelete zoneId={zoneId} planName={zone?.data.name} handleDelete={handleDelete} />
     </>
   )
 }
 
 type PlanEditorProps = {
-  planId: number
   handleDelete: () => void
   sendTitle: (title: string | undefined) => void
 }
