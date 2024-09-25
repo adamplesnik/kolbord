@@ -75,7 +75,7 @@ const Spaces = ({
       },
     })
 
-    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}&depth=1`, {
+    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
       },
@@ -112,10 +112,10 @@ const Spaces = ({
                 .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
                   const bookedToday = bookings?.data.docs.find(
-                    (booking) => booking.space.value.id === space.id
+                    (booking) => booking.space.value === space.id
                   )
                   const allToday = bookings?.data.docs.filter(
-                    (booking) => booking.space.value.id === space.id
+                    (booking) => booking.space.value === space.id
                   )
                   return (
                     <Space
