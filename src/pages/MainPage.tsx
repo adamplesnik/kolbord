@@ -3,6 +3,7 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
 import { Value } from '../components/plan/PlanDateSelector.tsx'
+import PlanDelete from '../components/plan/PlanDelete.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
@@ -11,7 +12,7 @@ import { SpaceType } from '../components/space/spaceType'
 import { GroupRecord } from '../data/GroupRecord.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { LATEST_PLAN_ID, WORKING_DATE } from '../utils/constants'
+import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
   const userCanEdit = true
@@ -21,7 +22,6 @@ const MainPage = () => {
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [zoneId, setZoneId] = useState(0)
   const [sidebarGroup, setSidebarGroup] = useState<GroupRecord | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
@@ -42,10 +42,6 @@ const MainPage = () => {
   }, [workingDate])
 
   useEffect(() => {
-    setZoneId(zoneId)
-  }, [zoneId])
-
-  useEffect(() => {
     setBookingsMode(bookingsMode)
   }, [bookingsMode])
 
@@ -63,11 +59,9 @@ const MainPage = () => {
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
-      setZoneId(id)
       setSidebarSpace(undefined)
       setSidebarGroup(undefined)
       setBookingsMode(false)
-      localStorage.setItem(LATEST_PLAN_ID, id.toString())
     }
   }
 
@@ -129,7 +123,6 @@ const MainPage = () => {
       {!listMode && !bookingsMode && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
-          zoneId={zoneId}
           sidebarPlanEdit={sidebarPlanEdit}
           sidebarSpace={sidebarSpace}
           workingDate={workingDate}
@@ -172,16 +165,22 @@ const MainPage = () => {
           />
         )}
         {sidebarSpace && editMode && (
-          <SpaceEdit table={sidebarSpace} handleDelete={() => setSidebarSpace(undefined)} />
+          <SpaceEdit
+            space={sidebarSpace}
+            sendTitle={(title) => sendTitle(title)}
+            handleEdit={(space) => setSidebarSpace(space)}
+            handleDelete={() => setSidebarSpace(undefined)}
+          />
         )}
         {userCanEdit && sidebarPlanEdit && editMode && (
-          <PlanEditor
-            sendTitle={(title) => sendTitle(title)}
-            handleDelete={() => {
-              setSidebarPlanEdit(false)
-              setZoneId(0)
-            }}
-          />
+          <>
+            <PlanEditor sendTitle={(title) => sendTitle(title)} />
+            <PlanDelete
+              handleDelete={() => {
+                setSidebarPlanEdit(false)
+              }}
+            />
+          </>
         )}
       </Sidebar>
     </>

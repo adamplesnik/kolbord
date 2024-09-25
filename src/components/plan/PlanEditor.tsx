@@ -6,15 +6,12 @@ import { useEffect } from 'react'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import PlanDelete from './PlanDelete'
 import { PlanType } from './planType'
 import { useZone } from './useZone'
 
-const PlanEditor = ({ handleDelete, sendTitle }: PlanEditorProps) => {
+const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
   const { getToken } = useAuth()
   const { zone, zoneId } = useZone()
-
-  const userCanEdit = true
 
   const updatePlan = async (
     id: number | undefined,
@@ -70,10 +67,6 @@ const PlanEditor = ({ handleDelete, sendTitle }: PlanEditorProps) => {
     sendTitle(zone?.data.name)
   }, [sendTitle, zone?.data.name])
 
-  if (!userCanEdit) {
-    return ''
-  }
-
   return (
     <>
       <form
@@ -116,13 +109,11 @@ const PlanEditor = ({ handleDelete, sendTitle }: PlanEditorProps) => {
           Update plan
         </Button>
       </form>
-      <PlanDelete zoneId={zoneId} planName={zone?.data.name} handleDelete={handleDelete} />
     </>
   )
 }
 
 type PlanEditorProps = {
-  handleDelete: () => void
   sendTitle: (title: string | undefined) => void
 }
 

@@ -1,32 +1,66 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect } from 'react'
+import qs from 'qs'
+import { useEffect, useState } from 'react'
+import { LATEST_PLAN_ID } from '../../utils/constants'
 import Loading from '../basic/Loading'
 import { PlanType } from './planType'
+import { useZone } from './useZone'
 
-const Plan = ({ zoneId }: PlanProps) => {
+const Plan = () => {
   const { getToken } = useAuth()
-  const loadPlan = async (id: number): Promise<{ data: PlanType } | undefined> => {
-    try {
-      return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${id}`, {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-          'Content-Type': 'application/json',
-        },
-      })
-    } catch (error) {
-      console.error(error)
-    }
+  const { zoneId } = useZone()
+  const queryClient = useQueryClient()
+
+  const [id, setId] = useState<number | undefined>(undefined)
+  const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
+
+  const loadZones = async (): Promise<{ data: { docs: PlanType[] } } | undefined> => {
+    const query = qs.stringify({
+      sort: 'id',
+    })
+    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones?${query}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
-  const { data: zone, isLoading } = useQuery({
-    queryKey: ['zone'],
-    enabled: zoneId > 0,
-    queryFn: () => loadPlan(zoneId),
+  const { data: zones, isLoading } = useQuery({
+    queryKey: ['zones'],
+    queryFn: loadZones,
   })
 
-  const queryClient = useQueryClient()
+  const loadZone = async (zoneId: number): Promise<{ data: PlanType } | undefined> => {
+    return axios(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones/${zoneId}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
+  const { data: zone } = useQuery({
+    queryKey: ['zone'],
+    enabled: !!id,
+    queryFn: () => loadZone(id!),
+  })
+
+  useEffect(() => {
+    if (zoneId) {
+      setId(zoneId)
+      console.log('zoneId from useZone used')
+    } else if (savedZoneId > 0) {
+      setId(savedZoneId)
+      console.log('savedZoneId from local storage used')
+    } else if (zones?.data?.docs && zones.data.docs.length > 0) {
+      setId(zones.data.docs[0].id)
+      console.log('first zoneId from zones data used')
+    }
+  }, [zoneId, savedZoneId, zones?.data?.docs])
+
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['zone'] })
   }, [queryClient, zoneId])
@@ -42,10 +76,6 @@ const Plan = ({ zoneId }: PlanProps) => {
       )}
     </>
   )
-}
-
-type PlanProps = {
-  zoneId: number
 }
 
 export default Plan

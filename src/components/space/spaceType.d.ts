@@ -9,7 +9,7 @@ export type FeatureType = {
 
 export type RelationshipType = {
   relationTo?: string | undefined
-  value: {
+  value?: {
     id: number
     name: string
     description?: string
@@ -26,8 +26,9 @@ export type SpaceType = {
     relationTo: string
     value: number
   }
-  group: RelationshipType
+  group?: RelationshipType
   features?: RelationshipType[]
   slots: string
   active?: boolean | undefined
+  org?: string | null | undefined
 }

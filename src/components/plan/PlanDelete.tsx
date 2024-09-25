@@ -1,19 +1,22 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useState } from 'react'
-import { getOldToken } from '../../auth/helpers'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import P from '../basic/P'
+import { useZone } from './useZone'
 
-const PlanDelete = ({ zoneId, planName, handleDelete }: PlanDeleteProps) => {
+const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
   const [deleteStep, setDeleteStep] = useState(0)
+  const { zone, zoneId } = useZone()
+  const { getToken } = useAuth()
 
-  const deletePlan = async (id: number) => {
+  const deletePlan = async (id: number | undefined) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-        method: 'delete',
+      await axios.delete(`${import.meta.env.VITE_API_PAYLOAD_URL}/plans/${id}`, {
         headers: {
-          Authorization: `Bearer ${getOldToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       })
@@ -59,7 +62,7 @@ const PlanDelete = ({ zoneId, planName, handleDelete }: PlanDeleteProps) => {
             type="text"
             defaultValue={''}
             className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-            onChange={(e) => setDeleteStep(e.target.value === planName ? 2 : 1)}
+            onChange={(e) => setDeleteStep(e.target.value === zone?.data.name ? 2 : 1)}
           ></input>
           <div className="flex justify-between">
             <Button disabled={deleteStep < 2} buttonType="danger" onClick={() => mutate()}>
@@ -74,8 +77,6 @@ const PlanDelete = ({ zoneId, planName, handleDelete }: PlanDeleteProps) => {
 }
 
 type PlanDeleteProps = {
-  zoneId: number | undefined
-  planName: string | undefined
   handleDelete: () => void
 }
 

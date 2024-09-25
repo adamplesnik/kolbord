@@ -31,15 +31,11 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
         ],
       },
     })
-    return axios.get(
-      `${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`,
-      //?filters[$and][0][table][id]=${spaceId}&filters[$and][1][from][$gte]=${date.toISOString()}&filters[$and][2][to][$lte]=${midnight.toISOString()}
-      {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-        },
-      }
-    )
+    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/bookings?${query}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: loadedSpaceBooking } = useQuery({

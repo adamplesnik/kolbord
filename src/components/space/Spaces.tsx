@@ -96,13 +96,13 @@ const Spaces = ({
   return (
     <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
-        <Fragment key={group.id}>
+        <Fragment key={group?.id}>
           <div
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
               <Heading size={4} className="w-32 shrink-0 py-8">
-                {group.name ? group.name : '(no group)'}
+                {group?.name ? group.name : '(no group)'}
               </Heading>
             )}
             {listView && <Separator horizontal />}

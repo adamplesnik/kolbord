@@ -1,11 +1,8 @@
-import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import { Check, ChevronsUpDown, Plus, User } from 'lucide-react'
-import { HTMLAttributes, useEffect } from 'react'
+import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
 import { GroupRecord } from '../../data/GroupRecord.tsx'
-import { LATEST_PLAN_ID } from '../../utils/constants.ts'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading.tsx'
@@ -27,22 +24,12 @@ const PlanSwitcher = ({
   onPlanEdit,
 }: PlanSwitcherProps) => {
   const userCanEdit = true //XXX
-  const { getToken } = useAuth()
-  const { zoneId: currentPlanId } = useZone()
-
-  const loadZones = async (): Promise<{ data: { docs: PlanType[] } }> => {
-    return axios.get(`${import.meta.env.VITE_API_PAYLOAD_URL}/zones`, {
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
-  }
-
-  const { data: zones } = useQuery({
+  const { data: zones } = useQuery<{ data: { docs: PlanType[] } }>({
     queryKey: ['zones'],
-    queryFn: () => loadZones(),
+    enabled: true,
   })
 
+  const { zoneId } = useZone()
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: () => addPlan(),
@@ -51,14 +38,6 @@ const PlanSwitcher = ({
       onPlanEdit(result?.id)
     },
   })
-
-  useEffect(() => {
-    if (currentPlanId === undefined && zones && zones.data.docs.length > 0) {
-      const latestPlanId = Number(localStorage.getItem(LATEST_PLAN_ID))
-      const defaultPlanId = latestPlanId ? latestPlanId : zones.data.docs[0].id
-      onPlanChange(defaultPlanId)
-    }
-  }, [zones, currentPlanId, onPlanChange])
 
   return (
     <>
@@ -72,10 +51,8 @@ const PlanSwitcher = ({
           )}
           {zones &&
             zones.data &&
-            zones.data.docs.map((plan) =>
-              currentPlanId === plan.id ?
-                <span key={`plan_in_switcher_${plan.id}`}>{plan.name}</span>
-              : ''
+            zones.data.docs.map((zone) =>
+              zoneId === zone.id ? <span key={`plan_in_switcher_${zone.id}`}>{zone.name}</span> : ''
             )}
         </Button>
       </div>
@@ -90,9 +67,9 @@ const PlanSwitcher = ({
                   <Button
                     className="flex-1"
                     onClick={() => onPlanChange(zone.id)}
-                    active={currentPlanId === zone.id}
+                    active={zoneId === zone.id}
                     Icon={Check}
-                    iconClassName={currentPlanId === zone.id ? 'opacity-100' : 'opacity-35'}
+                    iconClassName={zoneId === zone.id ? 'opacity-100' : 'opacity-35'}
                   >
                     {zone.name}
                   </Button>
@@ -104,16 +81,16 @@ const PlanSwitcher = ({
                 New plan
               </Button>
             )}
-            {currentPlanId != undefined && currentPlanId > 0 && (
-              <SpaceAdd planId={currentPlanId} handlePlaceAdd={handlePlaceAdd} />
+            {zoneId != undefined && zoneId > 0 && (
+              <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
             )}
           </div>
           {userCanEdit && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
               <GroupList onGroupEdit={onGroupEdit} />
-              {currentPlanId != undefined && currentPlanId > 0 && (
-                <GroupAdd planId={currentPlanId} handleGroupAdd={handleGroupAdd} />
+              {zoneId != undefined && zoneId > 0 && (
+                <GroupAdd planId={zoneId} handleGroupAdd={handleGroupAdd} />
               )}
             </div>
           )}

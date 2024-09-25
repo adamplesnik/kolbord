@@ -11,12 +11,17 @@ import SpaceDelete from './SpaceDelete.tsx'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 import { SpaceType } from './spaceType'
 
-const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
+const SpaceEdit = ({ space, handleDelete, sendTitle }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
+  console.log(`zone ${zoneId}`)
 
   // const { data: allGroups } = useGroupsForPlanQuery(zoneId) XXX
+
+  useEffect(() => {
+    sendTitle(space.name)
+  }, [sendTitle, space.name])
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
@@ -24,21 +29,21 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
       saveLatestMetadata(value)
     },
     defaultValues: {
-      id: table?.id,
-      name: table?.name,
-      x: table?.x,
-      y: table?.y,
-      slots: table?.slots,
-      features: table.features,
+      id: space?.id,
+      name: space?.name,
+      x: space?.x,
+      y: space?.y,
+      slots: space?.slots,
+      features: space.features,
       group: {
-        value: table.group.value,
+        value: space?.group?.value || undefined,
       },
     },
   })
 
   useEffect(() => {
     reset()
-  }, [table, reset])
+  }, [space, reset])
 
   const updateTable = async (id: number, space: SpaceType): Promise<SpaceType> => {
     const payload = {
@@ -48,12 +53,14 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
       slots: space.slots,
       features: space.features?.map((feature) => ({
         relationTo: 'space-features',
-        value: feature.value.id,
+        value: feature?.value?.id,
       })),
-      group: {
-        relationTo: 'zone-groups',
-        value: space.group.value.id > 0 ? space.group.value.id : undefined,
-      },
+      ...(space.group?.value && {
+        group: {
+          relationTo: 'zone-groups',
+          value: space.group?.value && space.group.value.id > 0 ? space.group.value.id : undefined,
+        },
+      }),
     }
 
     return await axios.patch(
@@ -75,7 +82,7 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
   }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
-    mutationFn: (data: SpaceType) => updateTable(table.id, data),
+    mutationFn: (data: SpaceType) => updateTable(space.id, data),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['spaces'] })
     },
@@ -135,7 +142,11 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
                       })
                     }
                     className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-                    value={+field.state.value ? +field.state.value : ''}
+                    value={
+                      field?.state.value && +field?.state?.value?.value?.id ?
+                        +field.state.value?.value?.id
+                      : ''
+                    }
                   >
                     <option value={0}>(none)</option>
                     {false &&
@@ -214,14 +225,16 @@ const SpaceEdit = ({ table, handleDelete }: SpaceEditProps) => {
           </div>
         </div>
       </form>
-      <SpaceDelete id={table.id} handleDelete={handleDelete} />
+      <SpaceDelete id={space.id} handleDelete={handleDelete} />
     </>
   )
 }
 
 export type SpaceEditProps = {
-  table: SpaceType
   handleDelete: () => void
+  handleEdit: (space: SpaceType) => void
+  sendTitle: (title: string | undefined) => void
+  space: SpaceType
 } & HTMLAttributes<HTMLDivElement>
 
 export default SpaceEdit

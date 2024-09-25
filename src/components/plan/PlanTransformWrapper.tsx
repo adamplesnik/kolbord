@@ -8,7 +8,6 @@ import { Value } from './PlanDateSelector'
 
 const PlanTransformWrapper = ({
   handlePlaceClick,
-  zoneId,
   sidebarPlanEdit,
   sidebarSpace,
   workingDate,
@@ -38,7 +37,7 @@ const PlanTransformWrapper = ({
               workingDate={workingDate}
               listView={false}
             />
-            {zoneId > 0 && <Plan zoneId={zoneId} />}
+            <Plan />
           </div>
         </TransformComponent>
       )}
@@ -48,7 +47,6 @@ const PlanTransformWrapper = ({
 
 type PlanTransformWrapperProps = {
   handlePlaceClick: (space: SpaceType) => void
-  zoneId: number
   sidebarPlanEdit: boolean
   sidebarSpace: SpaceType | undefined
   workingDate: Value
