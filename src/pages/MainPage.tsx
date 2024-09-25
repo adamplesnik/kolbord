@@ -106,7 +106,7 @@ const MainPage = () => {
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      {bookingsMode && <MyBookings workingDate={workingDate} setSidebarTable={setSidebarSpace} />}
+      {bookingsMode && <MyBookings workingDate={workingDate} />}
       {listMode && !bookingsMode && (
         <Lists
           handlePlaceClick={handlePlaceClick}

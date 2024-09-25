@@ -21,7 +21,7 @@ const PlanSwitcher = ({
   onGroupEdit,
   onPlanEdit,
 }: PlanSwitcherProps) => {
-  const userCanEdit = true //XXX
+  const userCanEdit = true // @todo
   const { data: zones } = useQuery<{ data: { docs: PlanType[] } }>({
     queryKey: ['zones'],
     enabled: true,

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ArrowRight, ListX } from 'lucide-react'
 import qs from 'qs'
 import { Fragment } from 'react/jsx-runtime'
-import { BookingRecord } from '../../data/BookingRecord'
+import { BookingRecordDeep } from '../../data/BookingRecord'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
 import DateHeading from '../basic/DateHeading'
@@ -13,15 +13,14 @@ import Heading from '../basic/Heading'
 import Separator from '../basic/Separator'
 import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
-import { SpaceType } from '../space/spaceType'
 
-const MyBookings = ({ setSidebarTable, workingDate }: MyBookingsProps) => {
+const MyBookings = ({ workingDate }: MyBookingsProps) => {
   const { userId, getToken } = useAuth()
   const date = workingDate ? new Date(workingDate.toString()) : new Date()
 
   const loadBookingsForUser = async (
     userId: string | null | undefined
-  ): Promise<{ data: { docs: BookingRecord[] } }> => {
+  ): Promise<{ data: { docs: BookingRecordDeep[] } }> => {
     const query = qs.stringify({
       where: {
         and: [
@@ -85,7 +84,8 @@ const MyBookings = ({ setSidebarTable, workingDate }: MyBookingsProps) => {
                             <Fragment key={`user_booking${i}`}>
                               <div className="flex items-center gap-2">
                                 <span className="flex flex-[2] items-center gap-1 font-medium">
-                                  <Button onClick={() => setSidebarTable(booking.space.value)}>
+                                  <Button>
+                                    {/* @todo */}
                                     {booking.space?.value.name}
                                   </Button>
                                   {booking.space.value.group && (
@@ -125,7 +125,6 @@ const MyBookings = ({ setSidebarTable, workingDate }: MyBookingsProps) => {
 }
 
 type MyBookingsProps = {
-  setSidebarTable: (spaceId: SpaceType) => void
   workingDate: Value
 }
 

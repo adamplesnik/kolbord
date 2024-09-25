@@ -25,6 +25,8 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
       x: group?.x ?? 0,
       y: group?.y ?? 0,
       showMarker: group?.showMarker ?? false,
+      zone: group.zone,
+      org: group.org,
     },
   })
 
@@ -72,94 +74,85 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
   }, [reset, group])
 
   return (
-    <>
-      <form
-        className="flex flex-col gap-6"
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleSubmit()
-        }}
-      >
-        <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
-        <Field
-          name="name"
-          children={({ state, handleChange, handleBlur }) => (
-            <InputWithLabel
-              label="Name"
-              value={state.value}
+    <form
+      className="flex flex-col gap-6"
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleSubmit()
+      }}
+    >
+      <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
+      <Field
+        name="name"
+        children={({ state, handleChange, handleBlur }) => (
+          <InputWithLabel
+            label="Name"
+            value={state.value}
+            onChange={(e) => handleChange(e.target.value)}
+            onBlur={handleBlur}
+            required
+            inputType="text"
+          />
+        )}
+      />
+      <Field
+        name="description"
+        children={({ state, handleChange, handleBlur }) => (
+          <div className="flex flex-col gap-1">
+            <span className="block text-xs font-bold">Description</span>
+            <textarea
               onChange={(e) => handleChange(e.target.value)}
               onBlur={handleBlur}
               required
-              inputType="text"
+              className="h-24 rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+              value={state.value}
             />
-          )}
-        />
+          </div>
+        )}
+      />
+      <Field
+        name="showMarker"
+        children={({ state, handleChange, handleBlur }) => (
+          <CheckboxWithLabel
+            label="Show marker"
+            checked={state.value}
+            onChange={(e) => handleChange(e.target.checked)}
+            onBlur={handleBlur}
+          />
+        )}
+      />
+      <div className="flex gap-4">
         <Field
-          name="description"
+          name="x"
           children={({ state, handleChange, handleBlur }) => (
-            <div className="flex flex-col gap-1">
-              <span className="block text-xs font-bold">Description</span>
-              <textarea
-                onChange={(e) => handleChange(e.target.value)}
-                onBlur={handleBlur}
-                required
-                className="h-24 rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-                value={state.value}
-              />
-            </div>
-          )}
-        />
-        <Field
-          name="showMarker"
-          children={({ state, handleChange, handleBlur }) => (
-            <CheckboxWithLabel
-              label="Show marker"
-              checked={state.value}
-              onChange={(e) => handleChange(e.target.checked)}
+            <InputWithLabel
+              label="X"
+              value={state.value}
+              onChange={(e) => handleChange(+e.target.value)}
               onBlur={handleBlur}
+              required
+              inputType="number"
             />
           )}
         />
-        <div className="flex gap-4">
-          <Field
-            name="x"
-            children={({ state, handleChange, handleBlur }) => (
-              <InputWithLabel
-                label="X"
-                value={state.value}
-                onChange={(e) => handleChange(+e.target.value)}
-                onBlur={handleBlur}
-                required
-                inputType="number"
-              />
-            )}
-          />
-          <Field
-            name="y"
-            children={({ state, handleChange, handleBlur }) => (
-              <InputWithLabel
-                label="Y"
-                value={state.value}
-                onChange={(e) => handleChange(+e.target.value)}
-                onBlur={handleBlur}
-                required
-                inputType="number"
-              />
-            )}
-          />
-        </div>
-        <Button type="submit" buttonType="primary">
-          Update group
-        </Button>
-      </form>
-      {/* <PlanDelete
-          zoneId={zoneId}
-          planName={plan?.data.name}
-          planCompanyUuid={plan?.data.company?.data.uuid}
-          userCompanyUuid={user?.company.uuid}
-          handleDelete={handleDelete}
-        /> */}
-    </>
+        <Field
+          name="y"
+          children={({ state, handleChange, handleBlur }) => (
+            <InputWithLabel
+              label="Y"
+              value={state.value}
+              onChange={(e) => handleChange(+e.target.value)}
+              onBlur={handleBlur}
+              required
+              inputType="number"
+            />
+          )}
+        />
+      </div>
+      <Button type="submit" buttonType="primary">
+        Update group
+      </Button>
+    </form>
   )
 }
 

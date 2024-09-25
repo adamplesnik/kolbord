@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { BookingRecord } from '../../data/BookingRecord'
+import { BookingRecord, BookingRecordDeep } from '../../data/BookingRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
 
@@ -144,7 +144,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
 type SpaceBookingSlotProps = {
   bookedBy?: string
   from: Date
-  isBooked?: BookingRecord | undefined
+  isBooked?: BookingRecord | BookingRecordDeep | undefined
   spaceId: number
   to: Date
 } & HTMLAttributes<HTMLDivElement>
