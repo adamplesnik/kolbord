@@ -1,77 +1,71 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useEffect } from 'react'
-import { useAuthContext } from '../../auth/AuthContext'
-import { getToken } from '../../auth/helpers'
-import { PlanRecord } from '../../data/PlanRecord'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { usePlanQuery } from './loadPlan'
-import PlanDelete from './PlanDelete'
+import { PlanType } from './planType'
+import { useZone } from './useZone'
 
-const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
-  const { user, userCanEdit } = useAuthContext()
+const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
+  const { getToken } = useAuth()
+  const { zone, zoneId } = useZone()
 
   const updatePlan = async (
-    id: number,
+    id: number | undefined,
     name?: string,
     svg?: string | undefined
-  ): Promise<PlanRecord> => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/plans/${id}`, {
-      method: 'put',
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ data: { name: name, svg: svg } }),
-    })
-    return response.json()
+  ): Promise<PlanType> => {
+    return await axios.patch(
+      `${import.meta.env.VITE_API_URL}/zones/${id}`,
+      JSON.stringify({ name: name, svg: svg }),
+      {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   }
 
-  const { data: plan } = usePlanQuery(planId)
-
   const queryClient = useQueryClient()
+
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: PlanRecord) => updatePlan(planId, data.attributes.name, data.attributes.svg),
+    mutationFn: (data: PlanType) => updatePlan(zoneId, data.name, data.svg),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['plans'] })
-      await queryClient.cancelQueries({ queryKey: ['plan', planId] })
+      await queryClient.cancelQueries({ queryKey: ['zones'] })
+      await queryClient.cancelQueries({ queryKey: ['zone'] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['plans'],
+        queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['plan', planId],
+        queryKey: ['zone'],
       })
     },
   })
 
-  const { Field, handleSubmit, reset } = useForm<PlanRecord>({
+  const { Field, handleSubmit, reset } = useForm<PlanType>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
     defaultValues: {
-      id: plan?.data.id,
-      attributes: {
-        name: plan?.data.attributes.name,
-        svg: plan?.data.attributes.svg,
-      },
+      id: zone?.data.id,
+      name: zone?.data.name,
+      svg: zone?.data.svg,
     },
   })
 
   useEffect(() => {
     reset()
-  }, [planId])
+  }, [reset, zoneId])
 
   useEffect(() => {
-    sendTitle(plan?.data.attributes.name)
-  }, [plan?.data.attributes.name])
-
-  if (!userCanEdit) {
-    return ''
-  }
+    sendTitle(zone?.data.name)
+  }, [sendTitle, zone?.data.name])
 
   return (
     <>
@@ -84,7 +78,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
       >
         <FetchStatus isPending={isPending} isError={isError} isSuccess={isSuccess} />
         <Field
-          name="attributes.name"
+          name="name"
           children={({ state, handleChange, handleBlur }) => (
             <InputWithLabel
               label="Name"
@@ -97,7 +91,7 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
           )}
         />
         <Field
-          name="attributes.svg"
+          name="svg"
           children={({ state, handleChange, handleBlur }) => (
             <div className="flex flex-col gap-1">
               <span className="block text-xs font-bold">SVG</span>
@@ -115,20 +109,11 @@ const PlanEditor = ({ planId, handleDelete, sendTitle }: PlanEditorProps) => {
           Update plan
         </Button>
       </form>
-      <PlanDelete
-        planId={planId}
-        planName={plan?.data.attributes.name}
-        planCompanyUuid={plan?.data.attributes.company?.data.attributes.uuid}
-        userCompanyUuid={user?.company.uuid}
-        handleDelete={handleDelete}
-      />
     </>
   )
 }
 
 type PlanEditorProps = {
-  planId: number
-  handleDelete: () => void
   sendTitle: (title: string | undefined) => void
 }
 

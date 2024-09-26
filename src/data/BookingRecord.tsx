@@ -1,44 +1,37 @@
-export type BookingQueryType = {
-  data: BookingRecord[]
-}
-
 export type BookingRecord = {
   id: number
-  attributes: {
-    users_permissions_user: {
-      data: {
-        id: number
-        attributes: {
-          email: string
-          firstName: string
-          lastName: string
-        }
-      }
-    }
-    table: {
-      data: {
-        id: number
-        attributes?: {
-          name?: string
-          group?: {
-            data: {
-              attributes: {
-                name: string
-              }
-            }
-          }
-          plan?: {
-            data: {
-              id: number
-              attributes: {
-                name: string
-              }
-            }
-          }
-        }
-      }
-    }
-    from: string
-    to: string
+  from: Date
+  to: Date
+  space: {
+    value: number
   }
+  sub?: string | null | undefined
+  org?: string | null | undefined
+}
+
+export type BookingRecordDeep = {
+  id: number
+  from: Date
+  to: Date
+  space: {
+    value: {
+      id: number
+      name: string
+      x: number
+      y: number
+      slots: string
+      zone?: {
+        value: {
+          name: string
+        }
+      }
+      group?: {
+        value: {
+          name: string
+        }
+      }
+    }
+  }
+  sub?: string | null | undefined
+  org?: string | null | undefined
 }

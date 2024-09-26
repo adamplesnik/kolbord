@@ -2,23 +2,23 @@ import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 import { addWithSpace } from '../../utils/addWithSpace'
 import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
+import { SpaceType } from '../space/spaceType'
 import Plan from './Plan'
 import { Value } from './PlanDateSelector'
 
 const PlanTransformWrapper = ({
   handlePlaceClick,
-  planId,
   sidebarPlanEdit,
-  sidebarTableId,
+  sidebarSpace,
   workingDate,
 }: PlanTransformWrapperProps) => {
   return (
     <TransformWrapper
       pinch={{ disabled: false }}
       panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
-      initialScale={0.6}
+      initialScale={1}
       centerOnInit={true}
-      minScale={0.2}
+      minScale={0.8}
       maxScale={1}
     >
       {({ zoomToElement }) => (
@@ -26,19 +26,18 @@ const PlanTransformWrapper = ({
           <div
             className={
               'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
-              addWithSpace(sidebarTableId > 0 || sidebarPlanEdit ? 'mr-[23rem]' : '')
+              addWithSpace(sidebarSpace || sidebarPlanEdit ? 'mr-[23rem]' : '')
             }
           >
-            <GroupMarkers planId={planId} />
+            <GroupMarkers />
             <Spaces
               handleZoomToElement={zoomToElement}
-              sidebarTableId={sidebarTableId}
+              sidebarSpace={sidebarSpace}
               handlePlaceClick={handlePlaceClick}
-              planId={planId}
               workingDate={workingDate}
               listView={false}
             />
-            {planId > 0 && <Plan planId={planId} />}
+            <Plan />
           </div>
         </TransformComponent>
       )}
@@ -47,10 +46,9 @@ const PlanTransformWrapper = ({
 }
 
 type PlanTransformWrapperProps = {
-  handlePlaceClick: (id: number) => void
-  planId: number
+  handlePlaceClick: (space: SpaceType) => void
   sidebarPlanEdit: boolean
-  sidebarTableId: number
+  sidebarSpace: SpaceType | undefined
   workingDate: Value
 }
 

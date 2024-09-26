@@ -2,39 +2,36 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import AuthProvider from './auth/AuthProvider.tsx'
-import LoginPage from './auth/LoginPage.tsx'
-import Onboarding from './auth/Onboarding.tsx'
-import RegisterCompanyAdminPage from './auth/RegisterCompanyAdminPage.tsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import ClerkWrapper from './auth/ClerkWrapper.tsx'
+import SignInPage from './auth/SignInPage.tsx'
+import SignUpPage from './auth/SignUpPage.tsx'
 import './index.css'
 import MainPage from './pages/MainPage.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LoginPage />,
-    errorElement: <LoginPage />,
+    element: <SignInPage />,
+    errorElement: <SignInPage />,
   },
   {
-    path: '/register',
-    element: <RegisterCompanyAdminPage />,
+    path: '/sign-up',
+    element: <SignUpPage />,
   },
-  {
-    path: '/onboarding',
-    element: <Onboarding />,
-  },
+
   { path: '/plan', element: <MainPage /> },
 ])
+
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthProvider>
+    <ClerkWrapper>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
       </QueryClientProvider>
-    </AuthProvider>
-    <Analytics />
+      <Analytics />
+    </ClerkWrapper>
   </React.StrictMode>
 )

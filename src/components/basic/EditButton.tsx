@@ -1,9 +1,8 @@
 import { Check, PencilLine } from 'lucide-react'
-import { useAuthContext } from '../../auth/AuthContext'
 import Button from './Button'
 
 const EditButton = ({ onClick, className, editMode }: EditButtonProps) => {
-  const { userCanEdit } = useAuthContext()
+  const userCanEdit = true
 
   if (!userCanEdit) {
     return ''

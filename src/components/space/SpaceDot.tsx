@@ -1,6 +1,6 @@
 import { addWithSpace } from '../../utils/addWithSpace'
 
-const initials = (name: string | undefined) => {
+const initials = (name: string | undefined | null) => {
   if (name) {
     const names = name.split(' ')
     return names.map((n) => Array.from(n)[0])
@@ -17,8 +17,8 @@ const SpaceDot = ({
   return (
     <div
       className={
-        'relative flex shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full font-bold' +
-        addWithSpace(small ? 'size-4' : 'size-16 text-xl') +
+        'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-bold' +
+        addWithSpace(small ? 'size-4 border-1' : 'size-8 border-2 text-sm') +
         addWithSpace(
           !bookedToday && ' bg-teal-400/80 group-hover:bg-teal-600/80 group-active:bg-teal-500'
         ) +
@@ -49,7 +49,7 @@ const SpaceDot = ({
 
 type SpaceDotProps = {
   bookedToday?: boolean | undefined
-  bookedByWho?: string | undefined
+  bookedByWho?: string | undefined | null
   bookedByMe?: boolean | undefined
   className?: string | undefined
   small?: boolean

@@ -1,22 +1,24 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { useState } from 'react'
-import { getToken } from '../../auth/helpers'
 import Button from '../basic/Button'
-import P from '../basic/P'
+import Paragraph from '../basic/Paragraph'
 
 const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
+  const { getToken } = useAuth()
   const [deleteStep, setDeleteStep] = useState(0)
 
   const deleteSpace = async (id: number) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/tables/${id}`, {
-        method: 'delete',
+      await axios.delete(`${import.meta.env.VITE_API_URL}/spaces/${id}`, {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${await getToken()}`,
           'Content-Type': 'application/json',
         },
       })
-    } catch {
+    } catch (error) {
+      console.error(error)
     } finally {
       handleDelete()
     }
@@ -27,10 +29,7 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
     mutationFn: () => deleteSpace(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['places'],
-      })
-      queryClient.invalidateQueries({
-        queryKey: ['place', id],
+        queryKey: ['spaces'],
       })
     },
   })
@@ -45,8 +44,8 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
       {deleteStep > 0 && (
         <>
           <div className="text-sm">
-            <P className="font-bold text-red-600">This action cannot be undone!</P>
-            <P>All bookings related to this place will be deleted as well.</P>
+            <Paragraph className="font-bold text-red-600">This action cannot be undone!</Paragraph>
+            <Paragraph>All bookings related to this place will be deleted as well.</Paragraph>
           </div>
           <div className="flex justify-between">
             <Button buttonType="danger" onClick={() => mutate()}>

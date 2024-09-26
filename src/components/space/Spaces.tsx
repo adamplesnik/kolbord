@@ -1,166 +1,164 @@
+import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
-import { useAuthContext } from '../../auth/AuthContext.tsx'
-import { getToken } from '../../auth/helpers'
-import { BookingQueryType, BookingRecord } from '../../data/BookingRecord'
-import { TableRecord } from '../../data/TableRecord'
+import qs from 'qs'
+import { Fragment } from 'react'
+import { BookingRecord } from '../../data/BookingRecord'
 import Empty from '../basic/Empty.tsx'
-import { Value } from '../plan/PlanDateSelector.tsx'
-import Space from './Space.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
-
-type TableQueryType = {
-  data: TableRecord[]
-}
+import { Value } from '../plan/PlanDateSelector.tsx'
+import { useZone } from '../plan/useZone.ts'
+import Space from './Space.tsx'
+import { SpaceType } from './spaceType'
 
 const Spaces = ({
-  planId,
-  sidebarTableId,
+  sidebarSpace,
   handlePlaceClick,
   handleZoomToElement,
   workingDate,
   listView,
 }: SpacesProps) => {
-  const { user } = useAuthContext()
+  const { getToken, userId } = useAuth()
+  const { zoneId } = useZone()
 
-  const loadSpaces = async (planId: number): Promise<TableQueryType> => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/tables?fields[0]=x&fields[1]=y&fields[2]=name&populate[group][fields][0]=name&populate[features][fields][0]=id&sort=name&pagination[pageSize]=1000&pagination[withCount]=false&filters[plan][id][$eq]=${planId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
+  const loadSpaces = async (
+    zoneId: number | undefined
+  ): Promise<{ data: { docs: SpaceType[] } }> => {
+    const query = qs.stringify({
+      where: {
+        'zone.value': {
+          equals: zoneId,
         },
-      }
-    )
-    return response.json()
+      },
+    })
+
+    return axios(`${import.meta.env.VITE_API_URL}/spaces?${query}&depth=1`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: spaces } = useQuery({
-    queryKey: ['spaces', planId],
-    queryFn: () => loadSpaces(planId),
+    queryKey: ['spaces', zoneId],
+    enabled: zoneId != undefined,
+    queryFn: () => loadSpaces(zoneId),
   })
 
-  const loadBookingsForPlan = async (id: number, date: Value): Promise<BookingQueryType> => {
+  const loadBookingsForZone = async (
+    zoneId: number | undefined,
+    date: Value
+  ): Promise<{ data: { docs: BookingRecord[] } }> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
-    let midnight = date && new Date(Date.parse(date.toString()))
+    const midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/bookings?&populate[users_permissions_user][fields][0]=email&populate[users_permissions_user][fields][1]=firstName&populate[users_permissions_user][fields][2]=lastName&populate[table][fields][0]=id&fields[0]=from&fields[1]=to&filters[$and][0][table][plan][id]=${id}&filters[$and][1][from][$gte]=${today}&filters[$and][2][to][$lte]=${midnight?.toISOString()}&sort[0]=from`,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    )
-    return response.json()
+
+    const query = qs.stringify({
+      where: {
+        and: [
+          {
+            space: {
+              'zone.value': {
+                equals: zoneId,
+              },
+            },
+            from: {
+              greater_than_equal: today,
+            },
+            to: {
+              less_than_equal: midnight,
+            },
+          },
+        ],
+      },
+    })
+
+    return axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
   }
 
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', planId, workingDate],
-    queryFn: () => loadBookingsForPlan(planId, workingDate),
+    queryKey: ['bookings', zoneId, workingDate],
+    queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
+  console.log(bookings)
 
-  const SpaceComponent = ({
-    space,
-    allToday,
-    bookedToday,
-  }: {
-    space: TableRecord
-    allToday: BookingRecord[] | undefined
-    bookedToday: BookingRecord | undefined
-  }) => {
-    if (space) {
-      return (
-        <Space
-          id={space.id}
-          attributes={{
-            features: space.attributes.features,
-            group: space.attributes.group,
-            name: space.attributes.name,
-            slots: space.attributes.slots,
-            x: space.attributes.x,
-            y: space.attributes.y,
-          }}
-          active={space.id === sidebarTableId}
-          bookedToday={bookedToday != undefined}
-          bookings={allToday}
-          bookedByWho={
-            bookedToday &&
-            bookedToday?.attributes.users_permissions_user.data.attributes.firstName +
-              ' ' +
-              bookedToday?.attributes.users_permissions_user.data.attributes.lastName
-          }
-          bookedByMe={
-            bookedToday?.attributes.users_permissions_user.data.attributes.email === user?.email
-          }
-          onClick={() => {
-            handlePlaceClick(space.id)
-            handleZoomToElement &&
-              setTimeout(() => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75), 400)
-          }}
-          listView={listView}
-        />
-      )
-    } else {
-      return <Empty Icon={BracesIcon} message="No space available"></Empty>
-    }
+  const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
+
+  if (!spaces) {
+    return <Empty Icon={BracesIcon} message="No space available"></Empty>
   }
-
-  const groups = [
-    ...new Set(spaces?.data.map((space) => space?.attributes?.group?.data?.attributes.name)),
-  ].sort()
-  console.log(groups.length)
 
   return (
     <div className={listView ? 'flex flex-col' : ''}>
       {groups.map((group) => (
-        <>
+        <Fragment key={`${group?.id}_group`}>
           <div
-            key={group}
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
               <Heading size={4} className="w-32 shrink-0 py-8">
-                {group ? group : '(no group)'}
+                {group?.name ? group.name : '(no group)'}
               </Heading>
             )}
             {listView && <Separator horizontal />}
             <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
-              {spaces?.data
-                .filter((space) => space?.attributes?.group?.data?.attributes.name === group)
+              {spaces?.data.docs
+                .filter((space) => space?.group?.value === group)
                 .map((space, i) => {
-                  const bookedToday = bookings?.data.find(
-                    (booking) => booking.attributes.table.data.id === space.id
+                  const bookedToday = bookings?.data.docs.find(
+                    (booking) => booking.space.value === space.id
                   )
-                  const allToday = bookings?.data.filter(
-                    (booking) => booking.attributes.table.data.id === space.id
+                  const allToday = bookings?.data.docs.filter(
+                    (booking) => booking.space.value === space.id
                   )
                   return (
-                    <SpaceComponent
-                      allToday={allToday}
-                      bookedToday={bookedToday}
-                      key={`space_${space.attributes.x}_${space.attributes.y}_${i}`}
-                      space={space}
+                    <Space
+                      id={space.id}
+                      features={space.features}
+                      group={space.group}
+                      name={space.name}
+                      slots={space.slots}
+                      x={space.x}
+                      y={space.y}
+                      active={space === sidebarSpace}
+                      bookedToday={bookedToday != undefined}
+                      bookings={allToday}
+                      bookedByWho={bookedToday?.sub}
+                      bookedByMe={bookedToday?.sub === userId}
+                      onClick={() => {
+                        handlePlaceClick(space)
+                        handleZoomToElement &&
+                          setTimeout(
+                            () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
+                            400
+                          )
+                      }}
+                      key={`space_${space.x}_${space.y}_${i}`}
+                      listView={listView}
                     />
                   )
                 })}
             </div>
           </div>
           {listView && <Separator />}
-        </>
+        </Fragment>
       ))}
     </div>
   )
 }
 
 type SpacesProps = {
-  planId: number
-  sidebarTableId: number
-  handlePlaceClick: (id: number) => void
+  handlePlaceClick: (space: SpaceType) => void
   handleZoomToElement?: (id: string, zoom: number) => void | undefined
-  workingDate: Value
   listView: boolean
+  sidebarSpace: SpaceType | undefined
+  workingDate: Value
 }
 
 export default Spaces
