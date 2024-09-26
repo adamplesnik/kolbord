@@ -1,9 +1,8 @@
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
 
 const Logo = ({ className }: HTMLAttributes<HTMLHeadingElement>) => {
   return (
-    <h1 className={'text-slate-950' + addWithSpace(className)}>
+    <h1 className={className}>
       <span className="hidden">kolbord</span>
       <svg
         height="100%"

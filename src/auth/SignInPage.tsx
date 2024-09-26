@@ -7,7 +7,18 @@ const SignInPage = () => {
     <AuthWrapper>
       <SignedOut>
         <Suspense fallback={<div>lll</div>}>
-          <SignIn />
+          <SignIn
+            appearance={{
+              layout: {
+                logoLinkUrl: 'https://kolbord.com',
+                termsPageUrl: 'https://kolbord.com/terms',
+              },
+              elements: {
+                formFieldInput: '!rounded !text-sm',
+                formButtonPrimary: '!rounded !shadow-none after:hidden !text-sm',
+              },
+            }}
+          />
         </Suspense>
       </SignedOut>
     </AuthWrapper>

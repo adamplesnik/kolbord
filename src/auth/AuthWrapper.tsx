@@ -5,7 +5,7 @@ import AuthFooter from './AuthFooter'
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => {
   return (
-    <div className="w-full md:min-h-screen">
+    <div className="w-full bg-zinc-800 md:min-h-screen">
       <div className="mx-auto flex w-full max-w-5xl overflow-hidden md:gap-16">
         <div className="mx-auto flex w-full flex-col gap-8 p-8 md:m-0">
           {children}
