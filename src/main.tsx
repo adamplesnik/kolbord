@@ -38,7 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <RouterProvider router={router} />
         <ReactQueryDevtools />
       </QueryClientProvider>
+      <Analytics />
     </ClerkProvider>
-    <Analytics />
   </React.StrictMode>
 )
