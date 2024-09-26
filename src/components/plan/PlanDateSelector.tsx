@@ -13,7 +13,7 @@ const PlanDateSelector = ({ onChange, workingDate }: PlanDateSelectorProps) => {
   return (
     <>
       <div data-tooltip-id="calendarTooltip">
-        <Button Icon={CalendarDays}>
+        <Button Icon={CalendarDays} className="shrink-0">
           {workingDate?.toLocaleString([], { dateStyle: 'medium' })}
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>
