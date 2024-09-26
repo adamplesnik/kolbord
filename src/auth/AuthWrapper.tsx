@@ -1,11 +1,14 @@
-import { SignedIn } from '@clerk/clerk-react'
+import { ClerkLoading, SignedIn } from '@clerk/clerk-react'
 
 import { HTMLAttributes } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import Anchor from '../components/basic/Anchor'
 import Logo from '../components/basic/Logo'
 import Paragraph from '../components/basic/Paragraph'
+import Skeleton from '../components/basic/Skeleton'
 import AuthFooter from './AuthFooter'
+
+const skeletonCollection = ['96%', '100%', '92%', '55%', '100%', '93%', '87%', '55%']
 
 const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
   return (
@@ -17,7 +20,17 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
         <Logo className="h-6" />
       </Link>
       <div className="flex w-full flex-col overflow-hidden md:flex-row md:gap-16">
-        <div className="order-last flex-1 rounded-xl bg-cover bg-center bg-no-repeat md:block md:pt-8">
+        <div className="min-h-[500px] w-full md:flex-1">
+          <ClerkLoading>
+            <div className="h-[500px] w-full p-8">
+              {skeletonCollection.map((width, key) => (
+                <Skeleton width={width} key={key} />
+              ))}
+            </div>
+          </ClerkLoading>
+          {children}
+        </div>
+        <div className="flex-1 pt-8">
           <Paragraph className="pb-12">
             <strong>The smoothest space booking.</strong> Opinionated, free to use, and open source
             app for one-click reservation of anything.{' '}
@@ -29,7 +42,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
             <Paragraph>
               Don't have an account?{' '}
               <Anchor className="text-cyan-500" to={'/sign-up'}>
-                Sign up
+                Sign up.
               </Anchor>
             </Paragraph>
           )}
@@ -37,12 +50,11 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
             <Paragraph>
               Already have an account?{' '}
               <Anchor className="text-cyan-500" to={'/'}>
-                Sign in
+                Sign in.
               </Anchor>
             </Paragraph>
           )}
         </div>
-        <div className="w-full flex-1">{children}</div>
       </div>
       <AuthFooter />
     </div>
