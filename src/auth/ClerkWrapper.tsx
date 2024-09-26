@@ -30,7 +30,11 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           formFieldLabel: '!text-xs',
           headerTitle: '!text-xl text-left',
           headerSubtitle: '!hidden',
+          organizationPreviewMainIdentifier: '!text-sm',
+          organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
           rootBox: '!w-full',
+          userPreviewMainIdentifier: '*:!text-sm',
+          userPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
         },
       }}
     >
