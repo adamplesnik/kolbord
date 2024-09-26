@@ -15,12 +15,15 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
       appearance={{
         layout: {
           unsafe_disableDevelopmentModeWarnings: true,
-          logoLinkUrl: 'https://kolbord.com',
-          termsPageUrl: 'https://kolbord.com/terms',
+          logoPlacement: 'none',
         },
         elements: {
+          card: '!p-0.25 !shadow-none !border-none !rounded-none',
+          cardBox: '!shadow-none !w-full !border !border-slate-400',
+          footerAction: '!hidden',
           formFieldInput: '!rounded !text-sm',
           formButtonPrimary: '!rounded !shadow-none after:hidden !text-sm',
+          rootBox: '!w-full',
         },
       }}
     >

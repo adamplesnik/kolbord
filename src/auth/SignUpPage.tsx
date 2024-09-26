@@ -3,7 +3,7 @@ import AuthWrapper from './AuthWrapper'
 
 const SignUpPage = () => {
   return (
-    <AuthWrapper>
+    <AuthWrapper signUp>
       <SignedOut>
         <SignUp />
       </SignedOut>

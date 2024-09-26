@@ -7,7 +7,7 @@ const Anchor = ({ to, target, children, className }: LinkProps) => {
       to={to}
       target={target}
       className={
-        'cursor-pointer underline-offset-1 hover:text-zinc-950 hover:underline' +
+        'hover:text-underline cursor-pointer text-current underline-offset-1 hover:underline' +
         addWithSpace(className)
       }
     >
