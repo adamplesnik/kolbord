@@ -1,18 +1,12 @@
 import { addWithSpace } from '../../utils/addWithSpace'
-
-const initials = (name: string | undefined | null) => {
-  if (name) {
-    const names = name.split(' ')
-    return names.map((n) => Array.from(n)[0])
-  }
-}
+import UserName from '../user/UserName'
 
 const SpaceDot = ({ bookedByMe, bookedByWho, bookedToday, small = false }: SpaceDotProps) => {
   return (
     <div
       className={
-        'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-bold' +
-        addWithSpace(small ? 'size-4 border-1' : 'size-8 border-2 text-sm') +
+        'group flex shrink-0 cursor-pointer items-center justify-center rounded-full font-medium' +
+        addWithSpace(small ? 'size-4 border-1' : 'size-8 border-2 text-xs') +
         addWithSpace(
           !bookedToday &&
             'border-slate-500 bg-teal-400/80 group-hover:border-teal-600 active:bg-teal-500'
@@ -24,7 +18,7 @@ const SpaceDot = ({ bookedByMe, bookedByWho, bookedToday, small = false }: Space
         )
       }
     >
-      {!small && initials(bookedByWho)}
+      {!small && <UserName subject={bookedByWho} initials />}
     </div>
   )
 }

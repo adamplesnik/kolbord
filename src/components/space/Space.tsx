@@ -5,6 +5,7 @@ import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
+import UserName from '../user/UserName.tsx'
 import SpaceDot from './SpaceDot.tsx'
 import { SpaceType } from './spaceType'
 
@@ -57,7 +58,9 @@ const Space = ({
                   <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
                   {humanTime(b.to)}
                 </div>
-                <span className="font-semibold">{b.sub}</span>
+                <span className="font-semibold">
+                  <UserName subject={b.sub} />
+                </span>
               </div>
             ))}
           </Tooltip>
@@ -94,7 +97,9 @@ const Space = ({
                     <ArrowRight className="size-4 text-slate-400" strokeWidth={1} />
                     {humanTime(b.to)}
                   </div>
-                  <span className="font-semibold">{b.sub}</span>
+                  <span className="font-semibold">
+                    <UserName subject={b.sub} />
+                  </span>
                 </div>
               ))}
           </div>
