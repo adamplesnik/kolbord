@@ -7,6 +7,7 @@ import { Tooltip } from 'react-tooltip'
 import { BookingRecord, BookingRecordDeep } from '../../data/BookingRecord'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
+import UserName from '../user/UserName'
 
 const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookingSlotProps) => {
   const { userId, getToken, orgId } = useAuth()
@@ -134,7 +135,9 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
 
       {isBooked && !isBookedByMe && (
         <Tooltip id={tooltipId}>
-          <span className="text-sm">{bookedBy}</span>
+          <span className="text-sm">
+            <UserName subject={bookedBy} />
+          </span>
         </Tooltip>
       )}
     </>

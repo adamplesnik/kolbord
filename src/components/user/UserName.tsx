@@ -21,7 +21,9 @@ const UserName = ({
 
   const { data: userName } = useQuery({
     queryFn: () => getUserName(),
+    enabled: subject != undefined || subject != null,
     queryKey: ['userName', subject],
+    staleTime: 1000 * 60 * 5,
   })
 
   const getInitials = (name: string | undefined | null) => {
