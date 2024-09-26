@@ -1,10 +1,11 @@
 import { Check, PencilLine } from 'lucide-react'
+import { useIsAdmin } from '../../auth/useIsAdmin'
 import Button from './Button'
 
 const EditButton = ({ onClick, className, editMode }: EditButtonProps) => {
-  const userCanEdit = true
+  const { isAdmin } = useIsAdmin()
 
-  if (!userCanEdit) {
+  if (!isAdmin) {
     return ''
   }
 

@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, User } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { useIsAdmin } from '../../auth/useIsAdmin.ts'
 import { GroupRecord } from '../../data/GroupRecord.tsx'
 import Button from '../basic/Button'
 import EditButton from '../basic/EditButton'
@@ -21,7 +22,7 @@ const PlanSwitcher = ({
   onGroupEdit,
   onPlanEdit,
 }: PlanSwitcherProps) => {
-  const userCanEdit = true // @todo
+  const { isAdmin } = useIsAdmin()
   const { data: zones } = useQuery<{ data: { docs: PlanType[] } }>({
     queryKey: ['zones'],
     enabled: true,
@@ -75,12 +76,12 @@ const PlanSwitcher = ({
                   )}
                 </div>
               ))}
-            {userCanEdit && <PlanAdd />}
+            {isAdmin && <PlanAdd />}
             {zoneId != undefined && zoneId > 0 && (
               <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
             )}
           </div>
-          {userCanEdit && (
+          {isAdmin && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
               <GroupList onGroupEdit={onGroupEdit} />
