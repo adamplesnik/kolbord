@@ -1,13 +1,13 @@
 import { SignedOut, SignUp } from '@clerk/clerk-react'
-import LoginWrapper from './LoginWrapper'
+import AuthWrapper from './AuthWrapper'
 
 const SignUpPage = () => {
   return (
-    <LoginWrapper>
+    <AuthWrapper signUp>
       <SignedOut>
         <SignUp />
       </SignedOut>
-    </LoginWrapper>
+    </AuthWrapper>
   )
 }
 

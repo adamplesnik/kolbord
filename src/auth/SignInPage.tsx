@@ -1,16 +1,16 @@
 import { SignedOut, SignIn } from '@clerk/clerk-react'
-import LoginWrapper from './LoginWrapper'
 import { Suspense } from 'react'
+import AuthWrapper from './AuthWrapper'
 
 const SignInPage = () => {
   return (
-    <LoginWrapper>
+    <AuthWrapper>
       <SignedOut>
         <Suspense fallback={<div>lll</div>}>
           <SignIn />
         </Suspense>
       </SignedOut>
-    </LoginWrapper>
+    </AuthWrapper>
   )
 }
 

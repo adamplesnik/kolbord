@@ -2,7 +2,7 @@ import { OrganizationSwitcher, SignedIn, UserButton, useUser } from '@clerk/cler
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
-import Logo from '../components/Logo'
+import Logo from '../components/basic/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import { SpaceType } from '../components/space/spaceType'
