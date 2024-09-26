@@ -20,7 +20,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
         <Logo className="h-6" />
       </Link>
       <div className="flex w-full flex-col overflow-hidden md:flex-row md:gap-16">
-        <div className="min-h-[500px] w-full md:flex-1">
+        <div className="flex min-h-[500px] w-full max-w-sm flex-col gap-8">
           <ClerkLoading>
             <div className="h-[500px] w-full p-8">
               {skeletonCollection.map((width, key) => (
@@ -29,15 +29,6 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
             </div>
           </ClerkLoading>
           {children}
-        </div>
-        <div className="flex-1 pt-8">
-          <Paragraph className="pb-12">
-            <strong>The smoothest space booking.</strong> Opinionated, free to use, and open source
-            app for one-click reservation of anything.{' '}
-            <Anchor className="block pt-4 text-cyan-500" to={'https://kolbord.com'}>
-              Learn more &rarr;
-            </Anchor>
-          </Paragraph>
           {!signUp && (
             <Paragraph>
               Don't have an account?{' '}
