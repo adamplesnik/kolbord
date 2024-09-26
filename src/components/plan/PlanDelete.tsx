@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
-import P from '../basic/P'
+import Paragraph from '../basic/Paragraph'
 import { useZone } from './useZone'
 
 const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
@@ -54,9 +54,11 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
       {deleteStep > 0 && (
         <>
           <div className="text-sm">
-            <P className="font-bold text-red-600">This action cannot be undone!</P>
-            <P>All places and bookings related to this plan will be deleted as well.</P>
-            <P>Write down the plan name to confirm the deletion.</P>
+            <Paragraph className="font-bold text-red-600">This action cannot be undone!</Paragraph>
+            <Paragraph>
+              All places and bookings related to this plan will be deleted as well.
+            </Paragraph>
+            <Paragraph>Write down the plan name to confirm the deletion.</Paragraph>
           </div>
           <input
             type="text"

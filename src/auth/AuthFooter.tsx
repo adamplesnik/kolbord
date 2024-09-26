@@ -1,17 +1,17 @@
 import Anchor from '../components/basic/Anchor'
 import Logo from '../components/basic/Logo'
-import P from '../components/basic/P'
+import Paragraph from '../components/basic/Paragraph'
 
 const AuthFooter = () => {
   return (
-    <div className="mt-16 w-full border-t border-t-slate-200 bg-white">
+    <div className="mt-16 w-full border-t border-t-slate-200 bg-zinc-900 text-white">
       <div className="mx-auto flex max-w-5xl flex-col p-8 md:flex-row md:gap-12">
         <div>
           <Logo className="mb-6 h-4" />
-          <P small className="max-w-sm">
+          <Paragraph className="max-w-sm">
             <strong>The smoothest space booking.</strong> Opinionated, free to use, and open source
             app for one-click reservation of anything.
-          </P>
+          </Paragraph>
         </div>
         <div className="flex flex-col gap-3 pt-10 text-sm">
           <Anchor to={'https://kolbord.com/'} target="_blank">
