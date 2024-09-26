@@ -14,6 +14,8 @@ const Plan = () => {
   const queryClient = useQueryClient()
   const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
 
+  console.log(zoneId)
+
   const loadZones = async (): Promise<{ data: { docs: PlanType[] } } | undefined> => {
     const query = qs.stringify({
       sort: 'id',
@@ -31,8 +33,8 @@ const Plan = () => {
     queryFn: loadZones,
   })
 
-  const loadZone = async (zoneId: number): Promise<{ data: PlanType } | undefined> => {
-    return axios(`${import.meta.env.VITE_API_URL}/zones/${zoneId}`, {
+  const loadZone = async (): Promise<{ data: PlanType } | undefined> => {
+    return axios.get(`${import.meta.env.VITE_API_URL}/zones/${zoneId}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
         'Content-Type': 'application/json',
@@ -42,8 +44,8 @@ const Plan = () => {
 
   const { data: zone } = useQuery({
     queryKey: ['zone'],
-    enabled: zoneId != undefined, //@todo do not send undefined
-    queryFn: () => loadZone(zoneId!),
+    enabled: zoneId != undefined,
+    queryFn: loadZone,
   })
 
   useEffect(() => {
@@ -55,7 +57,9 @@ const Plan = () => {
   }, [queryClient, zoneId, savedZoneId, zones?.data?.docs])
 
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['zone'] })
+    if (zoneId != undefined) {
+      queryClient.invalidateQueries({ queryKey: ['zone'] })
+    }
   }, [queryClient, zoneId])
 
   return (
