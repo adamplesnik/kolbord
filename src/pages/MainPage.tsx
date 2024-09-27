@@ -1,5 +1,6 @@
-import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
+import { RedirectToSignIn, SignedOut, useAuth } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
+import PersonalPage from '../auth/PersonalPage.tsx'
 import { useIsAdmin } from '../auth/useIsAdmin.ts'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
@@ -19,6 +20,7 @@ import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
   const { isAdmin } = useIsAdmin()
+  const { orgId } = useAuth()
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [bookingsMode, setBookingsMode] = useState(false)
@@ -107,7 +109,8 @@ const MainPage = () => {
         <RedirectToSignIn />
       </SignedOut>
       {bookingsMode && <MyBookings workingDate={workingDate} />}
-      {listMode && !bookingsMode && (
+      {!orgId && <PersonalPage />}
+      {listMode && !bookingsMode && orgId && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -115,7 +118,7 @@ const MainPage = () => {
           workingDate={workingDate}
         />
       )}
-      {!listMode && !bookingsMode && (
+      {!listMode && !bookingsMode && orgId && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
           sidebarPlanEdit={sidebarPlanEdit}

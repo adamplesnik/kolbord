@@ -1,4 +1,3 @@
-import { OrganizationSwitcher, SignedIn, UserButton } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
@@ -6,6 +5,7 @@ import Logo from '../components/basic/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import { SpaceType } from '../components/space/spaceType'
+import UserMenu from '../components/user/UserMenu'
 import { GroupRecord } from '../data/GroupRecord'
 
 const MenuBar = ({
@@ -34,10 +34,7 @@ const MenuBar = ({
         <div className="h-6 w-px bg-slate-300"></div>
         <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
       </div>
-      <SignedIn>
-        <OrganizationSwitcher hidePersonal={true} />
-        <UserButton />
-      </SignedIn>
+      <UserMenu />
     </div>
   )
 }
