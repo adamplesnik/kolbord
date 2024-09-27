@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
 import { useEffect } from 'react'
-import { PlanType } from '../../types/spaceType'
+import { ZoneType } from '../../types/zoneType'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Loading from '../basic/Loading'
 import { useZone } from './useZone'
@@ -14,7 +14,7 @@ const Plan = () => {
   const queryClient = useQueryClient()
   const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
 
-  const loadZones = async (): Promise<{ data: { docs: PlanType[] } } | undefined> => {
+  const loadZones = async (): Promise<{ data: { docs: ZoneType[] } } | undefined> => {
     const query = qs.stringify({
       sort: 'id',
     })
@@ -31,7 +31,7 @@ const Plan = () => {
     queryFn: loadZones,
   })
 
-  const loadZone = async (): Promise<{ data: PlanType } | undefined> => {
+  const loadZone = async (): Promise<{ data: ZoneType } | undefined> => {
     return axios.get(`${import.meta.env.VITE_API_URL}/zones/${zoneId}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
@@ -48,7 +48,7 @@ const Plan = () => {
 
   useEffect(() => {
     if (!zoneId) {
-      queryClient.setQueryData<{ data: PlanType }>(['zone'], {
+      queryClient.setQueryData<{ data: ZoneType }>(['zone'], {
         data: { id: savedZoneId || zones?.data.docs[0].id },
       })
     }

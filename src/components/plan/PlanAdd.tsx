@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
-import { PlanType } from '../../types/spaceType'
+import { ZoneType } from '../../types/zoneType'
 import { NEW_PLAN_SVG } from '../../utils/constants'
 import Button from '../basic/Button'
 
@@ -10,7 +10,7 @@ const PlanAdd = () => {
   const { getToken, orgId } = useAuth()
   const queryClient = useQueryClient()
 
-  const addPlan = async (): Promise<PlanType | undefined> => {
+  const addPlan = async (): Promise<ZoneType | undefined> => {
     return await axios.post(
       `${import.meta.env.VITE_API_URL}/zones`,
       JSON.stringify({
