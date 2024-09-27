@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { GroupRecord } from '../../data/GroupRecord'
+import { GroupRecord } from '../../types/groupType'
 import EditButton from '../basic/EditButton'
 import { useZone } from '../plan/useZone'
 

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { BookingRecord, BookingRecordDeep } from '../../data/BookingRecord'
+import { BookingType, BookingTypeDeep } from '../../types/bookingType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
 import UserName from '../user/UserName'
@@ -36,7 +36,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
     org: orgId,
   }
 
-  const createBooking = async (data: BookingRecord): Promise<BookingRecord> => {
+  const createBooking = async (data: BookingType): Promise<BookingType> => {
     return axios.post(`${import.meta.env.VITE_API_URL}/bookings`, JSON.stringify(data), {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
@@ -48,7 +48,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
   const queryClient = useQueryClient()
 
   const { mutate: addBooking } = useMutation({
-    mutationFn: (data: BookingRecord) => createBooking(data),
+    mutationFn: (data: BookingType) => createBooking(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tableBooking', spaceId, from],
@@ -62,7 +62,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
     },
   })
 
-  const deleteBooking = async (bookingId: number): Promise<BookingRecord> => {
+  const deleteBooking = async (bookingId: number): Promise<BookingType> => {
     return axios.delete(`${import.meta.env.VITE_API_URL}/bookings/${bookingId}`, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
@@ -147,7 +147,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
 type SpaceBookingSlotProps = {
   bookedBy?: string
   from: Date
-  isBooked?: BookingRecord | BookingRecordDeep | undefined
+  isBooked?: BookingType | BookingTypeDeep | undefined
   spaceId: number
   to: Date
 } & HTMLAttributes<HTMLDivElement>

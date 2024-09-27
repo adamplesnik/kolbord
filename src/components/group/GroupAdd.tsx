@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
-import { GroupRecord } from '../../data/GroupRecord'
+import { GroupRecord } from '../../types/groupType'
 import Button from '../basic/Button'
 import { useZone } from '../plan/useZone'
 

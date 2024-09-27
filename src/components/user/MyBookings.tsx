@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ArrowRight, ListX } from 'lucide-react'
 import qs from 'qs'
 import { Fragment } from 'react/jsx-runtime'
-import { BookingRecordDeep } from '../../data/BookingRecord'
+import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
 import DateHeading from '../basic/DateHeading'
@@ -20,7 +20,7 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
 
   const loadBookingsForUser = async (
     userId: string | null | undefined
-  ): Promise<{ data: { docs: BookingRecordDeep[] } }> => {
+  ): Promise<{ data: { docs: BookingTypeDeep[] } }> => {
     const query = qs.stringify({
       where: {
         and: [

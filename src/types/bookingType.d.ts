@@ -1,4 +1,4 @@
-export type BookingRecord = {
+export type BookingType = {
   id: number
   from: Date
   to: Date
@@ -9,7 +9,7 @@ export type BookingRecord = {
   org?: string | null | undefined
 }
 
-export type BookingRecordDeep = {
+export type BookingTypeDeep = {
   id: number
   from: Date
   to: Date

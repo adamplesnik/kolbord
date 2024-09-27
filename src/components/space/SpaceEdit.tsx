@@ -3,13 +3,13 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
-import { GroupRecord } from '../../data/GroupRecord.tsx'
+import { GroupRecord } from '../../types/groupType'
+import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone.ts'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
-import { SpaceType } from './spaceType'
 
 const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
   const { getToken } = useAuth()

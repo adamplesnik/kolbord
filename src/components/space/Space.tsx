@@ -1,13 +1,13 @@
 import { ArrowRight } from 'lucide-react'
 import { Tooltip } from 'react-tooltip'
-import { BookingRecord } from '../../data/BookingRecord.tsx'
+import { BookingType } from '../../types/bookingType'
+import { SpaceType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import Separator from '../basic/Separator.tsx'
 import UserName from '../user/UserName.tsx'
 import SpaceDot from './SpaceDot.tsx'
-import { SpaceType } from './spaceType'
 
 const Space = ({
   id,
@@ -51,7 +51,7 @@ const Space = ({
         </div>
         {bookings && bookings?.length > 0 && (
           <Tooltip id={tooltipId} className="z-10 text-sm">
-            {bookings?.map((b: BookingRecord, i: number) => (
+            {bookings?.map((b: BookingType, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
                   {humanTime(b.from)}
@@ -90,7 +90,7 @@ const Space = ({
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
             {bookings &&
               bookings?.length > 0 &&
-              bookings?.map((b: BookingRecord, i: number) => (
+              bookings?.map((b: BookingType, i: number) => (
                 <div className="flex items-center gap-1" key={`${tooltipId}list_${i}`}>
                   <div className="flex w-28 items-center justify-evenly gap-1 text-slate-600">
                     {humanTime(b.from)}
@@ -115,7 +115,7 @@ type SpaceProps = {
   bookedByMe?: boolean
   bookedByWho?: string | undefined | null
   bookedToday?: boolean
-  bookings?: BookingRecord[] | undefined
+  bookings?: BookingType[] | undefined
   className?: string | undefined
   listView: boolean
   onClick?: () => void | undefined

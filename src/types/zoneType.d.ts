@@ -1,4 +1,4 @@
-export type PlanType = {
+export type ZoneType = {
   id?: number
   name?: string
   svg?: string

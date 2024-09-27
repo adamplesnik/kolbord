@@ -1,8 +1,8 @@
 import { HTMLAttributes, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { SpaceType } from '../../types/spaceType'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
-import { SpaceType } from './spaceType'
 
 const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
   useEffect(() => {

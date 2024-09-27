@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { PlanType } from './planType'
+import { PlanType } from '../../types/spaceType'
 
 export const useZone = () => {
   const { data, isLoading, error } = useQuery<{ data: PlanType }>({

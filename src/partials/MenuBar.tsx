@@ -4,9 +4,9 @@ import Button from '../components/basic/Button'
 import Logo from '../components/basic/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
-import { SpaceType } from '../components/space/spaceType'
 import UserMenu from '../components/user/UserMenu'
-import { GroupRecord } from '../data/GroupRecord'
+import { GroupRecord } from '../types/groupType'
+import { SpaceType } from '../types/spaceType'
 
 const MenuBar = ({
   handleMyBookings,

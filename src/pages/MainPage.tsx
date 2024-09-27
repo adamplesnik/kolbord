@@ -11,11 +11,11 @@ import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDelete from '../components/space/SpaceDelete.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
-import { SpaceType } from '../components/space/spaceType'
 import MyBookings from '../components/user/MyBookings.tsx'
-import { GroupRecord } from '../data/GroupRecord.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
+import { GroupRecord } from '../types/groupType'
+import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {

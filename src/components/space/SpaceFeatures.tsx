@@ -1,9 +1,9 @@
 import { Fragment, HTMLAttributes } from 'react'
 import { Tooltip } from 'react-tooltip'
+import { RelationshipType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
-import { RelationshipType } from './spaceType'
 
 export const SpaceFeatures = ({
   features,

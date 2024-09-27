@@ -3,10 +3,10 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useEffect } from 'react'
+import { PlanType } from '../../types/spaceType'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { PlanType } from './planType'
 import { useZone } from './useZone'
 
 const PlanEditor = ({ sendTitle }: PlanEditorProps) => {

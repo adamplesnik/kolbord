@@ -1,10 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { PlanType, SpaceType } from '../../types/spaceType'
 import { humanDate } from '../../utils/human'
 import Heading from '../basic/Heading'
 import { Value } from '../plan/PlanDateSelector'
-import { PlanType } from '../plan/planType'
 import Spaces from '../space/Spaces'
-import { SpaceType } from '../space/spaceType'
 
 const Lists = ({ handlePlaceClick, sidebarSpace, workingDate }: ListsProps) => {
   const queryClient = useQueryClient()

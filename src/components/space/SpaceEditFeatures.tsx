@@ -3,9 +3,9 @@ import { FieldApi } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Check, Plus, Trash2 } from 'lucide-react'
+import { FeatureType, RelationshipType, SpaceType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../basic/Badge'
-import { FeatureType, RelationshipType, SpaceType } from './spaceType'
 
 const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
   const { getToken } = useAuth()

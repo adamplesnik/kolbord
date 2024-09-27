@@ -2,9 +2,9 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { PlanType } from '../../types/spaceType'
 import { NEW_PLAN_SVG } from '../../utils/constants'
 import Button from '../basic/Button'
-import { PlanType } from './planType'
 
 const PlanAdd = () => {
   const { getToken, orgId } = useAuth()
