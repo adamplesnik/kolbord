@@ -1,7 +1,7 @@
 import { SignOutButton, UserProfile } from '@clerk/clerk-react'
 import { LogOut } from 'lucide-react'
-import Button from '../components/basic/Button'
-import Heading from '../components/basic/Heading'
+import Button from '../basic/Button'
+import Heading from '../basic/Heading'
 
 const PersonalPage = () => {
   return (
