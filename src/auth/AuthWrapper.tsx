@@ -16,8 +16,8 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
       <SignedIn>
         <Navigate to="/plan" />
       </SignedIn>
-      <Link to={'/'} className="block pb-12">
-        <Logo className="h-6" />
+      <Link to={'/'}>
+        <Logo className="mb-12 h-6" />
       </Link>
       <div className="flex w-full flex-col overflow-hidden md:flex-row md:gap-16">
         <div className="flex min-h-[500px] w-full max-w-sm flex-col gap-8">
