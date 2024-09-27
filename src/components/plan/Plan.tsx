@@ -14,8 +14,6 @@ const Plan = () => {
   const queryClient = useQueryClient()
   const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
 
-  console.log(zoneId)
-
   const loadZones = async (): Promise<{ data: { docs: PlanType[] } } | undefined> => {
     const query = qs.stringify({
       sort: 'id',

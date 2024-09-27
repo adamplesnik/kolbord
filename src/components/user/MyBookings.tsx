@@ -47,7 +47,6 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
     queryKey: ['myBookings', date],
     queryFn: () => loadBookingsForUser(userId),
   })
-  console.log(myBookings)
 
   const bookingDates = [...new Set(myBookings?.data.docs.map((booking) => humanDate(booking.from)))]
 

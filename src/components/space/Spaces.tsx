@@ -86,7 +86,6 @@ const Spaces = ({
     queryKey: ['bookings', zoneId, workingDate],
     queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
-  console.log(bookings)
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
 

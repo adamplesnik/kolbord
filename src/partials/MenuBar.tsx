@@ -1,7 +1,6 @@
 import { OrganizationSwitcher, SignedIn, UserButton } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { useIsAdmin } from '../auth/useIsAdmin'
 import Button from '../components/basic/Button'
 import Logo from '../components/basic/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
@@ -20,8 +19,6 @@ const MenuBar = ({
   onPlanEdit,
   workingDate,
 }: MenuBarProps) => {
-  const { isAdmin } = useIsAdmin()
-
   return (
     <div className="fixed bottom-2 left-2 z-50 flex items-center gap-3 rounded-xl border border-slate-200/30 border-r-transparent border-l-pink-300/30 bg-white/95 p-2 shadow-2xl">
       <Logo className="h-4" />
@@ -38,7 +35,7 @@ const MenuBar = ({
         <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
       </div>
       <SignedIn>
-        {isAdmin && <OrganizationSwitcher hidePersonal={true} />}
+        <OrganizationSwitcher hidePersonal={true} />
         <UserButton />
       </SignedIn>
     </div>
