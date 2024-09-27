@@ -1,7 +1,7 @@
 import { CalendarDays } from 'lucide-react'
 import Calendar from 'react-calendar'
-import { Tooltip } from 'react-tooltip'
 import Button from '../basic/Button'
+import CustomTooltip from '../basic/CustomTooltip'
 
 type ValuePiece = Date | null
 export type Value = ValuePiece | [ValuePiece, ValuePiece]
@@ -18,9 +18,9 @@ const PlanDateSelector = ({ onChange, workingDate }: PlanDateSelectorProps) => {
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>
       </div>
-      <Tooltip id="calendarTooltip" openOnClick clickable>
+      <CustomTooltip id="calendarTooltip" openOnClick clickable>
         <Calendar onChange={(value) => onChange(value)} value={workingDate} />
-      </Tooltip>
+      </CustomTooltip>
     </>
   )
 }

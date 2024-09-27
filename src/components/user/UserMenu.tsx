@@ -1,9 +1,9 @@
 import { OrganizationList, SignOutButton, useOrganization, useUser } from '@clerk/clerk-react'
 import { LogOut } from 'lucide-react'
 import { useEffect } from 'react'
-import { Tooltip } from 'react-tooltip'
 import Badge from '../basic/Badge'
 import Button from '../basic/Button'
+import CustomTooltip from '../basic/CustomTooltip'
 
 const UserMenu = () => {
   const { user } = useUser()
@@ -30,10 +30,10 @@ const UserMenu = () => {
         {organization?.name && <Badge className="text-sm font-semibold">{organization.name}</Badge>}
         {!organization?.name && <Badge className="text-sm font-semibold">no org</Badge>}
       </Button>
-      <Tooltip id="user-menu-tooltip" openOnClick clickable>
+      <CustomTooltip id="user-menu-tooltip" openOnClick clickable noArrow>
         <OrganizationList />
         <SignOutButton children={<Button Icon={LogOut}>Sign out</Button>} />
-      </Tooltip>
+      </CustomTooltip>
     </>
   )
 }

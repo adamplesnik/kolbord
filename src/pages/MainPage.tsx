@@ -14,7 +14,7 @@ import MyBookings from '../components/user/MyBookings.tsx'
 import PersonalPage from '../components/user/PersonalPage.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { GroupRecord } from '../types/groupType'
+import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
@@ -26,7 +26,7 @@ const MainPage = () => {
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [sidebarGroup, setSidebarGroup] = useState<GroupRecord | undefined>(undefined)
+  const [sidebarGroup, setSidebarGroup] = useState<GroupType | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
@@ -84,7 +84,7 @@ const MainPage = () => {
     setEditMode(true)
   }
 
-  const onGroupEdit = (group: GroupRecord) => {
+  const onGroupEdit = (group: GroupType) => {
     setSidebarGroup(group)
     setSidebarSpace(undefined)
     setEditMode(true)

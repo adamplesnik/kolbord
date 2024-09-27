@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
+import CustomTooltip from './CustomTooltip'
 
 const Badge = ({
   children,
@@ -20,7 +20,7 @@ const Badge = ({
       {...props}
     >
       {children}
-      <Tooltip id={dataTooltipId} className="z-20" />
+      <CustomTooltip id={dataTooltipId} className="z-20" />
     </div>
   )
 }

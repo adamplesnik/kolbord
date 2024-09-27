@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
-import { GroupRecord } from '../../types/groupType'
+import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 import { useZone } from '../plan/useZone'
 
@@ -10,9 +10,7 @@ const GroupAdd = () => {
   const { getToken, orgId } = useAuth()
   const { zoneId } = useZone()
 
-  const addGroup = async (
-    zoneId: number | undefined
-  ): Promise<{ data: { docs: GroupRecord[] } }> => {
+  const addGroup = async (zoneId: number | undefined): Promise<{ data: { docs: GroupType[] } }> => {
     return await axios.post(
       `${import.meta.env.VITE_API_URL}/zone-groups`,
       JSON.stringify({

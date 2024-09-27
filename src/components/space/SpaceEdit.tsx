@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
-import { GroupRecord } from '../../types/groupType'
+import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
@@ -16,7 +16,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
 
-  const { data: allGroups } = useQuery<{ data: { docs: GroupRecord[] } }>({
+  const { data: allGroups } = useQuery<{ data: { docs: GroupType[] } }>({
     queryKey: ['groups', zoneId],
     enabled: true,
   })

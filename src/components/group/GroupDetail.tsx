@@ -3,7 +3,7 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useEffect } from 'react'
-import { GroupRecord } from '../../types/groupType'
+import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
@@ -14,7 +14,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
   const { zoneId } = useZone()
   const { getToken } = useAuth()
 
-  const { Field, handleSubmit, reset } = useForm<GroupRecord>({
+  const { Field, handleSubmit, reset } = useForm<GroupType>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
@@ -30,7 +30,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
     },
   })
 
-  const editGroup = async (groupId: number, data: GroupRecord) => {
+  const editGroup = async (groupId: number, data: GroupType) => {
     return await axios.patch(
       `${import.meta.env.VITE_API_URL}/zone-groups/${groupId}`,
       JSON.stringify({
@@ -51,7 +51,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
 
   const queryClient = useQueryClient()
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: GroupRecord) => editGroup(group.id, data),
+    mutationFn: (data: GroupType) => editGroup(group.id, data),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['group', group.id] })
     },
@@ -158,7 +158,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
 
 type GroupDetailProps = {
   editMode: boolean
-  group: GroupRecord
+  group: GroupType
   sendTitle: (title: string | undefined) => void
 }
 

@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
-import { GroupRecord } from '../../types/groupType'
+import { GroupType } from '../../types/groupType'
 import { useZone } from '../plan/useZone'
 import GroupMarker from './GroupMarker'
 
@@ -13,7 +13,7 @@ const GroupMarkers = () => {
 
   const loadGroupsForPlan = async (
     zoneId: number | undefined
-  ): Promise<{ data: { docs: GroupRecord[] } }> => {
+  ): Promise<{ data: { docs: GroupType[] } }> => {
     const query = qs.stringify({
       where: {
         'zone.value': {

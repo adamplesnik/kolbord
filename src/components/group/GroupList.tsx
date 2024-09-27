@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { GroupRecord } from '../../types/groupType'
+import { GroupType } from '../../types/groupType'
 import EditButton from '../basic/EditButton'
 import { useZone } from '../plan/useZone'
 
 const GroupList = ({ onGroupEdit }: GroupListProps) => {
   const { zoneId } = useZone()
-  const { data } = useQuery<{ data: { docs: GroupRecord[] } }>({
+  const { data } = useQuery<{ data: { docs: GroupType[] } }>({
     queryKey: ['groups', zoneId],
     enabled: true,
   })
@@ -23,7 +23,7 @@ const GroupList = ({ onGroupEdit }: GroupListProps) => {
 }
 
 type GroupListProps = {
-  onGroupEdit: (group: GroupRecord) => void
+  onGroupEdit: (group: GroupType) => void
 }
 
 export default GroupList

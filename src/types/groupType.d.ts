@@ -1,4 +1,4 @@
-export type GroupRecord = {
+export type GroupType = {
   id: number
   name: string
   description: string

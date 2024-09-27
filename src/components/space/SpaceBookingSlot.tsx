@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { ArrowRight, Check, Trash2 } from 'lucide-react'
 import { HTMLAttributes, useState } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { BookingType, BookingTypeDeep } from '../../types/bookingType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human'
+import CustomTooltip from '../basic/CustomTooltip'
 import UserName from '../user/UserName'
 
 const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookingSlotProps) => {
@@ -134,11 +134,11 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
       </div>
 
       {isBooked && !isBookedByMe && (
-        <Tooltip id={tooltipId}>
+        <CustomTooltip id={tooltipId}>
           <span className="text-sm">
             <UserName subject={bookedBy} />
           </span>
-        </Tooltip>
+        </CustomTooltip>
       )}
     </>
   )

@@ -18,10 +18,9 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           unsafe_disableDevelopmentModeWarnings: true,
           logoPlacement: 'none',
         },
-
         elements: {
-          card: '!p-px my-8 !shadow-none !border-none !rounded-none',
-          cardBox: '!shadow-none !w-full !border !border-transparent',
+          card: '!p-px my-8 !shadow-none !border-none !rounded-none !bg-transparent !text-current',
+          cardBox: '!shadow-none !w-full !border !border-transparent !h-fit',
           footer: '!pt-0 *:!border-none !rounded-full !w-fit',
           footerAction: '!hidden',
           formButtonPrimary:
@@ -31,9 +30,11 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           headerTitle: '!text-xl text-left',
           headerSubtitle: '!hidden',
           identityPreview: '!justify-start !pt-1',
+          organizationListPreviewButton: '!text-red-400',
           organizationPreviewMainIdentifier: '!text-sm',
           organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
           rootBox: '!w-full',
+          scrollBox: '!rounded-none',
           userPreviewMainIdentifier: '*:!text-sm',
           userPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
         },

@@ -1,8 +1,8 @@
 import { Fragment, HTMLAttributes } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { RelationshipType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
+import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
 
 export const SpaceFeatures = ({
@@ -20,9 +20,9 @@ export const SpaceFeatures = ({
             </Badge>
           </div>
           {!noTooltip && (
-            <Tooltip id={`feature${feature.value?.id}`} className="z-30">
+            <CustomTooltip id={`feature${feature.value?.id}`} className="z-30">
               <span className="text-sm">{feature.value?.name}</span>
-            </Tooltip>
+            </CustomTooltip>
           )}
         </Fragment>
       ))}

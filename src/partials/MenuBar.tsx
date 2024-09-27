@@ -6,7 +6,7 @@ import Logo from '../components/basic/Logo'
 import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
-import { GroupRecord } from '../types/groupType'
+import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 
 const MenuBar = ({
@@ -49,7 +49,7 @@ type MenuBarProps = {
   handleViewChange: () => void
   listMode: boolean
   onDateChange: (value: Value) => void
-  onGroupEdit: (group: GroupRecord) => void
+  onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
   workingDate: Value

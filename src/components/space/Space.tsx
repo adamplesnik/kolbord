@@ -1,10 +1,10 @@
 import { ArrowRight } from 'lucide-react'
-import { Tooltip } from 'react-tooltip'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
+import CustomTooltip from '../basic/CustomTooltip.tsx'
 import Separator from '../basic/Separator.tsx'
 import UserName from '../user/UserName.tsx'
 import SpaceDot from './SpaceDot.tsx'
@@ -50,7 +50,7 @@ const Space = ({
           <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
         </div>
         {bookings && bookings?.length > 0 && (
-          <Tooltip id={tooltipId} className="z-10 text-sm">
+          <CustomTooltip id={tooltipId} className="z-10 text-sm">
             {bookings?.map((b: BookingType, i: number) => (
               <div className="flex items-center gap-1" key={`${tooltipId}_${i}`}>
                 <div className="flex w-28 items-center justify-evenly gap-1 text-slate-200">
@@ -63,7 +63,7 @@ const Space = ({
                 </span>
               </div>
             ))}
-          </Tooltip>
+          </CustomTooltip>
         )}
       </>
     )
