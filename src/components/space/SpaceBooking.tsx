@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import SpaceBookingDay from './SpaceBookingDay.tsx'
 
-const SpaceBooking = ({ spaceId, slots, workingDate }: SpaceBookingProps) => {
+const SpaceBooking = ({ workingDate }: SpaceBookingProps) => {
   const noWeekends = [...Array(7)]
     .map((_, index) => {
       let date = new Date()
@@ -16,17 +16,13 @@ const SpaceBooking = ({ spaceId, slots, workingDate }: SpaceBookingProps) => {
   return (
     <div className="flex flex-col gap-8">
       {noWeekends.map((date, i) => {
-        return (
-          <SpaceBookingDay key={`slot${date}${i}`} date={date} slots={slots} spaceId={spaceId} />
-        )
+        return <SpaceBookingDay key={`slot${date}${i}`} date={date} />
       })}
     </div>
   )
 }
 
 export type SpaceBookingProps = {
-  spaceId: number
-  slots: string
   workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 

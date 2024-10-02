@@ -219,7 +219,6 @@ const SpaceEdit = ({ space }: SpaceEditProps) => {
 }
 
 export type SpaceEditProps = {
-  handleEdit: (space: SpaceType) => void
   space: SpaceType
 } & HTMLAttributes<HTMLDivElement>
 

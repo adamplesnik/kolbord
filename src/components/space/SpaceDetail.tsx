@@ -1,14 +1,18 @@
-import { HTMLAttributes } from 'react'
-import { SpaceType } from '../../types/spaceType'
+import { HTMLAttributes, useContext } from 'react'
+import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 
-const SpaceDetail = ({ space, workingDate }: SpaceDetailProps) => {
+const SpaceDetail = ({ workingDate }: SpaceDetailProps) => {
+  const { sidebarState } = useContext(SidebarContext) as SidebarContextType
+  const space = sidebarState.space
+  console.log(space)
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex items-center gap-2 pt-2">
-        {space.group && (
+        {space?.group && (
           <>
             <span className="text-sm text-slate-600" data-tooltip-id="badge">
               {space.group.value?.name}
@@ -18,15 +22,14 @@ const SpaceDetail = ({ space, workingDate }: SpaceDetailProps) => {
             </CustomTooltip>
           </>
         )}
-        {space.features && <SpaceFeatures features={space.features} />}
+        {space?.features && <SpaceFeatures features={space.features} />}
       </div>
-      <SpaceBooking spaceId={space.id} slots={space.slots} workingDate={workingDate} />
+      <SpaceBooking workingDate={workingDate} />
     </div>
   )
 }
 
 export type SpaceDetailProps = {
-  space: SpaceType
   workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>
 

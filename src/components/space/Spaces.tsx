@@ -14,16 +14,11 @@ import { Value } from '../plan/PlanDateSelector.tsx'
 import { useZone } from '../plan/useZone.ts'
 import Space from './Space.tsx'
 
-const Spaces = ({
-  sidebarSpace,
-  handlePlaceClick,
-  handleZoomToElement,
-  workingDate,
-  listView,
-}: SpacesProps) => {
+const Spaces = ({ handleZoomToElement, workingDate, listView }: SpacesProps) => {
   const { getToken, userId } = useAuth()
   const { zoneId } = useZone()
-  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const { sidebarState, setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const sidebarSpace = sidebarState.space
 
   const loadSpaces = async (
     zoneId: number | undefined
@@ -133,8 +128,7 @@ const Spaces = ({
                       bookedByWho={bookedToday?.sub}
                       bookedByMe={bookedToday?.sub === userId}
                       onClick={() => {
-                        handlePlaceClick(space)
-                        setSidebarState({ title: space.name })
+                        setSidebarState({ title: space.name, space: space })
                         handleZoomToElement &&
                           setTimeout(
                             () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
@@ -156,10 +150,8 @@ const Spaces = ({
 }
 
 type SpacesProps = {
-  handlePlaceClick: (space: SpaceType) => void
   handleZoomToElement?: (id: string, zoom: number) => void | undefined
   listView: boolean
-  sidebarSpace: SpaceType | undefined
   workingDate: Value
 }
 

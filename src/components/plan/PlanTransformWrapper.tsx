@@ -1,17 +1,10 @@
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import { SpaceType } from '../../types/spaceType'
-import { addWithSpace } from '../../utils/addWithSpace'
 import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
 import Plan from './Plan'
 import { Value } from './PlanDateSelector'
 
-const PlanTransformWrapper = ({
-  handlePlaceClick,
-  sidebarPlanEdit,
-  sidebarSpace,
-  workingDate,
-}: PlanTransformWrapperProps) => {
+const PlanTransformWrapper = ({ workingDate }: PlanTransformWrapperProps) => {
   return (
     <TransformWrapper
       pinch={{ disabled: false }}
@@ -23,17 +16,10 @@ const PlanTransformWrapper = ({
     >
       {({ zoomToElement }) => (
         <TransformComponent wrapperClass="!h-screen !w-full !p-2">
-          <div
-            className={
-              'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white' +
-              addWithSpace(sidebarSpace || sidebarPlanEdit ? 'mr-[23rem]' : '')
-            }
-          >
+          <div className={'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white'}>
             <GroupMarkers />
             <Spaces
               handleZoomToElement={zoomToElement}
-              sidebarSpace={sidebarSpace}
-              handlePlaceClick={handlePlaceClick}
               workingDate={workingDate}
               listView={false}
             />
@@ -46,9 +32,6 @@ const PlanTransformWrapper = ({
 }
 
 type PlanTransformWrapperProps = {
-  handlePlaceClick: (space: SpaceType) => void
-  sidebarPlanEdit: boolean
-  sidebarSpace: SpaceType | undefined
   workingDate: Value
 }
 

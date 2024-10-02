@@ -23,14 +23,16 @@ const MainPage = () => {
   const { isAdmin } = useIsAdmin()
   const { orgId } = useAuth()
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
-  const [sidebarState, setSidebarState] = useState<SidebarStateType>({ title: undefined })
+  const [sidebarState, setSidebarState] = useState<SidebarStateType>({
+    title: undefined,
+    space: undefined,
+  })
 
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
   const [sidebarGroup, setSidebarGroup] = useState<GroupType | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
-  const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [workingDate, setWorkingDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
     const currentBeforeToday =
@@ -46,8 +48,12 @@ const MainPage = () => {
     setBookingsMode(bookingsMode)
   }, [bookingsMode])
 
+  const resetSidebar = () => {
+    setSidebarState({ title: undefined, space: undefined })
+  }
+
   const sidebarOpen =
-    sidebarSpace != undefined ||
+    sidebarState.space != undefined ||
     (sidebarPlanEdit && editMode) ||
     (sidebarGroup != undefined && editMode)
 
@@ -55,19 +61,17 @@ const MainPage = () => {
     setEditMode(false)
     setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
-    setSidebarSpace(undefined)
+    setSidebarState({ title: undefined, space: undefined })
   }
 
   const handlePlanIdChange = (id: number | undefined) => {
     if (id) {
-      setSidebarSpace(undefined)
-      setSidebarGroup(undefined)
-      setBookingsMode(false)
+      resetSidebar()
     }
   }
 
   const handlePlaceClick = (space: SpaceType) => {
-    setSidebarSpace(space)
+    setSidebarState({ space: space })
     setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
   }
@@ -76,14 +80,14 @@ const MainPage = () => {
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
-    setSidebarSpace(undefined)
+    setSidebarState({ space: undefined })
     setSidebarGroup(undefined)
     setEditMode(true)
   }
 
   const onGroupEdit = (group: GroupType) => {
     setSidebarGroup(group)
-    setSidebarSpace(undefined)
+    setSidebarState({ space: undefined })
     setEditMode(true)
     setSidebarPlanEdit(false)
   }
@@ -104,22 +108,8 @@ const MainPage = () => {
         </SignedOut>
         {bookingsMode && <MyBookings workingDate={workingDate} />}
         {!orgId && <PersonalPage />}
-        {listMode && !bookingsMode && orgId && (
-          <Lists
-            handlePlaceClick={handlePlaceClick}
-            listView={false}
-            sidebarSpace={sidebarSpace}
-            workingDate={workingDate}
-          />
-        )}
-        {!listMode && !bookingsMode && orgId && (
-          <PlanTransformWrapper
-            handlePlaceClick={handlePlaceClick}
-            sidebarPlanEdit={sidebarPlanEdit}
-            sidebarSpace={sidebarSpace}
-            workingDate={workingDate}
-          />
-        )}
+        {listMode && !bookingsMode && orgId && <Lists workingDate={workingDate} />}
+        {!listMode && !bookingsMode && orgId && <PlanTransformWrapper workingDate={workingDate} />}
         <MenuBar
           handleMyBookings={handleMyBookings}
           handleViewChange={() => setListMode(!listMode)}
@@ -142,13 +132,11 @@ const MainPage = () => {
           closeSidebar={closeSidebar}
         >
           {sidebarGroup != undefined && <GroupDetail group={sidebarGroup} />}
-          {sidebarSpace && !editMode && (
-            <SpaceDetail space={sidebarSpace} workingDate={workingDate?.toString()} />
-          )}
-          {sidebarSpace && editMode && (
+          {sidebarState.space && !editMode && <SpaceDetail workingDate={workingDate?.toString()} />}
+          {sidebarState.space && editMode && (
             <>
-              <SpaceEdit space={sidebarSpace} handleEdit={(space) => setSidebarSpace(space)} />
-              <SpaceDelete id={sidebarSpace.id} handleDelete={() => setSidebarSpace(undefined)} />
+              <SpaceEdit space={sidebarState.space} />
+              <SpaceDelete id={sidebarState.space.id} />
             </>
           )}
           {isAdmin && sidebarPlanEdit && editMode && (

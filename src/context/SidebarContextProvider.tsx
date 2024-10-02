@@ -1,7 +1,9 @@
 import { Dispatch, ReactNode, SetStateAction, createContext } from 'react'
+import { SpaceType } from '../types/spaceType'
 
 export type SidebarStateType = {
-  title: string | undefined
+  title?: string | undefined
+  space?: SpaceType | undefined
 }
 
 export type SidebarContextType = {

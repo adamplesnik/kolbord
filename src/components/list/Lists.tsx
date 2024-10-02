@@ -1,12 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { SpaceType } from '../../types/spaceType'
 import { ZoneType } from '../../types/zoneType'
 import { humanDate } from '../../utils/human'
 import Heading from '../basic/Heading'
 import { Value } from '../plan/PlanDateSelector'
 import Spaces from '../space/Spaces'
 
-const Lists = ({ handlePlaceClick, sidebarSpace, workingDate }: ListsProps) => {
+const Lists = ({ workingDate }: ListsProps) => {
   const queryClient = useQueryClient()
   const zone: { data: ZoneType } | undefined = queryClient.getQueryData(['zone'])
 
@@ -17,21 +16,13 @@ const Lists = ({ handlePlaceClick, sidebarSpace, workingDate }: ListsProps) => {
           <Heading size={3}>{zone && zone.data.name}</Heading>
           {workingDate && humanDate(new Date(Date.parse(workingDate.toString())))}
         </div>
-        <Spaces
-          listView={true}
-          handlePlaceClick={handlePlaceClick}
-          workingDate={workingDate}
-          sidebarSpace={sidebarSpace}
-        />
+        <Spaces listView={true} workingDate={workingDate} />
       </div>
     </div>
   )
 }
 
 type ListsProps = {
-  handlePlaceClick: (space: SpaceType) => void
-  listView: boolean
-  sidebarSpace: SpaceType | undefined
   workingDate: Value
 }
 

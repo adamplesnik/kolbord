@@ -16,6 +16,8 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
   const tooltipId = (from.getTime() + to.getTime() + Math.random() * 100).toString()
   const beforeNow = to <= new Date()
 
+  console.log(spaceId)
+
   const bookedBy = isBooked?.sub
   let isBookedByMe = false
 
@@ -148,7 +150,7 @@ type SpaceBookingSlotProps = {
   bookedBy?: string
   from: Date
   isBooked?: BookingType | BookingTypeDeep | undefined
-  spaceId: number
+  spaceId: number | undefined
   to: Date
 } & HTMLAttributes<HTMLDivElement>
 
