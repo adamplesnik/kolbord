@@ -23,4 +23,5 @@ type SidebarContextProviderProps = {
   value: SidebarContextType
   children: ReactNode
 }
+
 export default SidebarContextProvider
