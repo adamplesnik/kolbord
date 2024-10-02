@@ -3,7 +3,6 @@ import { HTMLAttributes, useEffect, useState } from 'react'
 import { useIsAdmin } from '../auth/useIsAdmin.ts'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
-import { Value } from '../components/plan/PlanDateSelector.tsx'
 import PlanDelete from '../components/plan/PlanDelete.tsx'
 import PlanEditor from '../components/plan/PlanEditor'
 import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
@@ -12,7 +11,7 @@ import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
 import MyBookings from '../components/user/MyBookings.tsx'
 import PersonalPage from '../components/user/PersonalPage.tsx'
-import DateContextProvider from '../context/DateContextProvider.tsx'
+import DateContextProvider, { Value } from '../context/DateContextProvider.tsx'
 import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
@@ -106,11 +105,9 @@ const MainPage = () => {
           handleMyBookings={handleMyBookings}
           handleViewChange={() => setListMode(!listMode)}
           listMode={listMode}
-          onDateChange={(value) => setDate(value)}
           onPlanChange={handlePlanIdChange}
           onPlanEdit={onPlanEdit}
           onGroupEdit={onGroupEdit}
-          workingDate={date}
           handlePlaceAdd={(space) => {
             handlePlaceClick(space)
             setEditMode(true)

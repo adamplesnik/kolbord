@@ -3,7 +3,7 @@ import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
 import Logo from '../components/basic/Logo'
-import PlanDateSelector, { Value } from '../components/plan/PlanDateSelector'
+import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 import { GroupType } from '../types/groupType'
@@ -14,11 +14,9 @@ const MenuBar = ({
   handlePlaceAdd,
   handleViewChange,
   listMode,
-  onDateChange,
   onGroupEdit,
   onPlanChange,
   onPlanEdit,
-  workingDate,
 }: MenuBarProps) => {
   const { orgId } = useAuth()
   return (
@@ -33,7 +31,7 @@ const MenuBar = ({
             handlePlaceAdd={handlePlaceAdd}
             handleMyBookings={handleMyBookings}
           />
-          <PlanDateSelector onChange={onDateChange} workingDate={workingDate} />
+          <PlanDateSelector />
           <div className="h-6 w-px bg-slate-300"></div>
           <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
         </div>
@@ -48,11 +46,9 @@ type MenuBarProps = {
   handlePlaceAdd: (space: SpaceType) => void
   handleViewChange: () => void
   listMode: boolean
-  onDateChange: (value: Value) => void
   onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
-  workingDate: Value
 } & HTMLAttributes<HTMLDivElement>
 
 export default MenuBar
