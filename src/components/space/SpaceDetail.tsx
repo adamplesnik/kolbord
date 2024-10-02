@@ -1,13 +1,12 @@
-import { HTMLAttributes, useContext } from 'react'
+import { useContext } from 'react'
 import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 
-const SpaceDetail = ({ workingDate }: SpaceDetailProps) => {
+const SpaceDetail = () => {
   const { sidebarState } = useContext(SidebarContext) as SidebarContextType
   const space = sidebarState.space
-  console.log(space)
 
   return (
     <div className="flex flex-col gap-8">
@@ -24,13 +23,9 @@ const SpaceDetail = ({ workingDate }: SpaceDetailProps) => {
         )}
         {space?.features && <SpaceFeatures features={space.features} />}
       </div>
-      <SpaceBooking workingDate={workingDate} />
+      <SpaceBooking />
     </div>
   )
 }
-
-export type SpaceDetailProps = {
-  workingDate: string | undefined
-} & HTMLAttributes<HTMLDivElement>
 
 export default SpaceDetail

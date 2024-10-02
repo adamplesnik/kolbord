@@ -1,17 +1,20 @@
-import { HTMLAttributes } from 'react'
+import { useContext } from 'react'
+import { DateContext, DateContextType } from '../../context/DateContextProvider.tsx'
 import SpaceBookingDay from './SpaceBookingDay.tsx'
 
-const SpaceBooking = ({ workingDate }: SpaceBookingProps) => {
+const SpaceBooking = () => {
+  const { date } = useContext(DateContext) as DateContextType
+
   const noWeekends = [...Array(7)]
     .map((_, index) => {
-      let date = new Date()
-      if (workingDate) {
-        date = new Date(workingDate)
+      let newDate = new Date()
+      if (date) {
+        newDate = new Date(date.toString())
       }
-      date.setDate(date.getDate() + index)
-      return date
+      newDate.setDate(newDate.getDate() + index)
+      return newDate
     })
-    .filter((date) => date.getDay() !== 0 && date.getDay() !== 6)
+    .filter((newDate) => newDate.getDay() !== 0 && newDate.getDay() !== 6)
 
   return (
     <div className="flex flex-col gap-8">
@@ -21,9 +24,5 @@ const SpaceBooking = ({ workingDate }: SpaceBookingProps) => {
     </div>
   )
 }
-
-export type SpaceBookingProps = {
-  workingDate: string | undefined
-} & HTMLAttributes<HTMLDivElement>
 
 export default SpaceBooking

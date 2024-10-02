@@ -124,7 +124,7 @@ const MainPage = () => {
           closeSidebar={closeSidebar}
         >
           {!!sidebarState.group && <GroupDetail />}
-          {sidebarState.space && !editMode && <SpaceDetail workingDate={date?.toString()} />}
+          {sidebarState.space && !editMode && <SpaceDetail />}
           {sidebarState.space && editMode && (
             <>
               <SpaceEdit space={sidebarState.space} />
