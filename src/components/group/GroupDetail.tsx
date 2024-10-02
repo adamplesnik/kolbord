@@ -10,7 +10,7 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone'
 
-const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
+const GroupDetail = ({ group }: GroupDetailProps) => {
   const { zoneId } = useZone()
   const { getToken } = useAuth()
 
@@ -64,10 +64,6 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
       })
     },
   })
-
-  useEffect(() => {
-    sendTitle(group?.name)
-  }, [sendTitle, group])
 
   useEffect(() => {
     reset()
@@ -157,9 +153,7 @@ const GroupDetail = ({ group, sendTitle }: GroupDetailProps) => {
 }
 
 type GroupDetailProps = {
-  editMode: boolean
   group: GroupType
-  sendTitle: (title: string | undefined) => void
 }
 
 export default GroupDetail

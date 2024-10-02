@@ -1,14 +1,10 @@
-import { HTMLAttributes, useEffect } from 'react'
+import { HTMLAttributes } from 'react'
 import { SpaceType } from '../../types/spaceType'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
 
-const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
-  useEffect(() => {
-    sendTitle(space.name)
-  }, [sendTitle, space.name])
-
+const SpaceDetail = ({ space, workingDate }: SpaceDetailProps) => {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex items-center gap-2 pt-2">
@@ -30,7 +26,6 @@ const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
 }
 
 export type SpaceDetailProps = {
-  sendTitle: (title: string | undefined) => void
   space: SpaceType
   workingDate: string | undefined
 } & HTMLAttributes<HTMLDivElement>

@@ -9,7 +9,7 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from './useZone'
 
-const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
+const PlanEditor = () => {
   const { getToken } = useAuth()
   const { zone, zoneId } = useZone()
 
@@ -63,10 +63,6 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
     reset()
   }, [reset, zoneId])
 
-  useEffect(() => {
-    sendTitle(zone?.data.name)
-  }, [sendTitle, zone?.data.name])
-
   return (
     <>
       <form
@@ -111,10 +107,6 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
       </form>
     </>
   )
-}
-
-type PlanEditorProps = {
-  sendTitle: (title: string | undefined) => void
 }
 
 export default PlanEditor

@@ -1,7 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, User } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useContext } from 'react'
 import { useIsAdmin } from '../../auth/useIsAdmin.ts'
+import { SidebarContext, SidebarContextType } from '../../pages/MainPage.tsx'
 import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
 import { ZoneType } from '../../types/zoneType'
@@ -30,6 +31,7 @@ const PlanSwitcher = ({
 
   const { zoneId } = useZone()
   const queryClient = useQueryClient()
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
   return (
     <>
@@ -72,7 +74,13 @@ const PlanSwitcher = ({
                     {zone.name}
                   </Button>
                   {zoneId === zone.id && (
-                    <EditButton onClick={() => onPlanEdit(zone.id)} editMode={false} />
+                    <EditButton
+                      onClick={() => {
+                        onPlanEdit(zone.id)
+                        setSidebarState({ title: zone.name })
+                      }}
+                      editMode={false}
+                    />
                   )}
                 </div>
               ))}
@@ -84,7 +92,12 @@ const PlanSwitcher = ({
           {isAdmin && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
-              <GroupList onGroupEdit={onGroupEdit} />
+              <GroupList
+                onGroupEdit={(group) => {
+                  onGroupEdit(group)
+                  setSidebarState({ title: group.name })
+                }}
+              />
               {zoneId != undefined && zoneId > 0 && <GroupAdd />}
             </div>
           )}

@@ -11,7 +11,7 @@ import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone.ts'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 
-const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
+const SpaceEdit = ({ space }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
@@ -20,10 +20,6 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
     queryKey: ['groups', zoneId],
     enabled: true,
   })
-
-  useEffect(() => {
-    sendTitle(space.name)
-  }, [sendTitle, space.name])
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
@@ -224,7 +220,6 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
 
 export type SpaceEditProps = {
   handleEdit: (space: SpaceType) => void
-  sendTitle: (title: string | undefined) => void
   space: SpaceType
 } & HTMLAttributes<HTMLDivElement>
 

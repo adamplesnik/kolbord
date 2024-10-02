@@ -3,7 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
+import { SidebarContext, SidebarContextType } from '../../pages/MainPage.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
 import Empty from '../basic/Empty.tsx'
@@ -22,6 +23,7 @@ const Spaces = ({
 }: SpacesProps) => {
   const { getToken, userId } = useAuth()
   const { zoneId } = useZone()
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
   const loadSpaces = async (
     zoneId: number | undefined
@@ -132,6 +134,7 @@ const Spaces = ({
                       bookedByMe={bookedToday?.sub === userId}
                       onClick={() => {
                         handlePlaceClick(space)
+                        setSidebarState({ title: space.name })
                         handleZoomToElement &&
                           setTimeout(
                             () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
