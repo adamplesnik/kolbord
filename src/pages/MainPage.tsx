@@ -1,5 +1,6 @@
-import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
+import { RedirectToSignIn, SignedOut, useAuth } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
+import { useIsAdmin } from '../auth/useIsAdmin.ts'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
 import { Value } from '../components/plan/PlanDateSelector.tsx'
@@ -9,22 +10,23 @@ import PlanTransformWrapper from '../components/plan/PlanTransformWrapper'
 import SpaceDelete from '../components/space/SpaceDelete.tsx'
 import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
-import { SpaceType } from '../components/space/spaceType'
 import MyBookings from '../components/user/MyBookings.tsx'
-import { GroupRecord } from '../data/GroupRecord.tsx'
+import PersonalPage from '../components/user/PersonalPage.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
+import { GroupType } from '../types/groupType'
+import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
-  const userCanEdit = true
-
+  const { isAdmin } = useIsAdmin()
+  const { orgId } = useAuth()
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [sidebarGroup, setSidebarGroup] = useState<GroupRecord | undefined>(undefined)
+  const [sidebarGroup, setSidebarGroup] = useState<GroupType | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [sidebarSpace, setSidebarSpace] = useState<SpaceType | undefined>(undefined)
   const [sidebarTitle, setSidebarTitle] = useState<string | undefined>(undefined)
@@ -82,7 +84,7 @@ const MainPage = () => {
     setEditMode(true)
   }
 
-  const onGroupEdit = (group: GroupRecord) => {
+  const onGroupEdit = (group: GroupType) => {
     setSidebarGroup(group)
     setSidebarSpace(undefined)
     setEditMode(true)
@@ -107,7 +109,8 @@ const MainPage = () => {
         <RedirectToSignIn />
       </SignedOut>
       {bookingsMode && <MyBookings workingDate={workingDate} />}
-      {listMode && !bookingsMode && (
+      {!orgId && <PersonalPage />}
+      {listMode && !bookingsMode && orgId && (
         <Lists
           handlePlaceClick={handlePlaceClick}
           listView={false}
@@ -115,7 +118,7 @@ const MainPage = () => {
           workingDate={workingDate}
         />
       )}
-      {!listMode && !bookingsMode && (
+      {!listMode && !bookingsMode && orgId && (
         <PlanTransformWrapper
           handlePlaceClick={handlePlaceClick}
           sidebarPlanEdit={sidebarPlanEdit}
@@ -168,7 +171,7 @@ const MainPage = () => {
             <SpaceDelete id={sidebarSpace.id} handleDelete={() => setSidebarSpace(undefined)} />
           </>
         )}
-        {userCanEdit && sidebarPlanEdit && editMode && (
+        {isAdmin && sidebarPlanEdit && editMode && (
           <>
             <PlanEditor sendTitle={(title) => sendTitle(title)} />
             <PlanDelete

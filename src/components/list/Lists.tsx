@@ -1,14 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { SpaceType } from '../../types/spaceType'
+import { ZoneType } from '../../types/zoneType'
 import { humanDate } from '../../utils/human'
 import Heading from '../basic/Heading'
 import { Value } from '../plan/PlanDateSelector'
-import { PlanType } from '../plan/planType'
 import Spaces from '../space/Spaces'
-import { SpaceType } from '../space/spaceType'
 
 const Lists = ({ handlePlaceClick, sidebarSpace, workingDate }: ListsProps) => {
   const queryClient = useQueryClient()
-  const zone: { data: PlanType } | undefined = queryClient.getQueryData(['zone'])
+  const zone: { data: ZoneType } | undefined = queryClient.getQueryData(['zone'])
 
   return (
     <div className="min-h-screen bg-slate-200/0">

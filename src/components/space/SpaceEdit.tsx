@@ -3,20 +3,20 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
-import { GroupRecord } from '../../data/GroupRecord.tsx'
+import { GroupType } from '../../types/groupType'
+import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone.ts'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
-import { SpaceType } from './spaceType'
 
 const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
   const { zoneId } = useZone()
 
-  const { data: allGroups } = useQuery<{ data: { docs: GroupRecord[] } }>({
+  const { data: allGroups } = useQuery<{ data: { docs: GroupType[] } }>({
     queryKey: ['groups', zoneId],
     enabled: true,
   })

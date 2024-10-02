@@ -1,8 +1,8 @@
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
+import { SpaceType } from '../../types/spaceType'
 import { addWithSpace } from '../../utils/addWithSpace'
 import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
-import { SpaceType } from '../space/spaceType'
 import Plan from './Plan'
 import { Value } from './PlanDateSelector'
 

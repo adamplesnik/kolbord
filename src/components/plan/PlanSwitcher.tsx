@@ -1,18 +1,19 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, User } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { Tooltip } from 'react-tooltip'
-import { GroupRecord } from '../../data/GroupRecord.tsx'
+import { useIsAdmin } from '../../auth/useIsAdmin.ts'
+import { GroupType } from '../../types/groupType'
+import { SpaceType } from '../../types/spaceType'
+import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
+import CustomTooltip from '../basic/CustomTooltip.tsx'
 import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading.tsx'
 import Ping from '../basic/Ping'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
-import { SpaceType } from '../space/spaceType'
 import PlanAdd from './PlanAdd.tsx'
-import { PlanType } from './planType'
 import { useZone } from './useZone.ts'
 
 const PlanSwitcher = ({
@@ -21,8 +22,8 @@ const PlanSwitcher = ({
   onGroupEdit,
   onPlanEdit,
 }: PlanSwitcherProps) => {
-  const userCanEdit = true // @todo
-  const { data: zones } = useQuery<{ data: { docs: PlanType[] } }>({
+  const { isAdmin } = useIsAdmin()
+  const { data: zones } = useQuery<{ data: { docs: ZoneType[] } }>({
     queryKey: ['zones'],
     enabled: true,
   })
@@ -47,7 +48,7 @@ const PlanSwitcher = ({
             )}
         </Button>
       </div>
-      <Tooltip id="plansTooltip" openOnClick clickable>
+      <CustomTooltip id="plansTooltip" openOnClick clickable>
         <div className="flex gap-8">
           <div className="flex flex-col gap-2">
             <Heading size={4}>Zones</Heading>
@@ -58,7 +59,7 @@ const PlanSwitcher = ({
                   <Button
                     className="flex-1"
                     onClick={() =>
-                      queryClient.setQueryData<{ data: PlanType }>(['zone'], {
+                      queryClient.setQueryData<{ data: ZoneType }>(['zone'], {
                         data: {
                           id: zone.id,
                         },
@@ -75,12 +76,12 @@ const PlanSwitcher = ({
                   )}
                 </div>
               ))}
-            {userCanEdit && <PlanAdd />}
+            {isAdmin && <PlanAdd />}
             {zoneId != undefined && zoneId > 0 && (
               <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
             )}
           </div>
-          {userCanEdit && (
+          {isAdmin && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
               <GroupList onGroupEdit={onGroupEdit} />
@@ -91,7 +92,7 @@ const PlanSwitcher = ({
         <Button onClick={handleMyBookings} className="w-full" Icon={User}>
           Your bookings
         </Button>
-      </Tooltip>
+      </CustomTooltip>
     </>
   )
 }
@@ -99,7 +100,7 @@ const PlanSwitcher = ({
 type PlanSwitcherProps = {
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void
-  onGroupEdit: (group: GroupRecord) => void
+  onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
   onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>

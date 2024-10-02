@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { PlanType } from './planType'
+import { ZoneType } from '../../types/zoneType'
 
 export const useZone = () => {
-  const { data, isLoading, error } = useQuery<{ data: PlanType }>({
+  const { data, isLoading, error } = useQuery<{ data: ZoneType }>({
     queryKey: ['zone'],
     enabled: true,
   })

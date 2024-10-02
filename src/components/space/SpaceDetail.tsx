@@ -1,8 +1,8 @@
 import { HTMLAttributes, useEffect } from 'react'
-import { Tooltip } from 'react-tooltip'
+import { SpaceType } from '../../types/spaceType'
+import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'
-import { SpaceType } from './spaceType'
 
 const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
   useEffect(() => {
@@ -17,9 +17,9 @@ const SpaceDetail = ({ space, workingDate, sendTitle }: SpaceDetailProps) => {
             <span className="text-sm text-slate-600" data-tooltip-id="badge">
               {space.group.value?.name}
             </span>
-            <Tooltip id="badge" className="z-50">
+            <CustomTooltip id="badge" className="z-50">
               {space.group.value?.description}
-            </Tooltip>
+            </CustomTooltip>
           </>
         )}
         {space.features && <SpaceFeatures features={space.features} />}

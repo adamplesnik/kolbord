@@ -1,8 +1,9 @@
 import { HTMLAttributes } from 'react'
-import { Tooltip } from 'react-tooltip'
 import { addWithSpace } from '../../utils/addWithSpace'
+import CustomTooltip from '../basic/CustomTooltip'
 
 const GroupMarker = ({ groupName, groupDescription, x, y, className }: GroupMarkerProps) => {
+  const tooltipId = `${x}_${y}_marker`
   return (
     <div
       className={
@@ -10,12 +11,12 @@ const GroupMarker = ({ groupName, groupDescription, x, y, className }: GroupMark
         addWithSpace(className)
       }
       style={{ left: x, top: y }}
-      data-tooltip-id="1"
+      data-tooltip-id={tooltipId}
     >
       {groupName}
-      <Tooltip id="1">
+      <CustomTooltip id={tooltipId}>
         <span className="text-sm">{groupDescription}</span>
-      </Tooltip>
+      </CustomTooltip>
     </div>
   )
 }

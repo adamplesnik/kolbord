@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
-import { BookingRecord } from '../../data/BookingRecord.tsx'
+import { BookingType } from '../../types/bookingType'
 import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
@@ -15,7 +15,7 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
   const { getToken } = useAuth()
   const loadBookingsForSpace = async (
     spaceId: number
-  ): Promise<{ data: { docs: BookingRecord[] } }> => {
+  ): Promise<{ data: { docs: BookingType[] } }> => {
     const query = qs.stringify({
       where: {
         and: [

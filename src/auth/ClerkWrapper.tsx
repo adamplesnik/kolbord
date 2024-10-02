@@ -14,16 +14,31 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
       afterSignOutUrl="/"
       appearance={{
         layout: {
+          socialButtonsVariant: 'blockButton',
           unsafe_disableDevelopmentModeWarnings: true,
           logoPlacement: 'none',
         },
         elements: {
-          card: '!p-0.25 !shadow-none !border-none !rounded-none',
-          cardBox: '!shadow-none !w-full !border !border-slate-400',
+          card: '!p-px my-8 !shadow-none !border-none !rounded-none !bg-transparent !text-current',
+          cardBox: '!shadow-none !w-full !border !border-transparent !h-fit',
+          footer: '!pt-0 *:!border-none !rounded-full !w-fit',
           footerAction: '!hidden',
-          formFieldInput: '!rounded !text-sm',
-          formButtonPrimary: '!rounded !shadow-none after:hidden !text-sm',
+          formButtonPrimary:
+            '!rounded !shadow-none after:hidden !text-base ![--accent:var(--color-zinc-800)] ![--accentHover:var(--color-zinc-700)] min-h-10',
+          formFieldInput: '!rounded !text-base !shadow-none !border-1',
+          formFieldLabel: '!text-xs',
+          headerTitle: '!text-xl text-left',
+          headerSubtitle: '!hidden',
+          identityPreview: '!justify-start !pt-1',
+          organizationListPreviewButton: '!text-red-400',
+          // organizationPreview__organizationList: '!hidden',
+          header: '!hidden',
+          organizationPreviewMainIdentifier: '!text-sm',
+          organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
           rootBox: '!w-full',
+          scrollBox: '!rounded-none',
+          userPreviewMainIdentifier: '*:!text-sm',
+          userPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
         },
       }}
     >

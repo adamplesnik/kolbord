@@ -4,14 +4,14 @@ import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
 import { Fragment } from 'react'
-import { BookingRecord } from '../../data/BookingRecord'
+import { BookingType } from '../../types/bookingType'
+import { SpaceType } from '../../types/spaceType'
 import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
 import { Value } from '../plan/PlanDateSelector.tsx'
 import { useZone } from '../plan/useZone.ts'
 import Space from './Space.tsx'
-import { SpaceType } from './spaceType'
 
 const Spaces = ({
   sidebarSpace,
@@ -50,7 +50,7 @@ const Spaces = ({
   const loadBookingsForZone = async (
     zoneId: number | undefined,
     date: Value
-  ): Promise<{ data: { docs: BookingRecord[] } }> => {
+  ): Promise<{ data: { docs: BookingType[] } }> => {
     const today = date && new Date(Date.parse(date.toString())).toISOString()
     const midnight = date && new Date(Date.parse(date.toString()))
     midnight?.setHours(23, 59, 59, 999)
@@ -86,7 +86,6 @@ const Spaces = ({
     queryKey: ['bookings', zoneId, workingDate],
     queryFn: () => loadBookingsForZone(zoneId, workingDate),
   })
-  console.log(bookings)
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
 

@@ -2,9 +2,9 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
-import { SpaceType } from './spaceType'
 
 const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
   const queryClient = useQueryClient()

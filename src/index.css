@@ -2,31 +2,10 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-brand-primary: #d1186a;
-  --color-background-primary: #fbcfe8;
-
-  --background-image-site: linear-gradient(
-    8deg,
-    rgba(255, 255, 255, 0) 2.13%,
-    rgba(209, 225, 220, 0.5) 62.7%,
-    var(--color-background-primary) 127.02%
-  );
-
-  --background-image-sidebar: linear-gradient(
-    -30deg,
-    rgb(255 255 255 / 0) 0%,
-    rgb(209 225 220 / 0.5) 70%,
-    var(--color-background-primary) 110%
-  );
-
   --default-font-family: 'Inter', sans-serif;
 }
 
 @layer components {
-  .styles-module_tooltip__mnnfp {
-    @apply !p-2;
-  }
-
   .react-calendar__navigation__prev2-button,
   .react-calendar__navigation__next2-button {
     @apply hidden;

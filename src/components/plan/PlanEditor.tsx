@@ -3,10 +3,10 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useEffect } from 'react'
+import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { PlanType } from './planType'
 import { useZone } from './useZone'
 
 const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
@@ -17,7 +17,7 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
     id: number | undefined,
     name?: string,
     svg?: string | undefined
-  ): Promise<PlanType> => {
+  ): Promise<ZoneType> => {
     return await axios.patch(
       `${import.meta.env.VITE_API_URL}/zones/${id}`,
       JSON.stringify({ name: name, svg: svg }),
@@ -33,7 +33,7 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
   const queryClient = useQueryClient()
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: PlanType) => updatePlan(zoneId, data.name, data.svg),
+    mutationFn: (data: ZoneType) => updatePlan(zoneId, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
       await queryClient.cancelQueries({ queryKey: ['zone'] })
@@ -48,7 +48,7 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
     },
   })
 
-  const { Field, handleSubmit, reset } = useForm<PlanType>({
+  const { Field, handleSubmit, reset } = useForm<ZoneType>({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
