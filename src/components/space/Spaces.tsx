@@ -4,6 +4,7 @@ import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
 import { Fragment, useContext } from 'react'
+import { DateContext, DateContextType } from '../../context/DateContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
@@ -14,11 +15,12 @@ import { Value } from '../plan/PlanDateSelector.tsx'
 import { useZone } from '../plan/useZone.ts'
 import Space from './Space.tsx'
 
-const Spaces = ({ handleZoomToElement, workingDate, listView }: SpacesProps) => {
+const Spaces = ({ handleZoomToElement, listView }: SpacesProps) => {
   const { getToken, userId } = useAuth()
   const { zoneId } = useZone()
   const { sidebarState, setSidebarState } = useContext(SidebarContext) as SidebarContextType
   const sidebarSpace = sidebarState.space
+  const { date } = useContext(DateContext) as DateContextType
 
   const loadSpaces = async (
     zoneId: number | undefined
@@ -80,8 +82,8 @@ const Spaces = ({ handleZoomToElement, workingDate, listView }: SpacesProps) => 
   }
 
   const { data: bookings } = useQuery({
-    queryKey: ['bookings', zoneId, workingDate],
-    queryFn: () => loadBookingsForZone(zoneId, workingDate),
+    queryKey: ['bookings', zoneId, date],
+    queryFn: () => loadBookingsForZone(zoneId, date),
   })
 
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
@@ -152,7 +154,6 @@ const Spaces = ({ handleZoomToElement, workingDate, listView }: SpacesProps) => 
 type SpacesProps = {
   handleZoomToElement?: (id: string, zoom: number) => void | undefined
   listView: boolean
-  workingDate: Value
 }
 
 export default Spaces

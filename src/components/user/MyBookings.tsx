@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { ArrowRight, ListX } from 'lucide-react'
 import qs from 'qs'
+import { useContext } from 'react'
 import { Fragment } from 'react/jsx-runtime'
+import { DateContext, DateContextType } from '../../context/DateContextProvider'
 import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
@@ -11,12 +13,11 @@ import DateHeading from '../basic/DateHeading'
 import Empty from '../basic/Empty'
 import Heading from '../basic/Heading'
 import Separator from '../basic/Separator'
-import { Value } from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
-const MyBookings = ({ workingDate }: MyBookingsProps) => {
+const MyBookings = () => {
   const { userId, getToken } = useAuth()
-  const date = workingDate ? new Date(workingDate.toString()) : new Date()
+  const { date } = useContext(DateContext) as DateContextType
 
   const loadBookingsForUser = async (
     userId: string | null | undefined
@@ -121,10 +122,6 @@ const MyBookings = ({ workingDate }: MyBookingsProps) => {
       </div>
     </div>
   )
-}
-
-type MyBookingsProps = {
-  workingDate: Value
 }
 
 export default MyBookings

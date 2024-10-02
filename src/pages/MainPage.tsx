@@ -30,7 +30,7 @@ const MainPage = () => {
     space: undefined,
     group: undefined,
   })
-  const [dateState, setDateState] = useState<Value>(() => {
+  const [date, setDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
     const currentBeforeToday =
       getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= todayMidnight
@@ -41,10 +41,6 @@ const MainPage = () => {
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
-
-  useEffect(() => {
-    setDateState(dateState)
-  }, [dateState])
 
   useEffect(() => {
     setBookingsMode(bookingsMode)
@@ -93,28 +89,28 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    dateState && localStorage.setItem(WORKING_DATE, dateState.toString())
-  }, [dateState])
+    date && localStorage.setItem(WORKING_DATE, date.toString())
+  }, [date])
 
   return (
-    <DateContextProvider value={{ dateState, setDateState }}>
+    <DateContextProvider value={{ date, setDate }}>
       <SidebarContextProvider value={{ sidebarState, setSidebarState }}>
         <SignedOut>
           <RedirectToSignIn />
         </SignedOut>
-        {bookingsMode && <MyBookings workingDate={dateState} />}
+        {bookingsMode && <MyBookings />}
         {!orgId && <PersonalPage />}
-        {listMode && !bookingsMode && orgId && <Lists workingDate={dateState} />}
-        {!listMode && !bookingsMode && orgId && <PlanTransformWrapper workingDate={dateState} />}
+        {listMode && !bookingsMode && orgId && <Lists />}
+        {!listMode && !bookingsMode && orgId && <PlanTransformWrapper workingDate={date} />}
         <MenuBar
           handleMyBookings={handleMyBookings}
           handleViewChange={() => setListMode(!listMode)}
           listMode={listMode}
-          onDateChange={(value) => setDateState(value)}
+          onDateChange={(value) => setDate(value)}
           onPlanChange={handlePlanIdChange}
           onPlanEdit={onPlanEdit}
           onGroupEdit={onGroupEdit}
-          workingDate={dateState}
+          workingDate={date}
           handlePlaceAdd={(space) => {
             handlePlaceClick(space)
             setEditMode(true)
@@ -128,7 +124,7 @@ const MainPage = () => {
           closeSidebar={closeSidebar}
         >
           {!!sidebarState.group && <GroupDetail />}
-          {sidebarState.space && !editMode && <SpaceDetail workingDate={dateState?.toString()} />}
+          {sidebarState.space && !editMode && <SpaceDetail workingDate={date?.toString()} />}
           {sidebarState.space && editMode && (
             <>
               <SpaceEdit space={sidebarState.space} />

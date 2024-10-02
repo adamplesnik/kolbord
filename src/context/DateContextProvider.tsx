@@ -4,8 +4,8 @@ type ValuePiece = Date | null
 export type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 export type DateContextType = {
-  dateState: Value
-  setDateState: Dispatch<SetStateAction<Value>>
+  date: Value
+  setDate: Dispatch<SetStateAction<Value>>
 }
 
 export const DateContext = createContext<DateContextType | null>(null)
