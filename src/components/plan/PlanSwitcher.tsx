@@ -95,7 +95,7 @@ const PlanSwitcher = ({
               <GroupList
                 onGroupEdit={(group) => {
                   onGroupEdit(group)
-                  setSidebarState({ title: group.name })
+                  setSidebarState({ title: group.name, group: group })
                 }}
               />
               {zoneId != undefined && zoneId > 0 && <GroupAdd />}

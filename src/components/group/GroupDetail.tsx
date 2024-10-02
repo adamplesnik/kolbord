@@ -2,7 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
@@ -10,9 +11,11 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import { useZone } from '../plan/useZone'
 
-const GroupDetail = ({ group }: GroupDetailProps) => {
+const GroupDetail = () => {
   const { zoneId } = useZone()
   const { getToken } = useAuth()
+  const { sidebarState } = useContext(SidebarContext) as SidebarContextType
+  const group = sidebarState.group
 
   const { Field, handleSubmit, reset } = useForm<GroupType>({
     onSubmit: async ({ value }) => {
@@ -25,12 +28,12 @@ const GroupDetail = ({ group }: GroupDetailProps) => {
       x: group?.x ?? 0,
       y: group?.y ?? 0,
       showMarker: group?.showMarker ?? false,
-      zone: group.zone,
-      org: group.org,
+      zone: group?.zone,
+      org: group?.org,
     },
   })
 
-  const editGroup = async (groupId: number, data: GroupType) => {
+  const editGroup = async (groupId: number | undefined, data: GroupType) => {
     return await axios.patch(
       `${import.meta.env.VITE_API_URL}/zone-groups/${groupId}`,
       JSON.stringify({
@@ -51,16 +54,16 @@ const GroupDetail = ({ group }: GroupDetailProps) => {
 
   const queryClient = useQueryClient()
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: GroupType) => editGroup(group.id, data),
+    mutationFn: (data: GroupType) => editGroup(group?.id, data),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['group', group.id] })
+      await queryClient.cancelQueries({ queryKey: ['group', group?.id] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['groups', zoneId],
       })
       queryClient.invalidateQueries({
-        queryKey: ['group', group.id],
+        queryKey: ['group', group?.id],
       })
     },
   })
@@ -150,10 +153,6 @@ const GroupDetail = ({ group }: GroupDetailProps) => {
       </Button>
     </form>
   )
-}
-
-type GroupDetailProps = {
-  group: GroupType
 }
 
 export default GroupDetail

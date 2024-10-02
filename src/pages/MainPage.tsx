@@ -26,12 +26,12 @@ const MainPage = () => {
   const [sidebarState, setSidebarState] = useState<SidebarStateType>({
     title: undefined,
     space: undefined,
+    group: undefined,
   })
 
   const [bookingsMode, setBookingsMode] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [sidebarGroup, setSidebarGroup] = useState<GroupType | undefined>(undefined)
   const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
   const [workingDate, setWorkingDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
@@ -49,19 +49,16 @@ const MainPage = () => {
   }, [bookingsMode])
 
   const resetSidebar = () => {
-    setSidebarState({ title: undefined, space: undefined })
+    setSidebarState({ title: undefined, space: undefined, group: undefined })
   }
 
   const sidebarOpen =
-    sidebarState.space != undefined ||
-    (sidebarPlanEdit && editMode) ||
-    (sidebarGroup != undefined && editMode)
+    !!sidebarState.space || (sidebarPlanEdit && editMode) || (!!sidebarState.group && editMode)
 
   const closeSidebar = () => {
     setEditMode(false)
-    setSidebarGroup(undefined)
     setSidebarPlanEdit(false)
-    setSidebarState({ title: undefined, space: undefined })
+    setSidebarState({ title: undefined, space: undefined, group: undefined })
   }
 
   const handlePlanIdChange = (id: number | undefined) => {
@@ -71,8 +68,7 @@ const MainPage = () => {
   }
 
   const handlePlaceClick = (space: SpaceType) => {
-    setSidebarState({ space: space })
-    setSidebarGroup(undefined)
+    setSidebarState({ space: space, group: undefined })
     setSidebarPlanEdit(false)
   }
 
@@ -80,14 +76,12 @@ const MainPage = () => {
     setListMode(false)
     setBookingsMode(false)
     setSidebarPlanEdit(true)
-    setSidebarState({ space: undefined })
-    setSidebarGroup(undefined)
+    setSidebarState({ space: undefined, group: undefined })
     setEditMode(true)
   }
 
   const onGroupEdit = (group: GroupType) => {
-    setSidebarGroup(group)
-    setSidebarState({ space: undefined })
+    setSidebarState({ space: undefined, group: group })
     setEditMode(true)
     setSidebarPlanEdit(false)
   }
@@ -131,7 +125,7 @@ const MainPage = () => {
           sidebarTitle={sidebarState.title}
           closeSidebar={closeSidebar}
         >
-          {sidebarGroup != undefined && <GroupDetail group={sidebarGroup} />}
+          {!!sidebarState.group && <GroupDetail />}
           {sidebarState.space && !editMode && <SpaceDetail workingDate={workingDate?.toString()} />}
           {sidebarState.space && editMode && (
             <>

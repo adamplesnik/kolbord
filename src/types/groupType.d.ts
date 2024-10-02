@@ -4,10 +4,12 @@ export type GroupType = {
   description: string
   x: number
   y: number
-  zone: {
-    relationTo: string
-    value: number
-  }
+  zone:
+    | {
+        relationTo: string
+        value: number
+      }
+    | undefined
   showMarker: boolean
-  org: string
+  org: string | undefined
 }

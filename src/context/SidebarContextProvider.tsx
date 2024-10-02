@@ -1,9 +1,11 @@
 import { Dispatch, ReactNode, SetStateAction, createContext } from 'react'
+import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 
 export type SidebarStateType = {
   title?: string | undefined
   space?: SpaceType | undefined
+  group?: GroupType | undefined
 }
 
 export type SidebarContextType = {
