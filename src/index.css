@@ -6,10 +6,6 @@
 }
 
 @layer components {
-  .styles-module_tooltip__mnnfp {
-    @apply !p-2;
-  }
-
   .react-calendar__navigation__prev2-button,
   .react-calendar__navigation__next2-button {
     @apply hidden;

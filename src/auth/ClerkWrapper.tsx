@@ -31,6 +31,8 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           headerSubtitle: '!hidden',
           identityPreview: '!justify-start !pt-1',
           organizationListPreviewButton: '!text-red-400',
+          // organizationPreview__organizationList: '!hidden',
+          header: '!hidden',
           organizationPreviewMainIdentifier: '!text-sm',
           organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
           rootBox: '!w-full',
