@@ -1,5 +1,5 @@
 import { RedirectToSignIn, SignedOut, useAuth } from '@clerk/clerk-react'
-import { createContext, Dispatch, HTMLAttributes, SetStateAction, useEffect, useState } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { useIsAdmin } from '../auth/useIsAdmin.ts'
 import GroupDetail from '../components/group/GroupDetail.tsx'
 import Lists from '../components/list/Lists'
@@ -12,28 +12,17 @@ import SpaceDetail from '../components/space/SpaceDetail.tsx'
 import SpaceEdit from '../components/space/SpaceEdit.tsx'
 import MyBookings from '../components/user/MyBookings.tsx'
 import PersonalPage from '../components/user/PersonalPage.tsx'
+import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
 import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
-type SidebarStateType = {
-  title: string | undefined
-}
-
-export type SidebarContextType = {
-  sidebarState: SidebarStateType
-  setSidebarState: Dispatch<SetStateAction<SidebarStateType>>
-}
-
-export const SidebarContext = createContext<SidebarContextType | null>(null)
-
 const MainPage = () => {
   const { isAdmin } = useIsAdmin()
   const { orgId } = useAuth()
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
-
   const [sidebarState, setSidebarState] = useState<SidebarStateType>({ title: undefined })
 
   const [bookingsMode, setBookingsMode] = useState(false)
@@ -107,11 +96,9 @@ const MainPage = () => {
     workingDate && localStorage.setItem(WORKING_DATE, workingDate.toString())
   }, [workingDate])
 
-  console.log(sidebarState)
-
   return (
     <>
-      <SidebarContext.Provider value={{ sidebarState, setSidebarState }}>
+      <SidebarContextProvider value={{ sidebarState, setSidebarState }}>
         <SignedOut>
           <RedirectToSignIn />
         </SignedOut>
@@ -175,7 +162,7 @@ const MainPage = () => {
             </>
           )}
         </Sidebar>
-      </SidebarContext.Provider>
+      </SidebarContextProvider>
     </>
   )
 }
