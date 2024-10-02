@@ -101,7 +101,7 @@ const MainPage = () => {
         {bookingsMode && <MyBookings />}
         {!orgId && <PersonalPage />}
         {listMode && !bookingsMode && orgId && <Lists />}
-        {!listMode && !bookingsMode && orgId && <PlanTransformWrapper workingDate={date} />}
+        {!listMode && !bookingsMode && orgId && <PlanTransformWrapper />}
         <MenuBar
           handleMyBookings={handleMyBookings}
           handleViewChange={() => setListMode(!listMode)}

@@ -2,9 +2,8 @@ import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
 import Plan from './Plan'
-import { Value } from './PlanDateSelector'
 
-const PlanTransformWrapper = ({ workingDate }: PlanTransformWrapperProps) => {
+const PlanTransformWrapper = () => {
   return (
     <TransformWrapper
       pinch={{ disabled: false }}
@@ -18,21 +17,13 @@ const PlanTransformWrapper = ({ workingDate }: PlanTransformWrapperProps) => {
         <TransformComponent wrapperClass="!h-screen !w-full !p-2">
           <div className={'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white'}>
             <GroupMarkers />
-            <Spaces
-              handleZoomToElement={zoomToElement}
-              workingDate={workingDate}
-              listView={false}
-            />
+            <Spaces handleZoomToElement={zoomToElement} listView={false} />
             <Plan />
           </div>
         </TransformComponent>
       )}
     </TransformWrapper>
   )
-}
-
-type PlanTransformWrapperProps = {
-  workingDate: Value
 }
 
 export default PlanTransformWrapper
