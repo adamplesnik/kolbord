@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, createContext } from 'react'
+import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react'
 
 export type EditModeContextType = {
   editMode: boolean
@@ -7,12 +7,17 @@ export type EditModeContextType = {
 
 export const EditModeContext = createContext<EditModeContextType | null>(null)
 
-const EditModeContextProvider = ({ value, children }: EditModeContextProviderProps) => {
-  return <EditModeContext.Provider value={value}>{children}</EditModeContext.Provider>
+const EditModeContextProvider = ({ children }: EditModeContextProviderProps) => {
+  const [editMode, setEditMode] = useState(false)
+
+  return (
+    <EditModeContext.Provider value={{ editMode, setEditMode }}>
+      {children}
+    </EditModeContext.Provider>
+  )
 }
 
 type EditModeContextProviderProps = {
-  value: EditModeContextType
   children: ReactNode
 }
 

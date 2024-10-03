@@ -14,8 +14,6 @@ import Sidebar from './Sidebar'
 const Layout = ({ title, subTitle, children }: LayoutProps) => {
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
-  const [editMode, setEditMode] = useState(false)
-
   const [date, setDate] = useState<Value>(() => {
     const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
     const currentBeforeToday =
@@ -34,7 +32,7 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
   })
 
   return (
-    <EditModeContextProvider value={{ editMode, setEditMode }}>
+    <EditModeContextProvider>
       <DateContextProvider value={{ date, setDate }}>
         <SidebarContextProvider value={{ sidebarState, setSidebarState }}>
           <SignedOut>
@@ -62,9 +60,6 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
               <Sidebar />
             </div>
           </div>
-          {editMode && (
-            <div className="pointer-events-none fixed inset-1 rounded-xl border-4 border-red-400"></div>
-          )}
         </SidebarContextProvider>
       </DateContextProvider>
     </EditModeContextProvider>
