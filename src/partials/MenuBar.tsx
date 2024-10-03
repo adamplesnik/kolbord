@@ -7,7 +7,6 @@ import Logo from '../components/basic/Logo'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
-import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 
 const MenuBar = ({
@@ -15,7 +14,6 @@ const MenuBar = ({
   handlePlaceAdd,
   handleViewChange,
   listMode,
-  onGroupEdit,
   onPlanChange,
 }: MenuBarProps) => {
   const { orgId } = useAuth()
@@ -25,7 +23,6 @@ const MenuBar = ({
       {orgId && (
         <div className="flex h-9 shrink-0 items-center gap-0.5 rounded bg-slate-200/70 p-0.5">
           <PlanSwitcher
-            onGroupEdit={(group) => onGroupEdit(group)}
             onPlanChange={onPlanChange}
             handlePlaceAdd={handlePlaceAdd}
             handleMyBookings={handleMyBookings}
@@ -46,7 +43,6 @@ type MenuBarProps = {
   handlePlaceAdd: (space: SpaceType) => void
   handleViewChange: () => void
   listMode: boolean
-  onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 

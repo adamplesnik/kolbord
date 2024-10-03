@@ -2,7 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
@@ -12,6 +13,10 @@ import { useZone } from './useZone'
 const PlanEditor = () => {
   const { getToken } = useAuth()
   const { zone, zoneId } = useZone()
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  useEffect(() => {
+    setSidebarState({ title: zone?.data.name })
+  }, [zone, setSidebarState])
 
   const updatePlan = async (
     id: number | undefined,

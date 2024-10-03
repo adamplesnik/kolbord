@@ -16,7 +16,6 @@ import EditModeContextProvider from '../context/EditModeContextProvider.tsx'
 import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
@@ -42,7 +41,6 @@ const MainPage = () => {
 
   const [bookingsMode, setBookingsMode] = useState(false)
   const [listMode, setListMode] = useState(false)
-  const [sidebarPlanEdit, setSidebarPlanEdit] = useState(false)
 
   useEffect(() => {
     setBookingsMode(bookingsMode)
@@ -52,15 +50,11 @@ const MainPage = () => {
     setSidebarState({ title: undefined, space: undefined, group: undefined })
   }
 
-  const sidebarOpen =
-    !!sidebarState.space ||
-    (sidebarPlanEdit && editMode === true) ||
-    (!!sidebarState.group && editMode === true)
+  const sidebarOpen = !!sidebarState.space || editMode || (!!sidebarState.group && editMode)
 
   console.log(sidebarState)
 
   const closeSidebar = () => {
-    setSidebarPlanEdit(false)
     resetSidebar()
   }
 
@@ -72,19 +66,6 @@ const MainPage = () => {
 
   const handlePlaceClick = (space: SpaceType) => {
     setSidebarState({ space: space, group: undefined })
-    setSidebarPlanEdit(false)
-  }
-
-  const onPlanEdit = () => {
-    setListMode(false)
-    setBookingsMode(false)
-    setSidebarPlanEdit(true)
-    setSidebarState({ space: undefined, group: undefined })
-  }
-
-  const onGroupEdit = (group: GroupType) => {
-    setSidebarState({ space: undefined, group: group })
-    setSidebarPlanEdit(false)
   }
 
   const handleMyBookings = () => {
@@ -111,8 +92,6 @@ const MainPage = () => {
             handleViewChange={() => setListMode(!listMode)}
             listMode={listMode}
             onPlanChange={handlePlanIdChange}
-            onPlanEdit={onPlanEdit}
-            onGroupEdit={onGroupEdit}
             handlePlaceAdd={(space) => {
               handlePlaceClick(space)
               setEditMode(true)
@@ -123,7 +102,7 @@ const MainPage = () => {
             sidebarTitle={sidebarState.title}
             closeSidebar={closeSidebar}
           >
-            {!!sidebarState.group && <GroupDetail />}
+            {sidebarState.group && <GroupDetail />}
             {sidebarState.space && !editMode && <SpaceDetail />}
             {sidebarState.space && editMode && (
               <>
@@ -131,14 +110,10 @@ const MainPage = () => {
                 <SpaceDelete id={sidebarState.space.id} />
               </>
             )}
-            {isAdmin && sidebarPlanEdit && editMode && (
+            {isAdmin && editMode && !sidebarState.space && !sidebarState.group && !listMode && (
               <>
                 <PlanEditor />
-                <PlanDelete
-                  handleDelete={() => {
-                    setSidebarPlanEdit(false)
-                  }}
-                />
+                <PlanDelete />
               </>
             )}
           </Sidebar>

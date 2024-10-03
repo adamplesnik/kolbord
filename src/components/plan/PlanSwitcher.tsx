@@ -2,8 +2,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown, User } from 'lucide-react'
 import { HTMLAttributes, useContext } from 'react'
 import { useIsAdmin } from '../../auth/useIsAdmin.ts'
+import { EditModeContext, EditModeContextType } from '../../context/EditModeContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
-import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
@@ -16,16 +16,16 @@ import SpaceAdd from '../space/SpaceAdd.tsx'
 import PlanAdd from './PlanAdd.tsx'
 import { useZone } from './useZone.ts'
 
-const PlanSwitcher = ({ handlePlaceAdd, handleMyBookings, onGroupEdit }: PlanSwitcherProps) => {
+const PlanSwitcher = ({ handleMyBookings }: PlanSwitcherProps) => {
   const { isAdmin } = useIsAdmin()
+  const { editMode } = useContext(EditModeContext) as EditModeContextType
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const { zoneId } = useZone()
   const { data: zones } = useQuery<{ data: { docs: ZoneType[] } }>({
     queryKey: ['zones'],
     enabled: true,
   })
-
-  const { zoneId } = useZone()
   const queryClient = useQueryClient()
-  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
   return (
     <>
@@ -54,13 +54,14 @@ const PlanSwitcher = ({ handlePlaceAdd, handleMyBookings, onGroupEdit }: PlanSwi
                 <div className="flex gap-1" key={`plan_${zone.id}`}>
                   <Button
                     className="flex-1"
-                    onClick={() =>
+                    onClick={() => {
                       queryClient.setQueryData<{ data: ZoneType }>(['zone'], {
                         data: {
                           id: zone.id,
                         },
                       })
-                    }
+                      setSidebarState({ group: undefined, space: undefined })
+                    }}
                     active={zoneId === zone.id}
                     Icon={Check}
                     iconClassName={zoneId === zone.id ? 'opacity-100' : 'opacity-35'}
@@ -70,19 +71,12 @@ const PlanSwitcher = ({ handlePlaceAdd, handleMyBookings, onGroupEdit }: PlanSwi
                 </div>
               ))}
             {isAdmin && <PlanAdd />}
-            {zoneId != undefined && zoneId > 0 && (
-              <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
-            )}
+            {zoneId != undefined && zoneId > 0 && <SpaceAdd planId={zoneId} />}
           </div>
-          {isAdmin && (
+          {isAdmin && editMode && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
-              <GroupList
-                onGroupEdit={(group) => {
-                  onGroupEdit(group)
-                  setSidebarState({ title: group.name, group: group })
-                }}
-              />
+              <GroupList />
               {zoneId != undefined && zoneId > 0 && <GroupAdd />}
             </div>
           )}
@@ -98,7 +92,6 @@ const PlanSwitcher = ({ handlePlaceAdd, handleMyBookings, onGroupEdit }: PlanSwi
 type PlanSwitcherProps = {
   handleMyBookings: () => void
   handlePlaceAdd: (space: SpaceType) => void
-  onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 

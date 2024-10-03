@@ -7,7 +7,7 @@ import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
 import { useZone } from './useZone'
 
-const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
+const PlanDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
   const { zone, zoneId } = useZone()
   const { getToken } = useAuth()
@@ -22,8 +22,6 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
       })
     } catch (error) {
       console.error(error)
-    } finally {
-      handleDelete()
     }
   }
 
@@ -76,10 +74,6 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
       )}
     </div>
   )
-}
-
-type PlanDeleteProps = {
-  handleDelete: () => void
 }
 
 export default PlanDelete
