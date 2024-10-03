@@ -1,26 +1,20 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from '../components/basic/Heading'
 import Logo from '../components/basic/Logo'
 import UserMenu from '../components/user/UserMenu'
 import DateContextProvider from '../context/DateContextProvider'
 import EditModeContextProvider from '../context/EditModeContextProvider'
-import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider'
+import SidebarContextProvider from '../context/SidebarContextProvider'
 import MenuBar from './MenuBar'
 import Sidebar from './Sidebar'
 
 const Layout = ({ title, subTitle, children }: LayoutProps) => {
-  const [sidebarState, setSidebarState] = useState<SidebarStateType>({
-    group: undefined,
-    space: undefined,
-    title: undefined,
-  })
-
   return (
     <EditModeContextProvider>
       <DateContextProvider>
-        <SidebarContextProvider value={{ sidebarState, setSidebarState }}>
+        <SidebarContextProvider>
           <SignedOut>
             <RedirectToSignIn />
           </SignedOut>

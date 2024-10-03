@@ -1,8 +1,8 @@
-import { Dispatch, ReactNode, SetStateAction, createContext } from 'react'
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from 'react'
 import { GroupType } from '../types/groupType'
 import { SpaceType } from '../types/spaceType'
 
-export type SidebarStateType = {
+type SidebarStateType = {
   title?: string | undefined
   space?: SpaceType | undefined
   group?: GroupType | undefined
@@ -15,13 +15,18 @@ export type SidebarContextType = {
 
 export const SidebarContext = createContext<SidebarContextType | null>(null)
 
-const SidebarContextProvider = ({ value, children }: SidebarContextProviderProps) => {
-  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
-}
+const SidebarContextProvider = ({ children }: PropsWithChildren) => {
+  const [sidebarState, setSidebarState] = useState<SidebarStateType>({
+    group: undefined,
+    space: undefined,
+    title: undefined,
+  })
 
-type SidebarContextProviderProps = {
-  value: SidebarContextType
-  children: ReactNode
+  return (
+    <SidebarContext.Provider value={{ sidebarState, setSidebarState }}>
+      {children}
+    </SidebarContext.Provider>
+  )
 }
 
 export default SidebarContextProvider
