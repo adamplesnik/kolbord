@@ -4,7 +4,6 @@ import { HTMLAttributes, useContext } from 'react'
 import { useIsAdmin } from '../../auth/useIsAdmin.ts'
 import { EditModeContext, EditModeContextType } from '../../context/EditModeContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
-import { SpaceType } from '../../types/spaceType'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
@@ -91,8 +90,6 @@ const PlanSwitcher = ({ handleMyBookings }: PlanSwitcherProps) => {
 
 type PlanSwitcherProps = {
   handleMyBookings: () => void
-  handlePlaceAdd: (space: SpaceType) => void
-  onPlanChange: (id: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

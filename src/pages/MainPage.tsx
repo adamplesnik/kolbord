@@ -16,7 +16,6 @@ import EditModeContextProvider from '../context/EditModeContextProvider.tsx'
 import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider.tsx'
 import MenuBar from '../partials/MenuBar'
 import Sidebar from '../partials/Sidebar'
-import { SpaceType } from '../types/spaceType'
 import { WORKING_DATE } from '../utils/constants'
 
 const MainPage = () => {
@@ -58,16 +57,6 @@ const MainPage = () => {
     resetSidebar()
   }
 
-  const handlePlanIdChange = (id: number | undefined) => {
-    if (id) {
-      resetSidebar()
-    }
-  }
-
-  const handlePlaceClick = (space: SpaceType) => {
-    setSidebarState({ space: space, group: undefined })
-  }
-
   const handleMyBookings = () => {
     setBookingsMode(true)
   }
@@ -91,11 +80,6 @@ const MainPage = () => {
             handleMyBookings={handleMyBookings}
             handleViewChange={() => setListMode(!listMode)}
             listMode={listMode}
-            onPlanChange={handlePlanIdChange}
-            handlePlaceAdd={(space) => {
-              handlePlaceClick(space)
-              setEditMode(true)
-            }}
           />
           <Sidebar
             isOpen={sidebarOpen}
