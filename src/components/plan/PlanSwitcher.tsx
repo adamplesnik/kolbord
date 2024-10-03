@@ -8,7 +8,6 @@ import { SpaceType } from '../../types/spaceType'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
-import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading.tsx'
 import Ping from '../basic/Ping'
 import GroupAdd from '../group/GroupAdd.tsx'
@@ -17,12 +16,7 @@ import SpaceAdd from '../space/SpaceAdd.tsx'
 import PlanAdd from './PlanAdd.tsx'
 import { useZone } from './useZone.ts'
 
-const PlanSwitcher = ({
-  handlePlaceAdd,
-  handleMyBookings,
-  onGroupEdit,
-  onPlanEdit,
-}: PlanSwitcherProps) => {
+const PlanSwitcher = ({ handlePlaceAdd, handleMyBookings, onGroupEdit }: PlanSwitcherProps) => {
   const { isAdmin } = useIsAdmin()
   const { data: zones } = useQuery<{ data: { docs: ZoneType[] } }>({
     queryKey: ['zones'],
@@ -73,15 +67,6 @@ const PlanSwitcher = ({
                   >
                     {zone.name}
                   </Button>
-                  {zoneId === zone.id && (
-                    <EditButton
-                      onClick={() => {
-                        onPlanEdit(zone.id)
-                        setSidebarState({ title: zone.name })
-                      }}
-                      editMode={false}
-                    />
-                  )}
                 </div>
               ))}
             {isAdmin && <PlanAdd />}
@@ -115,7 +100,6 @@ type PlanSwitcherProps = {
   handlePlaceAdd: (space: SpaceType) => void
   onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
-  onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

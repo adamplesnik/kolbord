@@ -2,6 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import Button from '../components/basic/Button'
+import EditButton from '../components/basic/EditButton'
 import Logo from '../components/basic/Logo'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
@@ -16,7 +17,6 @@ const MenuBar = ({
   listMode,
   onGroupEdit,
   onPlanChange,
-  onPlanEdit,
 }: MenuBarProps) => {
   const { orgId } = useAuth()
   return (
@@ -26,12 +26,12 @@ const MenuBar = ({
         <div className="flex h-9 shrink-0 items-center gap-0.5 rounded bg-slate-200/70 p-0.5">
           <PlanSwitcher
             onGroupEdit={(group) => onGroupEdit(group)}
-            onPlanEdit={onPlanEdit}
             onPlanChange={onPlanChange}
             handlePlaceAdd={handlePlaceAdd}
             handleMyBookings={handleMyBookings}
           />
           <PlanDateSelector />
+          <EditButton />
           <div className="h-6 w-px bg-slate-300"></div>
           <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
         </div>
@@ -48,7 +48,6 @@ type MenuBarProps = {
   listMode: boolean
   onGroupEdit: (group: GroupType) => void
   onPlanChange: (id: number | undefined) => void
-  onPlanEdit: (planId: number | undefined) => void
 } & HTMLAttributes<HTMLDivElement>
 
 export default MenuBar

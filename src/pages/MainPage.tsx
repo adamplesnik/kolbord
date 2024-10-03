@@ -142,6 +142,9 @@ const MainPage = () => {
               </>
             )}
           </Sidebar>
+          {editMode && (
+            <div className="pointer-events-none fixed inset-1 rounded-xl border-4 border-red-400"></div>
+          )}
         </SidebarContextProvider>
       </DateContextProvider>
     </EditModeContextProvider>

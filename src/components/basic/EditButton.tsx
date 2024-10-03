@@ -1,9 +1,16 @@
 import { Check, PencilLine } from 'lucide-react'
+import { useContext } from 'react'
 import { useIsAdmin } from '../../auth/useIsAdmin'
+import { EditModeContext, EditModeContextType } from '../../context/EditModeContextProvider'
 import Button from './Button'
 
-const EditButton = ({ onClick, className, editMode }: EditButtonProps) => {
+const EditButton = ({ className }: EditButtonProps) => {
   const { isAdmin } = useIsAdmin()
+  const { editMode, setEditMode } = useContext(EditModeContext) as EditModeContextType
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode)
+  }
 
   if (!isAdmin) {
     return ''
@@ -12,16 +19,14 @@ const EditButton = ({ onClick, className, editMode }: EditButtonProps) => {
   return (
     <Button
       className={className}
-      buttonType="primary"
+      buttonType={editMode ? 'danger' : 'primary'}
       Icon={editMode ? Check : PencilLine}
-      onClick={onClick}
+      onClick={toggleEditMode}
     />
   )
 }
 
 type EditButtonProps = {
-  onClick: () => void
-  editMode: boolean
   className?: string | undefined
 }
 
