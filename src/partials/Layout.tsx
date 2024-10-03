@@ -1,30 +1,16 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from '../components/basic/Heading'
 import Logo from '../components/basic/Logo'
 import UserMenu from '../components/user/UserMenu'
-import DateContextProvider, { Value } from '../context/DateContextProvider'
+import DateContextProvider from '../context/DateContextProvider'
 import EditModeContextProvider from '../context/EditModeContextProvider'
 import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider'
-import { WORKING_DATE } from '../utils/constants'
 import MenuBar from './MenuBar'
 import Sidebar from './Sidebar'
 
 const Layout = ({ title, subTitle, children }: LayoutProps) => {
-  const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
-
-  const [date, setDate] = useState<Value>(() => {
-    const todayMidnight = new Date(new Date().setHours(0, 0, 0, 0))
-    const currentBeforeToday =
-      getLocalWorkingDate && new Date(getLocalWorkingDate.toString()) >= todayMidnight
-    return currentBeforeToday ? new Date(getLocalWorkingDate.toString()) : todayMidnight
-  })
-
-  useEffect(() => {
-    date && localStorage.setItem(WORKING_DATE, date.toString())
-  }, [date])
-
   const [sidebarState, setSidebarState] = useState<SidebarStateType>({
     group: undefined,
     space: undefined,
@@ -33,7 +19,7 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
 
   return (
     <EditModeContextProvider>
-      <DateContextProvider value={{ date, setDate }}>
+      <DateContextProvider>
         <SidebarContextProvider value={{ sidebarState, setSidebarState }}>
           <SignedOut>
             <RedirectToSignIn />
