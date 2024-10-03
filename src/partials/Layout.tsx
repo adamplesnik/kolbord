@@ -1,5 +1,8 @@
-import { RedirectToSignIn, SignedOut, useAuth } from '@clerk/clerk-react'
+import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import Logo from '../components/basic/Logo'
+import UserMenu from '../components/user/UserMenu'
 import DateContextProvider, { Value } from '../context/DateContextProvider'
 import EditModeContextProvider from '../context/EditModeContextProvider'
 import SidebarContextProvider, { SidebarStateType } from '../context/SidebarContextProvider'
@@ -9,8 +12,6 @@ import Sidebar from './Sidebar'
 
 const Layout = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
-  const { orgId } = useAuth()
-  console.log(orgId)
 
   const [editMode, setEditMode] = useState(false)
 
@@ -39,15 +40,16 @@ const Layout = ({ children }: HTMLAttributes<HTMLDivElement>) => {
             <RedirectToSignIn />
           </SignedOut>
           <div className="flex h-screen w-full flex-col items-stretch">
-            <div className="relative z-10 border-b border-zinc-400">
-              <MenuBar
-                handleMyBookings={function (): void {
-                  throw new Error('Function not implemented.')
-                }}
-              />
+            <div className="relative z-10 flex items-center gap-2 border-b border-zinc-300 p-2">
+              <Link to="/">
+                <Logo className="h-4" />
+              </Link>
+              <div className="flex-1"></div>
+              <MenuBar />
+              <UserMenu />
             </div>
             <div className="flex flex-1">
-              <div className="flex-1">{children}</div>
+              <div className="flex-1 overflow-hidden">{children}</div>
               <Sidebar />
             </div>
           </div>

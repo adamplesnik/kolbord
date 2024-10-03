@@ -10,7 +10,6 @@ import './index.css'
 import ListPage from './pages/ListPage.tsx'
 import PlanPage from './pages/PlanPage.tsx'
 import ProfilePage from './pages/ProfilePage.tsx'
-import Layout from './partials/Layout.tsx'
 
 const router = createBrowserRouter([
   {
@@ -26,14 +25,6 @@ const router = createBrowserRouter([
   { path: '/plan', element: <PlanPage /> },
   { path: '/list', element: <ListPage /> },
   { path: '/profile', element: <ProfilePage /> },
-  {
-    path: '/layout',
-    element: (
-      <Layout>
-        <>et</>
-      </Layout>
-    ),
-  },
 ])
 
 const queryClient = new QueryClient()

@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, User } from 'lucide-react'
-import { HTMLAttributes, useContext } from 'react'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import { useContext } from 'react'
 import { useIsAdmin } from '../../auth/useIsAdmin.ts'
 import { EditModeContext, EditModeContextType } from '../../context/EditModeContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
@@ -15,7 +15,7 @@ import SpaceAdd from '../space/SpaceAdd.tsx'
 import PlanAdd from './PlanAdd.tsx'
 import { useZone } from './useZone.ts'
 
-const PlanSwitcher = ({ handleMyBookings }: PlanSwitcherProps) => {
+const PlanSwitcher = () => {
   const { isAdmin } = useIsAdmin()
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
@@ -69,8 +69,8 @@ const PlanSwitcher = ({ handleMyBookings }: PlanSwitcherProps) => {
                   </Button>
                 </div>
               ))}
-            {isAdmin && <PlanAdd />}
-            {zoneId != undefined && zoneId > 0 && <SpaceAdd planId={zoneId} />}
+            {isAdmin && editMode && <PlanAdd />}
+            {zoneId != undefined && zoneId > 0 && editMode && <SpaceAdd planId={zoneId} />}
           </div>
           {isAdmin && editMode && (
             <div className="flex flex-col gap-2">
@@ -80,16 +80,9 @@ const PlanSwitcher = ({ handleMyBookings }: PlanSwitcherProps) => {
             </div>
           )}
         </div>
-        <Button onClick={handleMyBookings} className="w-full" Icon={User}>
-          Your bookings
-        </Button>
       </CustomTooltip>
     </>
   )
 }
-
-type PlanSwitcherProps = {
-  handleMyBookings: () => void
-} & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

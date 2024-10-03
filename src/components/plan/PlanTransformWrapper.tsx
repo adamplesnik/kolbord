@@ -14,7 +14,7 @@ const PlanTransformWrapper = () => {
       maxScale={1}
     >
       {({ zoomToElement }) => (
-        <TransformComponent wrapperClass="!h-screen">
+        <TransformComponent wrapperClass="!h-screen !w-full">
           <div className={'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white'}>
             <GroupMarkers />
             <Spaces handleZoomToElement={zoomToElement} listView={false} />
