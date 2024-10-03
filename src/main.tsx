@@ -7,7 +7,10 @@ import ClerkWrapper from './auth/ClerkWrapper.tsx'
 import SignInPage from './auth/SignInPage.tsx'
 import SignUpPage from './auth/SignUpPage.tsx'
 import './index.css'
-import MainPage from './pages/MainPage.tsx'
+import ListPage from './pages/ListPage.tsx'
+import PlanPage from './pages/PlanPage.tsx'
+import ProfilePage from './pages/ProfilePage.tsx'
+import Layout from './partials/Layout.tsx'
 
 const router = createBrowserRouter([
   {
@@ -20,7 +23,17 @@ const router = createBrowserRouter([
     element: <SignUpPage />,
   },
 
-  { path: '/plan', element: <MainPage /> },
+  { path: '/plan', element: <PlanPage /> },
+  { path: '/list', element: <ListPage /> },
+  { path: '/profile', element: <ProfilePage /> },
+  {
+    path: '/layout',
+    element: (
+      <Layout>
+        <>et</>
+      </Layout>
+    ),
+  },
 ])
 
 const queryClient = new QueryClient()

@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { HTMLAttributes } from 'react'
+import { Link } from 'react-router-dom'
 import Button from '../components/basic/Button'
 import EditButton from '../components/basic/EditButton'
 import Logo from '../components/basic/Logo'
@@ -8,10 +9,10 @@ import PlanDateSelector from '../components/plan/PlanDateSelector'
 import PlanSwitcher from '../components/plan/PlanSwitcher'
 import UserMenu from '../components/user/UserMenu'
 
-const MenuBar = ({ handleMyBookings, handleViewChange, listMode }: MenuBarProps) => {
+const MenuBar = ({ handleMyBookings }: MenuBarProps) => {
   const { orgId } = useAuth()
   return (
-    <div className="fixed bottom-2 left-2 z-50 flex items-center gap-3 rounded-xl border border-slate-200/30 border-r-transparent border-l-pink-300/30 bg-white/95 p-2 shadow-2xl">
+    <div className="flex w-full items-center gap-3 p-2">
       <Logo className="h-4" />
       {orgId && (
         <div className="flex h-9 shrink-0 items-center gap-0.5 rounded bg-slate-200/70 p-0.5">
@@ -19,9 +20,15 @@ const MenuBar = ({ handleMyBookings, handleViewChange, listMode }: MenuBarProps)
           <PlanDateSelector />
           <EditButton />
           <div className="h-6 w-px bg-slate-300"></div>
-          <Button Icon={listMode ? List : Map} onClick={handleViewChange} />
+          <Link to="/plan">
+            <Button Icon={Map} />
+          </Link>
+          <Link to="/list">
+            <Button Icon={List} />
+          </Link>
         </div>
       )}
+      <div className="flex-1"></div>
       <UserMenu />
     </div>
   )
@@ -29,8 +36,6 @@ const MenuBar = ({ handleMyBookings, handleViewChange, listMode }: MenuBarProps)
 
 type MenuBarProps = {
   handleMyBookings: () => void
-  handleViewChange: () => void
-  listMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default MenuBar
