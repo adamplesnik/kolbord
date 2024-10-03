@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useContext } from 'react'
 import { useIsAdmin } from '../auth/useIsAdmin'
@@ -24,34 +25,42 @@ const Sidebar = () => {
     setSidebarState({ title: undefined, space: undefined, group: undefined })
 
   return (
-    <div
-      className={clsx(
-        'flex w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-0 transition-transform',
-        sidebarOpen ? 'block' : 'hidden'
+    <AnimatePresence initial={false}>
+      {sidebarOpen && (
+        <motion.div
+          initial={{ x: 320 }}
+          animate={{ x: 0 }}
+          exit={{ x: 320 }}
+          transition={{ ease: 'anticipate', duration: 0.3 }}
+          className={clsx(
+            'flex w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-0 transition-transform',
+            sidebarOpen ? 'block' : 'hidden'
+          )}
+        >
+          <div className="sticky top-0 z-20 -mx-8 flex items-baseline gap-2 bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
+            {sidebarState.title && <Heading size={3}>{sidebarState.title}</Heading>}
+            <div className="flex-1"></div>
+            <Button onClick={closeSidebar}>
+              <X />
+            </Button>
+          </div>
+          {sidebarState.group && <GroupDetail />}
+          {sidebarState.space && !editMode && <SpaceDetail />}
+          {sidebarState.space && editMode && (
+            <>
+              <SpaceEdit space={sidebarState.space} />
+              <SpaceDelete id={sidebarState.space.id} />
+            </>
+          )}
+          {isAdmin && editMode && !sidebarState.space && !sidebarState.group && (
+            <>
+              <PlanEditor />
+              <PlanDelete />
+            </>
+          )}
+        </motion.div>
       )}
-    >
-      <div className="sticky top-0 z-20 -mx-8 flex items-baseline gap-2 bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
-        {sidebarState.title && <Heading size={3}>{sidebarState.title}</Heading>}
-        <div className="flex-1"></div>
-        <Button onClick={closeSidebar}>
-          <X />
-        </Button>
-      </div>
-      {sidebarState.group && <GroupDetail />}
-      {sidebarState.space && !editMode && <SpaceDetail />}
-      {sidebarState.space && editMode && (
-        <>
-          <SpaceEdit space={sidebarState.space} />
-          <SpaceDelete id={sidebarState.space.id} />
-        </>
-      )}
-      {isAdmin && editMode && !sidebarState.space && !sidebarState.group && (
-        <>
-          <PlanEditor />
-          <PlanDelete />
-        </>
-      )}
-    </div>
+    </AnimatePresence>
   )
 }
 

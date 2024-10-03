@@ -18,28 +18,26 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
           <SignedOut>
             <RedirectToSignIn />
           </SignedOut>
-          <>
-            <div className="relative z-10 order-last flex items-center gap-2 border-t border-zinc-300 p-2 md:order-first md:border-b md:border-t-transparent">
-              <Link to="/">
-                <Logo className="h-4" />
-              </Link>
-              <div className="flex-1"></div>
-              <MenuBar />
-              <UserMenu />
+          <div className="relative z-10 order-last flex items-center gap-2 border-t border-zinc-300 p-2 md:order-first md:border-b md:border-t-transparent">
+            <Link to="/">
+              <Logo className="h-4" />
+            </Link>
+            <div className="flex-1"></div>
+            <MenuBar />
+            <UserMenu />
+          </div>
+          <div className="flex flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden">
+              {(title || subTitle) && (
+                <div className="mx-auto flex max-w-5xl p-8">
+                  {title && <Heading size={1}>{title}</Heading>}
+                  {subTitle && <Heading size={2}>{subTitle}</Heading>}
+                </div>
+              )}
+              {children}
             </div>
-            <div className="flex flex-1 overflow-hidden">
-              <div className="flex-1 overflow-hidden">
-                {(title || subTitle) && (
-                  <div className="mx-auto flex max-w-5xl p-8">
-                    {title && <Heading size={1}>{title}</Heading>}
-                    {subTitle && <Heading size={2}>{subTitle}</Heading>}
-                  </div>
-                )}
-                {children}
-              </div>
-              <Sidebar />
-            </div>
-          </>
+            <Sidebar />
+          </div>
         </SidebarContextProvider>
       </DateContextProvider>
     </EditModeContextProvider>
