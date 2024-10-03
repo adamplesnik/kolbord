@@ -18,8 +18,8 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
           <SignedOut>
             <RedirectToSignIn />
           </SignedOut>
-          <div className="flex h-screen w-full flex-col items-stretch">
-            <div className="relative z-10 flex items-center gap-2 border-b border-zinc-300 p-2">
+          <>
+            <div className="relative z-10 order-last flex items-center gap-2 border-t border-zinc-300 p-2 md:order-first md:border-b md:border-t-transparent">
               <Link to="/">
                 <Logo className="h-4" />
               </Link>
@@ -27,7 +27,7 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
               <MenuBar />
               <UserMenu />
             </div>
-            <div className="flex flex-1">
+            <div className="flex flex-1 overflow-hidden">
               <div className="flex-1 overflow-hidden">
                 {(title || subTitle) && (
                   <div className="mx-auto flex max-w-5xl p-8">
@@ -39,7 +39,7 @@ const Layout = ({ title, subTitle, children }: LayoutProps) => {
               </div>
               <Sidebar />
             </div>
-          </div>
+          </>
         </SidebarContextProvider>
       </DateContextProvider>
     </EditModeContextProvider>

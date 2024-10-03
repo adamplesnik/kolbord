@@ -18,7 +18,7 @@ const Sidebar = () => {
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { sidebarState, setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
-  const sidebarOpen = !!sidebarState.space || editMode || (!!sidebarState.group && editMode)
+  const sidebarOpen = !!sidebarState.space || editMode
 
   const closeSidebar = () =>
     setSidebarState({ title: undefined, space: undefined, group: undefined })
@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <div
       className={clsx(
-        'flex w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-400 p-8 pt-0',
+        'flex w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-0 transition-transform',
         sidebarOpen ? 'block' : 'hidden'
       )}
     >

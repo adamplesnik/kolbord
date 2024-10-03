@@ -24,7 +24,7 @@ const router = createBrowserRouter([
 
   { path: '/plan', element: <PlanPage /> },
   { path: '/list', element: <ListPage /> },
-  { path: '/bookings', element: <BookingsPage /> },
+  { path: '/profile', element: <BookingsPage /> },
 ])
 
 const queryClient = new QueryClient()

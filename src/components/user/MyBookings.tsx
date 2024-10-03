@@ -6,6 +6,7 @@ import qs from 'qs'
 import { useContext } from 'react'
 import { Fragment } from 'react/jsx-runtime'
 import { DateContext, DateContextType } from '../../context/DateContextProvider'
+import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider'
 import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
@@ -17,6 +18,7 @@ import SpaceBookingSlot from '../space/SpaceBookingSlot'
 const MyBookings = () => {
   const { userId, getToken } = useAuth()
   const { date } = useContext(DateContext) as DateContextType
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
   const loadBookingsForUser = async (
     userId: string | null | undefined
@@ -78,8 +80,14 @@ const MyBookings = () => {
                             <Fragment key={`user_booking${i}`}>
                               <div className="flex items-center gap-2">
                                 <span className="flex flex-[2] items-center gap-1 font-medium">
-                                  <Button>
-                                    {/* @todo */}
+                                  <Button
+                                    onClick={() =>
+                                      setSidebarState({
+                                        title: booking.space?.value.name,
+                                        space: booking.space?.value,
+                                      })
+                                    }
+                                  >
                                     {booking.space?.value.name}
                                   </Button>
                                   {booking.space.value.group && (
