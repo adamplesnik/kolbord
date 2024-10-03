@@ -11,7 +11,6 @@ import { humanDate, humanTime } from '../../utils/human'
 import Button from '../basic/Button'
 import DateHeading from '../basic/DateHeading'
 import Empty from '../basic/Empty'
-import Heading from '../basic/Heading'
 import Separator from '../basic/Separator'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
@@ -57,13 +56,8 @@ const MyBookings = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto flex max-w-5xl flex-col p-8 pb-24">
+      <div className="mx-auto flex max-w-5xl flex-col pb-24">
         {bookingDates.length < 1 && <Empty Icon={ListX} message="You have no bookings." />}
-        {bookingDates.length > 0 && (
-          <Heading size={3} className="pb-8">
-            Your bookings
-          </Heading>
-        )}
         {bookingDates &&
           bookingDates?.map((set, i) => (
             <>

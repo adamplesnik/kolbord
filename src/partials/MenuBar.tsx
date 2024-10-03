@@ -1,5 +1,5 @@
 import { useAuth } from '@clerk/clerk-react'
-import { List, Map } from 'lucide-react'
+import { List, Map, User2 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import Button from '../components/basic/Button'
 import PlanDateSelector from '../components/plan/PlanDateSelector'
@@ -25,6 +25,12 @@ const MenuBar = () => {
             <Button Icon={List} />
           </NavLink>
           <div className="h-6 w-px bg-zinc-300"></div>
+          <NavLink
+            to="/bookings"
+            className={({ isActive }) => (isActive ? 'text-black' : 'text-zinc-500')}
+          >
+            <Button Icon={User2} />
+          </NavLink>
           <PlanDateSelector />
         </div>
       )}

@@ -1,6 +1,7 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import { HTMLAttributes, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Heading from '../components/basic/Heading'
 import Logo from '../components/basic/Logo'
 import UserMenu from '../components/user/UserMenu'
 import DateContextProvider, { Value } from '../context/DateContextProvider'
@@ -10,7 +11,7 @@ import { WORKING_DATE } from '../utils/constants'
 import MenuBar from './MenuBar'
 import Sidebar from './Sidebar'
 
-const Layout = ({ children }: HTMLAttributes<HTMLDivElement>) => {
+const Layout = ({ title, subTitle, children }: LayoutProps) => {
   const getLocalWorkingDate = localStorage.getItem(WORKING_DATE)
 
   const [editMode, setEditMode] = useState(false)
@@ -49,7 +50,15 @@ const Layout = ({ children }: HTMLAttributes<HTMLDivElement>) => {
               <UserMenu />
             </div>
             <div className="flex flex-1">
-              <div className="flex-1 overflow-hidden">{children}</div>
+              <div className="flex-1 overflow-hidden">
+                {(title || subTitle) && (
+                  <div className="mx-auto flex max-w-5xl p-8">
+                    {title && <Heading size={1}>{title}</Heading>}
+                    {subTitle && <Heading size={2}>{subTitle}</Heading>}
+                  </div>
+                )}
+                {children}
+              </div>
               <Sidebar />
             </div>
           </div>
@@ -61,5 +70,10 @@ const Layout = ({ children }: HTMLAttributes<HTMLDivElement>) => {
     </EditModeContextProvider>
   )
 }
+
+type LayoutProps = {
+  title?: string
+  subTitle?: string
+} & HTMLAttributes<HTMLDivElement>
 
 export default Layout
