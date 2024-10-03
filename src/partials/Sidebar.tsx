@@ -1,19 +1,10 @@
 import { X } from 'lucide-react'
 import { HTMLAttributes, MouseEventHandler } from 'react'
 import Button from '../components/basic/Button'
-import EditButton from '../components/basic/EditButton'
 import Heading from '../components/basic/Heading'
 import { addWithSpace } from '../utils/addWithSpace'
 
-const Sidebar = ({
-  children,
-  isOpen,
-  closeSidebar,
-  className,
-  sidebarTitle,
-  handleEditMode,
-  editMode,
-}: SidebarProps) => {
+const Sidebar = ({ children, isOpen, closeSidebar, className, sidebarTitle }: SidebarProps) => {
   return (
     <div
       className={
@@ -23,7 +14,6 @@ const Sidebar = ({
       }
     >
       <div className="sticky top-0 z-20 -mx-8 flex items-baseline gap-2 bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
-        <EditButton onClick={handleEditMode} editMode={editMode} />
         {sidebarTitle && <Heading size={3}>{sidebarTitle}</Heading>}
         <div className="flex-1"></div>
         <Button onClick={closeSidebar}>
@@ -39,8 +29,6 @@ type SidebarProps = {
   isOpen: boolean
   closeSidebar: MouseEventHandler
   sidebarTitle: string | undefined
-  handleEditMode: () => void
-  editMode: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default Sidebar
