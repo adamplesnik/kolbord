@@ -6,7 +6,6 @@ import qs from 'qs'
 import { Fragment, useContext } from 'react'
 import { useZone } from '../../hooks/useZone.ts'
 import { DateContext, DateContextType, Value } from '../../providers/DateContextProvider.tsx'
-import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
 import Empty from '../basic/Empty.tsx'
@@ -69,11 +68,9 @@ const loadBookingsForZone = async (
   })
 }
 
-const Spaces = ({ handleZoomToElement, listView }: SpacesProps) => {
-  const { getToken, userId } = useAuth()
+const Spaces = ({ listView }: SpacesProps) => {
+  const { getToken } = useAuth()
   const { zoneId } = useZone()
-  const { sidebarState, setSidebarState } = useContext(SidebarContext) as SidebarContextType
-  const sidebarSpace = sidebarState.space
   const { date } = useContext(DateContext) as DateContextType
 
   const { data: spaces } = useQuery({
@@ -90,7 +87,7 @@ const Spaces = ({ handleZoomToElement, listView }: SpacesProps) => {
   const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value?.name))].sort()
 
   if (!spaces) {
-    return <Empty Icon={BracesIcon} message="No space available"></Empty>
+    return <Empty Icon={BracesIcon} message="No spaces available."></Empty>
   }
 
   return (
@@ -110,34 +107,13 @@ const Spaces = ({ handleZoomToElement, listView }: SpacesProps) => {
               {spaces?.data.docs
                 .filter((space) => space?.group?.value?.name === group)
                 .map((space, i) => {
-                  const bookedToday = bookings?.data.docs.find(
-                    (booking) => booking.space.value === space.id
-                  )
                   const allToday = bookings?.data.docs.filter(
                     (booking) => booking.space.value === space.id
                   )
                   return (
                     <Space
-                      id={space.id}
-                      features={space.features}
-                      group={space.group}
-                      name={space.name}
-                      slots={space.slots}
-                      x={space.x}
-                      y={space.y}
-                      active={space === sidebarSpace}
-                      bookedToday={bookedToday != undefined}
+                      space={space}
                       bookings={allToday}
-                      bookedByWho={bookedToday?.sub}
-                      bookedByMe={bookedToday?.sub === userId}
-                      onClick={() => {
-                        setSidebarState({ title: space.name, space: space })
-                        handleZoomToElement &&
-                          setTimeout(
-                            () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
-                            400
-                          )
-                      }}
                       key={`space_${space.x}_${space.y}_${i}`}
                       listView={listView}
                     />
@@ -153,7 +129,6 @@ const Spaces = ({ handleZoomToElement, listView }: SpacesProps) => {
 }
 
 type SpacesProps = {
-  handleZoomToElement?: (id: string, zoom: number) => void | undefined
   listView: boolean
 }
 

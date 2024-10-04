@@ -15,11 +15,11 @@ const PlanPage = () => {
         minScale={0.8}
         maxScale={1}
       >
-        {({ zoomToElement }) => (
+        {() => (
           <TransformComponent wrapperClass="!w-full !h-full">
             <div className={'relative m-8 mt-24 rounded-3xl bg-white'}>
               <GroupMarkers />
-              <Spaces handleZoomToElement={zoomToElement} listView={false} />
+              <Spaces listView={false} />
               <Plan />
             </div>
           </TransformComponent>
