@@ -1,7 +1,7 @@
 import { ClerkProvider } from '@clerk/clerk-react'
 import { HTMLAttributes } from 'react'
 
-const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
+const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
   if (!PUBLISHABLE_KEY) {
@@ -46,4 +46,4 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   )
 }
 
-export default ClerkWrapper
+export default ClerkProviderWrapper

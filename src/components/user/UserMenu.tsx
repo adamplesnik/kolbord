@@ -21,7 +21,7 @@ const UserMenu = () => {
     <>
       <EditButton />
       <OrganizationSwitcher hidePersonal />
-      <UserButton />
+      <UserButton showName />
     </>
   )
 }

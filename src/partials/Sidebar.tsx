@@ -33,7 +33,7 @@ const Sidebar = () => {
           exit={{ x: 320 }}
           transition={{ ease: 'anticipate', duration: 0.3 }}
           className={clsx(
-            'flex w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-0 transition-transform',
+            'sticky top-0 flex max-h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-14',
             sidebarOpen ? 'block' : 'hidden'
           )}
         >

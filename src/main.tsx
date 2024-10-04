@@ -1,11 +1,10 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ClerkWrapper from './auth/ClerkWrapper.tsx'
 import SignInPage from './auth/SignInPage.tsx'
 import SignUpPage from './auth/SignUpPage.tsx'
+import ProviderWrapper from './context/ProviderWrapper.tsx'
 import './index.css'
 import BookingsPage from './pages/BookingsPage.tsx'
 import ListPage from './pages/ListPage.tsx'
@@ -24,18 +23,14 @@ const router = createBrowserRouter([
 
   { path: '/plan', element: <PlanPage /> },
   { path: '/list', element: <ListPage /> },
-  { path: '/profile', element: <BookingsPage /> },
+  { path: '/bookings', element: <BookingsPage /> },
 ])
-
-const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkWrapper>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+    <ProviderWrapper>
+      <RouterProvider router={router} />
       <Analytics />
-    </ClerkWrapper>
+    </ProviderWrapper>
   </React.StrictMode>
 )

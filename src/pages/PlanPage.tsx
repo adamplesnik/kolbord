@@ -6,7 +6,7 @@ import Layout from '../partials/Layout.tsx'
 
 const PlanPage = () => {
   return (
-    <Layout>
+    <Layout fullSize>
       <TransformWrapper
         pinch={{ disabled: false }}
         panning={{ wheelPanning: true, disabled: false, allowLeftClickPan: true }}
@@ -16,8 +16,8 @@ const PlanPage = () => {
         maxScale={1}
       >
         {({ zoomToElement }) => (
-          <TransformComponent wrapperClass="!w-full">
-            <div className={'relative m-8 rounded-3xl bg-white p-2 outline-[1.5rem] outline-white'}>
+          <TransformComponent wrapperClass="!w-full !h-full">
+            <div className={'relative m-8 mt-24 rounded-3xl bg-white'}>
               <GroupMarkers />
               <Spaces handleZoomToElement={zoomToElement} listView={false} />
               <Plan />
