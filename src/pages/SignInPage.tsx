@@ -1,5 +1,5 @@
 import { ClerkLoading, SignedOut, SignIn } from '@clerk/clerk-react'
-import AuthWrapper from './AuthWrapper'
+import AuthWrapper from '../layouts/AuthLayout'
 
 const SignInPage = () => {
   return (

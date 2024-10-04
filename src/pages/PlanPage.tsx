@@ -2,7 +2,7 @@ import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 import GroupMarkers from '../components/group/GroupMarkers.tsx'
 import Plan from '../components/plan/Plan.tsx'
 import Spaces from '../components/space/Spaces.tsx'
-import Layout from '../partials/Layout.tsx'
+import Layout from '../layouts/Layout.tsx'
 
 const PlanPage = () => {
   return (

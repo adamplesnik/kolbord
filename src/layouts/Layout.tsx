@@ -4,9 +4,9 @@ import { HTMLAttributes } from 'react'
 import { Link } from 'react-router-dom'
 import Heading from '../components/basic/Heading'
 import Logo from '../components/basic/Logo'
+import MenuBar from '../components/partials/MenuBar'
+import Sidebar from '../components/partials/Sidebar'
 import UserMenu from '../components/user/UserMenu'
-import MenuBar from './MenuBar'
-import Sidebar from './Sidebar'
 
 const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) => {
   return (

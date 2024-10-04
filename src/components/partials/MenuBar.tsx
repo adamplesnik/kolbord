@@ -1,9 +1,9 @@
 import { useAuth } from '@clerk/clerk-react'
 import { List, Map, User2 } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-import Button from '../components/basic/Button'
-import PlanDateSelector from '../components/plan/PlanDateSelector'
-import PlanSwitcher from '../components/plan/PlanSwitcher'
+import Button from '../basic/Button'
+import PlanDateSelector from '../plan/PlanDateSelector'
+import PlanSwitcher from '../plan/PlanSwitcher'
 
 const MenuBar = () => {
   const { orgId } = useAuth()

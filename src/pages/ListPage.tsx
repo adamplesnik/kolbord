@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import Spaces from '../components/space/Spaces.tsx'
-import Layout from '../partials/Layout.tsx'
+import Layout from '../layouts/Layout.tsx'
 import { ZoneType } from '../types/zoneType'
 
 const ListPage = () => {

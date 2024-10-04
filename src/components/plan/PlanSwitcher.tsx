@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useContext } from 'react'
-import { useIsAdmin } from '../../auth/useIsAdmin.ts'
+import { useIsAdmin } from '../../hooks/useIsAdmin.ts'
 import { useZone } from '../../hooks/useZone.ts'
 import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'

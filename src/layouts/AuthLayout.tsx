@@ -6,7 +6,7 @@ import Anchor from '../components/basic/Anchor'
 import Logo from '../components/basic/Logo'
 import Paragraph from '../components/basic/Paragraph'
 import Skeleton from '../components/basic/Skeleton'
-import AuthFooter from './AuthFooter'
+import Footer from '../components/partials/Footer'
 
 const skeletonCollection = ['96%', '100%', '92%', '55%', '100%', '93%', '87%', '55%']
 
@@ -47,7 +47,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
           )}
         </div>
       </div>
-      <AuthFooter />
+      <Footer />
     </div>
   )
 }

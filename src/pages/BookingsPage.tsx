@@ -1,5 +1,5 @@
 import MyBookings from '../components/user/MyBookings'
-import Layout from '../partials/Layout'
+import Layout from '../layouts/Layout'
 
 const BookingsPage = () => {
   return (
