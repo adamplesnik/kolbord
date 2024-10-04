@@ -2,8 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
+import { useZone } from '../../hooks/useZone'
 import { GroupType } from '../../types/groupType'
-import { useZone } from '../plan/useZone'
 import GroupMarker from './GroupMarker'
 
 const GroupMarkers = () => {

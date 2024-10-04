@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider.tsx'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceBooking from './SpaceBooking.tsx'
 import { SpaceFeatures } from './SpaceFeatures.tsx'

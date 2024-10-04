@@ -3,12 +3,12 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { HTMLAttributes, useEffect } from 'react'
+import { useZone } from '../../hooks/useZone.ts'
 import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useZone } from '../plan/useZone.ts'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 
 const SpaceEdit = ({ space }: SpaceEditProps) => {

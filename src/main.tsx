@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SignInPage from './auth/SignInPage.tsx'
 import SignUpPage from './auth/SignUpPage.tsx'
-import ProviderWrapper from './context/ProviderWrapper.tsx'
 import './index.css'
 import BookingsPage from './pages/BookingsPage.tsx'
 import ListPage from './pages/ListPage.tsx'
 import PlanPage from './pages/PlanPage.tsx'
+import ProviderWrapper from './providers/ProviderWrapper.tsx'
 
 const router = createBrowserRouter([
   {

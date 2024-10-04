@@ -2,9 +2,9 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { useZone } from '../../hooks/useZone'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
-import { useZone } from '../plan/useZone'
 
 const GroupAdd = () => {
   const { getToken, orgId } = useAuth()

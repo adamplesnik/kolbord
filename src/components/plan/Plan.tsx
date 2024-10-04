@@ -3,10 +3,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
 import { useEffect } from 'react'
+import { useZone } from '../../hooks/useZone'
 import { ZoneType } from '../../types/zoneType'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Loading from '../basic/Loading'
-import { useZone } from './useZone'
 
 const Plan = () => {
   const { getToken } = useAuth()

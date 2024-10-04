@@ -3,13 +3,13 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useContext, useEffect } from 'react'
-import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider'
+import { useZone } from '../../hooks/useZone'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useZone } from '../plan/useZone'
 
 const GroupDetail = () => {
   const { zoneId } = useZone()

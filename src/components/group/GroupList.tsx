@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
-import { SidebarContext, SidebarContextType } from '../../context/SidebarContextProvider'
+import { useZone } from '../../hooks/useZone'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
-import { useZone } from '../plan/useZone'
 
 const GroupList = () => {
   const { zoneId } = useZone()

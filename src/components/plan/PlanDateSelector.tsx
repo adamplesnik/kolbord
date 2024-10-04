@@ -1,7 +1,7 @@
 import { CalendarDays } from 'lucide-react'
 import { useContext } from 'react'
 import Calendar from 'react-calendar'
-import { DateContext, DateContextType } from '../../context/DateContextProvider'
+import { DateContext, DateContextType } from '../../providers/DateContextProvider'
 import Button from '../basic/Button'
 import CustomTooltip from '../basic/CustomTooltip'
 

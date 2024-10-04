@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { DateContext, DateContextType } from '../../context/DateContextProvider.tsx'
+import { DateContext, DateContextType } from '../../providers/DateContextProvider.tsx'
 import SpaceBookingDay from './SpaceBookingDay.tsx'
 
 const SpaceBooking = () => {

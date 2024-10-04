@@ -11,8 +11,8 @@ import PlanEditor from '../components/plan/PlanEditor'
 import SpaceDelete from '../components/space/SpaceDelete'
 import SpaceDetail from '../components/space/SpaceDetail'
 import SpaceEdit from '../components/space/SpaceEdit'
-import { EditModeContext, EditModeContextType } from '../context/EditModeContextProvider'
-import { SidebarContext, SidebarContextType } from '../context/SidebarContextProvider'
+import { EditModeContext, EditModeContextType } from '../providers/EditModeContextProvider'
+import { SidebarContext, SidebarContextType } from '../providers/SidebarContextProvider'
 
 const Sidebar = () => {
   const { isAdmin } = useIsAdmin()

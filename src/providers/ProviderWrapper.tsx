@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PropsWithChildren } from 'react'
-import ClerkProviderWrapper from '../auth/ClerkProviderWrapper'
+import ClerkProviderWrapper from './ClerkProviderWrapper'
 import DateContextProvider from './DateContextProvider'
 import EditModeContextProvider from './EditModeContextProvider'
 import SidebarContextProvider from './SidebarContextProvider'

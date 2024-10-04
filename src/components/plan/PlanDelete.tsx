@@ -2,10 +2,10 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useState } from 'react'
+import { useZone } from '../../hooks/useZone'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
-import { useZone } from './useZone'
 
 const PlanDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
