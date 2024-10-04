@@ -62,7 +62,7 @@ const MyBookings = () => {
         {bookingDates.length < 1 && <Empty Icon={ListX} message="You have no bookings." />}
         {bookingDates &&
           bookingDates?.map((set, i) => (
-            <>
+            <Fragment key={`booking_${i}`}>
               <div
                 className="flex flex-col gap-8 md:flex-row md:items-stretch"
                 key={`my_booking_${set}_${i}`}
@@ -84,7 +84,6 @@ const MyBookings = () => {
                                     onClick={() =>
                                       setSidebarState({
                                         title: booking.space?.value.name,
-                                        space: booking.space?.value,
                                       })
                                     }
                                   >
@@ -119,7 +118,7 @@ const MyBookings = () => {
                 ))}
               </div>
               <Separator />
-            </>
+            </Fragment>
           ))}
       </div>
     </div>
