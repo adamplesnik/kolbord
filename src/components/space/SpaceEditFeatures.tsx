@@ -2,9 +2,9 @@ import { useAuth } from '@clerk/clerk-react'
 import { FieldApi } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import clsx from 'clsx'
 import { Check, Plus, Trash2 } from 'lucide-react'
 import { FeatureType, RelationshipType, SpaceType } from '../../types/spaceType'
-import { addWithSpace } from '../../utils/addWithSpace'
 import Badge from '../basic/Badge'
 
 const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
@@ -48,27 +48,27 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
 
           return (
             <Badge
-              className={
-                'group flex cursor-pointer gap-1 truncate border hover:bg-slate-200 active:bg-slate-300' +
-                addWithSpace(isActive ? 'border-slate-400' : 'border-transparent')
-              }
+              className={clsx(
+                'group flex cursor-pointer gap-1 truncate border hover:bg-slate-200 active:bg-slate-300',
+                isActive ? 'border-slate-400' : 'border-transparent'
+              )}
               // onMouseLeave={() => isActive && setMouseOut(true)}
               onClick={onClick}
               key={`${feature.id}_${feature.name}`}
             >
               <span
-                className={
-                  '-mt-px flex flex-col self-start transition-transform duration-500' +
-                  addWithSpace(isActive ? '-translate-y-8' : 'translate-y-0') +
-                  addWithSpace(isActive && 'group-hover:-translate-y-16')
-                }
+                className={clsx(
+                  '-mt-px flex flex-col self-start transition-transform duration-500',
+                  isActive ? '-translate-y-8' : 'translate-y-0',
+                  isActive && 'group-hover:-translate-y-16'
+                )}
               >
                 <Plus
                   strokeWidth={2.5}
-                  className={
-                    'size-4 h-8 text-emerald-600' +
-                    addWithSpace(isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100')
-                  }
+                  className={clsx(
+                    'size-4 h-8 text-emerald-600',
+                    isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'
+                  )}
                 />
                 <Check strokeWidth={2} className="size-4 h-8 text-slate-800" />
                 <Trash2 strokeWidth={1.5} className="size-4 h-8 text-pink-600" />

@@ -1,6 +1,6 @@
+import clsx from 'clsx'
 import { LucideIcon } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
 
 const Button = ({
   children,
@@ -27,29 +27,21 @@ const Button = ({
       disabled={disabled}
       type={type}
       onClick={onClick}
-      className={
-        'h-8 items-center gap-2 rounded p-2 transition-colors' +
-        addWithSpace(
-          disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer'
-        ) +
-        addWithSpace(active ? 'font-bold' : '') +
-        addWithSpace(styling[buttonType]) +
-        addWithSpace(className) +
-        addWithSpace(asBlock ? 'flex justify-center' : 'inline-flex w-fit')
-      }
+      className={clsx(
+        'h-8 items-center gap-2 rounded p-2 transition-colors',
+        disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer',
+        active ? 'font-bold' : '',
+        styling[buttonType],
+        className,
+        asBlock ? 'flex justify-center' : 'inline-flex w-fit'
+      )}
       {...props}
     >
       {Icon && (
-        <Icon
-          strokeWidth={2}
-          className={'size-5' + addWithSpace(iconClassName)}
-          aria-hidden={true}
-        />
+        <Icon strokeWidth={2} className={clsx('size-5', iconClassName)} aria-hidden={true} />
       )}
       {children}
-      {IconRight && (
-        <IconRight className={'size-5' + addWithSpace(iconClassName)} aria-hidden={true} />
-      )}
+      {IconRight && <IconRight className={clsx('size-5', iconClassName)} aria-hidden={true} />}
     </button>
   )
 }

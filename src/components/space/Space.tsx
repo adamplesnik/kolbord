@@ -1,7 +1,7 @@
+import clsx from 'clsx'
 import { ArrowRight } from 'lucide-react'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
-import { addWithSpace } from '../../utils/addWithSpace'
 import { humanTime } from '../../utils/human.ts'
 import Button from '../basic/Button.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
@@ -33,15 +33,13 @@ const Space = ({
           id={`space_${id.toFixed()}`}
           onClick={onClick}
           data-tooltip-id={tooltipId}
-          className={
-            'group absolute cursor-pointer rounded-full p-2 ring transition-colors hover:z-50' +
-            addWithSpace(
-              active ?
-                'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
-              : 'ring-4 ring-transparent hover:bg-slate-400/50 hover:ring-white'
-            ) +
-            addWithSpace(className)
-          }
+          className={clsx(
+            'group absolute cursor-pointer rounded-full p-2 ring transition-colors hover:z-50',
+            active ?
+              'z-40 bg-slate-700/50 ring-2 ring-slate-600 ring-offset-4 hover:ring-slate-800'
+            : 'ring-4 ring-transparent hover:bg-slate-400/50 hover:ring-white',
+            className
+          )}
           style={{
             top: y,
             left: x,

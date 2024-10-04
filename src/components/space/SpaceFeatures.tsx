@@ -1,6 +1,6 @@
+import clsx from 'clsx'
 import { Fragment, HTMLAttributes } from 'react'
 import { RelationshipType } from '../../types/spaceType'
-import { addWithSpace } from '../../utils/addWithSpace.ts'
 import Badge from '../basic/Badge'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import SpaceFeatureIcon from './SpaceFeatureIcon.tsx'
@@ -15,7 +15,7 @@ export const SpaceFeatures = ({
       {features.map((feature) => (
         <Fragment key={feature.value?.id}>
           <div data-tooltip-id={`feature${feature.value?.id}`}>
-            <Badge className={'w-8 *:stroke-1.5' + addWithSpace(badgeClassName)}>
+            <Badge className={clsx('w-8 *:stroke-1.5', badgeClassName)}>
               {feature.value?.lucideIcon && <SpaceFeatureIcon name={feature.value.lucideIcon} />}
             </Badge>
           </div>

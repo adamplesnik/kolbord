@@ -1,12 +1,12 @@
+import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
 
 const Logo = ({
   className,
   withoutText = false,
 }: { withoutText?: boolean } & HTMLAttributes<HTMLHeadingElement>) => {
   return (
-    <div className={'inline-block' + addWithSpace(className)}>
+    <div className={clsx('inline-block', className)}>
       {withoutText ?
         <svg
           height="100%"
