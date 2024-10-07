@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
-import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
 
@@ -38,7 +37,6 @@ const PlanDelete = () => {
       queryClient.invalidateQueries({
         queryKey: ['zone'],
       })
-      localStorage.removeItem(LATEST_PLAN_ID)
     },
   })
 

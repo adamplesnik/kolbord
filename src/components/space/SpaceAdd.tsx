@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react'
 import { useContext } from 'react'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { SpaceType } from '../../types/spaceType'
-import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import { LATEST_SPACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
 
 const SpaceAdd = ({ planId }: SpaceAddProps) => {
@@ -13,7 +13,7 @@ const SpaceAdd = ({ planId }: SpaceAddProps) => {
   const { getToken, orgId } = useAuth()
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
-  const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
+  const latestPlaceMetadata = localStorage.getItem(LATEST_SPACE_METADATA)
   const placeMetadata = '500, 500'
 
   const [x, y] =

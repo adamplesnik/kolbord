@@ -6,7 +6,7 @@ import { HTMLAttributes, useContext, useEffect } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
-import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import { LATEST_SPACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
@@ -76,7 +76,7 @@ const SpaceEdit = ({ space }: SpaceEditProps) => {
 
   const saveLatestMetadata = (data: SpaceType) => {
     const metadata = [data.x, data.y]
-    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+    localStorage.setItem(LATEST_SPACE_METADATA, metadata.join())
   }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
