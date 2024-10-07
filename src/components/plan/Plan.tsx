@@ -7,7 +7,7 @@ const Plan = () => {
 
   return (
     <>
-      <Loading loading={isLoading} />
+      {isLoading && <Loading />}
       {zone && zone.svg && (
         <img
           src={`data:image/svg+xml;utf8,${encodeURIComponent(zone.svg)}`}

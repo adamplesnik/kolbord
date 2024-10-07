@@ -7,7 +7,9 @@ import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvide
 import Button from '../basic/Button'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import Heading from '../basic/Heading.tsx'
+import Loading from '../basic/Loading.tsx'
 import Ping from '../basic/Ping'
+import Skeleton from '../basic/Skeleton.tsx'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
@@ -17,7 +19,7 @@ const PlanSwitcher = () => {
   const { isAdmin } = useIsAdmin()
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
-  const { zone, setZone, zones } = useContext(ZoneContext) as ZoneContextType
+  const { zone, setZone, zones, isLoading } = useContext(ZoneContext) as ZoneContextType
 
   return (
     <>
@@ -28,6 +30,12 @@ const PlanSwitcher = () => {
               Create new zone
               <Ping className="-mr-[1.6rem]" />
             </div>
+          )}
+          {isLoading && (
+            <>
+              <Loading />
+              <Skeleton width="100px" />
+            </>
           )}
           {zones &&
             zones.map((z) =>
