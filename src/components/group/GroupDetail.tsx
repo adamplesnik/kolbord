@@ -3,8 +3,8 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useContext, useEffect } from 'react'
-import { useZone } from '../../hooks/useZone'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 import CheckboxWithLabel from '../basic/CheckboxWithLabel'
@@ -12,10 +12,10 @@ import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 
 const GroupDetail = () => {
-  const { zoneId } = useZone()
   const { getToken } = useAuth()
   const { sidebarState } = useContext(SidebarContext) as SidebarContextType
   const group = sidebarState.group
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const { Field, handleSubmit, reset } = useForm<GroupType>({
     onSubmit: async ({ value }) => {
@@ -60,7 +60,7 @@ const GroupDetail = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['groups', zoneId],
+        queryKey: ['groups', zone?.id],
       })
       queryClient.invalidateQueries({
         queryKey: ['group', group?.id],

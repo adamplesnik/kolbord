@@ -3,8 +3,8 @@ import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useContext, useEffect } from 'react'
-import { useZone } from '../../hooks/useZone'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
@@ -12,10 +12,10 @@ import InputWithLabel from '../basic/InputWithLabel'
 
 const PlanEditor = () => {
   const { getToken } = useAuth()
-  const { zone, zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
   useEffect(() => {
-    setSidebarState({ title: zone?.data.name })
+    setSidebarState({ title: zone?.name })
   }, [zone, setSidebarState])
 
   const updatePlan = async (
@@ -38,7 +38,7 @@ const PlanEditor = () => {
   const queryClient = useQueryClient()
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: ZoneType) => updatePlan(zoneId, data.name, data.svg),
+    mutationFn: (data: ZoneType) => updatePlan(zone?.id, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
       await queryClient.cancelQueries({ queryKey: ['zone'] })
@@ -58,15 +58,15 @@ const PlanEditor = () => {
       mutate(value)
     },
     defaultValues: {
-      id: zone?.data.id,
-      name: zone?.data.name,
-      svg: zone?.data.svg,
+      id: zone?.id,
+      name: zone?.name,
+      svg: zone?.svg,
     },
   })
 
   useEffect(() => {
     reset()
-  }, [reset, zoneId])
+  }, [reset, zone?.id])
 
   return (
     <>

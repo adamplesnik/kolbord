@@ -2,13 +2,14 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
-import { useZone } from '../../hooks/useZone'
+import { useContext } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 
 const GroupAdd = () => {
   const { getToken, orgId } = useAuth()
-  const { zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const addGroup = async (zoneId: number | undefined): Promise<{ data: { docs: GroupType[] } }> => {
     return await axios.post(
@@ -36,10 +37,10 @@ const GroupAdd = () => {
   }
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => addGroup(zoneId),
+    mutationFn: () => addGroup(zone?.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['groups', zoneId],
+        queryKey: ['groups', zone?.id],
       })
     },
   })

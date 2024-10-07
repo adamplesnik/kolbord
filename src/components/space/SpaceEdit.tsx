@@ -2,8 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { HTMLAttributes, useEffect } from 'react'
-import { useZone } from '../../hooks/useZone.ts'
+import { HTMLAttributes, useContext, useEffect } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
 import { LATEST_PLACE_METADATA } from '../../utils/constants'
@@ -14,10 +14,10 @@ import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 const SpaceEdit = ({ space }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  const { zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const { data: allGroups } = useQuery<{ data: { docs: GroupType[] } }>({
-    queryKey: ['groups', zoneId],
+    queryKey: ['groups', zone?.id],
     enabled: true,
   })
 
@@ -86,10 +86,10 @@ const SpaceEdit = ({ space }: SpaceEditProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['spaces', zoneId],
+        queryKey: ['spaces', zone?.id],
       })
       queryClient.invalidateQueries({
-        queryKey: ['groups', zoneId],
+        queryKey: ['groups', zone?.id],
       })
     },
   })

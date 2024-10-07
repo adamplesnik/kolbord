@@ -2,14 +2,15 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
-import { useZone } from '../../hooks/useZone'
+import { useContext } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
 import GroupMarker from './GroupMarker'
 
 const GroupMarkers = () => {
   const editMode = false
   const { getToken } = useAuth()
-  const { zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const loadGroupsForPlan = async (
     zoneId: number | undefined
@@ -29,9 +30,9 @@ const GroupMarkers = () => {
   }
 
   const { data: groups } = useQuery({
-    queryKey: ['groups', zoneId],
-    enabled: zoneId != undefined,
-    queryFn: () => loadGroupsForPlan(zoneId),
+    queryKey: ['groups', zone?.id],
+    enabled: zone?.id != undefined,
+    queryFn: () => loadGroupsForPlan(zone?.id),
   })
 
   return (

@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
-import { useZone } from '../../hooks/useZone'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
 import Button from '../basic/Button'
 
 const GroupList = () => {
-  const { zoneId } = useZone()
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const { zone } = useContext(ZoneContext) as ZoneContextType
   const { data } = useQuery<{ data: { docs: GroupType[] } }>({
-    queryKey: ['groups', zoneId],
+    queryKey: ['groups', zone?.id],
     enabled: true,
   })
 

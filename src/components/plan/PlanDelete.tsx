@@ -1,16 +1,16 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useState } from 'react'
-import { useZone } from '../../hooks/useZone'
+import { useContext, useState } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { LATEST_PLAN_ID } from '../../utils/constants'
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
 
 const PlanDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
-  const { zone, zoneId } = useZone()
   const { getToken } = useAuth()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const deletePlan = async (id: number | undefined) => {
     try {
@@ -27,7 +27,7 @@ const PlanDelete = () => {
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlan(zoneId),
+    mutationFn: () => deletePlan(zone?.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['zones'],
@@ -62,7 +62,7 @@ const PlanDelete = () => {
             type="text"
             defaultValue={''}
             className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-            onChange={(e) => setDeleteStep(e.target.value === zone?.data.name ? 2 : 1)}
+            onChange={(e) => setDeleteStep(e.target.value === zone?.name ? 2 : 1)}
           ></input>
           <div className="flex justify-between">
             <Button disabled={deleteStep < 2} buttonType="danger" onClick={() => mutate()}>
