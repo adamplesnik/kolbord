@@ -4,6 +4,7 @@ import axios from 'axios'
 import qs from 'qs'
 import { PropsWithChildren, createContext, useState } from 'react'
 import { ZoneType } from '../types/zoneType'
+import { LATEST_PLAN_ID } from '../utils/constants'
 
 const loadZones = async (
   getToken: () => Promise<string | null>
@@ -41,8 +42,10 @@ export type ZoneContextType = {
 export const ZoneContext = createContext<ZoneContextType | null>(null)
 
 const ZoneContextProvider = ({ children }: PropsWithChildren) => {
+  const savedZoneId = Number(localStorage.getItem(LATEST_PLAN_ID))
   const { getToken } = useAuth()
-  const [zoneId, setZoneId] = useState<number | undefined>(undefined)
+
+  const [zoneId, setZoneId] = useState<number | undefined>(savedZoneId ? savedZoneId : undefined)
 
   const { data: zonesQuery } = useQuery({
     queryKey: ['zones'],
@@ -61,6 +64,7 @@ const ZoneContextProvider = ({ children }: PropsWithChildren) => {
 
   const setZone = (z: ZoneType | undefined) => {
     setZoneId(z?.id)
+    z?.id && localStorage.setItem(LATEST_PLAN_ID, String(z.id))
   }
 
   return (
