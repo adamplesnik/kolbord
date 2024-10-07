@@ -7,7 +7,7 @@ const GroupMarker = ({ groupName, groupDescription, x, y, className }: GroupMark
   return (
     <div
       className={clsx(
-        'absolute z-50 rounded-lg border border-2 border-transparent bg-slate-600 py-0.5 px-1 text-xs font-medium text-white transition-colors',
+        'absolute z-50 rounded-lg border border-2 border-transparent bg-zinc-600 py-0.5 px-1 text-xs font-medium text-white transition-colors',
         className
       )}
       style={{ left: x, top: y }}

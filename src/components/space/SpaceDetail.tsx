@@ -13,7 +13,7 @@ const SpaceDetail = () => {
       <div className="flex items-center gap-2">
         {space?.group && (
           <>
-            <span className="text-sm text-slate-600" data-tooltip-id="badge">
+            <span className="text-sm text-zinc-600" data-tooltip-id="badge">
               {space.group.value?.name}
             </span>
             <CustomTooltip id="badge" className="z-50">

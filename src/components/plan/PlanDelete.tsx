@@ -59,7 +59,7 @@ const PlanDelete = () => {
           <input
             type="text"
             defaultValue={''}
-            className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+            className="rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
             onChange={(e) => setDeleteStep(e.target.value === zone?.name ? 2 : 1)}
           ></input>
           <div className="flex justify-between">

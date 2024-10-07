@@ -29,7 +29,7 @@ const InputWithLabel = ({
             'w-full rounded py-1 px-2 text-sm',
             hasError ?
               'border-red-600 bg-red-50'
-            : 'border-slate-400 bg-slate-50 hover:border-slate-600'
+            : 'border-zinc-400 bg-zinc-50 hover:border-zinc-600'
           )}
           type={showPassword ? 'text' : inputType}
           value={value}

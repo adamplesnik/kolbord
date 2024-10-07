@@ -20,7 +20,7 @@
   }
 
   .react-calendar button {
-    @apply size-8 cursor-pointer rounded border border-transparent hover:bg-slate-500;
+    @apply size-8 cursor-pointer rounded border border-transparent hover:bg-zinc-500;
   }
 
   .react-calendar__month-view__days__day--neighboringMonth {

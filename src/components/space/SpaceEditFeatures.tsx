@@ -49,8 +49,8 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
           return (
             <Badge
               className={clsx(
-                'group flex cursor-pointer gap-1 truncate border hover:bg-slate-200 active:bg-slate-300',
-                isActive ? 'border-slate-400' : 'border-transparent'
+                'group flex cursor-pointer gap-1 truncate border hover:bg-zinc-200 active:bg-zinc-300',
+                isActive ? 'border-zinc-400' : 'border-transparent'
               )}
               // onMouseLeave={() => isActive && setMouseOut(true)}
               onClick={onClick}
@@ -70,7 +70,7 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
                     isActive ? 'opacity-100' : 'opacity-60 group-hover:opacity-100'
                   )}
                 />
-                <Check strokeWidth={2} className="size-4 h-8 text-slate-800" />
+                <Check strokeWidth={2} className="size-4 h-8 text-zinc-800" />
                 <Trash2 strokeWidth={1.5} className="size-4 h-8 text-pink-600" />
               </span>
               {feature.name}

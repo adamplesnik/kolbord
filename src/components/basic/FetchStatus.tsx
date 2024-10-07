@@ -6,7 +6,7 @@ const FetchStatus = ({ isPending, isSuccess, isError }: FetchStatusProps) => {
     <div className="relative flex">
       <CloudUpload
         className={clsx(
-          'absolute top-0 right-0 size-4 text-slate-500 transition-opacity',
+          'absolute top-0 right-0 size-4 text-zinc-500 transition-opacity',
           isPending ? 'opacity-100' : 'opacity-0'
         )}
       />

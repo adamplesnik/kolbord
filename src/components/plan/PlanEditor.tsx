@@ -100,7 +100,7 @@ const PlanEditor = () => {
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
                 required
-                className="h-64 rounded border-slate-400 bg-slate-50 py-1 px-2 font-mono text-sm hover:border-slate-600"
+                className="h-64 rounded border-zinc-400 bg-zinc-50 py-1 px-2 font-mono text-sm hover:border-zinc-600"
                 value={state.value}
               />
             </div>

@@ -72,7 +72,7 @@ const MyBookings = () => {
                 {bookingZones?.map((zone) => (
                   <>
                     <div className="flex max-w-lg flex-1 flex-col gap-4 md:py-8">
-                      <span className="pb-2 pl-2 text-sm text-slate-500">{zone}</span>
+                      <span className="pb-2 pl-2 text-sm text-zinc-500">{zone}</span>
                       {myBookings?.data.docs.map(
                         (booking, i) =>
                           set === humanDate(booking.from) &&
@@ -90,7 +90,7 @@ const MyBookings = () => {
                                     {booking.space?.value.name}
                                   </Button>
                                   {booking.space.value.group && (
-                                    <span className="text-sm font-normal text-slate-400">
+                                    <span className="text-sm font-normal text-zinc-400">
                                       {booking.space.value.group.value.name}
                                     </span>
                                   )}
@@ -103,7 +103,7 @@ const MyBookings = () => {
                                 >
                                   {humanTime(booking.from)}
                                   <ArrowRight
-                                    className="size-4 text-slate-400 group-hover:text-slate-200"
+                                    className="size-4 text-zinc-400 group-hover:text-zinc-200"
                                     strokeWidth={1}
                                   />
                                   {humanTime(booking.to)}

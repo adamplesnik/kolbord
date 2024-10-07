@@ -33,10 +33,10 @@ const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           organizationListPreviewButton: '!text-red-400',
           header: '!hidden',
           organizationPreviewMainIdentifier: '!text-sm',
-          organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
+          organizationPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
           scrollBox: '!rounded-none',
           userPreviewMainIdentifier: '*:!text-sm',
-          userPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
+          userPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
         },
       }}
     >

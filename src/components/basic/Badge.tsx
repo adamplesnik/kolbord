@@ -12,7 +12,7 @@ const Badge = ({
   return (
     <div
       className={clsx(
-        'flex h-8 items-center justify-center rounded bg-slate-100 px-1 text-sm text-slate-600',
+        'flex h-8 items-center justify-center rounded bg-zinc-100 px-1 text-sm text-zinc-600',
         className
       )}
       data-tooltip-content={dataTooltipContent}

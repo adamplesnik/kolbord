@@ -17,8 +17,8 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary: 'bg-slate-800 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
-    secondary: 'hover:bg-slate-300/50 active:bg-slate-300',
+    primary: 'bg-zinc-800 text-white transition-color hover:bg-zinc-700 active:bg-zinc-950',
+    secondary: 'hover:bg-zinc-300/50 active:bg-zinc-300',
     danger: 'bg-red-600 text-white hover:bg-red-500 active:bg-red-800',
   }
 

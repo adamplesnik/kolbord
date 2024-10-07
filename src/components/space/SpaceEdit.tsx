@@ -138,7 +138,7 @@ const SpaceEdit = ({ space }: SpaceEditProps) => {
                       },
                     })
                   }
-                  className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                  className="w-full appearance-none rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
                   value={field?.state.value ? field.state.value?.value?.id : ''}
                 >
                   <option value={0}>(none)</option>
@@ -188,7 +188,7 @@ const SpaceEdit = ({ space }: SpaceEditProps) => {
                 <span className={'text-sm font-bold'}>Slots</span>
                 <select
                   required
-                  className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                  className="w-full appearance-none rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
                   value={state.value}
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}

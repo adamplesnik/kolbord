@@ -102,10 +102,10 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
         className={clsx(
           'group relative flex h-8 flex-1 items-center justify-center gap-1 overflow-clip rounded-full border p-1 text-sm font-medium transition-colors',
           !isBooked &&
-            'cursor-pointer border-slate-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900',
+            'cursor-pointer border-zinc-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900',
           isBooked && !isBookedByMe && 'border-rose-300 bg-rose-50',
           isBookedByMe &&
-            'cursor-pointer border-slate-700 bg-slate-500 text-white hover:bg-slate-700 active:bg-slate-800',
+            'cursor-pointer border-zinc-700 bg-zinc-500 text-white hover:bg-zinc-700 active:bg-zinc-800',
           beforeNow && 'pointer-events-none opacity-30'
         )}
         {...props}
@@ -114,8 +114,8 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
         <div
           className={clsx(
             'flex flex-col transition-transform duration-500',
-            isBooked ? 'translate-y-0' : 'translate-y-8 text-slate-600 group-hover:text-slate-300',
-            isBookedByMe && mouseOut && 'translate-y-0 text-slate-200 group-hover:-translate-y-8'
+            isBooked ? 'translate-y-0' : 'translate-y-8 text-zinc-600 group-hover:text-zinc-300',
+            isBookedByMe && mouseOut && 'translate-y-0 text-zinc-200 group-hover:-translate-y-8'
           )}
         >
           <ArrowRight className="h-8 w-4" strokeWidth={1.5} />
