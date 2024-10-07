@@ -2,14 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from 'react'
+import { PropsWithChildren, createContext, useState } from 'react'
 import { ZoneType } from '../types/zoneType'
 
 const loadZones = async (
@@ -40,7 +33,7 @@ const loadZone = async (
 
 export type ZoneContextType = {
   zone: ZoneType | undefined
-  setZone: Dispatch<SetStateAction<ZoneType | undefined>>
+  setZone: (z: ZoneType | undefined) => void
   zones: ZoneType[] | undefined
   isLoading: boolean
 }
@@ -49,7 +42,7 @@ export const ZoneContext = createContext<ZoneContextType | null>(null)
 
 const ZoneContextProvider = ({ children }: PropsWithChildren) => {
   const { getToken } = useAuth()
-  const [zone, setZone] = useState<ZoneType | undefined>(undefined)
+  const [zoneId, setZoneId] = useState<number | undefined>(undefined)
 
   const { data: zonesQuery } = useQuery({
     queryKey: ['zones'],
@@ -57,17 +50,18 @@ const ZoneContextProvider = ({ children }: PropsWithChildren) => {
   })
 
   const { data: zoneQuery, isLoading } = useQuery({
-    queryKey: ['zone', zone?.id],
-    enabled: zone?.id != undefined,
-    queryFn: () => loadZone(zone?.id, getToken),
+    queryKey: ['zone', zoneId],
+    enabled: zoneId != undefined,
+    queryFn: () => loadZone(zoneId, getToken),
     staleTime: 1000 * 60 * 10,
   })
 
-  useEffect(() => {
-    setZone(zoneQuery?.data)
-  }, [zoneQuery, zone, setZone])
-
   const zones = zonesQuery?.data.docs
+  const zone = zoneQuery?.data
+
+  const setZone = (z: ZoneType | undefined) => {
+    setZoneId(z?.id)
+  }
 
   return (
     <ZoneContext.Provider value={{ zone, setZone, zones, isLoading }}>
