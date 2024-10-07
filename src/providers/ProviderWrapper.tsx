@@ -4,6 +4,7 @@ import ClerkProviderWrapper from './ClerkProviderWrapper'
 import DateContextProvider from './DateContextProvider'
 import EditModeContextProvider from './EditModeContextProvider'
 import SidebarContextProvider from './SidebarContextProvider'
+import ZoneContextProvider from './ZoneContextProvider'
 
 const queryClient = new QueryClient()
 
@@ -13,7 +14,9 @@ const ProviderWrapper = ({ children }: PropsWithChildren) => {
       <QueryClientProvider client={queryClient}>
         <EditModeContextProvider>
           <DateContextProvider>
-            <SidebarContextProvider>{children}</SidebarContextProvider>
+            <ZoneContextProvider>
+              <SidebarContextProvider>{children}</SidebarContextProvider>
+            </ZoneContextProvider>
           </DateContextProvider>
         </EditModeContextProvider>
       </QueryClientProvider>
