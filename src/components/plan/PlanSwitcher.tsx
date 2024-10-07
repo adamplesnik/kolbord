@@ -23,26 +23,24 @@ const PlanSwitcher = () => {
 
   return (
     <>
-      <div data-tooltip-id="plansTooltip">
-        <Button IconRight={ChevronsUpDown}>
-          {zones && zones.length === 0 && (
-            <div className="flex items-center gap-2 text-pink-600">
-              Create new zone
-              <Ping className="-mr-[1.6rem]" />
-            </div>
+      <Button IconRight={ChevronsUpDown} data-tooltip-id="plansTooltip">
+        {zones && zones.length === 0 && (
+          <div className="flex items-center gap-2 text-pink-600">
+            Create new zone
+            <Ping className="-mr-[1.6rem]" />
+          </div>
+        )}
+        {isLoading && (
+          <>
+            <Loading />
+            <Skeleton width="100px" />
+          </>
+        )}
+        {zones &&
+          zones.map((z) =>
+            zone?.id === z.id ? <span key={`plan_in_switcher_${z.id}`}>{z.name}</span> : ''
           )}
-          {isLoading && (
-            <>
-              <Loading />
-              <Skeleton width="100px" />
-            </>
-          )}
-          {zones &&
-            zones.map((z) =>
-              zone?.id === z.id ? <span key={`plan_in_switcher_${z.id}`}>{z.name}</span> : ''
-            )}
-        </Button>
-      </div>
+      </Button>
       <CustomTooltip id="plansTooltip" openOnClick clickable>
         <div className="flex gap-8">
           <div className="flex flex-col gap-2">
