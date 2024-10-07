@@ -1,14 +1,13 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useContext } from 'react'
 import Spaces from '../components/space/Spaces.tsx'
 import Layout from '../layouts/Layout.tsx'
-import { ZoneType } from '../types/zoneType'
+import { ZoneContext, ZoneContextType } from '../providers/ZoneContextProvider.tsx'
 
 const ListPage = () => {
-  const queryClient = useQueryClient()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
-  const zone: { data: ZoneType } | undefined = queryClient.getQueryData(['zone'])
   return (
-    <Layout title={zone && zone.data.name}>
+    <Layout title={zone && zone.name}>
       <div className="mx-auto flex max-w-5xl flex-col gap-1 px-8 pb-24">
         <Spaces listView={true} />
       </div>

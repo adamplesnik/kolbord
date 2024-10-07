@@ -32,8 +32,8 @@ const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) =>
           )}
           {children}
         </div>
-        <Sidebar />
       </div>
+      <Sidebar />
     </>
   )
 }

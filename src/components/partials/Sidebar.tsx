@@ -33,11 +33,11 @@ const Sidebar = () => {
           exit={{ x: 320 }}
           transition={{ ease: 'anticipate', duration: 0.3 }}
           className={clsx(
-            'sticky top-0 flex max-h-screen w-xs shrink-0 flex-col overflow-y-scroll border-l border-zinc-300 p-8 pt-14',
+            'peer fixed top-16 right-2 bottom-2 z-10 flex max-h-screen w-xs flex-col overflow-y-scroll rounded-lg border border-zinc-400 bg-white/95 p-4 pt-0 shadow-xl',
             sidebarOpen ? 'block' : 'hidden'
           )}
         >
-          <div className="sticky top-0 z-20 -mx-8 flex items-baseline gap-2 bg-transparent py-4 pt-6 px-8 backdrop-blur-sm">
+          <div className="sticky top-0 z-20 -mx-4 mb-6 flex items-baseline gap-2 bg-transparent bg-gradient-to-b from-white/90 from-60% pt-4 px-4 pb-2">
             {sidebarState.title && <Heading size={3}>{sidebarState.title}</Heading>}
             <div className="flex-1"></div>
             <Button onClick={closeSidebar}>

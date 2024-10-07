@@ -10,7 +10,7 @@ const SpaceDetail = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-2 pt-2">
+      <div className="flex items-center gap-2">
         {space?.group && (
           <>
             <span className="text-sm text-slate-600" data-tooltip-id="badge">
