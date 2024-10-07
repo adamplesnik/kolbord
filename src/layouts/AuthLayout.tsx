@@ -22,7 +22,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
       <div className="flex w-full flex-col overflow-hidden md:flex-row md:gap-16">
         <div className="flex min-h-[500px] w-full max-w-sm flex-col gap-8">
           <ClerkLoading>
-            <div className="h-[500px] w-full p-8">
+            <div className="flex h-[500px] w-full flex-col gap-2 p-8">
               {skeletonCollection.map((width, key) => (
                 <Skeleton width={width} key={key} />
               ))}
