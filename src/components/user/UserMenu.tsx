@@ -1,7 +1,7 @@
 import { OrganizationSwitcher, useOrganization, UserButton, useUser } from '@clerk/clerk-react'
 import { ListChecks } from 'lucide-react'
 import EditButton from '../basic/EditButton'
-import MyBookings from './MyBookings'
+import YourBookings from './YourBookings'
 
 const pageTitle = (text: string) => {
   return `${text} / Kolbord`
@@ -28,7 +28,7 @@ const UserMenu = () => {
           label="Your bookings"
           url="custom"
           labelIcon={<ListChecks size={16} />}
-          children={<MyBookings />}
+          children={<YourBookings />}
         />
       </UserButton>
     </>

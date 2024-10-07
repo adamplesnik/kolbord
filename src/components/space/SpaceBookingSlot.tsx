@@ -105,7 +105,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
             'cursor-pointer border-zinc-300 bg-teal-50 hover:border-teal-800 hover:bg-teal-700 hover:text-white active:bg-teal-900',
           isBooked && !isBookedByMe && 'border-rose-300 bg-rose-50',
           isBookedByMe &&
-            'cursor-pointer border-zinc-700 bg-zinc-500 text-white hover:bg-zinc-700 active:bg-zinc-800',
+            'cursor-pointer border-zinc-700 bg-zinc-600 text-white hover:bg-zinc-700 active:bg-zinc-800',
           beforeNow && 'pointer-events-none opacity-30'
         )}
         {...props}
