@@ -4,7 +4,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
-import BookingsPage from './pages/BookingsPage.tsx'
 import ListPage from './pages/ListPage.tsx'
 import PlanPage from './pages/PlanPage.tsx'
 import SignInPage from './pages/SignInPage.tsx'
@@ -24,7 +23,6 @@ const router = createBrowserRouter([
 
   { path: '/plan', element: <PlanPage /> },
   { path: '/list', element: <ListPage /> },
-  { path: '/bookings', element: <BookingsPage /> },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
