@@ -24,9 +24,16 @@ const UserMenu = () => {
       <EditButton />
       <OrganizationSwitcher hidePersonal />
       <UserButton showName>
+        <UserButton.MenuItems>
+          <UserButton.Action
+            label="Your bookings"
+            labelIcon={<ListChecks size={16} />}
+            open="bookings"
+          />
+        </UserButton.MenuItems>
         <UserButton.UserProfilePage
           label="Your bookings"
-          url="custom"
+          url="bookings"
           labelIcon={<ListChecks size={16} />}
           children={<YourBookings />}
         />

@@ -10,6 +10,7 @@ import { humanDate, humanTime } from '../../utils/human'
 import DateHeading from '../basic/DateHeading'
 import Empty from '../basic/Empty'
 import Separator from '../basic/Separator'
+import PlanDateSelector from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
 const loadBookingsForUser = async (
@@ -55,8 +56,11 @@ const YourBookings = () => {
   ]
 
   return (
-    <div className="min-h-80">
-      <h1 className="mb-4 border-b border-black/5 pb-4 text-xl font-semibold">Your bookings</h1>
+    <div className="min-h-80 md:min-w-xl">
+      <div className="mb-4 flex items-center gap-4 border-b border-black/5 pb-4">
+        <h1 className="text-xl font-semibold">Your bookings</h1>
+        <PlanDateSelector />
+      </div>
       {bookingDates.length < 1 && <Empty Icon={ListX} message="You have no bookings." />}
       {bookingDates &&
         bookingDates?.map((set, i) => (
@@ -70,7 +74,7 @@ const YourBookings = () => {
               <div className="flex max-w-lg flex-1 flex-col gap-2 md:min-w-md">
                 {bookingZones?.map((zone) => (
                   <>
-                    <span className="pt-4 text-xs text-zinc-500 first-of-type:pt-0">{zone}</span>
+                    <span className="pt-2 text-xs text-zinc-500">{zone}</span>
                     {myBookings?.data.docs.map(
                       (booking, i) =>
                         set === humanDate(booking.from) &&
@@ -102,6 +106,7 @@ const YourBookings = () => {
                           </Fragment>
                         )
                     )}
+                    <div className="h-1"></div>
                     <Separator />
                   </>
                 ))}
