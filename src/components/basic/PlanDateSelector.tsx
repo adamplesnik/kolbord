@@ -18,9 +18,12 @@ const DateSelector = () => {
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>
       </div>
-      <CustomTooltip id="calendarTooltip" openOnClick clickable>
-        <Calendar onChange={(value) => setDate(value)} value={date} />
-      </CustomTooltip>
+      <CustomTooltip
+        id="calendarTooltip"
+        children={<Calendar onChange={(value) => setDate(value)} value={date} />}
+        openOnClick
+        clickable
+      />
     </>
   )
 }

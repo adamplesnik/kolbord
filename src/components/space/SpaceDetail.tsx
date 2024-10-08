@@ -16,9 +16,7 @@ const SpaceDetail = () => {
             <span className="text-sm text-zinc-600" data-tooltip-id="badge">
               {space.group.value?.name}
             </span>
-            <CustomTooltip id="badge" className="z-50">
-              {space.group.value?.description}
-            </CustomTooltip>
+            <CustomTooltip id="badge" children={space.group.value?.description}></CustomTooltip>
           </>
         )}
         {space?.features && <SpaceFeatures features={space.features} />}

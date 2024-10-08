@@ -20,9 +20,7 @@ export const SpaceFeatures = ({
             </Badge>
           </div>
           {!noTooltip && (
-            <CustomTooltip id={`feature${feature.value?.id}`} className="z-30">
-              <span className="text-sm">{feature.value?.name}</span>
-            </CustomTooltip>
+            <CustomTooltip id={`feature${feature.value?.id}`} children={feature.value?.name} />
           )}
         </Fragment>
       ))}

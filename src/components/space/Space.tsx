@@ -17,9 +17,9 @@ const SpaceBookings = ({ bookings }: { bookings: BookingType[] }) => {
     <>
       {bookings?.map((b: BookingType, i: number) => (
         <div className="flex items-center gap-1" key={`${b.id}_${i}`}>
-          <div className="flex w-28 items-center justify-evenly gap-1 text-zinc-200">
+          <div className="flex w-28 items-center justify-evenly gap-1 text-zinc-600">
             {humanTime(b.from)}
-            <ArrowRight className="size-4 text-zinc-400" strokeWidth={1} />
+            <ArrowRight className="size-4 text-zinc-500" strokeWidth={1} />
             {humanTime(b.to)}
           </div>
           <span className="font-semibold">
@@ -68,9 +68,7 @@ const Space = ({ className, bookings, listView, space }: SpaceProps) => {
           <SpaceDot bookedByMe={bookedByMe} bookedByWho={bookedByWho} bookedToday={bookedToday} />
         </div>
         {bookings && bookings?.length > 0 && (
-          <CustomTooltip id={tooltipId} className="z-10 text-sm">
-            <SpaceBookings bookings={bookings} />
-          </CustomTooltip>
+          <CustomTooltip id={tooltipId} children={<SpaceBookings bookings={bookings} />} />
         )}
       </>
     )

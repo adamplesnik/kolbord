@@ -20,7 +20,7 @@ const Badge = ({
       {...props}
     >
       {children}
-      <CustomTooltip id={dataTooltipId} className="z-20" />
+      <CustomTooltip id={dataTooltipId} />
     </div>
   )
 }

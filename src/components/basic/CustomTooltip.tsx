@@ -7,7 +7,7 @@ const CustomTooltip = ({ children, className, ...props }: ITooltip) => {
       {...props}
       opacity={0.98}
       className={clsx(
-        'absolute rounded-lg bg-white p-2 font-normal text-black shadow-lg *:[.react-tooltip-arrow]:hidden',
+        'absolute z-40 rounded-lg bg-white p-2 text-sm font-normal text-zinc-900 shadow *:[.react-tooltip-arrow]:hidden',
         className
       )}
       disableStyleInjection="core"

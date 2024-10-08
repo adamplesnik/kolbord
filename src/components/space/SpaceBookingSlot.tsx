@@ -126,11 +126,7 @@ const SpaceBookingSlot = ({ from, isBooked, spaceId, to, ...props }: SpaceBookin
       </div>
 
       {isBooked && !isBookedByMe && (
-        <CustomTooltip id={tooltipId}>
-          <span className="text-sm">
-            <UserName subject={bookedBy} />
-          </span>
-        </CustomTooltip>
+        <CustomTooltip id={tooltipId} children={<UserName subject={bookedBy} />} />
       )}
     </>
   )
