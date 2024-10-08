@@ -2,10 +2,10 @@ import { CalendarDays } from 'lucide-react'
 import { useContext } from 'react'
 import Calendar from 'react-calendar'
 import { DateContext, DateContextType } from '../../providers/DateContextProvider'
-import Button from '../basic/Button'
-import CustomTooltip from '../basic/CustomTooltip'
+import Button from './Button'
+import CustomTooltip from './CustomTooltip'
 
-const PlanDateSelector = () => {
+const DateSelector = () => {
   const { date, setDate } = useContext(DateContext) as DateContextType
 
   const isDirty = date && new Date(date?.toString()).toDateString() != new Date().toDateString()
@@ -25,4 +25,4 @@ const PlanDateSelector = () => {
   )
 }
 
-export default PlanDateSelector
+export default DateSelector

@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { List, Map } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import Button from '../basic/Button'
-import PlanDateSelector from '../plan/PlanDateSelector'
+import DateSelector from '../basic/PlanDateSelector'
 import PlanSwitcher from '../plan/PlanSwitcher'
 
 const MenuBar = () => {
@@ -26,7 +26,7 @@ const MenuBar = () => {
               <Button Icon={List} />
             </NavLink>
           </div>
-          <PlanDateSelector />
+          <DateSelector />
         </>
       )}
     </>

@@ -9,8 +9,8 @@ import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
 import DateHeading from '../basic/DateHeading'
 import Empty from '../basic/Empty'
+import DateSelector from '../basic/PlanDateSelector'
 import Separator from '../basic/Separator'
-import PlanDateSelector from '../plan/PlanDateSelector'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
 const loadBookingsForUser = async (
@@ -59,7 +59,7 @@ const YourBookings = () => {
     <div className="min-h-80 md:min-w-xl">
       <div className="mb-4 flex items-center gap-4 border-b border-black/5 pb-4">
         <h1 className="text-xl font-semibold">Your bookings</h1>
-        <PlanDateSelector />
+        <DateSelector />
       </div>
       {bookingDates.length < 1 && <Empty Icon={ListX} message="You have no bookings." />}
       {bookingDates &&
