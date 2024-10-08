@@ -8,7 +8,7 @@ import PlanSwitcher from '../plan/PlanSwitcher'
 const MenuBar = () => {
   const { orgId } = useAuth()
   return (
-    <>
+    <div className="flex items-center gap-2">
       {orgId && (
         <>
           <div className="flex shrink-0 items-center gap-0.5 rounded-md border border-zinc-300 p-0.5">
@@ -29,7 +29,7 @@ const MenuBar = () => {
           <DateSelector />
         </>
       )}
-    </>
+    </div>
   )
 }
 

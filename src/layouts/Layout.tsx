@@ -14,11 +14,10 @@ const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) =>
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      <div className="fixed top-0 z-10 flex h-14 w-full items-center gap-2 border-t border-zinc-400 bg-white/50 py-2 px-4 backdrop-blur-sm md:order-first md:border-b md:border-t-transparent">
+      <div className="fixed top-0 z-10 flex h-14 w-full items-center justify-between gap-2 border-t border-zinc-400 bg-white/50 py-2 px-4 backdrop-blur-sm md:order-first md:border-b md:border-t-transparent">
         <Link to="/">
           <Logo className="h-4" />
         </Link>
-        <div className="flex-1"></div>
         <MenuBar />
         <UserMenu />
       </div>

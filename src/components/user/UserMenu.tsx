@@ -20,7 +20,7 @@ const UserMenu = () => {
   }
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <EditButton />
       <OrganizationSwitcher hidePersonal />
       <UserButton showName>
@@ -38,7 +38,7 @@ const UserMenu = () => {
           children={<YourBookings />}
         />
       </UserButton>
-    </>
+    </div>
   )
 }
 

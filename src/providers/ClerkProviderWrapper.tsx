@@ -18,6 +18,9 @@ const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           unsafe_disableDevelopmentModeWarnings: true,
           logoPlacement: 'none',
         },
+        variables: {
+          fontSize: 'var(--font-size-sm)',
+        },
         elements: {
           card: '!p-px my-8 !shadow-none !border-none !rounded-none !bg-transparent !text-current',
           cardBox: '!shadow-none !w-full',
@@ -31,10 +34,8 @@ const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           headerSubtitle: '!hidden',
           identityPreview: '!justify-start !pt-1',
           organizationListPreviewButton: '!text-red-400',
-          organizationPreviewMainIdentifier: '!text-sm',
           organizationPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
           scrollBox: '!rounded-none',
-          userPreviewMainIdentifier: '*:!text-sm',
           userPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
         },
       }}
