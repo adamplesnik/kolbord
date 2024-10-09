@@ -102,7 +102,7 @@ const Spaces = ({ listView }: SpacesProps) => {
                 {group ? group : '(no group)'}
               </Heading>
             )}
-            {listView && <Separator horizontal />}
+            {listView && <Separator vertical />}
             <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
               {spaces?.data.docs
                 .filter((space) => space?.group?.value?.name === group)

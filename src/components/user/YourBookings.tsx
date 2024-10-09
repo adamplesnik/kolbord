@@ -8,8 +8,8 @@ import { DateContext, DateContextType, Value } from '../../providers/DateContext
 import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
 import DateHeading from '../basic/DateHeading'
+import DateSelector from '../basic/DateSelector'
 import Empty from '../basic/Empty'
-import DateSelector from '../basic/PlanDateSelector'
 import Separator from '../basic/Separator'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
@@ -70,7 +70,7 @@ const YourBookings = () => {
               key={`my_booking_${set}_${i}`}
             >
               <DateHeading date={set} className="w-28 shrink-0 md:py-2" breakDate />
-              <Separator horizontal />
+              <Separator vertical />
               <div className="flex max-w-lg flex-1 flex-col gap-2 md:min-w-md">
                 {bookingZones?.map((zone) => (
                   <>

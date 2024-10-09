@@ -22,7 +22,7 @@ const Layout = ({ fullSize = false }: LayoutProps) => {
       </div>
       <div
         className={clsx(
-          'm-4 mt-14 rounded-xl border border-black/5 bg-white',
+          'm-4 mt-14 rounded-xl bg-white',
           fullSize && 'relative h-[calc(100vh_-_4.5rem)] overflow-hidden'
         )}
       >

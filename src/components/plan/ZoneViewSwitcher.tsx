@@ -8,8 +8,13 @@ const ZoneViewSwitcher = () => {
   const isList = location.pathname.includes('list')
 
   return (
-    <div className={clsx('h-8 overflow-hidden')}>
-      <div className={clsx('flex flex-col transition-transform', isList && '-translate-y-8')}>
+    <div className={clsx('h-8 shrink-0 overflow-hidden')}>
+      <div
+        className={clsx(
+          'flex flex-col transition-transform delay-100 duration-500 ease-in-out',
+          isList && '-translate-y-8'
+        )}
+      >
         <NavLink to="/list">
           <Button Icon={Map} />
         </NavLink>

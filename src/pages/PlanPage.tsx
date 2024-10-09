@@ -23,7 +23,7 @@ const PlanPage = () => {
     >
       {() => (
         <TransformComponent
-          wrapperClass="!w-full !h-[calc(100vh_-_5rem)]"
+          wrapperClass="!w-full !h-[calc(100vh_-_4.5rem)]"
           contentClass={clsx('!p-8', sidebarOpen && '!pr-[300px]')}
         >
           <GroupMarkers />
