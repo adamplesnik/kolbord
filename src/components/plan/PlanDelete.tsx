@@ -9,7 +9,7 @@ import Paragraph from '../basic/Paragraph'
 const PlanDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
   const { getToken } = useAuth()
-  const { zone } = useContext(ZoneContext) as ZoneContextType
+  const { zone, setZone } = useContext(ZoneContext) as ZoneContextType
 
   const deletePlan = async (id: number | undefined) => {
     try {
@@ -28,14 +28,13 @@ const PlanDelete = () => {
   const { mutate } = useMutation({
     mutationFn: () => deletePlan(zone?.id),
     onSuccess: () => {
+      setZone(undefined)
+      setDeleteStep(0)
       queryClient.invalidateQueries({
         queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
         queryKey: ['spaces'],
-      })
-      queryClient.invalidateQueries({
-        queryKey: ['zone'],
       })
     },
   })

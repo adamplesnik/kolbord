@@ -56,14 +56,18 @@ const ZoneContextProvider = ({ children }: PropsWithChildren) => {
     queryKey: ['zone', zoneId],
     enabled: zoneId != undefined,
     queryFn: () => loadZone(zoneId, getToken),
-    staleTime: 1000 * 60 * 10,
   })
 
   const zones = zonesQuery?.data.docs
   const zone = zoneQuery?.data
 
   const setZone = (z: ZoneType | undefined) => {
-    setZoneId(z?.id)
+    if (z === undefined) {
+      setZoneId(zonesQuery?.data.docs[0].id)
+    } else {
+      setZoneId(z.id)
+    }
+
     if (z?.id) {
       localStorage.setItem(LATEST_ZONE_ID, String(z.id))
     } else {

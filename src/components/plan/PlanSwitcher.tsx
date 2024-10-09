@@ -44,22 +44,20 @@ const PlanSwitcher = () => {
             <Heading size={4}>Zones</Heading>
             {zones &&
               zones.map((z) => (
-                <div className="flex" key={`plan_${z.id}`}>
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      setZone(z)
-                      setSidebarState({ group: undefined, space: undefined })
-                    }}
-                    active={zone?.id === z.id}
-                    Icon={Check}
-                    iconClassName={zone?.id === z.id ? 'opacity-100' : 'opacity-35'}
-                  >
-                    {z.name}
-                  </Button>
-                </div>
+                <Button
+                  key={`plan_${z.id}`}
+                  onClick={() => {
+                    setZone(z)
+                    setSidebarState({ group: undefined, space: undefined })
+                  }}
+                  active={zone?.id === z.id}
+                  Icon={Check}
+                  iconClassName={zone?.id === z.id ? 'opacity-100' : 'opacity-35'}
+                >
+                  {z.name}
+                </Button>
               ))}
-            {isAdmin && editMode && <PlanAdd />}
+            <PlanAdd />
             {zone?.id != undefined && zone?.id > 0 && editMode && <SpaceAdd planId={zone?.id} />}
           </div>
           {isAdmin && editMode && (

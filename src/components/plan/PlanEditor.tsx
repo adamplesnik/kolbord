@@ -41,14 +41,14 @@ const PlanEditor = () => {
     mutationFn: (data: ZoneType) => updatePlan(zone?.id, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
-      await queryClient.cancelQueries({ queryKey: ['zone'] })
+      await queryClient.cancelQueries({ queryKey: ['zone', zone?.id] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['zone'],
+        queryKey: ['zone', zone?.id],
       })
     },
   })
