@@ -1,10 +1,21 @@
-import { OrganizationSwitcher, useOrganization, UserButton, useUser } from '@clerk/clerk-react'
-import { ListChecks } from 'lucide-react'
-import EditButton from '../basic/EditButton'
+import { OrganizationList, useOrganization, UserButton, useUser } from '@clerk/clerk-react'
+import { Building2, ListChecks } from 'lucide-react'
 import YourBookings from './YourBookings'
 
 const pageTitle = (text: string) => {
   return `${text} / Kolbord`
+}
+
+const organizationLabel = (organizationName: string | undefined) => {
+  return organizationName || 'Your organizations'
+}
+
+const organizationIcon = (imageUrl: string | undefined) => {
+  if (imageUrl) {
+    return <img src={imageUrl} className="rounded" />
+  } else {
+    return <Building2 />
+  }
 }
 
 const UserMenu = () => {
@@ -20,25 +31,36 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <EditButton />
-      <OrganizationSwitcher hidePersonal />
-      <UserButton showName>
-        <UserButton.MenuItems>
-          <UserButton.Action
-            label="Your bookings"
-            labelIcon={<ListChecks size={16} />}
-            open="bookings"
-          />
-        </UserButton.MenuItems>
-        <UserButton.UserProfilePage
+    <UserButton>
+      <UserButton.MenuItems>
+        <UserButton.Action
           label="Your bookings"
-          url="bookings"
           labelIcon={<ListChecks size={16} />}
-          children={<YourBookings />}
+          open="bookings"
         />
-      </UserButton>
-    </div>
+        <UserButton.Action
+          label={organizationLabel(organization?.name)}
+          labelIcon={organizationIcon(organization?.imageUrl)}
+          open="org"
+        />
+      </UserButton.MenuItems>
+      <UserButton.UserProfilePage
+        label="Your bookings"
+        url="bookings"
+        labelIcon={<ListChecks size={16} />}
+        children={<YourBookings />}
+      />
+      <UserButton.UserProfilePage
+        children={
+          <div className="min-w-xl">
+            <OrganizationList hidePersonal />
+          </div>
+        }
+        label={organizationLabel(organization?.name)}
+        labelIcon={organizationIcon(organization?.imageUrl)}
+        url="org"
+      />
+    </UserButton>
   )
 }
 

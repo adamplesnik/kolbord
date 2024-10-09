@@ -22,7 +22,7 @@ const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           fontSize: 'var(--font-size-sm)',
         },
         elements: {
-          card: '!p-px my-8 !shadow-none !border-none !rounded-none !bg-transparent !text-current',
+          card: '!p-px !shadow-none !border-none !rounded-none !bg-transparent !text-current',
           cardBox: '!shadow-none !w-full',
           footer: '!pt-0 *:!border-none !rounded-full !w-fit',
           footerAction: '!hidden',
