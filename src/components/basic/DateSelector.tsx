@@ -13,7 +13,7 @@ const DateSelector = () => {
   return (
     <>
       <div data-tooltip-id="calendarTooltip">
-        <Button className="shrink-0">
+        <Button className="shrink-0" buttonType="menu">
           {date && <DateHeading date={date.toString()} />}
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>

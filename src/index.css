@@ -20,19 +20,19 @@
   }
 
   .react-calendar button {
-    @apply size-8 cursor-pointer rounded border border-transparent hover:bg-zinc-500;
+    @apply size-8 cursor-pointer rounded border border-transparent hover:bg-gray-200/60 active:bg-gray-300;
   }
 
   .react-calendar__month-view__days__day--neighboringMonth {
     @apply opacity-40;
   }
 
-  .react-calendar__tile--now {
-    @apply font-semibold text-pink-400;
+  .react-calendar .react-calendar__tile--now {
+    @apply bg-zinc-100 font-medium hover:bg-zinc-200;
   }
 
   .react-calendar .react-calendar__tile--active {
-    @apply border-pink-700 font-bold;
+    @apply bg-zinc-600 font-bold text-white hover:bg-zinc-700;
   }
 
   .react-calendar__navigation {

@@ -23,7 +23,7 @@ const PlanSwitcher = () => {
 
   return (
     <>
-      <Button data-tooltip-id="plansTooltip">
+      <Button data-tooltip-id="plansTooltip" buttonType="menu">
         {zones && zones.length === 0 && (
           <div className="flex items-center gap-2 text-pink-600">
             Create new zone
@@ -44,7 +44,7 @@ const PlanSwitcher = () => {
             <Heading size={4}>Zones</Heading>
             {zones &&
               zones.map((z) => (
-                <div className="flex gap-1" key={`plan_${z.id}`}>
+                <div className="flex" key={`plan_${z.id}`}>
                   <Button
                     className="flex-1"
                     onClick={() => {

@@ -16,10 +16,10 @@ const ZoneViewSwitcher = () => {
         )}
       >
         <NavLink to="/list">
-          <Button Icon={Map} />
+          <Button Icon={Map} buttonType="menu" />
         </NavLink>
         <NavLink to="/plan">
-          <Button Icon={List} />
+          <Button Icon={List} buttonType="menu" />
         </NavLink>
       </div>
     </div>

@@ -17,8 +17,9 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary: 'bg-zinc-800 text-white transition-color hover:bg-zinc-700 active:bg-zinc-950',
-    secondary: 'hover:bg-zinc-300/50 active:bg-zinc-300',
+    primary: 'bg-gray-800 text-white transition-color hover:bg-zinc-700 active:bg-gray-950',
+    secondary: 'hover:bg-gray-200/60 active:bg-gray-300',
+    menu: 'hover:bg-gray-300 active:bg-gray-400',
     danger: 'bg-red-600 text-white hover:bg-red-500 active:bg-red-800',
   }
 
@@ -51,7 +52,7 @@ const Button = ({
 export type ButtonProps = {
   active?: boolean | undefined
   asBlock?: boolean | undefined
-  buttonType?: 'primary' | 'secondary' | 'danger'
+  buttonType?: 'primary' | 'secondary' | 'danger' | 'menu'
   disabled?: boolean | undefined
   Icon?: LucideIcon | undefined
   iconClassName?: string | undefined
