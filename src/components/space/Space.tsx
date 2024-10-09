@@ -40,18 +40,26 @@ const Space = ({ className, bookings, listView, space }: SpaceProps) => {
   const bookedByWho = bookings?.find((b) => b.sub === userId)?.sub
   const bookedByMe = bookedByWho === userId
 
-  const setActive = () =>
-    setSidebarState({
-      title: space.name,
-      space: space,
-    })
+  const toggleActive = () => {
+    if (active) {
+      setSidebarState({
+        title: undefined,
+        space: undefined,
+      })
+    } else {
+      setSidebarState({
+        title: space.name,
+        space: space,
+      })
+    }
+  }
 
   if (!listView) {
     return (
       <>
         <div
           id={`space_${space.id.toFixed()}`}
-          onClick={setActive}
+          onClick={toggleActive}
           data-tooltip-id={tooltipId}
           className={clsx(
             'group absolute cursor-pointer rounded-full p-2 ring transition-colors hover:z-50',
@@ -77,7 +85,7 @@ const Space = ({ className, bookings, listView, space }: SpaceProps) => {
       <>
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
           <div className="flex items-center gap-2">
-            <div onClick={setActive}>
+            <div onClick={toggleActive}>
               <SpaceDot
                 bookedByMe={bookedByMe}
                 bookedByWho={bookedByWho}
@@ -86,7 +94,7 @@ const Space = ({ className, bookings, listView, space }: SpaceProps) => {
               />
             </div>
             <div className="flex-1 shrink-0 font-medium lg:w-48">
-              <Button onClick={setActive}>{space.name}</Button>
+              <Button onClick={toggleActive}>{space.name}</Button>
             </div>
           </div>
           <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
