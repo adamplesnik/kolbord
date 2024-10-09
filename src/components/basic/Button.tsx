@@ -38,10 +38,12 @@ const Button = ({
       {...props}
     >
       {Icon && (
-        <Icon strokeWidth={2} className={clsx('size-5', iconClassName)} aria-hidden={true} />
+        <Icon strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
       )}
       {children}
-      {IconRight && <IconRight className={clsx('size-5', iconClassName)} aria-hidden={true} />}
+      {IconRight && (
+        <IconRight strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
+      )}
     </button>
   )
 }

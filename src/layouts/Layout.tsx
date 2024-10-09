@@ -1,14 +1,13 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
-import { Link } from 'react-router-dom'
-import Heading from '../components/basic/Heading'
+import { Link, Outlet } from 'react-router-dom'
 import Logo from '../components/basic/Logo'
 import MenuBar from '../components/partials/MenuBar'
 import Sidebar from '../components/partials/Sidebar'
 import UserMenu from '../components/user/UserMenu'
 
-const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) => {
+const Layout = ({ fullSize = false }: LayoutProps) => {
   return (
     <>
       <SignedOut>
@@ -23,19 +22,11 @@ const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) =>
       </div>
       <div
         className={clsx(
-          'm-4 mt-16 rounded-xl bg-white',
-          fullSize && 'relative h-[calc(100vh_-_5rem)] overflow-hidden'
+          'm-4 mt-14 rounded-xl border border-black/5 bg-white',
+          fullSize && 'relative h-[calc(100vh_-_4.5rem)] overflow-hidden'
         )}
       >
-        <div className="">
-          {(title || subTitle) && !fullSize && (
-            <div className="mx-auto flex max-w-5xl p-8">
-              {title && <Heading size={1}>{title}</Heading>}
-              {subTitle && <Heading size={2}>{subTitle}</Heading>}
-            </div>
-          )}
-          {children}
-        </div>
+        <Outlet />
       </div>
       <Sidebar />
     </>

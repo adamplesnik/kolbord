@@ -12,14 +12,14 @@ const EditButton = ({ className }: EditButtonProps) => {
     setEditMode(!editMode)
   }
 
-  if (!isAdmin) {
+  if (isAdmin) {
     return ''
   }
 
   return (
     <Button
       className={className}
-      buttonType={editMode ? 'danger' : 'primary'}
+      buttonType={editMode ? 'danger' : 'secondary'}
       Icon={editMode ? Check : PencilLine}
       onClick={toggleEditMode}
     />
