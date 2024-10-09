@@ -1,9 +1,9 @@
-import { CalendarDays } from 'lucide-react'
 import { useContext } from 'react'
 import Calendar from 'react-calendar'
 import { DateContext, DateContextType } from '../../providers/DateContextProvider'
 import Button from './Button'
 import CustomTooltip from './CustomTooltip'
+import DateHeading from './DateHeading'
 
 const DateSelector = () => {
   const { date, setDate } = useContext(DateContext) as DateContextType
@@ -13,8 +13,8 @@ const DateSelector = () => {
   return (
     <>
       <div data-tooltip-id="calendarTooltip">
-        <Button Icon={CalendarDays} className="shrink-0">
-          {date?.toLocaleString([], { dateStyle: 'medium' })}
+        <Button className="shrink-0">
+          {date && <DateHeading date={date.toString()} />}
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>
       </div>

@@ -13,7 +13,7 @@ const MenuBar = () => {
       <div className="flex items-center">
         <ZoneViewSwitcher />
         <PlanSwitcher />
-        <Separator className="mx-1 h-8 rotate-12 bg-zinc-400" vertical />
+        <Separator className="mx-2 h-8 rotate-12 bg-zinc-400" vertical />
         <DateSelector />
         <EditButton />
       </div>
