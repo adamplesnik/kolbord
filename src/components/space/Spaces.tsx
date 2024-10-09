@@ -91,7 +91,7 @@ const Spaces = ({ listView }: SpacesProps) => {
   }
 
   return (
-    <div className={listView ? 'flex flex-col' : ''}>
+    <div className={listView ? 'flex flex-col' : 'relative'}>
       {groups.map((group) => (
         <Fragment key={`${group}_group`}>
           <div

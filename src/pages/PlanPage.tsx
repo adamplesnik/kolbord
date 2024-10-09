@@ -25,14 +25,12 @@ const PlanPage = () => {
       >
         {() => (
           <TransformComponent
-            wrapperClass="!w-full !h-full"
-            contentClass={clsx(sidebarOpen && '!pr-[300px]')}
+            wrapperClass="!w-full !h-[calc(100vh_-_5rem)]"
+            contentClass={clsx('!p-8', sidebarOpen && '!pr-[300px]')}
           >
-            <div className={'relative m-8 mt-24 rounded-3xl bg-white'}>
-              <GroupMarkers />
-              <Spaces listView={false} />
-              <Plan />
-            </div>
+            <GroupMarkers />
+            <Spaces listView={false} />
+            <Plan />
           </TransformComponent>
         )}
       </TransformWrapper>

@@ -14,17 +14,22 @@ const Layout = ({ fullSize = false, title, subTitle, children }: LayoutProps) =>
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      <div className="fixed top-0 z-10 flex h-14 w-full items-center justify-between gap-2 border-t border-zinc-400 bg-white/50 py-2 px-4 backdrop-blur-sm md:order-first md:border-b md:border-t-transparent">
+      <div className="fixed top-0 z-10 flex h-14 w-full items-center justify-between gap-2 py-2 px-4 backdrop-blur-sm">
         <Link to="/">
           <Logo className="h-4" />
         </Link>
         <MenuBar />
         <UserMenu />
       </div>
-      <div className={clsx('flex flex-1', fullSize && 'h-screen overflow-hidden')}>
-        <div className={clsx('flex-1', fullSize && 'overflow-hidden')}>
+      <div
+        className={clsx(
+          'm-4 mt-16 rounded-xl bg-white',
+          fullSize && 'relative h-[calc(100vh_-_5rem)] overflow-hidden'
+        )}
+      >
+        <div className="">
           {(title || subTitle) && !fullSize && (
-            <div className="mx-auto flex max-w-5xl p-8 pt-24">
+            <div className="mx-auto flex max-w-5xl p-8">
               {title && <Heading size={1}>{title}</Heading>}
               {subTitle && <Heading size={2}>{subTitle}</Heading>}
             </div>
