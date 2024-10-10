@@ -34,7 +34,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ProviderWrapper>
       <RouterProvider router={router} />
-      <ReactQueryDevtools />
+      <div className="hidden md:block">
+        <ReactQueryDevtools />
+      </div>
       <Analytics />
     </ProviderWrapper>
   </React.StrictMode>

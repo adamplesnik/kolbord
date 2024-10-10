@@ -31,9 +31,9 @@ const Sidebar = () => {
           initial={{ x: 320 }}
           animate={{ x: 0 }}
           exit={{ x: 320 }}
-          transition={{ ease: 'anticipate', duration: 0.3 }}
+          transition={{ ease: 'anticipate', duration: 0.4 }}
           className={clsx(
-            'peer fixed top-16 right-2 bottom-2 z-10 flex max-h-screen w-xs flex-col overflow-y-scroll rounded-lg border border-zinc-400 bg-white/95 p-4 pt-0 shadow-xl',
+            'peer md: fixed top-2 right-2 bottom-16 z-10 flex max-h-screen w-xs flex-col overflow-y-scroll rounded-lg border border-zinc-400 bg-white/95 p-4 pt-0 shadow-xl md:top-16 md:bottom-2',
             sidebarOpen ? 'block' : 'hidden'
           )}
         >
