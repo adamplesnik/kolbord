@@ -40,7 +40,7 @@ const loadBookingsForUser = async (
   })
 }
 
-const YourBookings = () => {
+const UserBookings = () => {
   const { userId, getToken } = useAuth()
   const { date } = useContext(DateContext) as DateContextType
 
@@ -119,4 +119,4 @@ const YourBookings = () => {
   )
 }
 
-export default YourBookings
+export default UserBookings
