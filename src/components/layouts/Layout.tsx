@@ -1,10 +1,10 @@
 import { RedirectToSignIn, SignedOut } from '@clerk/clerk-react'
 import clsx from 'clsx'
-import { Sidebar } from 'lucide-react'
 import { HTMLAttributes } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import Logo from '../basic/Logo'
 import MenuBar from '../partials/MenuBar'
+import Sidebar from '../partials/Sidebar'
 import UserMenu from '../user/UserMenu'
 
 const Layout = ({ fullSize = false }: LayoutProps) => {
