@@ -11,8 +11,8 @@ import GroupDetail from '../group/GroupDetail'
 import SpaceDelete from '../space/SpaceDelete'
 import SpaceDetail from '../space/SpaceDetail'
 import SpaceEdit from '../space/SpaceEdit'
-import PlanDelete from '../zone/ZoneDelete'
-import PlanEditor from '../zone/ZoneEditor'
+import ZoneDelete from '../zone/ZoneDelete'
+import ZoneEditor from '../zone/ZoneEditor'
 
 const Sidebar = () => {
   const { isAdmin } = useIsAdmin()
@@ -54,8 +54,8 @@ const Sidebar = () => {
           )}
           {isAdmin && editMode && !sidebarState.space && !sidebarState.group && (
             <>
-              <PlanEditor />
-              <PlanDelete />
+              <ZoneEditor />
+              <ZoneDelete />
             </>
           )}
         </motion.div>

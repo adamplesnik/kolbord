@@ -10,7 +10,7 @@ import { ZoneType } from '../../types/zoneType'
 import { NEW_PLAN_SVG } from '../../utils/constants'
 import Button from '../basic/Button'
 
-const addPlan = async (
+const addZone = async (
   orgId: string | null | undefined,
   getToken: () => Promise<string | null>
 ): Promise<{ data: { doc: ZoneType | undefined } }> => {
@@ -31,7 +31,7 @@ const addPlan = async (
   )
 }
 
-const PlanAdd = () => {
+const ZoneAdd = () => {
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { getToken, orgId } = useAuth()
   const { isAdmin } = useIsAdmin()
@@ -39,7 +39,7 @@ const PlanAdd = () => {
   const queryClient = useQueryClient()
 
   const { mutate } = useMutation({
-    mutationFn: () => addPlan(orgId, getToken),
+    mutationFn: () => addZone(orgId, getToken),
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['zones'] })
       console.log(response)
@@ -58,4 +58,4 @@ const PlanAdd = () => {
   )
 }
 
-export default PlanAdd
+export default ZoneAdd

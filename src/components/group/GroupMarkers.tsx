@@ -12,7 +12,7 @@ const GroupMarkers = () => {
   const { getToken } = useAuth()
   const { zone } = useContext(ZoneContext) as ZoneContextType
 
-  const loadGroupsForPlan = async (
+  const loadGroupsForZone = async (
     zoneId: number | undefined
   ): Promise<{ data: { docs: GroupType[] } }> => {
     const query = qs.stringify({
@@ -32,7 +32,7 @@ const GroupMarkers = () => {
   const { data: groups } = useQuery({
     queryKey: ['groups', zone?.id],
     enabled: zone?.id != undefined,
-    queryFn: () => loadGroupsForPlan(zone?.id),
+    queryFn: () => loadGroupsForZone(zone?.id),
   })
 
   return (

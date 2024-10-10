@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import Loading from '../basic/Loading'
 
-const Plan = () => {
+const ZonePlan = () => {
   const { zone, isLoading } = useContext(ZoneContext) as ZoneContextType
 
   return (
@@ -18,4 +18,4 @@ const Plan = () => {
   )
 }
 
-export default Plan
+export default ZonePlan

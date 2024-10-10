@@ -13,9 +13,9 @@ import Skeleton from '../basic/Skeleton.tsx'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
-import PlanAdd from './ZoneAdd.tsx'
+import ZoneAdd from './ZoneAdd.tsx'
 
-const PlanSwitcher = () => {
+const ZoneSwitcher = () => {
   const { isAdmin } = useIsAdmin()
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
@@ -57,7 +57,7 @@ const PlanSwitcher = () => {
                   {z.name}
                 </Button>
               ))}
-            <PlanAdd />
+            <ZoneAdd />
             {zone?.id != undefined && zone?.id > 0 && editMode && <SpaceAdd planId={zone?.id} />}
           </div>
           {isAdmin && editMode && (
@@ -73,4 +73,4 @@ const PlanSwitcher = () => {
   )
 }
 
-export default PlanSwitcher
+export default ZoneSwitcher

@@ -5,7 +5,7 @@ import { EditModeContext, EditModeContextType } from '../../providers/EditModeCo
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import GroupMarkers from '../group/GroupMarkers'
 import Spaces from '../space/Spaces'
-import Plan from '../zone/Zone'
+import ZonePlan from '../zone/ZonePlan'
 
 const PlanPage = () => {
   const { editMode } = useContext(EditModeContext) as EditModeContextType
@@ -28,7 +28,7 @@ const PlanPage = () => {
         >
           <GroupMarkers />
           <Spaces listView={false} />
-          <Plan />
+          <ZonePlan />
         </TransformComponent>
       )}
     </TransformWrapper>

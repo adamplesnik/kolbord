@@ -10,7 +10,7 @@ import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 
-const PlanEditor = () => {
+const ZoneEditor = () => {
   const { getToken } = useAuth()
   const { zone } = useContext(ZoneContext) as ZoneContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
@@ -18,7 +18,7 @@ const PlanEditor = () => {
     setSidebarState({ title: zone?.name })
   }, [zone, setSidebarState])
 
-  const updatePlan = async (
+  const updateZone = async (
     id: number | undefined,
     name?: string,
     svg?: string | undefined
@@ -38,7 +38,7 @@ const PlanEditor = () => {
   const queryClient = useQueryClient()
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: ZoneType) => updatePlan(zone?.id, data.name, data.svg),
+    mutationFn: (data: ZoneType) => updateZone(zone?.id, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
       await queryClient.cancelQueries({ queryKey: ['zone', zone?.id] })
@@ -114,4 +114,4 @@ const PlanEditor = () => {
   )
 }
 
-export default PlanEditor
+export default ZoneEditor

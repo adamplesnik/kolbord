@@ -6,12 +6,12 @@ import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvide
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
 
-const PlanDelete = () => {
+const ZoneDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
   const { getToken } = useAuth()
   const { zone, setZone } = useContext(ZoneContext) as ZoneContextType
 
-  const deletePlan = async (id: number | undefined) => {
+  const deleteZone = async (id: number | undefined) => {
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/zones/${id}`, {
         headers: {
@@ -26,7 +26,7 @@ const PlanDelete = () => {
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlan(zone?.id),
+    mutationFn: () => deleteZone(zone?.id),
     onSuccess: () => {
       setZone(undefined)
       setDeleteStep(0)
@@ -73,4 +73,4 @@ const PlanDelete = () => {
   )
 }
 
-export default PlanDelete
+export default ZoneDelete
