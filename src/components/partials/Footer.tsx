@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
+import Anchor from '../atoms/Anchor'
 import Paragraph from '../atoms/Paragraph'
-import Anchor from '../basic/Anchor'
 import Logo from '../basic/Logo'
 
 const Footer = () => {
