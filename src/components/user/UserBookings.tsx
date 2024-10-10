@@ -7,10 +7,10 @@ import { Fragment, useContext } from 'react'
 import { DateContext, DateContextType, Value } from '../../providers/DateContextProvider'
 import { BookingTypeDeep } from '../../types/bookingType'
 import { humanDate, humanTime } from '../../utils/human'
+import Empty from '../atoms/Empty'
+import Separator from '../atoms/Separator'
 import DateHeading from '../basic/DateHeading'
 import DateSelector from '../basic/DateSelector'
-import Empty from '../basic/Empty'
-import Separator from '../basic/Separator'
 import SpaceBookingSlot from '../space/SpaceBookingSlot'
 
 const loadBookingsForUser = async (

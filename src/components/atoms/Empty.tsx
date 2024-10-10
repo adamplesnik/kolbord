@@ -1,5 +1,5 @@
 import { LucideIcon } from 'lucide-react'
-import Heading from './Heading'
+import Heading from '../basic/Heading'
 
 const Empty = ({ Icon, message, additional }: EmptyProps) => {
   return (
