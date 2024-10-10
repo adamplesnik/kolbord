@@ -8,9 +8,9 @@ import { DateContext, DateContextType, Value } from '../../providers/DateContext
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
-import Empty from '../atoms/Empty.tsx'
+import Heading from '../atoms/Heading.tsx'
 import Separator from '../atoms/Separator.tsx'
-import Heading from '../basic/Heading.tsx'
+import Empty from '../basic/Empty.tsx'
 import Space from './Space.tsx'
 
 const loadSpaces = async (
