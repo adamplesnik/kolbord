@@ -14,7 +14,7 @@ const DateSelector = () => {
     <>
       <div data-tooltip-id="calendarTooltip">
         <Button className="shrink-0" buttonType="menu">
-          {date && <DateHeading date={date.toString()} />}
+          {date && <DateHeading date={date.toString()} dayClassName="hidden sm:block" />}
           {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
         </Button>
       </div>

@@ -1,35 +1,14 @@
 import { useAuth } from '@clerk/clerk-react'
 import clsx from 'clsx'
-import { ArrowRight } from 'lucide-react'
 import { useContext } from 'react'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
-import { humanTime } from '../../utils/human.ts'
 import Button from '../atoms/Button.tsx'
 import Separator from '../atoms/Separator.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
-import UserName from '../user/UserName.tsx'
+import SpaceBookings from './SpaceBookings.tsx'
 import SpaceDot from './SpaceDot.tsx'
-
-const SpaceBookings = ({ bookings }: { bookings: BookingType[] }) => {
-  return (
-    <>
-      {bookings?.map((b: BookingType, i: number) => (
-        <div className="flex items-center gap-1" key={`${b.id}_${i}`}>
-          <div className="flex w-28 items-center justify-evenly gap-1 text-zinc-600">
-            {humanTime(b.from)}
-            <ArrowRight className="size-4 text-zinc-500" strokeWidth={1} />
-            {humanTime(b.to)}
-          </div>
-          <span className="font-semibold">
-            <UserName subject={b.sub} />
-          </span>
-        </div>
-      ))}
-    </>
-  )
-}
 
 const Space = ({ className, bookings, listView, space }: SpaceProps) => {
   const { userId } = useAuth()
@@ -97,7 +76,7 @@ const Space = ({ className, bookings, listView, space }: SpaceProps) => {
               <Button onClick={toggleActive}>{space.name}</Button>
             </div>
           </div>
-          <div className="flex flex-wrap items-start gap-x-4 gap-y-1 text-sm">
+          <div className="flex flex-wrap items-start gap-x-4 gap-y-1 pl-8 text-sm md:pl-0">
             {bookings && bookings?.length > 0 && <SpaceBookings bookings={bookings} />}
           </div>
         </div>
