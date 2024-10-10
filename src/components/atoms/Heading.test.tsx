@@ -49,7 +49,7 @@ describe('Heading', () => {
   it('renders Heading 4 with custom class name', () => {
     const r = render(
       <Heading size={4} className="custom">
-        h1
+        h4
       </Heading>
     )
     expect(r).toMatchSnapshot()

@@ -519,7 +519,7 @@ exports[`Heading > renders Heading 4 with custom class name 1`] = `
       <h4
         class="font-semibold custom"
       >
-        h1
+        h4
       </h4>
     </div>
   </body>,
@@ -527,7 +527,7 @@ exports[`Heading > renders Heading 4 with custom class name 1`] = `
     <h4
       class="font-semibold custom"
     >
-      h1
+      h4
     </h4>
   </div>,
   "debug": [Function],
