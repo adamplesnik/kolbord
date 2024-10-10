@@ -19,7 +19,7 @@ const Layout = () => {
         <MenuBar />
         <UserMenu />
       </div>
-      <div className="m-4 mb-14 rounded-xl bg-white md:mt-14 md:mb-4">
+      <div className="m-4 mb-14 overflow-hidden rounded-xl bg-white md:mt-14 md:mb-4">
         <Outlet />
       </div>
       <Sidebar />
