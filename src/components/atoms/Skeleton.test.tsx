@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import Skeleton from './Skeleton'
 
 describe('Skeleton', () => {
@@ -7,7 +7,7 @@ describe('Skeleton', () => {
     const r = render(<Skeleton />)
     expect(r).toMatchSnapshot()
   })
-  test('renders Skeleton component with custom width', () => {
+  it('renders Skeleton component with custom width', () => {
     const { getByTestId } = render(<Skeleton width="100px" />)
     const element = getByTestId('skeleton')
     const style = window.getComputedStyle(element)

@@ -2,7 +2,7 @@ import { Check, PencilLine } from 'lucide-react'
 import { useContext } from 'react'
 import { useIsAdmin } from '../../hooks/useIsAdmin'
 import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider'
-import Button from './Button'
+import Button from '../atoms/Button'
 
 const EditButton = ({ className }: EditButtonProps) => {
   const { isAdmin } = useIsAdmin()

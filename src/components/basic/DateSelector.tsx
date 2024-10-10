@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import Calendar from 'react-calendar'
 import { DateContext, DateContextType } from '../../providers/DateContextProvider'
-import Button from './Button'
+import Button from '../atoms/Button'
 import CustomTooltip from './CustomTooltip'
 import DateHeading from './DateHeading'
 

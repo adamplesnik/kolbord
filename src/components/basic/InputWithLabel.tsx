@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { Eye, EyeOff } from 'lucide-react'
 import { ChangeEventHandler, FocusEventHandler, useState } from 'react'
-import Button from './Button'
+import Button from '../atoms/Button'
 
 const InputWithLabel = ({
   label,

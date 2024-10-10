@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
+import Button from '../atoms/Button'
 import Paragraph from '../atoms/Paragraph'
-import Button from '../basic/Button'
 
 const ZoneDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)

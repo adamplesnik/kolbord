@@ -8,7 +8,7 @@ import { EditModeContext, EditModeContextType } from '../../providers/EditModeCo
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { ZoneType } from '../../types/zoneType'
 import { NEW_PLAN_SVG } from '../../utils/constants'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 
 const addZone = async (
   orgId: string | null | undefined,

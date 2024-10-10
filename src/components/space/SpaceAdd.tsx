@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { SpaceType } from '../../types/spaceType'
 import { LATEST_SPACE_METADATA } from '../../utils/constants'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 
 const SpaceAdd = ({ planId }: SpaceAddProps) => {
   const queryClient = useQueryClient()
