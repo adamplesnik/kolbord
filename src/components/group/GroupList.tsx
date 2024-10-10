@@ -1,29 +1,30 @@
 import { useQuery } from '@tanstack/react-query'
+import { useContext } from 'react'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
-import EditButton from '../basic/EditButton'
-import { useZone } from '../plan/useZone'
+import Button from '../basic/Button'
 
-const GroupList = ({ onGroupEdit }: GroupListProps) => {
-  const { zoneId } = useZone()
+const GroupList = () => {
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const { zone } = useContext(ZoneContext) as ZoneContextType
   const { data } = useQuery<{ data: { docs: GroupType[] } }>({
-    queryKey: ['groups', zoneId],
+    queryKey: ['groups', zone?.id],
     enabled: true,
   })
 
   return (
     <div className="flex flex-col gap-2">
       {data?.data.docs.map((group) => (
-        <div className="flex items-center gap-1">
+        <Button
+          className="flex items-center gap-1"
+          onClick={() => setSidebarState({ title: group.name, group: group })}
+        >
           <span className="flex-1">{group.name}</span>
-          <EditButton onClick={() => onGroupEdit(group)} editMode={false} />
-        </div>
+        </Button>
       ))}
     </div>
   )
-}
-
-type GroupListProps = {
-  onGroupEdit: (group: GroupType) => void
 }
 
 export default GroupList

@@ -1,108 +1,76 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Check, ChevronsUpDown, User } from 'lucide-react'
-import { HTMLAttributes } from 'react'
-import { useIsAdmin } from '../../auth/useIsAdmin.ts'
-import { GroupType } from '../../types/groupType'
-import { SpaceType } from '../../types/spaceType'
-import { ZoneType } from '../../types/zoneType'
+import { Check } from 'lucide-react'
+import { useContext } from 'react'
+import { useIsAdmin } from '../../hooks/useIsAdmin.ts'
+import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider.tsx'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import Button from '../basic/Button'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
-import EditButton from '../basic/EditButton'
 import Heading from '../basic/Heading.tsx'
+import Loading from '../basic/Loading.tsx'
 import Ping from '../basic/Ping'
+import Skeleton from '../basic/Skeleton.tsx'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
 import PlanAdd from './PlanAdd.tsx'
-import { useZone } from './useZone.ts'
 
-const PlanSwitcher = ({
-  handlePlaceAdd,
-  handleMyBookings,
-  onGroupEdit,
-  onPlanEdit,
-}: PlanSwitcherProps) => {
+const PlanSwitcher = () => {
   const { isAdmin } = useIsAdmin()
-  const { data: zones } = useQuery<{ data: { docs: ZoneType[] } }>({
-    queryKey: ['zones'],
-    enabled: true,
-  })
-
-  const { zoneId } = useZone()
-  const queryClient = useQueryClient()
+  const { editMode } = useContext(EditModeContext) as EditModeContextType
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  const { zone, setZone, zones, isLoading } = useContext(ZoneContext) as ZoneContextType
 
   return (
     <>
-      <div data-tooltip-id="plansTooltip">
-        <Button IconRight={ChevronsUpDown}>
-          {zones && zones.data.docs.length === 0 && (
-            <div className="flex items-center gap-2 text-pink-600">
-              Create new plan
-              <Ping className="-mr-[1.6rem]" />
-            </div>
-          )}
-          {zones &&
-            zones.data &&
-            zones.data.docs.map((zone) =>
-              zoneId === zone.id ? <span key={`plan_in_switcher_${zone.id}`}>{zone.name}</span> : ''
-            )}
-        </Button>
-      </div>
+      <Button data-tooltip-id="plansTooltip" buttonType="menu">
+        {zones && zones.length === 0 && (
+          <div className="flex items-center gap-2 text-pink-600">
+            Create new zone
+            <Ping className="-mr-[1.6rem]" />
+          </div>
+        )}
+        {isLoading && (
+          <>
+            <Loading />
+            <Skeleton width="100px" />
+          </>
+        )}
+        {zone && <span className="font-medium">{zone.name}</span>}
+      </Button>
       <CustomTooltip id="plansTooltip" openOnClick clickable>
         <div className="flex gap-8">
           <div className="flex flex-col gap-2">
             <Heading size={4}>Zones</Heading>
             {zones &&
-              zones.data &&
-              zones.data.docs.map((zone) => (
-                <div className="flex gap-1" key={`plan_${zone.id}`}>
-                  <Button
-                    className="flex-1"
-                    onClick={() =>
-                      queryClient.setQueryData<{ data: ZoneType }>(['zone'], {
-                        data: {
-                          id: zone.id,
-                        },
-                      })
-                    }
-                    active={zoneId === zone.id}
-                    Icon={Check}
-                    iconClassName={zoneId === zone.id ? 'opacity-100' : 'opacity-35'}
-                  >
-                    {zone.name}
-                  </Button>
-                  {zoneId === zone.id && (
-                    <EditButton onClick={() => onPlanEdit(zone.id)} editMode={false} />
-                  )}
-                </div>
+              zones.map((z) => (
+                <Button
+                  key={`plan_${z.id}`}
+                  onClick={() => {
+                    setZone(z)
+                    setSidebarState({ group: undefined, space: undefined })
+                  }}
+                  active={zone?.id === z.id}
+                  Icon={Check}
+                  iconClassName={zone?.id === z.id ? 'opacity-100' : 'opacity-35'}
+                >
+                  {z.name}
+                </Button>
               ))}
-            {isAdmin && <PlanAdd />}
-            {zoneId != undefined && zoneId > 0 && (
-              <SpaceAdd planId={zoneId} handlePlaceAdd={handlePlaceAdd} />
-            )}
+            <PlanAdd />
+            {zone?.id != undefined && zone?.id > 0 && editMode && <SpaceAdd planId={zone?.id} />}
           </div>
-          {isAdmin && (
+          {isAdmin && editMode && (
             <div className="flex flex-col gap-2">
               <Heading size={4}>Groups</Heading>
-              <GroupList onGroupEdit={onGroupEdit} />
-              {zoneId != undefined && zoneId > 0 && <GroupAdd />}
+              <GroupList />
+              {zone?.id != undefined && zone?.id > 0 && <GroupAdd />}
             </div>
           )}
         </div>
-        <Button onClick={handleMyBookings} className="w-full" Icon={User}>
-          Your bookings
-        </Button>
       </CustomTooltip>
     </>
   )
 }
-
-type PlanSwitcherProps = {
-  handleMyBookings: () => void
-  handlePlaceAdd: (space: SpaceType) => void
-  onGroupEdit: (group: GroupType) => void
-  onPlanChange: (id: number | undefined) => void
-  onPlanEdit: (planId: number | undefined) => void
-} & HTMLAttributes<HTMLDivElement>
 
 export default PlanSwitcher

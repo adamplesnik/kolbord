@@ -19,7 +19,7 @@ const generateSlots = (date: Date, startHours: number, endHours: number, stepHou
   return slots
 }
 
-export const getSlots = (date: Date, slots: string) => {
+export const getSlots = (date: Date, slots: string | undefined) => {
   switch (slots) {
     case 'wholeday':
       return generateSlots(date, 6, 18, 12)

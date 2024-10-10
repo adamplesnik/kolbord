@@ -23,7 +23,7 @@ export type SpaceType = {
   x: number
   y: number
   zone?: {
-    relationTo: string
+    relationTo?: string
     value: number
   }
   group?: RelationshipType

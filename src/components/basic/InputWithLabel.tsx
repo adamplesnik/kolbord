@@ -1,6 +1,6 @@
-import { ChangeEventHandler, FocusEventHandler, useState } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
+import clsx from 'clsx'
 import { Eye, EyeOff } from 'lucide-react'
+import { ChangeEventHandler, FocusEventHandler, useState } from 'react'
 import Button from './Button'
 
 const InputWithLabel = ({
@@ -18,21 +18,19 @@ const InputWithLabel = ({
   return (
     <label className="flex flex-col gap-1">
       {label && (
-        <span className={'shrink-0 text-sm' + addWithSpace(required ? 'font-bold' : 'font-normal')}>
+        <span className={clsx('shrink-0 text-sm', required ? 'font-bold' : 'font-normal')}>
           <>{label}</>
         </span>
       )}
       <span className="flex items-center gap-2">
         <input
           required={required}
-          className={
-            'w-full rounded py-1 px-2 text-sm' +
-            addWithSpace(
-              hasError ?
-                'border-red-600 bg-red-50'
-              : 'border-slate-400 bg-slate-50 hover:border-slate-600'
-            )
-          }
+          className={clsx(
+            'w-full rounded py-1 px-2 text-sm',
+            hasError ?
+              'border-red-600 bg-red-50'
+            : 'border-zinc-400 bg-zinc-50 hover:border-zinc-600'
+          )}
           type={showPassword ? 'text' : inputType}
           value={value}
           placeholder={placeholder}

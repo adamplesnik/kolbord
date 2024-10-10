@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
 
-const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
+const SpaceDelete = ({ id }: SpaceDeleteProps) => {
   const { getToken } = useAuth()
   const [deleteStep, setDeleteStep] = useState(0)
 
@@ -20,7 +20,7 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
     } catch (error) {
       console.error(error)
     } finally {
-      handleDelete()
+      // handleDelete() XXX
     }
   }
 
@@ -61,7 +61,6 @@ const SpaceDelete = ({ id, handleDelete }: SpaceDeleteProps) => {
 
 type SpaceDeleteProps = {
   id: number
-  handleDelete: () => void
 }
 
 export default SpaceDelete

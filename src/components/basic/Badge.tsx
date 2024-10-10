@@ -1,5 +1,5 @@
+import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
 import CustomTooltip from './CustomTooltip'
 
 const Badge = ({
@@ -11,16 +11,16 @@ const Badge = ({
 }: BadgeProps) => {
   return (
     <div
-      className={
-        'flex h-8 items-center justify-center rounded bg-slate-100 px-1 text-sm text-slate-600' +
-        addWithSpace(className)
-      }
+      className={clsx(
+        'flex h-8 items-center justify-center rounded bg-zinc-100 px-1 text-sm text-zinc-600',
+        className
+      )}
       data-tooltip-content={dataTooltipContent}
       data-tooltip-id={dataTooltipId}
       {...props}
     >
       {children}
-      <CustomTooltip id={dataTooltipId} className="z-20" />
+      <CustomTooltip id={dataTooltipId} />
     </div>
   )
 }

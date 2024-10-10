@@ -2,15 +2,18 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { useContext } from 'react'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { SpaceType } from '../../types/spaceType'
-import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import { LATEST_SPACE_METADATA } from '../../utils/constants'
 import Button from '../basic/Button'
 
-const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
+const SpaceAdd = ({ planId }: SpaceAddProps) => {
   const queryClient = useQueryClient()
   const { getToken, orgId } = useAuth()
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
 
-  const latestPlaceMetadata = localStorage.getItem(LATEST_PLACE_METADATA)
+  const latestPlaceMetadata = localStorage.getItem(LATEST_SPACE_METADATA)
   const placeMetadata = '500, 500'
 
   const [x, y] =
@@ -45,7 +48,7 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
       queryClient.invalidateQueries({
         queryKey: ['spaces', planId],
       })
-      handlePlaceAdd(data)
+      setSidebarState({ title: data.name, space: data })
     },
   })
 
@@ -64,7 +67,6 @@ const SpaceAdd = ({ planId, handlePlaceAdd }: SpaceAddProps) => {
 
 type SpaceAddProps = {
   planId: number | undefined
-  handlePlaceAdd: (space: SpaceType) => void
 }
 
 export default SpaceAdd

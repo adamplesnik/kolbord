@@ -1,26 +1,26 @@
-import { CloudUpload, CheckCheck, CloudOff } from 'lucide-react'
-import { addWithSpace } from '../../utils/addWithSpace'
+import clsx from 'clsx'
+import { CheckCheck, CloudOff, CloudUpload } from 'lucide-react'
 
 const FetchStatus = ({ isPending, isSuccess, isError }: FetchStatusProps) => {
   return (
     <div className="relative flex">
       <CloudUpload
-        className={
-          'absolute top-0 right-0 size-4 text-slate-500 transition-opacity' +
-          addWithSpace(isPending ? 'opacity-100' : 'opacity-0')
-        }
+        className={clsx(
+          'absolute top-0 right-0 size-4 text-zinc-500 transition-opacity',
+          isPending ? 'opacity-100' : 'opacity-0'
+        )}
       />
       <CheckCheck
-        className={
-          'absolute top-0 right-0 size-5 text-green-500 transition-opacity' +
-          addWithSpace(isSuccess || (!isError && !isPending) ? 'opacity-100' : 'opacity-0')
-        }
+        className={clsx(
+          'absolute top-0 right-0 size-5 text-green-500 transition-opacity',
+          isSuccess || (!isError && !isPending) ? 'opacity-100' : 'opacity-0'
+        )}
       />
       <CloudOff
-        className={
-          'absolute top-0 right-0 size-4 text-red-500 transition-opacity' +
-          addWithSpace(isError ? 'opacity-100' : 'opacity-0')
-        }
+        className={clsx(
+          'absolute top-0 right-0 size-4 text-red-500 transition-opacity',
+          isError ? 'opacity-100' : 'opacity-0'
+        )}
       />
     </div>
   )

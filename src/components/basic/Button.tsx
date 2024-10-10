@@ -1,6 +1,6 @@
+import clsx from 'clsx'
 import { LucideIcon } from 'lucide-react'
 import { HTMLAttributes } from 'react'
-import { addWithSpace } from '../../utils/addWithSpace'
 
 const Button = ({
   children,
@@ -17,8 +17,9 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const styling: Record<string, string> = {
-    primary: 'bg-slate-800 text-white transition-color hover:bg-slate-700 active:bg-slate-950',
-    secondary: 'hover:bg-slate-300/50 active:bg-slate-300',
+    primary: 'bg-gray-800 text-white transition-color hover:bg-zinc-700 active:bg-gray-950',
+    secondary: 'hover:bg-gray-200/60 active:bg-gray-300',
+    menu: 'hover:bg-gray-300 active:bg-gray-400',
     danger: 'bg-red-600 text-white hover:bg-red-500 active:bg-red-800',
   }
 
@@ -27,28 +28,22 @@ const Button = ({
       disabled={disabled}
       type={type}
       onClick={onClick}
-      className={
-        'h-8 items-center gap-2 rounded p-2 transition-colors' +
-        addWithSpace(
-          disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer'
-        ) +
-        addWithSpace(active ? 'font-bold' : '') +
-        addWithSpace(styling[buttonType]) +
-        addWithSpace(className) +
-        addWithSpace(asBlock ? 'flex justify-center' : 'inline-flex w-fit')
-      }
+      className={clsx(
+        'h-8 items-center gap-2 rounded p-2 transition-colors',
+        disabled ? 'pointer-events-none cursor-not-allowed opacity-40' : 'cursor-pointer',
+        active ? 'font-bold' : '',
+        styling[buttonType],
+        className,
+        asBlock ? 'flex justify-center' : 'inline-flex w-fit'
+      )}
       {...props}
     >
       {Icon && (
-        <Icon
-          strokeWidth={2}
-          className={'size-5' + addWithSpace(iconClassName)}
-          aria-hidden={true}
-        />
+        <Icon strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
       )}
       {children}
       {IconRight && (
-        <IconRight className={'size-5' + addWithSpace(iconClassName)} aria-hidden={true} />
+        <IconRight strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
       )}
     </button>
   )
@@ -57,7 +52,7 @@ const Button = ({
 export type ButtonProps = {
   active?: boolean | undefined
   asBlock?: boolean | undefined
-  buttonType?: 'primary' | 'secondary' | 'danger'
+  buttonType?: 'primary' | 'secondary' | 'danger' | 'menu'
   disabled?: boolean | undefined
   Icon?: LucideIcon | undefined
   iconClassName?: string | undefined

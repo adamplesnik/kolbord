@@ -2,28 +2,24 @@ import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { HTMLAttributes, useEffect } from 'react'
+import { HTMLAttributes, useContext, useEffect } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { GroupType } from '../../types/groupType'
 import { SpaceType } from '../../types/spaceType'
-import { LATEST_PLACE_METADATA } from '../../utils/constants'
+import { LATEST_SPACE_METADATA } from '../../utils/constants'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useZone } from '../plan/useZone.ts'
 import SpaceEditFeatures from './SpaceEditFeatures.tsx'
 
-const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
+const SpaceEdit = ({ space }: SpaceEditProps) => {
   const { getToken } = useAuth()
   const queryClient = useQueryClient()
-  const { zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
 
   const { data: allGroups } = useQuery<{ data: { docs: GroupType[] } }>({
-    queryKey: ['groups', zoneId],
+    queryKey: ['groups', zone?.id],
     enabled: true,
   })
-
-  useEffect(() => {
-    sendTitle(space.name)
-  }, [sendTitle, space.name])
 
   const { Field, handleSubmit, reset } = useForm<SpaceType>({
     onSubmit: async ({ value }) => {
@@ -80,7 +76,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
 
   const saveLatestMetadata = (data: SpaceType) => {
     const metadata = [data.x, data.y]
-    localStorage.setItem(LATEST_PLACE_METADATA, metadata.join())
+    localStorage.setItem(LATEST_SPACE_METADATA, metadata.join())
   }
 
   const { mutate, isPending, isSuccess, isError } = useMutation({
@@ -90,10 +86,10 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['spaces', zoneId],
+        queryKey: ['spaces', zone?.id],
       })
       queryClient.invalidateQueries({
-        queryKey: ['groups', zoneId],
+        queryKey: ['groups', zone?.id],
       })
     },
   })
@@ -142,7 +138,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
                       },
                     })
                   }
-                  className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                  className="w-full appearance-none rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
                   value={field?.state.value ? field.state.value?.value?.id : ''}
                 >
                   <option value={0}>(none)</option>
@@ -192,7 +188,7 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
                 <span className={'text-sm font-bold'}>Slots</span>
                 <select
                   required
-                  className="w-full appearance-none rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
+                  className="w-full appearance-none rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
                   value={state.value}
                   onBlur={handleBlur}
                   onChange={(e) => handleChange(e.target.value)}
@@ -223,8 +219,6 @@ const SpaceEdit = ({ space, sendTitle }: SpaceEditProps) => {
 }
 
 export type SpaceEditProps = {
-  handleEdit: (space: SpaceType) => void
-  sendTitle: (title: string | undefined) => void
   space: SpaceType
 } & HTMLAttributes<HTMLDivElement>
 

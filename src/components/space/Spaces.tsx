@@ -3,141 +3,117 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { BracesIcon } from 'lucide-react'
 import qs from 'qs'
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
+import { DateContext, DateContextType, Value } from '../../providers/DateContextProvider.tsx'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
 import Empty from '../basic/Empty.tsx'
 import Heading from '../basic/Heading.tsx'
 import Separator from '../basic/Separator.tsx'
-import { Value } from '../plan/PlanDateSelector.tsx'
-import { useZone } from '../plan/useZone.ts'
 import Space from './Space.tsx'
 
-const Spaces = ({
-  sidebarSpace,
-  handlePlaceClick,
-  handleZoomToElement,
-  workingDate,
-  listView,
-}: SpacesProps) => {
-  const { getToken, userId } = useAuth()
-  const { zoneId } = useZone()
-
-  const loadSpaces = async (
-    zoneId: number | undefined
-  ): Promise<{ data: { docs: SpaceType[] } }> => {
-    const query = qs.stringify({
-      where: {
-        'zone.value': {
-          equals: zoneId,
-        },
+const loadSpaces = async (
+  zoneId: number | undefined,
+  getToken: () => Promise<string | null>
+): Promise<{ data: { docs: SpaceType[] } }> => {
+  const query = qs.stringify({
+    where: {
+      'zone.value': {
+        equals: zoneId,
       },
-    })
-
-    return axios(`${import.meta.env.VITE_API_URL}/spaces?${query}&depth=1`, {
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
-  }
-
-  const { data: spaces } = useQuery({
-    queryKey: ['spaces', zoneId],
-    enabled: zoneId != undefined,
-    queryFn: () => loadSpaces(zoneId),
+    },
   })
 
-  const loadBookingsForZone = async (
-    zoneId: number | undefined,
-    date: Value
-  ): Promise<{ data: { docs: BookingType[] } }> => {
-    const today = date && new Date(Date.parse(date.toString())).toISOString()
-    const midnight = date && new Date(Date.parse(date.toString()))
-    midnight?.setHours(23, 59, 59, 999)
+  return axios(`${import.meta.env.VITE_API_URL}/spaces?${query}&depth=1&sort=name`, {
+    headers: {
+      Authorization: `Bearer ${await getToken()}`,
+    },
+  })
+}
 
-    const query = qs.stringify({
-      where: {
-        and: [
-          {
-            space: {
-              'zone.value': {
-                equals: zoneId,
-              },
-            },
-            from: {
-              greater_than_equal: today,
-            },
-            to: {
-              less_than_equal: midnight,
+const loadBookingsForZone = async (
+  zoneId: number | undefined,
+  date: Value,
+  getToken: () => Promise<string | null>
+): Promise<{ data: { docs: BookingType[] } }> => {
+  const today = date && new Date(Date.parse(date.toString())).toISOString()
+  const midnight = date && new Date(Date.parse(date.toString()))
+  midnight?.setHours(23, 59, 59, 999)
+
+  const query = qs.stringify({
+    where: {
+      and: [
+        {
+          space: {
+            'zone.value': {
+              equals: zoneId,
             },
           },
-        ],
-      },
-    })
-
-    return axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}`, {
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
-  }
-
-  const { data: bookings } = useQuery({
-    queryKey: ['bookings', zoneId, workingDate],
-    queryFn: () => loadBookingsForZone(zoneId, workingDate),
+          from: {
+            greater_than_equal: today,
+          },
+          to: {
+            less_than_equal: midnight,
+          },
+        },
+      ],
+    },
   })
 
-  const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value))].sort()
+  return axios.get(`${import.meta.env.VITE_API_URL}/bookings?${query}`, {
+    headers: {
+      Authorization: `Bearer ${await getToken()}`,
+    },
+  })
+}
+
+const Spaces = ({ listView }: SpacesProps) => {
+  const { getToken } = useAuth()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
+  const { date } = useContext(DateContext) as DateContextType
+
+  const { data: spaces } = useQuery({
+    queryKey: ['spaces', zone?.id],
+    enabled: zone?.id != undefined,
+    queryFn: () => loadSpaces(zone?.id, getToken),
+  })
+
+  const { data: bookings } = useQuery({
+    queryKey: ['bookings', zone?.id, date],
+    queryFn: () => loadBookingsForZone(zone?.id, date, getToken),
+  })
+
+  const groups = [...new Set(spaces?.data.docs.map((space) => space?.group?.value?.name))].sort()
 
   if (!spaces) {
-    return <Empty Icon={BracesIcon} message="No space available"></Empty>
+    return <Empty Icon={BracesIcon} message="No spaces available."></Empty>
   }
 
   return (
-    <div className={listView ? 'flex flex-col' : ''}>
+    <div className={listView ? 'flex flex-col' : 'relative'}>
       {groups.map((group) => (
-        <Fragment key={`${group?.id}_group`}>
+        <Fragment key={`${group}_group`}>
           <div
             className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
           >
             {listView && (
               <Heading size={4} className="w-32 shrink-0 py-8">
-                {group?.name ? group.name : '(no group)'}
+                {group ? group : '(no group)'}
               </Heading>
             )}
-            {listView && <Separator horizontal />}
+            {listView && <Separator vertical />}
             <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
               {spaces?.data.docs
-                .filter((space) => space?.group?.value === group)
+                .filter((space) => space?.group?.value?.name === group)
                 .map((space, i) => {
-                  const bookedToday = bookings?.data.docs.find(
-                    (booking) => booking.space.value === space.id
-                  )
                   const allToday = bookings?.data.docs.filter(
                     (booking) => booking.space.value === space.id
                   )
                   return (
                     <Space
-                      id={space.id}
-                      features={space.features}
-                      group={space.group}
-                      name={space.name}
-                      slots={space.slots}
-                      x={space.x}
-                      y={space.y}
-                      active={space === sidebarSpace}
-                      bookedToday={bookedToday != undefined}
+                      space={space}
                       bookings={allToday}
-                      bookedByWho={bookedToday?.sub}
-                      bookedByMe={bookedToday?.sub === userId}
-                      onClick={() => {
-                        handlePlaceClick(space)
-                        handleZoomToElement &&
-                          setTimeout(
-                            () => handleZoomToElement(`space_${space.id.toFixed()}`, 0.75),
-                            400
-                          )
-                      }}
                       key={`space_${space.x}_${space.y}_${i}`}
                       listView={listView}
                     />
@@ -153,11 +129,7 @@ const Spaces = ({
 }
 
 type SpacesProps = {
-  handlePlaceClick: (space: SpaceType) => void
-  handleZoomToElement?: (id: string, zoom: number) => void | undefined
   listView: boolean
-  sidebarSpace: SpaceType | undefined
-  workingDate: Value
 }
 
 export default Spaces

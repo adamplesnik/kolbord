@@ -1,7 +1,7 @@
 import { ClerkProvider } from '@clerk/clerk-react'
 import { HTMLAttributes } from 'react'
 
-const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
+const ClerkProviderWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
   if (!PUBLISHABLE_KEY) {
@@ -18,27 +18,28 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
           unsafe_disableDevelopmentModeWarnings: true,
           logoPlacement: 'none',
         },
+        variables: {
+          fontSize: 'var(--font-size-sm)',
+        },
         elements: {
-          card: '!p-px my-8 !shadow-none !border-none !rounded-none !bg-transparent !text-current',
-          cardBox: '!shadow-none !w-full !border !border-transparent !h-fit',
+          avatarBox: '!rounded-md !size-8',
+          card: '!p-px !shadow-none !border-none !rounded-none !bg-transparent !text-current',
+          cardBox: '!shadow-none !w-full',
           footer: '!pt-0 *:!border-none !rounded-full !w-fit',
           footerAction: '!hidden',
           formButtonPrimary:
             '!rounded !shadow-none after:hidden !text-base ![--accent:var(--color-zinc-800)] ![--accentHover:var(--color-zinc-700)] min-h-10',
           formFieldInput: '!rounded !text-base !shadow-none !border-1',
           formFieldLabel: '!text-xs',
-          headerTitle: '!text-xl text-left',
+          headerTitle: '!text-xl text-left !font-semibold',
           headerSubtitle: '!hidden',
           identityPreview: '!justify-start !pt-1',
           organizationListPreviewButton: '!text-red-400',
-          // organizationPreview__organizationList: '!hidden',
-          header: '!hidden',
-          organizationPreviewMainIdentifier: '!text-sm',
-          organizationPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
-          rootBox: '!w-full',
+          organizationPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
           scrollBox: '!rounded-none',
-          userPreviewMainIdentifier: '*:!text-sm',
-          userPreviewSecondaryIdentifier: 'pt-1 !text-slate-500',
+          userButtonBox: '!rounded-md !size-8',
+          userButtonTrigger: 'focus:!shadow-none',
+          userPreviewSecondaryIdentifier: 'pt-1 !text-zinc-500',
         },
       }}
     >
@@ -47,4 +48,4 @@ const ClerkWrapper = ({ children }: HTMLAttributes<HTMLDivElement>) => {
   )
 }
 
-export default ClerkWrapper
+export default ClerkProviderWrapper

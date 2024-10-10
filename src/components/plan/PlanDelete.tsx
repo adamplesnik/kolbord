@@ -1,16 +1,15 @@
 import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useState } from 'react'
-import { LATEST_PLAN_ID } from '../../utils/constants'
+import { useContext, useState } from 'react'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import Button from '../basic/Button'
 import Paragraph from '../basic/Paragraph'
-import { useZone } from './useZone'
 
-const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
+const PlanDelete = () => {
   const [deleteStep, setDeleteStep] = useState(0)
-  const { zone, zoneId } = useZone()
   const { getToken } = useAuth()
+  const { zone, setZone } = useContext(ZoneContext) as ZoneContextType
 
   const deletePlan = async (id: number | undefined) => {
     try {
@@ -22,25 +21,21 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
       })
     } catch (error) {
       console.error(error)
-    } finally {
-      handleDelete()
     }
   }
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
-    mutationFn: () => deletePlan(zoneId),
+    mutationFn: () => deletePlan(zone?.id),
     onSuccess: () => {
+      setZone(undefined)
+      setDeleteStep(0)
       queryClient.invalidateQueries({
         queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
         queryKey: ['spaces'],
       })
-      queryClient.invalidateQueries({
-        queryKey: ['zone'],
-      })
-      localStorage.removeItem(LATEST_PLAN_ID)
     },
   })
 
@@ -63,8 +58,8 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
           <input
             type="text"
             defaultValue={''}
-            className="rounded border-slate-400 bg-slate-50 py-1 px-2 text-sm hover:border-slate-600"
-            onChange={(e) => setDeleteStep(e.target.value === zone?.data.name ? 2 : 1)}
+            className="rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
+            onChange={(e) => setDeleteStep(e.target.value === zone?.name ? 2 : 1)}
           ></input>
           <div className="flex justify-between">
             <Button disabled={deleteStep < 2} buttonType="danger" onClick={() => mutate()}>
@@ -76,10 +71,6 @@ const PlanDelete = ({ handleDelete }: PlanDeleteProps) => {
       )}
     </div>
   )
-}
-
-type PlanDeleteProps = {
-  handleDelete: () => void
 }
 
 export default PlanDelete

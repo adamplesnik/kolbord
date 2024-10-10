@@ -6,7 +6,7 @@ import Anchor from '../components/basic/Anchor'
 import Logo from '../components/basic/Logo'
 import Paragraph from '../components/basic/Paragraph'
 import Skeleton from '../components/basic/Skeleton'
-import AuthFooter from './AuthFooter'
+import Footer from '../components/partials/Footer'
 
 const skeletonCollection = ['96%', '100%', '92%', '55%', '100%', '93%', '87%', '55%']
 
@@ -22,7 +22,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
       <div className="flex w-full flex-col overflow-hidden md:flex-row md:gap-16">
         <div className="flex min-h-[500px] w-full max-w-sm flex-col gap-8">
           <ClerkLoading>
-            <div className="h-[500px] w-full p-8">
+            <div className="flex h-[500px] w-full flex-col gap-2 p-8">
               {skeletonCollection.map((width, key) => (
                 <Skeleton width={width} key={key} />
               ))}
@@ -47,7 +47,7 @@ const AuthWrapper = ({ children, signUp = false }: AuthWrapperProps) => {
           )}
         </div>
       </div>
-      <AuthFooter />
+      <Footer />
     </div>
   )
 }

@@ -2,16 +2,21 @@ import { useAuth } from '@clerk/clerk-react'
 import { useForm } from '@tanstack/react-form'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { ZoneType } from '../../types/zoneType'
 import Button from '../basic/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
-import { useZone } from './useZone'
 
-const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
+const PlanEditor = () => {
   const { getToken } = useAuth()
-  const { zone, zoneId } = useZone()
+  const { zone } = useContext(ZoneContext) as ZoneContextType
+  const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
+  useEffect(() => {
+    setSidebarState({ title: zone?.name })
+  }, [zone, setSidebarState])
 
   const updatePlan = async (
     id: number | undefined,
@@ -33,17 +38,17 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
   const queryClient = useQueryClient()
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationFn: (data: ZoneType) => updatePlan(zoneId, data.name, data.svg),
+    mutationFn: (data: ZoneType) => updatePlan(zone?.id, data.name, data.svg),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['zones'] })
-      await queryClient.cancelQueries({ queryKey: ['zone'] })
+      await queryClient.cancelQueries({ queryKey: ['zone', zone?.id] })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['zones'],
       })
       queryClient.invalidateQueries({
-        queryKey: ['zone'],
+        queryKey: ['zone', zone?.id],
       })
     },
   })
@@ -53,19 +58,15 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
       mutate(value)
     },
     defaultValues: {
-      id: zone?.data.id,
-      name: zone?.data.name,
-      svg: zone?.data.svg,
+      id: zone?.id,
+      name: zone?.name,
+      svg: zone?.svg,
     },
   })
 
   useEffect(() => {
     reset()
-  }, [reset, zoneId])
-
-  useEffect(() => {
-    sendTitle(zone?.data.name)
-  }, [sendTitle, zone?.data.name])
+  }, [reset, zone?.id])
 
   return (
     <>
@@ -99,7 +100,7 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
                 required
-                className="h-64 rounded border-slate-400 bg-slate-50 py-1 px-2 font-mono text-sm hover:border-slate-600"
+                className="h-64 rounded border-zinc-400 bg-zinc-50 py-1 px-2 font-mono text-sm hover:border-zinc-600"
                 value={state.value}
               />
             </div>
@@ -111,10 +112,6 @@ const PlanEditor = ({ sendTitle }: PlanEditorProps) => {
       </form>
     </>
   )
-}
-
-type PlanEditorProps = {
-  sendTitle: (title: string | undefined) => void
 }
 
 export default PlanEditor

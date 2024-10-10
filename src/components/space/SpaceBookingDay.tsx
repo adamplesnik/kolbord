@@ -2,19 +2,24 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import qs from 'qs'
+import { useContext } from 'react'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import DateHeading from '../basic/DateHeading.tsx'
 import { getSlots } from './generateSlots'
 import SpaceBookingSlot from './SpaceBookingSlot.tsx'
 
-const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
+const SpaceBookingDay = ({ date }: SpaceBookingDayProps) => {
   const midnight = new Date()
   midnight.setHours(23, 59, 59, 999)
   midnight.setDate(date.getDate())
+  const { sidebarState } = useContext(SidebarContext) as SidebarContextType
+  const spaceId = sidebarState.space?.id
+  const slots = sidebarState.space?.slots
 
   const { getToken } = useAuth()
   const loadBookingsForSpace = async (
-    spaceId: number
+    spaceId: number | undefined
   ): Promise<{ data: { docs: BookingType[] } }> => {
     const query = qs.stringify({
       where: {
@@ -41,7 +46,7 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
   }
 
   const { data: loadedSpaceBooking } = useQuery({
-    enabled: spaceId > 0,
+    enabled: spaceId != undefined && spaceId > 0,
     queryKey: ['tableBooking', spaceId, date],
     queryFn: () => loadBookingsForSpace(spaceId),
   })
@@ -74,8 +79,6 @@ const SpaceBookingDay = ({ date, slots, spaceId }: SpaceBookingDayProps) => {
 
 type SpaceBookingDayProps = {
   date: Date
-  slots: 'whole day' | 'half-day' | 'hours 2' | 'hour 1' | 'minutes 30' | string
-  spaceId: number
 }
 
 export default SpaceBookingDay

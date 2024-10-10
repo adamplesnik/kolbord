@@ -3,7 +3,7 @@ export type BookingType = {
   from: Date
   to: Date
   space: {
-    value: number
+    value: number | undefined
   }
   sub?: string | null | undefined
   org?: string | null | undefined

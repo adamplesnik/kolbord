@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import Anchor from '../components/basic/Anchor'
-import Logo from '../components/basic/Logo'
-import Paragraph from '../components/basic/Paragraph'
+import Anchor from '../basic/Anchor'
+import Logo from '../basic/Logo'
+import Paragraph from '../basic/Paragraph'
 
-const AuthFooter = () => {
+const Footer = () => {
   return (
     <div className="mt-16 flex flex-col border-t border-t-zinc-400 pt-8 pb-16 text-sm md:flex-row md:gap-24">
       <div>
@@ -52,4 +52,4 @@ const AuthFooter = () => {
   )
 }
 
-export default AuthFooter
+export default Footer
