@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { List, Map } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 
 const ZoneViewSwitcher = () => {
   const location = useLocation()

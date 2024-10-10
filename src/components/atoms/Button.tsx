@@ -11,7 +11,6 @@ const Button = ({
   buttonType = 'secondary',
   active = false,
   Icon = undefined,
-  IconRight = undefined,
   iconClassName = undefined,
   type = 'button',
   ...props
@@ -25,6 +24,7 @@ const Button = ({
 
   return (
     <button
+      data-testid="button"
       disabled={disabled}
       type={type}
       onClick={onClick}
@@ -42,9 +42,6 @@ const Button = ({
         <Icon strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
       )}
       {children}
-      {IconRight && (
-        <IconRight strokeWidth={1.5} className={clsx('size-5', iconClassName)} aria-hidden={true} />
-      )}
     </button>
   )
 }
@@ -56,7 +53,6 @@ export type ButtonProps = {
   disabled?: boolean | undefined
   Icon?: LucideIcon | undefined
   iconClassName?: string | undefined
-  IconRight?: LucideIcon | undefined
   type?: 'button' | 'submit'
 } & HTMLAttributes<HTMLButtonElement>
 

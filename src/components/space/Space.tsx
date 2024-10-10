@@ -6,9 +6,9 @@ import { SidebarContext, SidebarContextType } from '../../providers/SidebarConte
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
 import { humanTime } from '../../utils/human.ts'
-import Button from '../basic/Button.tsx'
+import Button from '../atoms/Button.tsx'
+import Separator from '../atoms/Separator.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
-import Separator from '../basic/Separator.tsx'
 import UserName from '../user/UserName.tsx'
 import SpaceDot from './SpaceDot.tsx'
 

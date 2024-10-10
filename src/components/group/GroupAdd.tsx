@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react'
 import { useContext } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 
 const GroupAdd = () => {
   const { getToken, orgId } = useAuth()

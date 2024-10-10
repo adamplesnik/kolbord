@@ -2,8 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useState } from 'react'
-import Button from '../basic/Button'
-import Paragraph from '../basic/Paragraph'
+import Button from '../atoms/Button'
+import Paragraph from '../atoms/Paragraph'
 
 const SpaceDelete = ({ id }: SpaceDeleteProps) => {
   const { getToken } = useAuth()

@@ -6,7 +6,7 @@ import { useContext, useEffect } from 'react'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { ZoneType } from '../../types/zoneType'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 import FetchStatus from '../basic/FetchStatus'
 import InputWithLabel from '../basic/InputWithLabel'
 

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import Anchor from '../basic/Anchor'
+import Anchor from '../atoms/Anchor'
+import Paragraph from '../atoms/Paragraph'
 import Logo from '../basic/Logo'
-import Paragraph from '../basic/Paragraph'
 
 const Footer = () => {
   return (

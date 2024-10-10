@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
 import { GroupType } from '../../types/groupType'
-import Button from '../basic/Button'
+import Button from '../atoms/Button'
 
 const GroupList = () => {
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType

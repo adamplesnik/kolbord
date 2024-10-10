@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
-import Loading from '../basic/Loading'
+import Loading from '../atoms/Loading'
 
 const ZonePlan = () => {
   const { zone, isLoading } = useContext(ZoneContext) as ZoneContextType
