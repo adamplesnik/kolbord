@@ -4,18 +4,18 @@ import { useIsAdmin } from '../../hooks/useIsAdmin.ts'
 import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider.tsx'
 import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider.tsx'
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
-import Button from '../basic/Button'
+import Button from '../basic/Button.tsx'
 import CustomTooltip from '../basic/CustomTooltip.tsx'
 import Heading from '../basic/Heading.tsx'
 import Loading from '../basic/Loading.tsx'
-import Ping from '../basic/Ping'
+import Ping from '../basic/Ping.tsx'
 import Skeleton from '../basic/Skeleton.tsx'
 import GroupAdd from '../group/GroupAdd.tsx'
 import GroupList from '../group/GroupList.tsx'
 import SpaceAdd from '../space/SpaceAdd.tsx'
-import PlanAdd from './PlanAdd.tsx'
+import ZoneAdd from './ZoneAdd.tsx'
 
-const PlanSwitcher = () => {
+const ZoneSwitcher = () => {
   const { isAdmin } = useIsAdmin()
   const { editMode } = useContext(EditModeContext) as EditModeContextType
   const { setSidebarState } = useContext(SidebarContext) as SidebarContextType
@@ -57,7 +57,7 @@ const PlanSwitcher = () => {
                   {z.name}
                 </Button>
               ))}
-            <PlanAdd />
+            <ZoneAdd />
             {zone?.id != undefined && zone?.id > 0 && editMode && <SpaceAdd planId={zone?.id} />}
           </div>
           {isAdmin && editMode && (
@@ -73,4 +73,4 @@ const PlanSwitcher = () => {
   )
 }
 
-export default PlanSwitcher
+export default ZoneSwitcher

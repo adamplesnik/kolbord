@@ -1,6 +1,6 @@
 import { OrganizationList, useOrganization, UserButton, useUser } from '@clerk/clerk-react'
 import { Building2, ListChecks } from 'lucide-react'
-import YourBookings from './YourBookings'
+import UserBookings from './UserBookings'
 
 const pageTitle = (text: string) => {
   return `${text} / Kolbord`
@@ -48,7 +48,7 @@ const UserMenu = () => {
         label="Your bookings"
         url="bookings"
         labelIcon={<ListChecks size={16} />}
-        children={<YourBookings />}
+        children={<UserBookings />}
       />
       <UserButton.UserProfilePage
         children={

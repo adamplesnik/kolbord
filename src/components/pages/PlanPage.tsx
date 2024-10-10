@@ -1,11 +1,11 @@
 import clsx from 'clsx'
 import { useContext } from 'react'
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import GroupMarkers from '../components/group/GroupMarkers.tsx'
-import Plan from '../components/plan/Plan.tsx'
-import Spaces from '../components/space/Spaces.tsx'
-import { EditModeContext, EditModeContextType } from '../providers/EditModeContextProvider.tsx'
-import { SidebarContext, SidebarContextType } from '../providers/SidebarContextProvider.tsx'
+import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider'
+import { SidebarContext, SidebarContextType } from '../../providers/SidebarContextProvider'
+import GroupMarkers from '../group/GroupMarkers'
+import Spaces from '../space/Spaces'
+import ZonePlan from '../zone/ZonePlan'
 
 const PlanPage = () => {
   const { editMode } = useContext(EditModeContext) as EditModeContextType
@@ -28,7 +28,7 @@ const PlanPage = () => {
         >
           <GroupMarkers />
           <Spaces listView={false} />
-          <Plan />
+          <ZonePlan />
         </TransformComponent>
       )}
     </TransformWrapper>
