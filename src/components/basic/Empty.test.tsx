@@ -1,11 +1,11 @@
+import { render } from '@testing-library/react'
+import { Cog } from 'lucide-react'
 import { describe, expect, it } from 'vitest'
+import Empty from './Empty'
 
-describe('something truthy and falsy', () => {
-  it('true to be true', () => {
-    expect(true).toBe(true)
-  })
-
-  it('false to be false', () => {
-    expect(false).toBe(false)
+describe('Empty', () => {
+  it('renders Empty component with Cog icon, hello message', () => {
+    const r = render(<Empty Icon={Cog} message="Hello" />)
+    expect(r).toMatchSnapshot()
   })
 })
