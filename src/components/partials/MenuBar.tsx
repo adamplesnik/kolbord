@@ -2,8 +2,8 @@ import { useAuth } from '@clerk/clerk-react'
 import DateSelector from '../basic/DateSelector'
 import EditButton from '../basic/EditButton'
 import Separator from '../basic/Separator'
-import PlanSwitcher from '../plan/PlanSwitcher'
-import ZoneViewSwitcher from '../plan/ZoneViewSwitcher'
+import PlanSwitcher from '../zone/ZoneSwitcher'
+import ZoneViewSwitcher from '../zone/ZoneViewSwitcher'
 
 const MenuBar = () => {
   const { orgId } = useAuth()

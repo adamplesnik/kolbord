@@ -1,12 +1,11 @@
 import { ClerkLoading, SignedIn } from '@clerk/clerk-react'
-
 import { HTMLAttributes } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import Anchor from '../components/basic/Anchor'
-import Logo from '../components/basic/Logo'
-import Paragraph from '../components/basic/Paragraph'
-import Skeleton from '../components/basic/Skeleton'
-import Footer from '../components/partials/Footer'
+import Anchor from '../basic/Anchor'
+import Logo from '../basic/Logo'
+import Paragraph from '../basic/Paragraph'
+import Skeleton from '../basic/Skeleton'
+import Footer from '../partials/Footer'
 
 const skeletonCollection = ['96%', '100%', '92%', '55%', '100%', '93%', '87%', '55%']
 

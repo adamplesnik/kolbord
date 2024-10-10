@@ -8,11 +8,11 @@ import { SidebarContext, SidebarContextType } from '../../providers/SidebarConte
 import Button from '../basic/Button'
 import Heading from '../basic/Heading'
 import GroupDetail from '../group/GroupDetail'
-import PlanDelete from '../plan/PlanDelete'
-import PlanEditor from '../plan/PlanEditor'
 import SpaceDelete from '../space/SpaceDelete'
 import SpaceDetail from '../space/SpaceDetail'
 import SpaceEdit from '../space/SpaceEdit'
+import PlanDelete from '../zone/ZoneDelete'
+import PlanEditor from '../zone/ZoneEditor'
 
 const Sidebar = () => {
   const { isAdmin } = useIsAdmin()

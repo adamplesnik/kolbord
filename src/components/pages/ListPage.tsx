@@ -1,7 +1,7 @@
+import { Heading } from 'lucide-react'
 import { useContext } from 'react'
-import Heading from '../components/basic/Heading.tsx'
-import Spaces from '../components/space/Spaces.tsx'
-import { ZoneContext, ZoneContextType } from '../providers/ZoneContextProvider.tsx'
+import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider'
+import Spaces from '../space/Spaces'
 
 const ListPage = () => {
   const { zone } = useContext(ZoneContext) as ZoneContextType
