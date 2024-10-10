@@ -1,9 +1,9 @@
 import { ClerkLoading, SignedIn } from '@clerk/clerk-react'
 import { HTMLAttributes } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import Paragraph from '../atoms/Paragraph'
 import Anchor from '../basic/Anchor'
 import Logo from '../basic/Logo'
-import Paragraph from '../basic/Paragraph'
 import Skeleton from '../basic/Skeleton'
 import Footer from '../partials/Footer'
 
