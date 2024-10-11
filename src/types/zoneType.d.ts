@@ -3,4 +3,6 @@ export type ZoneType = {
   name?: string
   svg?: string
   org?: string
+  hoursFrom?: number
+  hoursTo?: number
 }

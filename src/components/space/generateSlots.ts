@@ -1,37 +1,17 @@
-const generateSlots = (date: Date, startHours: number, endHours: number, stepHours: number) => {
-  const slots = []
-  const currentTime = new Date(date)
-  currentTime.setHours(startHours, 0, 0, 0)
+export function generateTimeSlots(date: Date, from: number, to: number): Date[] {
+  const timeSlots: Date[] = []
 
-  while (currentTime.getHours() + currentTime.getMinutes() / 60 < endHours) {
-    const startSlot = new Date(currentTime)
-    currentTime.setMinutes(currentTime.getMinutes() + stepHours * 60)
-    const endSlot = new Date(currentTime)
+  const slotDuration = 30
+  const start = new Date(date)
+  start.setHours(from, 0, 0, 0)
 
-    slots.push({
-      slot: {
-        from: startSlot,
-        to: endSlot,
-      },
-    })
+  const end = new Date(date)
+  end.setHours(to, 0, 0, 0)
+
+  while (start < end) {
+    timeSlots.push(new Date(start.getTime()))
+    start.setMinutes(start.getMinutes() + slotDuration)
   }
 
-  return slots
-}
-
-export const getSlots = (date: Date, slots: string | undefined) => {
-  switch (slots) {
-    case 'wholeday':
-      return generateSlots(date, 6, 18, 12)
-    case 'halfday':
-      return generateSlots(date, 6, 18, 6)
-    case '2hours':
-      return generateSlots(date, 6, 18, 2)
-    case '1hour':
-      return generateSlots(date, 6, 18, 1)
-    case '30minutes':
-      return generateSlots(date, 6, 18, 0.5)
-    default:
-      return generateSlots(date, 6, 18, 6)
-  }
+  return timeSlots
 }
