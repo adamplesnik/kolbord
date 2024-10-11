@@ -47,13 +47,13 @@ const ZoneAdd = () => {
     },
   })
 
-  if (!isAdmin && !editMode) {
+  if (!isAdmin || !editMode) {
     return null
   }
 
   return (
     <Button Icon={Plus} onClick={() => mutate()} className="w-full">
-      New plan
+      New zone
     </Button>
   )
 }
