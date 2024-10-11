@@ -11,7 +11,7 @@ const Layout = () => {
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>
-      <div className="fixed bottom-0 z-10 flex h-14 w-full items-center gap-2 py-2 px-4 backdrop-blur-sm sm:justify-between md:top-0 md:bottom-auto">
+      <div className="fixed bottom-0 z-20 flex h-14 w-full items-center gap-2 py-2 px-4 backdrop-blur-sm sm:justify-between md:top-0 md:bottom-auto">
         <Link to="/">
           <Logo className="ml-1 h-8 sm:ml-0 sm:h-4" />
         </Link>

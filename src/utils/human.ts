@@ -15,7 +15,7 @@ export const humanDayName = (date: Date | string) => {
   } else if (tomorrowString === new Date(date).toDateString()) {
     return 'Tomorrow'
   } else {
-    return new Date(date).toLocaleString([], { weekday: 'long' })
+    return new Date(date).toLocaleString([], { weekday: 'short' })
   }
 }
 
