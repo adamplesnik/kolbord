@@ -1,5 +1,7 @@
 import { OrganizationList, useOrganization, UserButton, useUser } from '@clerk/clerk-react'
-import { Building2, ListChecks } from 'lucide-react'
+import { Building2, CheckCheck, ListChecks, Pencil } from 'lucide-react'
+import { useContext } from 'react'
+import { EditModeContext, EditModeContextType } from '../../providers/EditModeContextProvider'
 import UserBookings from './UserBookings'
 
 const pageTitle = (text: string) => {
@@ -21,6 +23,11 @@ const organizationIcon = (imageUrl: string | undefined) => {
 const UserMenu = () => {
   const { user } = useUser()
   const { organization } = useOrganization()
+  const { editMode, setEditMode } = useContext(EditModeContext) as EditModeContextType
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode)
+  }
 
   if (organization) {
     document.title = pageTitle(organization.name)
@@ -42,6 +49,13 @@ const UserMenu = () => {
           label={organizationLabel(organization?.name)}
           labelIcon={organizationIcon(organization?.imageUrl)}
           open="org"
+        />
+        <UserButton.Action
+          label={editMode ? 'Finish editing' : 'Edit mode'}
+          labelIcon={
+            editMode ? <CheckCheck size={16} className="text-red-400" /> : <Pencil size={16} />
+          }
+          onClick={toggleEditMode}
         />
       </UserButton.MenuItems>
       <UserButton.UserProfilePage

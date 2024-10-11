@@ -8,7 +8,6 @@ import { DateContext, DateContextType, Value } from '../../providers/DateContext
 import { ZoneContext, ZoneContextType } from '../../providers/ZoneContextProvider.tsx'
 import { BookingType } from '../../types/bookingType'
 import { SpaceType } from '../../types/spaceType'
-import Heading from '../atoms/Heading.tsx'
 import Separator from '../atoms/Separator.tsx'
 import Empty from '../basic/Empty.tsx'
 import Space from './Space.tsx'
@@ -95,15 +94,17 @@ const Spaces = ({ listView }: SpacesProps) => {
       {groups.map((group) => (
         <Fragment key={`${group}_group`}>
           <div
-            className={listView ? 'flex w-full flex-col gap-8 md:flex-row md:items-stretch' : ''}
+            className={
+              listView ? 'flex w-full flex-col gap-2 md:flex-row md:items-stretch md:gap-8' : ''
+            }
           >
             {listView && (
-              <Heading size={4} className="w-32 shrink-0 py-8">
+              <div className="w-32 shrink-0 pt-4 text-xs text-zinc-500 md:py-8">
                 {group ? group : '(no group)'}
-              </Heading>
+              </div>
             )}
             {listView && <Separator vertical />}
-            <div className={listView ? 'flex w-full flex-col gap-2 py-8' : ''}>
+            <div className={listView ? 'flex w-full flex-col gap-2 md:py-8' : ''}>
               {spaces?.data.docs
                 .filter((space) => space?.group?.value?.name === group)
                 .map((space, i) => {

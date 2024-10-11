@@ -12,12 +12,10 @@ const DateSelector = () => {
 
   return (
     <>
-      <div data-tooltip-id="calendarTooltip">
-        <Button className="shrink-0" buttonType="menu">
-          {date && <DateHeading date={date.toString()} />}
-          {isDirty && <span className="size-2 rounded-full bg-red-600"></span>}
-        </Button>
-      </div>
+      <Button buttonType="menu" data-tooltip-id="calendarTooltip">
+        {date && <DateHeading date={date.toString()} dayClassName="hidden sm:block" />}
+        {isDirty && <span className="size-2 shrink-0 rounded-full bg-pink-600"></span>}
+      </Button>
       <CustomTooltip
         id="calendarTooltip"
         children={<Calendar onChange={(value) => setDate(value)} value={date} />}
