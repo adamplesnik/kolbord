@@ -12,7 +12,7 @@ const Footer = () => {
         </Link>
         <Paragraph className="max-w-sm">
           <strong>The smoothest space booking.</strong> Opinionated, free to use, and open source
-          app for one-click reservation of anything.
+          app for reservation of anything.
         </Paragraph>
       </div>
       <div className="flex flex-col gap-3 pt-14">
