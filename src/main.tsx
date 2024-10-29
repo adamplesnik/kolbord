@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import AuthLayout from './components/layouts/AuthLayout.tsx'
 import Layout from './components/layouts/Layout.tsx'
 import ListPage from './components/pages/ListPage.tsx'
 import PlanPage from './components/pages/PlanPage.tsx'
@@ -13,13 +14,18 @@ import ProviderWrapper from './providers/ProviderWrapper.tsx'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <SignInPage />,
+    element: <AuthLayout />,
     errorElement: <SignInPage />,
-  },
-  {
-    path: '/sign-up',
-    element: <SignUpPage />,
+    children: [
+      {
+        path: '/',
+        element: <SignInPage />,
+      },
+      {
+        path: '/sign-up',
+        element: <SignUpPage />,
+      },
+    ],
   },
   {
     element: <Layout />,

@@ -1,14 +1,10 @@
-import { ClerkLoading, SignedOut, SignIn } from '@clerk/clerk-react'
-import AuthWrapper from '../layouts/AuthLayout'
+import { SignedOut, SignIn } from '@clerk/clerk-react'
 
 const SignInPage = () => {
   return (
-    <AuthWrapper>
-      <SignedOut>
-        <ClerkLoading>loooo</ClerkLoading>
-        <SignIn />
-      </SignedOut>
-    </AuthWrapper>
+    <SignedOut>
+      <SignIn />
+    </SignedOut>
   )
 }
 
