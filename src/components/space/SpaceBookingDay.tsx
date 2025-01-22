@@ -2,7 +2,7 @@ import { useAuth } from '@clerk/clerk-react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import qs from 'qs'
 import { useContext, useState } from 'react'
@@ -142,7 +142,6 @@ const SpaceBookingDay = ({ date }: SpaceBookingDayProps) => {
             generateTimeSlots(date, zone?.hoursFrom, zone?.hoursTo).map((d, i) => {
               const isActive = markActive(booking.from, booking.to, d)
 
-              console.log(Math.floor(firstActiveIndex / 4))
               return (
                 <div
                   className={clsx(
@@ -160,30 +159,17 @@ const SpaceBookingDay = ({ date }: SpaceBookingDayProps) => {
                   {isActive && lastActiveIndex === i && (
                     <div className="absolute right-0 bottom-0 size-4 rounded-br-full bg-transparent shadow-[10px_15px_0_10px_#fff]"></div>
                   )}
-                  {isActive ?
-                    <motion.div
-                      initial={false}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: '100%', opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                      key={`slot_${d.getTime()}1`}
-                      className={clsx('p-1 text-xs inset-shadow-slate-500')}
-                      onClick={() => setCurrentBookingTime(d)}
-                    >
-                      i: {i}, f: {firstActiveIndex},{humanTime(d)}
-                    </motion.div>
-                  : <motion.div
-                      initial={false}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{ x: '-10px', opacity: 0 }}
-                      transition={{ duration: 0.4 }}
-                      key={`slot_${d.getTime()}2`}
-                      className={clsx('bg-white p-1')}
-                      onClick={() => setCurrentBookingTime(d)}
-                    >
-                      {humanTime(d)}
-                    </motion.div>
-                  }
+
+                  <div
+                    key={`slot_${d.getTime()}1`}
+                    className={clsx(
+                      'cursor-pointer p-1 text-xs inset-shadow-slate-500 transition-colors delay-100 duration-500',
+                      isActive ? 'bg-transparent' : 'bg-white'
+                    )}
+                    onClick={() => setCurrentBookingTime(d)}
+                  >
+                    {i}, {firstActiveIndex}, {humanTime(d)}
+                  </div>
                 </div>
               )
             })}
