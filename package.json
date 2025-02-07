@@ -50,6 +50,6 @@
     "prettier-plugin-tailwindcss": "^0.6.5",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
-    "vitest": "^2.1.2"
+    "vitest": "^2.1.9"
   }
 }
