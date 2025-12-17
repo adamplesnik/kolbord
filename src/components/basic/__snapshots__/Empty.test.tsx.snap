@@ -9,6 +9,7 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
         class="mx-auto flex min-h-52 max-w-sm flex-col items-center justify-center"
       >
         <svg
+          aria-hidden="true"
           class="lucide lucide-cog mb-4 size-10 shrink-0 text-zinc-500"
           fill="none"
           height="24"
@@ -21,34 +22,31 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -57,10 +55,17 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
         <h3
@@ -76,6 +81,7 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
       class="mx-auto flex min-h-52 max-w-sm flex-col items-center justify-center"
     >
       <svg
+        aria-hidden="true"
         class="lucide lucide-cog mb-4 size-10 shrink-0 text-zinc-500"
         fill="none"
         height="24"
@@ -88,34 +94,31 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -124,10 +127,17 @@ exports[`Empty > renders Empty component with Cog icon, hello message 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
       <h3

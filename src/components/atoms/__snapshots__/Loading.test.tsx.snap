@@ -6,6 +6,7 @@ exports[`Loading > renders Loading component 1`] = `
   "baseElement": <body>
     <div>
       <svg
+        aria-hidden="true"
         class="lucide lucide-loader-circle animate-spin text-zinc-900"
         fill="none"
         height="24"
@@ -25,6 +26,7 @@ exports[`Loading > renders Loading component 1`] = `
   </body>,
   "container": <div>
     <svg
+      aria-hidden="true"
       class="lucide lucide-loader-circle animate-spin text-zinc-900"
       fill="none"
       height="24"
