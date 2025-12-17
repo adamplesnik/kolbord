@@ -1,10 +1,9 @@
 import { useAuth } from '@clerk/clerk-react'
-import { FieldApi } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import clsx from 'clsx'
 import { Check, Plus, Trash2 } from 'lucide-react'
-import { FeatureType, RelationshipType, SpaceType } from '../../types/spaceType'
+import { FeatureType } from '../../types/spaceType'
 import Badge from '../basic/Badge'
 
 const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
@@ -27,7 +26,9 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
     <>
       {allFeatures &&
         allFeatures.data.docs.map((feature) => {
-          const index = field.state.value?.findIndex((field) => field?.value?.id === feature.id)
+          const index = field.state.value?.findIndex(
+            (field: { value: { id: number } }) => field?.value?.id === feature.id
+          )
           const isActive = index !== undefined && index > -1
           // const [mouseOut, setMouseOut] = useState(false)
           const onClick = () => {
@@ -82,7 +83,7 @@ const SpaceEditFeatures = ({ field, handleSubmit }: SpaceEditFeaturesProps) => {
 }
 
 type SpaceEditFeaturesProps = {
-  field: FieldApi<SpaceType, 'features', undefined, undefined, RelationshipType[] | undefined>
+  field: any
   handleSubmit: () => Promise<void>
 }
 

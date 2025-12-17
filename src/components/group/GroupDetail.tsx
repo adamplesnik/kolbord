@@ -17,7 +17,7 @@ const GroupDetail = () => {
   const group = sidebarState.group
   const { zone } = useContext(ZoneContext) as ZoneContextType
 
-  const { Field, handleSubmit, reset } = useForm<GroupType>({
+  const { Field, handleSubmit, reset } = useForm({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
@@ -103,7 +103,7 @@ const GroupDetail = () => {
               onChange={(e) => handleChange(e.target.value)}
               onBlur={handleBlur}
               required
-              className="h-24 rounded border-zinc-400 bg-zinc-50 py-1 px-2 text-sm hover:border-zinc-600"
+              className="h-24 rounded border-zinc-400 bg-zinc-50 px-2 py-1 text-sm hover:border-zinc-600"
               value={state.value}
             />
           </div>

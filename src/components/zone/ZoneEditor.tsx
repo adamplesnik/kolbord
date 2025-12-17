@@ -53,7 +53,7 @@ const ZoneEditor = () => {
     },
   })
 
-  const { Field, handleSubmit, reset } = useForm<ZoneType>({
+  const { Field, handleSubmit, reset } = useForm({
     onSubmit: async ({ value }) => {
       mutate(value)
     },
@@ -100,7 +100,7 @@ const ZoneEditor = () => {
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
                 required
-                className="h-64 rounded border-zinc-400 bg-zinc-50 py-1 px-2 font-mono text-sm hover:border-zinc-600"
+                className="h-64 rounded border-zinc-400 bg-zinc-50 px-2 py-1 font-mono text-sm hover:border-zinc-600"
                 value={state.value}
               />
             </div>
