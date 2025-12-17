@@ -24,34 +24,31 @@ exports[`Button danger > icon only 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -60,10 +57,17 @@ exports[`Button danger > icon only 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
       </button>
@@ -89,34 +93,31 @@ exports[`Button danger > icon only 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -125,10 +126,17 @@ exports[`Button danger > icon only 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
     </button>
@@ -288,34 +296,31 @@ exports[`Button danger > with text and icon 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -324,10 +329,17 @@ exports[`Button danger > with text and icon 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
         text
@@ -354,34 +366,31 @@ exports[`Button danger > with text and icon 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -390,10 +399,17 @@ exports[`Button danger > with text and icon 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
       text
@@ -556,34 +572,31 @@ exports[`Button menu > icon only 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -592,10 +605,17 @@ exports[`Button menu > icon only 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
       </button>
@@ -621,34 +641,31 @@ exports[`Button menu > icon only 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -657,10 +674,17 @@ exports[`Button menu > icon only 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
     </button>
@@ -820,34 +844,31 @@ exports[`Button menu > with text and icon 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -856,10 +877,17 @@ exports[`Button menu > with text and icon 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
         text
@@ -886,34 +914,31 @@ exports[`Button menu > with text and icon 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -922,10 +947,17 @@ exports[`Button menu > with text and icon 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
       text
@@ -1009,34 +1041,31 @@ exports[`Button primary > icon only 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -1045,10 +1074,17 @@ exports[`Button primary > icon only 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
       </button>
@@ -1074,34 +1110,31 @@ exports[`Button primary > icon only 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -1110,10 +1143,17 @@ exports[`Button primary > icon only 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
     </button>
@@ -1273,34 +1313,31 @@ exports[`Button primary > with text and icon 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -1309,10 +1346,17 @@ exports[`Button primary > with text and icon 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
         text
@@ -1339,34 +1383,31 @@ exports[`Button primary > with text and icon 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -1375,10 +1416,17 @@ exports[`Button primary > with text and icon 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
       text
@@ -1462,34 +1510,31 @@ exports[`Button secondary > icon only 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -1498,10 +1543,17 @@ exports[`Button secondary > icon only 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
       </button>
@@ -1527,34 +1579,31 @@ exports[`Button secondary > icon only 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -1563,10 +1612,17 @@ exports[`Button secondary > icon only 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
     </button>
@@ -1726,34 +1782,31 @@ exports[`Button secondary > with text and icon 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+            d="M11 10.27 7 3.34"
           />
           <path
-            d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-          />
-          <path
-            d="M12 2v2"
+            d="m11 13.73-4 6.93"
           />
           <path
             d="M12 22v-2"
           />
           <path
-            d="m17 20.66-1-1.73"
-          />
-          <path
-            d="M11 10.27 7 3.34"
-          />
-          <path
-            d="m20.66 17-1.73-1"
-          />
-          <path
-            d="m3.34 7 1.73 1"
+            d="M12 2v2"
           />
           <path
             d="M14 12h8"
           />
           <path
+            d="m17 20.66-1-1.73"
+          />
+          <path
+            d="m17 3.34-1 1.73"
+          />
+          <path
             d="M2 12h2"
+          />
+          <path
+            d="m20.66 17-1.73-1"
           />
           <path
             d="m20.66 7-1.73 1"
@@ -1762,10 +1815,17 @@ exports[`Button secondary > with text and icon 1`] = `
             d="m3.34 17 1.73-1"
           />
           <path
-            d="m17 3.34-1 1.73"
+            d="m3.34 7 1.73 1"
           />
-          <path
-            d="m11 13.73-4 6.93"
+          <circle
+            cx="12"
+            cy="12"
+            r="2"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="8"
           />
         </svg>
         text
@@ -1792,34 +1852,31 @@ exports[`Button secondary > with text and icon 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"
+          d="M11 10.27 7 3.34"
         />
         <path
-          d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
-        />
-        <path
-          d="M12 2v2"
+          d="m11 13.73-4 6.93"
         />
         <path
           d="M12 22v-2"
         />
         <path
-          d="m17 20.66-1-1.73"
-        />
-        <path
-          d="M11 10.27 7 3.34"
-        />
-        <path
-          d="m20.66 17-1.73-1"
-        />
-        <path
-          d="m3.34 7 1.73 1"
+          d="M12 2v2"
         />
         <path
           d="M14 12h8"
         />
         <path
+          d="m17 20.66-1-1.73"
+        />
+        <path
+          d="m17 3.34-1 1.73"
+        />
+        <path
           d="M2 12h2"
+        />
+        <path
+          d="m20.66 17-1.73-1"
         />
         <path
           d="m20.66 7-1.73 1"
@@ -1828,10 +1885,17 @@ exports[`Button secondary > with text and icon 1`] = `
           d="m3.34 17 1.73-1"
         />
         <path
-          d="m17 3.34-1 1.73"
+          d="m3.34 7 1.73 1"
         />
-        <path
-          d="m11 13.73-4 6.93"
+        <circle
+          cx="12"
+          cy="12"
+          r="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="8"
         />
       </svg>
       text
